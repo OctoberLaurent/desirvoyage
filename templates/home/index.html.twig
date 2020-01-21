@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+  <div class="carousel carousel-slider">
+    <a class="carousel-item" href="#one!"><img src="https://via.placeholder.com/1200x300.png"></a>
+    <a class="carousel-item" href="#two!"><img src="https://via.placeholder.com/1200x300.png"></a>
+    <a class="carousel-item" href="#three!"><img src="https://via.placeholder.com/1200x300.png"></a>
+    <a class="carousel-item" href="#four!"><img src="https://via.placeholder.com/1200x300.png"></a>
+  </div>
+
+    {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('carousel') }}{% endblock %}    
+{% endblock %}
