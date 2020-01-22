@@ -9,12 +9,16 @@
       <a href="#" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-             {% if app.user is empty %}
+
+        {% if app.user is empty %}
+
           <li><a href="{{ path('login') }}">Connexion</a></li>
         {% else %}
           <li><a href="{{ path('logout') }}">déconnexion</a></li>
         {% endif %}
         <li><a href="{{ path('register') }}">inscription</a></li>
+
+
 
       </ul>
     </div>
