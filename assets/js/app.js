@@ -6,9 +6,11 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import '../css/app.css';
-import 'materialize-css/dist/css/materialize.min.css';
+import '../css/app.scss';
+import 'materialize-css/sass/materialize.scss';
 import 'materialize-css/dist/js/materialize.js';
+import '@ciar4n/izmir/izmir.min.css';
+
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 const $ = require('jquery');
