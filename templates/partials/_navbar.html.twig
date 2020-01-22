@@ -2,9 +2,15 @@
     <div class="nav-wrapper deep-purple darken-1">
       <a href="#" class="brand-logo">Logo</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
+        {% if app.user is empty %}
+          <li><a href="{{ path('login') }}">Connexion</a></li>
+        {% else %}
+          <li><a href="{{ path('logout') }}">déconnexion</a></li>
+        {% endif %}
+
+        
+        
+        <li><a href="{{ path('register') }}">enregistrez-vous</a></li>
       </ul>
     </div>
 </nav>
