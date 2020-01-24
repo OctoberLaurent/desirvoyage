@@ -1,0 +1,97 @@
+easy_admin:
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i'
+    site_name: 'Désir Voyage'
+    design:
+        brand_color: blue
+    entities:
+        Travels:
+            class: App\Entity\Travel
+            list:
+                fields:
+                    - property: name
+                    - property: subtitle
+                    - property: categories
+                    - property: options
+                    - property: formality
+            form:  
+                fields: 
+                    - property: name
+                    - property: subtitle
+                    - property: descriptions
+                      type: 'fos_ckeditor'
+                    - property: 'pictures'
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\PictureType
+                            allow_add: true
+                            by_reference: false
+                    - property : Stays
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\StayType
+                    - property: categories
+                    - property: options
+                    - property: formality
+            edit:
+                fields: 
+                    - property: name
+                    - property: subtitle
+                    - property: descriptions
+                      type: 'fos_ckeditor'
+                    - property: 'pictures'
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\PictureType
+                            allow_add: true
+                            by_reference: false
+                    - property : Stays
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\StayType
+                    - property: categories
+                    - property: options
+                    - property: formality
+        Categories:
+            class: App\Entity\Categories
+            list:
+                fields: 
+                    - title 
+                    - travel
+        formality:
+            class: App\Entity\Formality
+        Stays: 
+            class: App\Entity\Stays
+            list:
+                fields:
+                    - property : depature
+                    - property : arrival
+                    - property : starDate
+                      type_options:
+                        widget: single_text
+                    - property : endDate
+                    - property : price
+            form: 
+                fields:
+                    - property : depature
+                    - property : arrival
+                    - property : starDate
+                      type_options:
+                        widget: single_text
+                    - property : endDate
+                      type_options:
+                        widget: single_text
+                    - property : price
+
+        Options:
+            class: App\Entity\Options
+        Users:
+            class: App\Entity\User
+            list:
+                fields:
+                    - property: firstname
+                    - property: lastname
+                    - property: email
+                    - property: enable

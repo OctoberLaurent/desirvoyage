@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Travel;
+use App\Form\TravelType;
+use App\Repository\TravelRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/travels")
@@ -11,12 +15,36 @@ use Symfony\Component\Routing\Annotation\Route;
 class TravelController extends AbstractController
 {
     /**
-     * @Route("", name="travel")
+     * @Route("", name="travels")
      */
-    public function index()
+    public function travels(TravelRepository $repo)
     {
+        $travels = $repo->findAll();
+
         return $this->render('travel/travel.html.twig', [
-            'controller_name' => 'TravelController',
+            'travels' => $travels
         ]);
     }
+
+    /**
+     * @Route("/new", name="new_travel")
+     */
+    public function newTravel(Request $request)
+    {
+        $travel = new Travel();
+        $form = $this->createForm(TravelType::class, $travel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+        $task = $form->getData();
+
+        return $this->redirectToRoute('home');
+    }
+
+        return $this->render('travel/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
 }

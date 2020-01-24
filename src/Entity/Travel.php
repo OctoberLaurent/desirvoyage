@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TravelRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Travel
 {
@@ -39,12 +41,12 @@ class Travel
     private $descriptions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel",cascade={"persist"})
      */
     private $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel",cascade={"persist"})
      */
     private $stays;
 
@@ -69,6 +71,21 @@ class Travel
         $this->stays = new ArrayCollection();
         $this->options = new ArrayCollection();
         $this->formality = new ArrayCollection();
+    }
+
+     /**
+     * Permet d'initialiser le slug !
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeSlug() {
+        if(empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
     }
 
     public function getId(): ?int
@@ -253,5 +270,10 @@ class Travel
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
