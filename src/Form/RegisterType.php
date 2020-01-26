@@ -23,14 +23,14 @@ class RegisterType extends AbstractType
         $builder
             /* firstname */ 
             ->add('firstname', TextType::class, [
-                "label" => "firstname",
+                "label" => "Prénom",
                 "attr" => [
                     'class' => "form-control",
                 ],
             ])
             /* lastname */ 
             ->add('lastname', TextType::class, [
-                "label" => "lastname",
+                "label" => "Nom",
                 "attr" => [
                     'class' => "form-control",
                 ],
