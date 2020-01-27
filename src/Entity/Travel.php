@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -74,7 +75,7 @@ class Travel
     }
 
      /**
-     * Permet d'initialiser le slug !
+     * return a slug !
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
