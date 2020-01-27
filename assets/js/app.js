@@ -16,7 +16,7 @@ import '@ciar4n/izmir/izmir.min.css';
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 
-
+/* select login for birthday and country */
 $(document).ready(function(){
     $('select').formSelect();
   });

@@ -39,6 +39,7 @@ class RegisterType extends AbstractType
             /* birthday */ 
             ->add('birthday', BirthdayType::class, [
                 "label" => "date de naissance",
+                "widget" =>'single_text',
                 "attr" => [
                     'class' => "form-control",
                     'format' => 'yyyy-MM-dd',
