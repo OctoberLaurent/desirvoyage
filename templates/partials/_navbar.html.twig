@@ -11,13 +11,18 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
 
         {% if app.user is empty %}
-
+          <!-- Si l'utilisateur n'est pas connecté, il verra le lien incription et connexion -->
           <li><a href="{{ path('login') }}">Connexion</a></li>
-        {% else %}
-          <li><a href="{{ path('logout') }}">déconnexion</a></li>
-        {% endif %}
-        <li><a href="{{ path('register') }}">inscription</a></li>
 
+          <li><a href="{{ path('register') }}">inscription</a></li>
+
+        {% else %}
+          <!-- Si l'utilisateur est connecté, il verra le lien de déconnexion -->
+
+          <li><a href="{{ path('logout') }}">déconnexion</a></li>
+          
+        {% endif %}
+        
 
 
       </ul>

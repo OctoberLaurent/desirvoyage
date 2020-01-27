@@ -25,6 +25,8 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('carousel', './assets/js/carousel.js')
+    //.addEntry('resetPassword', './assets/js/components/resetPassword.js')
+    //.addEntry('renewPassword', './assets/js/components/renewPassword.js')
     //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
