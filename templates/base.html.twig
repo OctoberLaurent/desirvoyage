@@ -10,7 +10,20 @@
     {% block header %}
      {% include "partials/_navbar.html.twig" %}
     {% endblock %}
-    {% block content %}{% endblock %}
+
+         
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="card-panel {{ label }} center-align text-lighten-5">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    {% block content %} {% endblock %}
+     
+>>>>>>> master
 
      {% block footer %}
         {% include "partials/_footer.html.twig" %}

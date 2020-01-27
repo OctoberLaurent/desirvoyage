@@ -36,3 +36,19 @@ hr.pink {
 .margin-bottom{
     margin-bottom: 2em;
 }
+.register{
+    .btn{
+        text-align: center;
+    }
+}
+.login{
+    text-align: center;
+    .btn{
+        padding-left: 28px;
+    }
+}
+.forgot{
+    h1{
+        text-align: center;
+    }
+}
