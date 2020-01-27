@@ -187,7 +187,7 @@ class SecurityController extends AbstractController
                 $this->userService->resetToken($user);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Le mot de passe a bien été modifié.');
+                $this->addFlash('green darken-4', 'Le mot de passe a bien été modifié.');
             }
             return $this->redirectToRoute('home');
         }
@@ -223,7 +223,7 @@ class SecurityController extends AbstractController
                 ->getManager()
                 ->flush();
 
-            $this->addFlash("success", "Votre mot de passe a bien été modifié.");
+            $this->addFlash('green', "Votre mot de passe a bien été modifié.");
 
             return $this->redirectToRoute("home");
         }

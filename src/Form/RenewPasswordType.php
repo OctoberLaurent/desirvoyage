@@ -16,7 +16,7 @@ class RenewPasswordType extends AbstractType
     {
         $builder
             ->add('old_password', PasswordType::class, [
-                "label" => "Renseignez votre ancien mot de passe",
+                "label" => "Ecrivez votre ancien mot de passe",
                 'attr' => [
                     'class' => "form-control mb-3",
                 ],

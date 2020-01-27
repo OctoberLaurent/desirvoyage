@@ -54,7 +54,7 @@ class UserController extends AbstractController
 
             $this->mailer->sendActivationMail( $user );
 
-            $this->addFlash( 'info', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter' );
+            $this->addFlash( 'green darken-4', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter' );
             return $this->redirectToRoute( 'login' );
         }
         return $this->render('user/register.html.twig', array(
