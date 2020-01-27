@@ -22,7 +22,6 @@ class TravelFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         for($i=0; $i < 10;$i++){
-
             // TRAVELS
             $travel = new Travel();
             $travel->setName('test '.$i);
