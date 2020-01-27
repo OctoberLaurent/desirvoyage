@@ -29,7 +29,7 @@ class Formality
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Travel", mappedBy="formality")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Travel", mappedBy="formality", cascade={"persist"})
      */
     private $travels;
 
@@ -93,5 +93,10 @@ class Formality
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->destination;
     }
 }

@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TravelRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Travel
 {
@@ -39,27 +42,27 @@ class Travel
     private $descriptions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel",cascade={"persist","remove"})
      */
     private $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel",cascade={"persist", "remove"})
      */
     private $stays;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel",cascade={"persist"} )
      */
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Options", mappedBy="travel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Options", mappedBy="travel", cascade={"persist"})
      */
     private $options;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Formality", inversedBy="travels")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Formality", inversedBy="travels", cascade={"persist"})
      */
     private $formality;
 
@@ -69,6 +72,21 @@ class Travel
         $this->stays = new ArrayCollection();
         $this->options = new ArrayCollection();
         $this->formality = new ArrayCollection();
+    }
+
+     /**
+     * return a slug !
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeSlug() {
+        if(empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
     }
 
     public function getId(): ?int
@@ -253,5 +271,10 @@ class Travel
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -32,7 +32,7 @@ class Options
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="options")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="options", cascade={"persist"})
      */
     private $travel;
 
@@ -87,5 +87,10 @@ class Options
         $this->travel = $travel;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

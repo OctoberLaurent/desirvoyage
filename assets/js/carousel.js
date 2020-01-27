@@ -13,5 +13,9 @@ function autoplay() {
 // for resposive sidebar
 $('.sidenav').sidenav();
 
+$('#flash').click(function(){
+    $('#flash').remove()
+})
+
 autoplay();
 });

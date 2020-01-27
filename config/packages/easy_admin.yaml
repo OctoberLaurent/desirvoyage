@@ -1,0 +1,153 @@
+easy_admin:
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i'
+    site_name: 'voyage'
+    design:
+        brand_color: blue
+        menu:
+            - label: Dashboard
+              icon: dashboard
+              route: admin_dashboard
+              default: true
+            - { entity: 'Users', label: 'user', icon: 'user'}
+            - { entity: 'Travels', icon: 'plane' }
+            - { entity: 'Stays', icon: 'calendar-alt' }
+            - { entity: 'Categories', icon: 'folder-open' }
+            - { entity: 'Options', icon: 'sun' }
+            - { entity: 'formality', icon: 'globe' }
+    entities:
+        Travels:
+            class: App\Entity\Travel
+            list:
+                fields:
+                    - property: name
+                    - property: subtitle
+                    - property: categories
+                    - property: options
+                    - property: formality
+            form:  
+                fields: 
+                    - property: name
+                    - property: subtitle
+                    - property: descriptions
+                      type: 'fos_ckeditor'
+                    - property: 'pictures'
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\PictureType
+                            allow_add: true
+                            by_reference: false
+                    - property : Stays
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\StayType
+                            allow_add: true
+                            by_reference: false
+                    - property: categories
+                    - property: options
+                    - property: formality
+                      type_options:
+                            required: true
+
+            edit:
+                fields: 
+                    - property: name
+                    - property: subtitle
+                    - property: descriptions
+                      type: 'fos_ckeditor'
+                    - property: 'pictures'
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\PictureType
+                            allow_add: true
+                            by_reference: false
+                    - property : Stays
+                      type: 'collection'
+                      type_options: 
+                            entry_type: App\Form\StayType
+                            allow_add: true
+                            by_reference: false
+                    - property: categories
+                    - property: options
+                    - property: formality
+        Categories:
+            class: App\Entity\Categories
+            list:
+                fields: 
+                    - property: title 
+                    - property: travel
+        formality:
+            class: App\Entity\Formality
+            list:
+                fields: 
+                    - { property: 'destination', type: 'country', with_flag: true }
+                    - property: description
+            form:
+                fields:
+                    - { property: 'destination', type: 'country', with_flag: true }
+                    - property:description
+        Stays:
+            class: App\Entity\Stays
+            list:
+                fields:
+                    - property : travel
+                    - property : depature
+                    - property : arrival
+                    - property : starDate
+                      type_options:
+                        widget: single_text
+                    - property : endDate
+                    - property : price
+            form: 
+                fields:
+                    - property : travel
+                      type_options:
+                        required: true
+                    - property : depature
+                    - property : arrival
+                    - property : starDate
+                      type_options:
+                        widget: single_text
+                    - property : endDate
+                      type_options:
+                        widget: single_text
+                    - property : price
+        Options:
+            class: App\Entity\Options
+        Users:
+            class: App\Entity\User
+            list:
+                fields:
+                    - property: firstname
+                      label: First name
+                    - property: lastname
+                      label: Last name
+                    - property: email
+                      label: Email
+                    - property: enabled
+                      label: Enabled
+            form:
+                fields:
+                    - property: firstname
+                      label: First name
+                    - property: lastname
+                      label: Last name
+                    - property: email
+                      label: Email
+                    - property: enabled
+                      label: enabled
+                    - property: password
+                      css_class: 'd-none'
+                      type: text
+                      type_options:
+                        mapped: false
+                        disabled: true
+                    - property: 'roles'
+                      type: 'choice'
+                      type_options:
+                        mapped: true
+                        expanded: true
+                        multiple: true
+                        choices: { 'Caissière': 'ROLE_CASHIER', 'Client': 'ROLE_USER', 'Administeur': 'ROLE_ADMIN' }

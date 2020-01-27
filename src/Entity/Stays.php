@@ -42,7 +42,7 @@ class Stays
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="stays")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="stays", cascade={"persist"})
      */
     private $travel;
 
@@ -121,5 +121,10 @@ class Stays
         $this->travel = $travel;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->depature;
     }
 }
