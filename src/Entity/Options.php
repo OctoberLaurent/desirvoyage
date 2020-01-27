@@ -32,7 +32,7 @@ class Options
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="options")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="options", cascade={"persist"})
      */
     private $travel;
 

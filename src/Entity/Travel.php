@@ -41,27 +41,27 @@ class Travel
     private $descriptions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel",cascade={"persist","remove"})
      */
     private $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel",cascade={"persist", "remove"})
      */
     private $stays;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel",cascade={"persist"} )
      */
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Options", mappedBy="travel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Options", mappedBy="travel", cascade={"persist"})
      */
     private $options;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Formality", inversedBy="travels")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Formality", inversedBy="travels", cascade={"persist"})
      */
     private $formality;
 

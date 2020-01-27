@@ -29,7 +29,7 @@ class Categories
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Travel", mappedBy="categories")
+     * @ORM\OneToMany(targetEntity="App\Entity\Travel", mappedBy="categories", cascade={"persist"})
      */
     private $travel;
 

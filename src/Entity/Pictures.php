@@ -27,7 +27,7 @@ class Pictures
     private $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="pictures")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="pictures", cascade={"persist"})
      */
     private $travel;
 

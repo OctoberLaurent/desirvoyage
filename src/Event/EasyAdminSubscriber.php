@@ -33,7 +33,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         foreach($event->getSubject()->getStays() as $stay){
             $entity->addStay($stay);
         }
-
         $event['entity'] = $entity;
     }
 }
