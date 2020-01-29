@@ -34,6 +34,7 @@ class UserFixtures extends Fixture
         $user->setFirstname($person->results[0]->name->first);
         $user->setLastname($person->results[0]->name->last);
         $user->setEnabled(true);
+        $user->setRoles(["ROLE_ADMIN"]);
         $user->setEmail($person->results[0]->email);
         $user->setPassword($this->passwordEncoder->encodePassword($user, "123456"));
         $user->setToken($person->results[0]->login->sha1);
@@ -44,7 +45,6 @@ class UserFixtures extends Fixture
         $user->setPostalCode($person->results[0]->location->postcode);
         $user->setPhone($person->results[0]->cell);
         $user->setBirthday($datetime);
-
 
         $manager->persist($user);
         }

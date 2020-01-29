@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Welcome to' |trans }} {{ website }}{% endblock %}
+{% set nbtravels = travels | length  %}
+
+{% block content %}
+<div class="container mt-1">
+  <div class="row">
+      <div class="col s3">
+            <input value="Que recherchez-vous" id="search" type="text" class="validate">
+            <label class="active" for="search">rechercher</label>
+      </div>
+      <div class="col s9">
+          <div class="row">
+                <h5>{{ nbtravels }} {% trans %} Travels {% endtrans %}</h5>
+                <hr>
+                {% for travel in travels %}
+                    <div class="col l5 divheight center-align z-depth-2">
+                      {% if travel.pictures is not empty %}
+                        <img src="/data/{{ travel.pictures.get(0).picturename }}" class="picturelist center-align">
+                      {% else %}
+                        <img src="/data/default.png" class="picturelist ">
+                      {% endif %}
+                    </div>
+                    <div class="col l7 divheight z-depth-2">
+                      <h5>{{ travel.name }}</h5>
+                      <h6>{{ travel.subtitle }}</h6>
+                      <p>{{ travel.descriptions }}</p>
+                    </div>
+                {% endfor %}
+          </div>
+      </div>
+  </div>
+    <ul class="pagination center-align">
+      <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+      <li class="active"><a href="#!">1</a></li>
+      <li class="waves-effect"><a href="#!">2</a></li>
+      <li class="waves-effect"><a href="#!">3</a></li>
+      <li class="waves-effect"><a href="#!">4</a></li>
+      <li class="waves-effect"><a href="#!">5</a></li>
+      <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
+</div>
+{% endblock %}
+    {% block body %}{% endblock %}
+    {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('carousel') }}{% endblock %}

@@ -53,6 +53,12 @@ class Pictures
         return $this->url;
     }
 
+    public function getPictureName(): ?string
+    {
+        $picture = explode( "/" , $this->url );
+        return end($picture);
+    }
+
     public function setUrl(string $url): self
     {
         $this->url = $url;

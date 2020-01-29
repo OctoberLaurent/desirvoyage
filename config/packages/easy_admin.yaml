@@ -17,6 +17,10 @@ easy_admin:
             - { entity: 'Categories', icon: 'folder-open' }
             - { entity: 'Options', icon: 'sun' }
             - { entity: 'formality', icon: 'globe' }
+    user:
+        display_name: true
+        display_avatar: false
+        name_property_path: 'fullname'
     entities:
         Travels:
             class: App\Entity\Travel

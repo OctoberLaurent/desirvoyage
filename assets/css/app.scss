@@ -56,3 +56,18 @@ hr.pink {
 .profil{
     text-align: center;
 }
+
+.col {
+  padding: 2em !important;
+  box-sizing:border-box;
+}
+
+.picturelist{
+    max-width: 23em;
+    max-height: 12em; 
+    object-fit: contain; 
+}
+
+.divheight{
+    height: 220px;
+}
