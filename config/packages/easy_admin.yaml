@@ -32,7 +32,7 @@ easy_admin:
                     - property: name
                     - property: subtitle
                     - property: descriptions
-                      type: 'fos_ckeditor'
+                      type: 'text_editor'
                     - property: 'pictures'
                       type: 'collection'
                       type_options: 
@@ -128,6 +128,10 @@ easy_admin:
                     - property : price
         Options:
             class: App\Entity\Options
+            list:
+                fields:
+                - property: name
+                - property: description
             form:
                 fields:
                 - property: name

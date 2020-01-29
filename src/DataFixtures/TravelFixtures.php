@@ -67,7 +67,7 @@ class TravelFixtures extends Fixture
 
             // FORMALITY
             $formality = new Formality();
-            $formality->setDestination($faker->country);
+            $formality->setDestination($faker->countryCode );
             $formality->setDescription($faker->sentence($nbWords = 3, $variableNbWords = true));
             $travel->addFormality($formality);
 
