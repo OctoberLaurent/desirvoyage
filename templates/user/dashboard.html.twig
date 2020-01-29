@@ -5,19 +5,55 @@
 {% block title %}Dashboard {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col s12 m6">
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span class="card-title">Card Title</span>
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
+<h1 class="center-align">Mon profil</h1>
+<div class="container">
+  <div class="profil">
+    <div class="row">
+        <div class="col s6 m-12">
+          <div class="card-panel">
+            <h5>Civilité</h5>
+            <div>
+              <span>Nom: {{app.user.lastname}}</span>
+            </div>
+            <div>
+            <span>Prénom: {{app.user.firstname}}</span>
+            </div>
         </div>
-        <div class="card-action">
-          <a href="#">This is a link</a>
-          <a href="#">This is a link</a>
+      </div> 
+      <div class="row">
+        <div class="col s6 m-12">
+          <div class="card-panel">
+          <h5>Adresse</h5>
+            <div>
+              <span>Adresse: {{app.user.Address}}</span>
+            </div>
+            <div>
+            <span>Complément d'Adresse: {{app.user.additionalAddress}}</span>
+            </div>
+            <div>
+            <span>Code Postale: {{app.user.additionalAddress}}</span>
+            </div>
+            <div>
+            <span>Numéro de téléphone: {{app.user.phone}}</span>
+            </div>
+            <div>
+            <span>Code postale: {{app.user.postalCode}}</span>
+            </div>
+            <div>
+            <span>Ville: {{app.user.city}}</span>
+            </div>
+            <div>
+            <span>Pays: {{app.user.country}}</span>
+            </div>
         </div>
-      </div>
+      </div> 
     </div>
   </div>
+</div>
+</div>
+
+
+
+
+ 
 {% endblock %}

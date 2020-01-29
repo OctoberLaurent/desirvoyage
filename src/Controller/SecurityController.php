@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-            $this->addFlash('info', 'Vous êtes déja connecté(e)');
+            $this->addFlash('blue', 'Vous êtes déja connecté(e)');
             return $this->redirectToRoute('dashboard');
          }
 
@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         
         if ($error){
-             $this->addFlash('danger', $error->getmessage() );
+             $this->addFlash('red', $error->getmessage() );
         }
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername, 
@@ -85,14 +85,14 @@ class SecurityController extends AbstractController
                 $em->flush($user);
                 // add message if account is activate
                 $this->addFlash(
-                    'info',
+                    'blue',
                     'Votre compte a été activé');
             } else {
                 // add message if date is expired
                 $url = $this->urlGenerator->generate( 'user_resendactivatetoken', ['id' => $user->getId()], UrlGenerator::ABSOLUTE_URL);
 
                 $this->addFlash(
-                    'danger',
+                    'red',
                     'Ce lien a expiré <a href="'.$url.'"> Renvoyer le mail d\'activation </a>');
             }
         }
@@ -115,7 +115,7 @@ class SecurityController extends AbstractController
             $this->mailer->sendActivationMail($user);
             // message if link is send.
             $this->addFlash(
-                    'info',
+                    'blue',
                     'Un lien d\'activation vous a été envoyé');
             // redirect to login route
             return $this->redirectToRoute('login');
@@ -145,7 +145,7 @@ class SecurityController extends AbstractController
                 $this->mailer->sendResetPassword( $user );
             }
 
-            $this->addFlash('info', 'Si un compte existe avec cette adresse email, un email vous sera envoyé.');
+            $this->addFlash('blue', 'Si un compte existe avec cette adresse email, un email vous sera envoyé.');
             return $this->redirectToRoute('home');
         }
         return $this->render('user/forgotten_password.html.twig');
@@ -187,7 +187,7 @@ class SecurityController extends AbstractController
                 $this->userService->resetToken($user);
                 $entityManager->flush();
 
-                $this->addFlash('green darken-4', 'Le mot de passe a bien été modifié.');
+                $this->addFlash('green accent-3', 'Le mot de passe a bien été modifié.');
             }
             return $this->redirectToRoute('home');
         }
@@ -223,7 +223,7 @@ class SecurityController extends AbstractController
                 ->getManager()
                 ->flush();
 
-            $this->addFlash('green', "Votre mot de passe a bien été modifié.");
+            $this->addFlash('green accent-3', "Votre mot de passe a bien été modifié.");
 
             return $this->redirectToRoute("home");
         }

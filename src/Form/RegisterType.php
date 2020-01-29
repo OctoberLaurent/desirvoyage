@@ -28,6 +28,11 @@ class RegisterType extends AbstractType
                     "attr" => [
                         'class' => "form-control",
                     ],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Saisir votre nom",
+                        ])
+                    ]
             ])
             /* firstname */ 
             ->add('firstname', TextType::class, [
@@ -35,6 +40,11 @@ class RegisterType extends AbstractType
                     "attr" => [
                         'class' => "form-control",
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir votre prénom",
+                    ])
+                ]
             ])
             /* birthday */ 
             ->add('birthday', BirthdayType::class, [
@@ -43,6 +53,11 @@ class RegisterType extends AbstractType
                 "attr" => [
                     'class' => "form-control",
                     'format' => 'yyyy-MM-dd',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir votre date de naissance",
+                    ])
                 ]
             ])
             /* adresse */
@@ -51,6 +66,11 @@ class RegisterType extends AbstractType
                 "attr" => [
                     'class' => "form-control",
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir votre adresse",
+                    ])
+                ]
             ])
             /* complément d'adresse */
             ->add('additionalAddress', TextType::class, [
@@ -67,6 +87,11 @@ class RegisterType extends AbstractType
                 "attr" => [
                     'class' => "form-control",
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir votre code postale",
+                    ])
+                ]
             ])
             /* ville */
             ->add('city', TextType::class, [
@@ -74,12 +99,22 @@ class RegisterType extends AbstractType
                 "attr" => [
                     'class' => "form-control",
                 ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir votre ville",
+                    ])
+                ]
             ])
             /* country */
             ->add('country', CountryType::class, [
                 "label" => "pays",
                 "attr" => [
                     'class'=> "form-control",
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir le pays",
+                    ])
                 ]
             ])
             /* fixe */
@@ -87,6 +122,11 @@ class RegisterType extends AbstractType
                 "label" => "telephone",
                 "attr" => [
                     'class'=> "form-control",
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Saisir votre numéro de téléphone",
+                    ])
                 ]
             ])
             /* email */
@@ -95,6 +135,11 @@ class RegisterType extends AbstractType
                     "attr" => [
                         "class" => "form-control",
                     ],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Saisir votre email",
+                        ])
+                    ]
             ])
             /* Mot de passe */
             ->add('password', RepeatedType::class, [
@@ -127,7 +172,6 @@ class RegisterType extends AbstractType
                     'label' => false,
                     "attr" => [
                         "class" => "filled-in",
-                        'checked' => 'checked'
                     ],
                     'mapped' => false, // ce champ n'est pas dans l'entité User
             ]);   

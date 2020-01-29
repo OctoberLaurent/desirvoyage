@@ -33,6 +33,7 @@ class UserController extends AbstractController
     {
         if( $this->getUser() ){
             return $this->redirectToRoute('home');
+            
         }
 
         $user = new User();
@@ -43,6 +44,7 @@ class UserController extends AbstractController
         if( $form->isSubmitted() && $form->isValid() ){
             $password = $this->encoder->encodePassword( $user, $user->getPassword() );
             $user->setPassword( $password );
+            $user->setRoles( ["ROLE_USER"] );
 
             $this->userService->generateToken( $user );
             
@@ -54,7 +56,7 @@ class UserController extends AbstractController
 
             $this->mailer->sendActivationMail( $user );
 
-            $this->addFlash( 'green darken-4', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter' );
+            $this->addFlash( 'green accent-3', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter' );
             return $this->redirectToRoute( 'login' );
         }
         return $this->render('user/register.html.twig', array(
