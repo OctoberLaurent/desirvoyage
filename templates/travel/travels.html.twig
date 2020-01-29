@@ -6,31 +6,33 @@
 {% block content %}
 <div class="container mt-1">
   <div class="row">
-      <div class="col s3">
+      <div class="col l3 shadow">
             <input value="Que recherchez-vous" id="search" type="text" class="validate">
             <label class="active" for="search">rechercher</label>
       </div>
-      <div class="col s9">
+      <div class="col l9">
           <div class="row">
                 <h5>{{ nbtravels }} {% trans %} Travels {% endtrans %}</h5>
                 <hr>
                 {% for travel in travels %}
-                    <div class="col l5 divheight center-align z-depth-2">
+                    <div class="col l5 divheight center-align">
                       {% if travel.pictures is not empty %}
-                        <img src="/data/{{ travel.pictures.get(0).picturename }}" class="picturelist center-align">
+                        <img src="{{ travel.pictures.get(0).picturename }}" alt= "{{ travel.pictures.get(0).name }}" class="picturelist center-align">
                       {% else %}
                         <img src="/data/default.png" class="picturelist ">
                       {% endif %}
                     </div>
-                    <div class="col l7 divheight z-depth-2">
+                    <div class="col l7 divheight">
                       <h5>{{ travel.name }}</h5>
                       <h6>{{ travel.subtitle }}</h6>
                       <p>{{ travel.descriptions }}</p>
                     </div>
+                    <br>
                 {% endfor %}
           </div>
       </div>
   </div>
+
     <ul class="pagination center-align">
       <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
       <li class="active"><a href="#!">1</a></li>

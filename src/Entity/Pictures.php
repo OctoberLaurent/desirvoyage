@@ -56,7 +56,9 @@ class Pictures
     public function getPictureName(): ?string
     {
         $picture = explode( "/" , $this->url );
-        return end($picture);
+        $secondToLast = (array_key_last($picture)-1);
+        $str = $picture[$secondToLast].'/'.end($picture);
+        return $str;
     }
 
     public function setUrl(string $url): self
