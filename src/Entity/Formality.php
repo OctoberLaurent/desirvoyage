@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FormalityRepository")
@@ -25,6 +26,7 @@ class Formality
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Length(min=3, max=40, minMessage="Your description must not exceed 1800 characters")
      */
     private $description;
 

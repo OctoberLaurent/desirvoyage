@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
@@ -23,6 +24,7 @@ class Categories
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=100, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 100 characters")
      */
     private $title;
 
@@ -50,10 +52,8 @@ class Categories
      * @return void
      */
     public function initializeSlug() {
-        if(empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
-        }
     }
 
     public function getId(): ?int
