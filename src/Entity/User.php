@@ -22,6 +22,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
@@ -104,11 +105,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\Length(min = 9, max = 10, minMessage = "min_length", maxMessage = "max_length")
+     * @Assert\Regex(pattern = "/^[0-9]*$/", message = "number_only")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\Length(min = 5, max = 5, minMessage = "min_length", maxMessage = "max_length")
      */
     private $postalCode;
 

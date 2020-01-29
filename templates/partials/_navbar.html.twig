@@ -6,7 +6,7 @@
         <li><a href="#">Catégories</a></li>
         <li><a href="#">Packs</a></li>
       </ul>
-      <a href="#" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
+      <a href="{{ path('home') }}" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
 
@@ -18,7 +18,7 @@
 
         {% else %}
           <!-- Si l'utilisateur est connecté, il verra le lien de déconnexion -->
-
+          <li><a href="{{ path('dashboard') }}">mon profil</a></li>
           <li><a href="{{ path('logout') }}">déconnexion</a></li>
           
         {% endif %}
