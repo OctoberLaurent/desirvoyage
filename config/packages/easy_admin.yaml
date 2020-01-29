@@ -3,7 +3,7 @@ easy_admin:
         date:     'd/m/Y'
         time:     'H:i'
         datetime: 'd/m/Y H:i'
-    site_name: 'voyage'
+    site_name: 'Désir Voyage'
     design:
         brand_color: blue
         menu:
@@ -47,10 +47,11 @@ easy_admin:
                             by_reference: false
                     - property: categories
                     - property: options
+                      type_options:
+                            required: true
                     - property: formality
                       type_options:
                             required: true
-
             edit:
                 fields: 
                     - property: name
@@ -70,14 +71,25 @@ easy_admin:
                             allow_add: true
                             by_reference: false
                     - property: categories
-                    - property: options
+                    - property: 'options'
+                      type: 'entity'
+                      type_options:
+                        required: true 
+                        multiple: true
                     - property: formality
+                      type: 'entity'
+                      type_options:
+                        required: true 
+                        multiple: true
         Categories:
             class: App\Entity\Categories
             list:
                 fields: 
                     - property: title 
                     - property: travel
+            form:
+                fields:
+                    - property: title 
         formality:
             class: App\Entity\Formality
             list:
@@ -87,7 +99,7 @@ easy_admin:
             form:
                 fields:
                     - { property: 'destination', type: 'country', with_flag: true }
-                    - property:description
+                    - property: description
         Stays:
             class: App\Entity\Stays
             list:
@@ -116,6 +128,10 @@ easy_admin:
                     - property : price
         Options:
             class: App\Entity\Options
+            form:
+                fields:
+                - property: name
+                - property: description
         Users:
             class: App\Entity\User
             list:
@@ -150,4 +166,10 @@ easy_admin:
                         mapped: true
                         expanded: true
                         multiple: true
-                        choices: { 'Caissière': 'ROLE_CASHIER', 'Client': 'ROLE_USER', 'Administeur': 'ROLE_ADMIN' }
+                        choices: { 'Client': 'ROLE_USER', 'Admin': 'ROLE_ADMIN' }
+                    - property: address
+                    - property: additionalAddress
+                    - property: postalCode
+                    - property: city
+                    - property: birthday
+                      type: 'birthday'

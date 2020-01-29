@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TravelRepository")
@@ -23,11 +25,13 @@ class Travel
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=100, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 100 characters")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=100, minMessage="Your subtitle must be at least 10 characters long", maxMessage="Your subtitle must not exceed 100 characters")
      */
     private $subtitle;
 
@@ -38,6 +42,8 @@ class Travel
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(message="this field must not be empty")
+     * @Assert\Length(min=10, max=100, minMessage="Your description must be at least 100 characters long", maxMessage="Your description must not exceed 1800 characters")
      */
     private $descriptions;
 
@@ -57,14 +63,14 @@ class Travel
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Options", mappedBy="travel", cascade={"persist"})
-     */
-    private $options;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Formality", inversedBy="travels", cascade={"persist"})
      */
     private $formality;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Options", inversedBy="travels", cascade={"persist"})
+     */
+    private $options;
 
     public function __construct()
     {
@@ -83,10 +89,8 @@ class Travel
      * @return void
      */
     public function initializeSlug() {
-        if(empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->name);
-        }
     }
 
     public function getId(): ?int
@@ -217,37 +221,6 @@ class Travel
     }
 
     /**
-     * @return Collection|Options[]
-     */
-    public function getOptions(): Collection
-    {
-        return $this->options;
-    }
-
-    public function addOption(Options $option): self
-    {
-        if (!$this->options->contains($option)) {
-            $this->options[] = $option;
-            $option->setTravel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOption(Options $option): self
-    {
-        if ($this->options->contains($option)) {
-            $this->options->removeElement($option);
-            // set the owning side to null (unless already changed)
-            if ($option->getTravel() === $this) {
-                $option->setTravel(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Formality[]
      */
     public function getFormality(): Collection
@@ -268,6 +241,32 @@ class Travel
     {
         if ($this->formality->contains($formality)) {
             $this->formality->removeElement($formality);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Options[]
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOptions(Options $options): self
+    {
+        if (!$this->options->contains($options)) {
+            $this->options[] = $options;
+        }
+
+        return $this;
+    }
+
+    public function removeOptions(Options $options): self
+    {
+        if ($this->options->contains($options)) {
+            $this->options->removeElement($options);
         }
 
         return $this;
