@@ -21,7 +21,6 @@ class TravelSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('search', TextType::class, [ 
                 'label' => 'What are you looking for ?',
                 'required' => false,
