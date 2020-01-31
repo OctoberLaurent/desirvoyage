@@ -53,6 +53,9 @@ class Pictures
         return $this->url;
     }
 
+    /*
+    * returns the path to the file
+    */
     public function getPictureName(): ?string
     {
         $picture = explode( "/" , $this->url );

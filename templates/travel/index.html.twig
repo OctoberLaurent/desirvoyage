@@ -44,8 +44,12 @@
    {% for category in categories %}
    <a href="{{ path('travel_list', { 'category': category.id }) }}">
     <div class="card 1">
-      <div class="card_image"> 
-      <img src="/images/pool.jpg" />
+      <div class="card_image">
+      {% if category.url %}
+        <img src="{{ category.picturename }}" alt="{{ category.title }}" />
+      {% else %}
+        <img src="/data/default.png" />
+      {% endif %}
       </div>
       <div class="card_title title-white">
       </div>
@@ -55,8 +59,14 @@
   {% endfor %}
 </div>
 
+{# Button see all categories #}
+<div class= "container right-align mt-1 margin-bottom">
+  <a class="waves-effect waves-light btn-large">
+    <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all categories{% endtrans %}
+  </a>
+</div>
 {# ______________ cards ______________ #}
-  <div class="row">
+  {# <div class="row">
     <div class="offset-s1 col s3">
       <div class="card">
         <div class="card-image">
@@ -104,7 +114,8 @@
         </div>
       </div>
     </div>
-    </div>
+    </div> #}
+
 {% endblock %}
     {% block body %}{% endblock %}
     {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('carousel') }}{% endblock %}

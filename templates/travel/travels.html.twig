@@ -6,9 +6,11 @@
 {% block content %}
 <div class="container mt-1">
   <div class="row">
-      <div class="col l3 shadow">
-            <input value="Que recherchez-vous" id="search" type="text" class="validate">
-            <label class="active" for="search">rechercher</label>
+      <div class="col l3 z-depth-1 mt-1">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn waves-effect waves-light">{% trans %} search {% endtrans %}</button>
+        {{ form_end(form) }}
       </div>
       <div class="col l9">
           <div class="row">

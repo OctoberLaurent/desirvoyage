@@ -19,32 +19,32 @@ class TravelRepository extends ServiceEntityRepository
         parent::__construct($registry, Travel::class);
     }
 
-    // /**
-    //  * @return Travel[] Returns an array of Travel objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findTravelsByNameAndPrice($price , $search, $sdate, $edate)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('t');
+
+        return $qb->innerJoin('t.stays', 's')
+            ->innerJoin('t.formality', 'f')
+            ->where(
+                $qb->expr()->orX(
+                        $qb->expr()->andX(
+                            $qb->expr()->gt('s.starDate', ':startdate' ),
+                            $qb->expr()->lt('s.endDate', ':enddate' ),
+                            $qb->expr()->lt('s.price', ':price'),
+                        ),
+                        $qb->expr()->orX(
+                            $qb->expr()->like('s.arrival', $qb->expr()->literal('%:search%')),
+                            $qb->expr()->eq('f.destination', ':search'),
+                        )
+                    )
+            )
+            ->setParameter('price', $price)
+            ->setParameter('startdate', $sdate)
+            ->setParameter('enddate', $edate)
+            ->setParameter('search', $search)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Travel
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
