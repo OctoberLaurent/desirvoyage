@@ -17,6 +17,11 @@ easy_admin:
             - { entity: 'Categories', icon: 'folder-open' }
             - { entity: 'Options', icon: 'sun' }
             - { entity: 'formality', icon: 'globe' }
+    user:
+        display_name: true
+        display_avatar: false
+        name_property_path: 'fullname'
+    ### TRAVELS ###
     entities:
         Travels:
             class: App\Entity\Travel
@@ -81,6 +86,7 @@ easy_admin:
                       type_options:
                         required: true 
                         multiple: true
+        ### Categories ###
         Categories:
             class: App\Entity\Categories
             list:
@@ -89,7 +95,12 @@ easy_admin:
                     - property: travel
             form:
                 fields:
-                    - property: title 
+                    - property: title
+                    - property: url
+                      type: 'file_upload'
+                      type_options:
+                        upload_dir: 'public/data/'
+                        upload_filename: '[uuid].[extension]'
         formality:
             class: App\Entity\Formality
             list:
@@ -126,6 +137,7 @@ easy_admin:
                       type_options:
                         widget: single_text
                     - property : price
+        ### OPTIONS ###
         Options:
             class: App\Entity\Options
             list:
@@ -136,6 +148,7 @@ easy_admin:
                 fields:
                 - property: name
                 - property: description
+        ### USERS ###
         Users:
             class: App\Entity\User
             list:

@@ -53,6 +53,17 @@ class Pictures
         return $this->url;
     }
 
+    /*
+    * returns the path to the file
+    */
+    public function getPictureName(): ?string
+    {
+        $picture = explode( "/" , $this->url );
+        $secondToLast = (array_key_last($picture)-1);
+        $str = $picture[$secondToLast].'/'.end($picture);
+        return $str;
+    }
+
     public function setUrl(string $url): self
     {
         $this->url = $url;

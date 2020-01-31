@@ -24,7 +24,7 @@ class Categories
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=100, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 100 characters")
+     * @Assert\Length(min=5, max=20, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 100 characters")
      */
     private $title;
 
@@ -38,6 +38,11 @@ class Categories
      */
     private $travel;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url;
+
     public function __construct()
     {
         $this->travel = new ArrayCollection();
@@ -48,7 +53,6 @@ class Categories
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
-     * 
      * @return void
      */
     public function initializeSlug() {
@@ -85,6 +89,17 @@ class Categories
         return $this;
     }
 
+    /*
+    * returns the path to the file
+    */
+    public function getPictureName(): ?string
+    {
+        $picture = explode( "/" , $this->url );
+        $secondToLast = (array_key_last($picture)-1);
+        $str = $picture[$secondToLast].'/'.end($picture);
+        return $str;
+    }
+
     /**
      * @return Collection|Travel[]
      */
@@ -119,5 +134,17 @@ class Categories
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
     }
 }
