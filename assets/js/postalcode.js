@@ -1,29 +1,28 @@
 $(document).ready(function(){
-  
 
-    $( "#target" ).on( "keyup", function() {
+    $( "#register_address" ).on( "keyup", function() {
         clearTimeout($.data(this, 'timer'));
-        var wait = setTimeout(search, 500);
-        $(this).data('timer', wait);
-        
+        var wait = setTimeout(search, 200);
+        $(this).data('timer', wait);    
     });
-    $('input.autocomplete').autocomplete();
+    $('input.autocomplete').autocomplete({
+        onAutocomplete: loadData
+    });
 
-  });
-  //var elems = document.getElementById("target").value;
-  //var instance = M.Adresse.getInstance(elem);
+
+});
+
 function search(){
-    var autocomplete = document.getElementById("target");
+    var autocomplete = document.getElementById("register_address");
     
-
-
     let query = autocomplete.value;
+    //requete limit one
     let limit = "1";
 
 
 
     //console.log(query);
-    
+    //first request with an Ajax for the address
     $.ajax({
         method: "GET",
         url: "/api/address",
@@ -34,55 +33,45 @@ function search(){
             let autodata = {};
             let autopost = {};
             results = JSON.parse( results );
-            //console.log(results.features[0].properties.postcode);  
+            
             
             for( let i in results.features ){
                 let row = results.features[ i ];
-                 //console.log( row );
-                autodata[ row.properties.label] = null;
-                autopost[ row.properties.postcode] = null;
                 
-
+                autodata[ row.properties.label ] = null;
+                 autopost[ row.properties.postcode] = null;
+                //autocity[row.properties.city]= null;
             }
 
            
-         //console.log( autodata );
-        $('#target').autocomplete("updateData", autodata);
+            //console.log( autodata );
+            $('#register_address').autocomplete("updateData", autodata);
+            $('#register_address').autocomplete("open");
 
         });
 
-
-            
- $( '#target' ).change(function() {
-
- query = document.getElementById("target").value; 
-
- 
- $.ajax({
-     method: "GET",
-     url: "/api/postal",
-     data: { q: query, limit: limit }
-   })
-
-
-   .done(function( results_post ) { 
-    results_post = JSON.parse(results_post);
-    var Postcode = document.getElementById("code");
-    var result_final = results_post.features[0].properties.postcode;
-    Postcode.value = result_final;
-   
-    // console.log(results_post.features[0].properties.postcode);
-
-})
-
-
-
-
- 
- 
-     
-
-   });
-
-
 }
+
+function loadData(){
+    let query = document.getElementById("register_address").value;
+
+
+    //second resquest with an ajax for postal code
+    $.ajax({
+        method: "GET",
+        url: "/api/postal",
+        data: { q: query, limit: 1 }
+    })
+    .done(function( results_post ) { 
+        M.updateTextFields();
+        results_post = JSON.parse(results_post);
+        var Postcode = document.getElementById("register_postalCode");
+        var address = document.getElementById("register_address");
+        var city = document.getElementById("register_city");
+        Postcode.value = results_post.features[0].properties.postcode;
+        address.value = results_post.features[0].properties.name;
+        city.value = results_post.features[0].properties.city;
+ //console.log(results_post.features[0].properties);
+    });
+
+ }

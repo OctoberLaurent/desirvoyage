@@ -73,8 +73,6 @@ class UserController extends AbstractController
         $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
             'query' => array(
                 'q' => $request->query->get('q'),
-               
-
             )
         ));
         return new Response( $response->getContent() );
@@ -83,6 +81,18 @@ class UserController extends AbstractController
      * @Route("/api/postal", name="api-postal", methods={"GET"})
      */
     public function postal(HttpClientInterface $httpClient, Request $request){
+        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
+            'query' => array(
+                'q' => $request->query->get('q'),
+                'limit' => $request->query->get('limit'),
+            )
+        ));
+        return new Response( $response->getContent() );
+    }
+    /**
+     * @Route("/api/city", name="api-city", methods={"GET"})
+     */
+    public function city(HttpClientInterface $httpClient, Request $request){
         $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
             'query' => array(
                 'q' => $request->query->get('q'),

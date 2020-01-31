@@ -62,10 +62,11 @@ class RegisterType extends AbstractType
             ])
             /* adresse */
             ->add('address', TextType::class, [
-                'label' => "adresse",
+                'label' => 'adresse',
                 "attr" => [
-                    'class' => "form-control",
+                    'class' => "adresse autocomplete",
                 ],
+                
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre adresse",
@@ -83,9 +84,11 @@ class RegisterType extends AbstractType
             ])
             /* code postale */ 
             ->add('postalCode', NumberType::class, [
-                'label' => "code postale",
                 "attr" => [
-                    'class' => "form-control",
+                    'class' => 'postalcode autocomplete',
+                ],
+                'label_attr' => [
+                    'class' => 'active'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -95,9 +98,10 @@ class RegisterType extends AbstractType
             ])
             /* ville */
             ->add('city', TextType::class, [
-                'label' => "ville",
+                'label' => 'ville',
                 "attr" => [
-                    'class' => "form-control",
+                    
+                    
                 ],
                 'constraints' => [
                     new NotBlank([
