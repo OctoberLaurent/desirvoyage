@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class UserController extends AbstractController
 {
@@ -62,6 +64,45 @@ class UserController extends AbstractController
         return $this->render('user/register.html.twig', array(
             'form' => $form->createView(),
         ));  
+    }
+
+    /**
+     * @Route("/api/address", name="api-address", methods={"GET"})
+     */
+    public function api(HttpClientInterface $httpClient, Request $request){
+        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
+            'query' => array(
+                'q' => $request->query->get('q'),
+            )
+        ));
+        return new Response( $response->getContent() );
+    }
+     /**
+     * @Route("/api/postal", name="api-postal", methods={"GET"})
+     */
+    public function postal(HttpClientInterface $httpClient, Request $request){
+        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
+            'query' => array(
+                'q' => $request->query->get('q'),
+                'limit' => $request->query->get('limit'),
+            )
+        ));
+        return new Response( $response->getContent() );
+    }
+    /**
+     * @Route("/api/city", name="api-city", methods={"GET"})
+     */
+    public function city(HttpClientInterface $httpClient, Request $request){
+        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
+            'query' => array(
+                'q' => $request->query->get('q'),
+                'limit' => $request->query->get('limit'),
+                
+                
+
+            )
+        ));
+        return new Response( $response->getContent() );
     }
 
      /**
