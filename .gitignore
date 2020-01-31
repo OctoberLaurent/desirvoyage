@@ -24,3 +24,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /public/data/
+
+.DS_Store
