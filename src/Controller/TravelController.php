@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Travel;
 use App\Form\TravelSearchType;
 use App\Repository\TravelRepository;
 use App\Repository\CategoriesRepository;
@@ -53,4 +54,28 @@ class TravelController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/travel/{slug}", name="travel")
+     */
+    public function showOne(Travel $travel)
+    {
+        
+        return $this->render('travel/showone.html.twig', [
+            'travel' => $travel
+        ]);
+    }
+
+    /**
+     * @Route("/categories/", name="categorie_list")
+     */
+    public function showAllCategorie(CategoriesRepository $repo)
+    {
+        $categories = $repo->findAll();
+
+        return $this->render('travel/allcategories.html.twig', [
+            'categories' => $categories
+        ]);
+    }
+
 }

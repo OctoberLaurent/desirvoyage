@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Welcome to' |trans }} {{ website }}{% endblock %}
+
+{% block content %}
+<div class="container mt-1 center-align">
+    <h1>Toutes nos catégories</h1>
+    <hr class="pink">
+</div>
+
+<div class="cards-list container">
+   {% for category in categories %}
+        <a href="{{ path('travel_list', { 'category': category.id }) }}">
+    <div class="card 1">
+      <div class="card_image">
+      {% if category.url %}
+        <img src="/{{ category.picturename }}" alt="{{ category.title }}" />
+      {% else %}
+        <img src="/data/default.png" />
+      {% endif %}
+      </div>
+      <div class="card_title title-white">
+      </div>
+    </div>
+    <h6 class= "center-align" >{{category.title}}</h6>
+    </a>
+  {% endfor %}
+</div>
+
+{% endblock %}
+    {% block body %}{% endblock %}
+    {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('carousel') }}{% endblock %}

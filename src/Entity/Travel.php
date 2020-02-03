@@ -276,4 +276,24 @@ class Travel
     {
         return $this->name;
     }
+    
+    /**
+     * Get min price for a travel
+     *
+     * @return float|null
+     */
+    public function getMinPrice(): ?float
+    {
+        $minprice = null;
+
+        foreach ($this->stays as $stay){
+
+            ($minprice == null)? $minprice = $stay->getPrice() : null;
+
+            ($stay->getPrice() < $minprice)? $minprice = $stay->getPrice() : null ;
+             
+        };
+
+        return $minprice;
+    }
 }

@@ -25,7 +25,7 @@
                       {% endif %}
                     </div>
                     <div class="col l7 divheight">
-                      <h5>{{ travel.name }}</h5>
+                      <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h5>{{ travel.name }}</h5></a>
                       <h6>{{ travel.subtitle }}</h6>
                       <p>{{ travel.descriptions }}</p>
                     </div>
@@ -47,4 +47,4 @@
 </div>
 {% endblock %}
     {% block body %}{% endblock %}
-    {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('carousel') }}{% endblock %}
+    {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('datePicker') }}{% endblock %}

@@ -20,7 +20,7 @@ services:
             - "9000:9001"
         volumes:
             - ../:/var/www/symfony:cached
-            - ./logs/symfony:/var/www/symfony/var/log:cached
+            # - ./logs/symfony:/var/www/symfony/var/log:cached
         depends_on:
             - db
         networks:
@@ -46,8 +46,8 @@ services:
         networks:
             - php
         volumes:
-            - ./logs/nginx:/var/log/nginx:cached
-            - ../:/var/www/symfony:cached
+            # - ./logs/nginx:/var/log/nginx:cached
+            # - ../:/var/www/symfony:cached
 networks:
     db:
     php:
