@@ -6,6 +6,7 @@
 {% block content %}
 
 <div class="container mt-1">
+    {# Travel #}
     <div class="row">
         <div class="col l6">
         <h1>{{ travel.name}}</h1>
@@ -14,8 +15,8 @@
         {{ travel.stays.get(0).getDepature()}} ->  {{ travel.stays.get(0).getArrival() }} 
         </h3>
     </div>
-    
-    <div class="col l6 grey lighten-3">
+    {# Price #}
+    <div class="col l6 grey lighten-3 mt-1">
         <span> {% trans %} From {% endtrans %}
         {% set price = travel.getMinPrice() | number_format(2)  %}
         <div class="price">
@@ -31,6 +32,30 @@
         {% endfor %}
         </div>
     </div>
+
+    <table>
+        <thead>
+          <tr>
+              <th>Depature</th>
+              <th>Arrival</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for stay in travel.stays %}
+            <tr>
+                <td>{{ stay.depature }}</td>
+                <td>{{ stay.arrival }}</td>
+                <td>{{ stay.starDate | date("d/m/Y") }}</td>
+                <td>{{ stay.endDate  | date("d/m/Y")}}</td>
+                <td><a href=""><i class="material-icons">add_shopping_cart</i></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
 
     <div class="col">
         <h3 class="center-align" >{% trans %} Description {% endtrans %} </h2>

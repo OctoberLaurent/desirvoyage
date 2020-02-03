@@ -3,7 +3,7 @@
     <div class="nav-wrapper deep-purple darken-1">
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="{{ path('home') }}">{% trans %}Home{% endtrans %}</a></li>
-        <li><a href="#">{% trans %}Categories{% endtrans %}</a></li>
+        <li><a href="{{ path('categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
         <li><a href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
       </ul>
       <a href="{{ path('home') }}" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
