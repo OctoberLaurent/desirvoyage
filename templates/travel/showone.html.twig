@@ -2,79 +2,87 @@
 
 {% block title %}{{ 'Welcome to' | trans }} {{ website }}{% endblock %}
 
-
 {% block content %}
 
 <div class="container mt-1">
     {# Travel #}
     <div class="row">
         <div class="col l6">
-        <h1>{{ travel.name}}</h1>
-        <h2>{{ travel.subtitle }}</h2>
-        <h3><i class="material-icons">airplanemode_active</i> 
-        {{ travel.stays.get(0).getDepature()}} ->  {{ travel.stays.get(0).getArrival() }} 
-        </h3>
-    </div>
-    {# Price #}
-    <div class="col l6 grey lighten-3 mt-1">
+            <h1>{{ travel.name }}</h1>
+            <h2>{{ travel.subtitle }}</h2>
+            <h3><i class="material-icons">airplanemode_active</i>
+                {{ travel.stays.get(0).getDepature() }} -> {{ travel.stays.get(0).getArrival() }}
+            </h3>
+        </div>
+        {# Price #}
+        <div class="col l6 grey lighten-3 mt-1 center-align">
         <span> {% trans %} From {% endtrans %}
-        {% set price = travel.getMinPrice() | number_format(2)  %}
+            {% set price = travel.getMinPrice() | number_format(2) %}
         <div class="price">
             {{ price }}€
         </div>
-   </div>
-</div>
-
-    <div class="col"> 
-        <div class="carousel carousel-slider">
-        {% for picture in travel.pictures %}
-            <a class="carousel-item" href="#"><img src="{{ picture.picturename }}" alt= "{{ picture.name }}"></a>
-        {% endfor %}
         </div>
     </div>
 
-    <table>
-        <thead>
-          <tr>
-              <th>Depature</th>
-              <th>Arrival</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-        {% for stay in travel.stays %}
-            <tr>
-                <td>{{ stay.depature }}</td>
-                <td>{{ stay.arrival }}</td>
-                <td>{{ stay.starDate | date("d/m/Y") }}</td>
-                <td>{{ stay.endDate  | date("d/m/Y")}}</td>
-                <td><a href=""><i class="material-icons">add_shopping_cart</i></a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+    <div class="col">
+        <div class="carousel carousel-slider">
+            {% for picture in travel.pictures %}
+                <a class="carousel-item" href="#"><img src="{{ picture.picturename }}" alt="{{ picture.name }}"></a>
+            {% endfor %}
+        </div>
+    </div>
 
     <div class="col">
-        <h3 class="center-align" >{% trans %} Description {% endtrans %} </h2>
-        <hr class="pink">
-    <div> {{ travel.descriptions }} </div>
+        <h3 class="center-align">{% trans %} Tarifs et dates {% endtrans %} </h2>
+            <hr class="pink">
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Depature</th>
+                        <th>Arrival</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                    </thead>
 
-    <div class="col">
-     <h3 class="center-align" >{% trans %} Options {% endtrans %} </h2>
-     <hr class="pink">
-    <div> 
-        <ul>
-        {% for option in travel.options %}
-            <li>{{ option }}</li>
-        {% endfor %}
-        </ul>
-    </div> 
+                    <tbody>
+                    {% for stay in travel.stays %}
+                        <tr>
+                            <td>{{ stay.depature }}</td>
+                            <td>{{ stay.arrival }}</td>
+                            <td>{{ stay.starDate | date("d/m/Y") }}</td>
+                            <td>{{ stay.endDate  | date("d/m/Y") }}</td>
+                            <td>{{ stay.price }}</td>
+                            <td><a href="#"><i class="material-icons">add_shopping_cart</i></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="col">
+                    <h3 class="center-align">{% trans %} Description {% endtrans %} </h2>
+                        <hr class="pink">
+                        <div> {{ travel.descriptions }} </div>
+
+                        <div class="col">
+                            <h3 class="center-align">{% trans %} Options {% endtrans %} </h2>
+                                <hr class="pink">
+                                <div>
+                                    <ul>
+                                        {% for option in travel.options %}
+                                            <li>{{ option }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                        </div>
+                </div>
+            </div>
+    </div>
 </div>
-</div>
-</div>
-{% endblock %}
-    {% block body %}{% endblock %}
-    {% block javascripts %}{{parent()}}{{ encore_entry_script_tags('carousel') }}{% endblock %}
+
+            {% endblock %}
+            {% block body %}{% endblock %}
+            {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('carousel') }}{% endblock %}
