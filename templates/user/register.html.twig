@@ -43,10 +43,12 @@
         </div>
     <!--form addresse -->
         <div class="col custom-address">
-            {{ form_label(form.address) }}
-           <!-- <input type="text" id="target" class="adresse autocomplete" autocomplete="false">-->
-             <!--<label for="target">Adresse</label>-->
-            {{ form_widget(form.address)}}
+            <div class="input-field">
+                {{ form_label(form.address) }}
+            <!-- <input type="text" id="target" class="adresse autocomplete" autocomplete="false">-->
+                <!--<label for="target">Adresse</label>-->
+                {{ form_widget(form.address)}}
+            </div>
         </div>
         <!-- form additional address-->
         <div class="col">
@@ -58,19 +60,23 @@
             </div>
         </div>
         <!--form postal code -->
-        <div class="col custom-address">
+        <div class="col">
+        <div class="input-field">
             {{ form_label(form.postalCode) }}
             <!--<input type="text" id="code" class="postalcode autocomplete">-->
             <!--<label for="target">postal code</label>-->
             <!--<label for="city">city</label>-->
             {{ form_widget(form.postalCode)}}
         </div>
+        </div>
           <!--form city -->
         <div class="col">
+        <div class="input-field">
             {{ form_label(form.city) }}
              <!--<input type="text" id="city" class="cityautocomplete">-->
             <!--<label for="target">city</label>-->
             {{ form_widget(form.city)}}
+            </div>
         </div>
      <!-- form country-->
         <div class="col">
