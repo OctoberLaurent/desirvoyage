@@ -78,4 +78,12 @@ class TravelController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/terms/", name="terms")
+     */
+    public function showTerms()
+    {
+        return $this->render('travel/terms.html.twig', []);
+    }
+
 }
