@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Travel;
 use App\Form\TravelSearchType;
 use App\Repository\TravelRepository;
 use App\Repository\CategoriesRepository;
@@ -28,22 +29,19 @@ class TravelController extends AbstractController
      */
     public function travels(TravelRepository $travelRepository, Request $request)
     {
+        // get category if exist
+        $category = $request->query->get('category');
         
         $form = $this->createForm( TravelSearchType::class, null);
 
         $form->handleRequest($request);
             
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($request->request->get('travel_search'));
+            
             $search = ($request->request->get('travel_search'));
-            dd($travelRepository->findTravelsByNameAndPrice($search["maxprice"], $search["search"], $search["startdate"], $search["enddate"]));
+            $travels = ($travelRepository->findTravelsByNameAndPrice($search["maxprice"], $search["search"], $search["startdate"], $search["enddate"]));
 
-        }
-
-        // get category if exist
-        $category = $request->query->get('category');
-
-        if ($category){   
+        } elseif($category){   
             $travels = $travelRepository->findBy(
                 ['categories' => $category]
             );
@@ -56,4 +54,28 @@ class TravelController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/travel/{slug}", name="travel")
+     */
+    public function showOne(Travel $travel)
+    {
+        
+        return $this->render('travel/showone.html.twig', [
+            'travel' => $travel
+        ]);
+    }
+
+    /**
+     * @Route("/categories/", name="categorie_list")
+     */
+    public function showAllCategorie(CategoriesRepository $repo)
+    {
+        $categories = $repo->findAll();
+
+        return $this->render('travel/allcategories.html.twig', [
+            'categories' => $categories
+        ]);
+    }
+
 }

@@ -37,8 +37,8 @@ class TravelFixtures extends Fixture
             $manager->persist($category);
 
             // STAYS
-            // $max = mt_rand(1,3);
-            // for($count=0; $count < $max;$count++){
+             $max = mt_rand(1,3);
+            for($count=0; $count < $max;$count++){
             $stay = new Stays();
             $sdate = $faker->dateTimeBetween($startDate = '+30 days', $endDate = '+365 days', $timezone = null);
             $edate = clone $sdate;
@@ -53,7 +53,7 @@ class TravelFixtures extends Fixture
             $travel-> addStay($stay);
             
             $manager->persist($stay);
-            // }
+            }
             
             //OPTIONS
             $option = new Options();
@@ -78,5 +78,4 @@ class TravelFixtures extends Fixture
         
         $manager->flush();
     }
-
 }

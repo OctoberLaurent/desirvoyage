@@ -1,5 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Cabin&display=swap');
+
+
+
 body {
     background-color: #fff;
+}
+
+h1{
+  font-family: 'Cabin', sans-serif;
+  font-size: 2em !important;
+  margin: 0;
+  color: #09295e;
+  
+}
+
+h2{
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.5em !important;
+  margin: 0;
+  color: #09295e;
+}
+
+h3{
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.2em !important;
+  margin: 0;
+  color: #09295e;
+}
+
+th{
+  font-family: 'Cabin', sans-serif;
+  font-weight: 900;
+  font-size: 1em !important;
+  color: #09295e;
 }
 
 .logo {
@@ -135,9 +168,21 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
     flex-direction: column;
   }
 }
-.register{
-margin-right: 100px;
-}
-  
 
+.carousel .carousel-item > img {
+    max-height: 100% !important ;
+    object-fit: cover; 
+}
+
+.price {
+  color: red;
+  font-size: 3em;
+  font-weight: 700;
+  display: inline-block;
+  span {
+    font-size: 0.5em;
+    margin: 0 2px;
+    vertical-align: top;
+  }
+}
 
