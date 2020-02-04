@@ -60,7 +60,7 @@ class Pictures
     {
         $picture = explode( "/" , $this->url );
         $secondToLast = (array_key_last($picture)-1);
-        $str = $picture[$secondToLast].'/'.end($picture);
+        $str = '/'.$picture[$secondToLast].'/'.end($picture);
         return $str;
     }
 

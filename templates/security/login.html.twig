@@ -3,35 +3,36 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<form method="post">
-    <div class="login">
-        <div class="container">
-            <h1>connexion</h1>
-                <div class="col s9">    
-                <div class="input-field col s6">
-                <i class="material-icons prefix"></i>
-                <input type="email" value="{{ last_username }}" id="email-input" class="autocomplete" name="email">
-                <label for="email-input">email</label>
-                </div>
+    <form method="post">
+        <div class="login">
+            <div class="container">
+                <h1>connexion</h1>
+                <div class="col s9">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix"></i>
+                        <input type="email" value="{{ last_username }}" id="email-input" class="autocomplete"
+                               name="email">
+                        <label for="email-input">email</label>
+                    </div>
                 </div>
                 <div class="col s3">
-                <div class="input-field col s9">
-                <i class="material-icons prefix"></i>
-                <input type="password" id="password-input" class="password" name="password">
-                <label for="password">mot de passe</label>
-                </div>
+                    <div class="input-field col s9">
+                        <i class="material-icons prefix"></i>
+                        <input type="password" id="password-input" class="password" name="password">
+                        <label for="password">mot de passe</label>
+                    </div>
                 </div>
                 <input type="hidden" name="_csrf_token"
-                value="{{ csrf_token('authenticate') }}">
-        
+                       value="{{ csrf_token('authenticate') }}">
+
                 <button type="submit" class="btn btn-large">connexion</button>
-    
-            <div id="forgotPasswordContainer">
-                <a id="RenewPasswordLink" href="{{ path("RenewPassword") }}">Mot de passe oublié ?</a>
+
+                <div id="forgotPasswordContainer">
+                    <a id="RenewPasswordLink" href="{{ path("RenewPassword") }}">Mot de passe oublié ?</a>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
-   
+
 {% endblock %}

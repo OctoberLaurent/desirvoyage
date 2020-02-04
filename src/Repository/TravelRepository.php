@@ -30,12 +30,11 @@ class TravelRepository extends ServiceEntityRepository
                         $qb->expr()->andX(
                             $qb->expr()->gt('s.starDate', ':startdate' ),
                             $qb->expr()->lt('s.endDate', ':enddate' ),
-                            $gqb->expr()->lt('s.price', ':price'),
-                            
+                            $qb->expr()->lt('s.price', ':price'),
                         ),
                         $qb->expr()->orX(
-                            $qb->expr()->like('s.arrival', $qb->expr()->literal('%:search%')),
-                            $qb->expr()->eq('f.destination', ':search'),
+                            //$qb->expr()->like('s.arrival', $qb->expr()->literal('%:search%')),
+                            $qb->expr()->like('f.destination', ':search'),
                         )
                     )
             )

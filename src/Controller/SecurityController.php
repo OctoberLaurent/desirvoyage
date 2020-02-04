@@ -124,7 +124,7 @@ class SecurityController extends AbstractController
     /**
      * Permet d'initier la méthode du mot de passe oublié
      *
-     * @Route("/mot-de-passe-oublie",name="forget_password")
+     * @Route("/mot-de-passe-oublie",name="RenewPassword")
      *
      * @param Request $request
      * @return Response
