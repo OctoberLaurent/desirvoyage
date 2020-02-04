@@ -15,12 +15,14 @@ class TravelController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(CategoriesRepository $categoriesReposotory)
+    public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
     {
         $categories = $categoriesReposotory->findBy([],[],3);
+        $travels = $travelReposotory->findBy([],[],6);
 
         return $this->render('travel/index.html.twig', [
-            'categories' => $categories
+            'categories' => $categories,
+            'travels' => $travels
         ]);
     }
 

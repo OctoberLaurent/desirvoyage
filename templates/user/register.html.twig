@@ -7,9 +7,9 @@
 {{ form_start( form ) }} 
 
 <div class="container">
-{{ form_start( form ) }}
+    {{ form_start( form ) }}
 
-<!-- form lastname -->
+    <!-- form lastname -->
    
         <div class="col">
             {{ form_label(form.lastname) }}
@@ -20,9 +20,6 @@
               </div>
         </div>
     
-       
-       
-  
     <!-- form firstname -->
         <div class="col">
             {{ form_label(form.firstname) }}
@@ -41,14 +38,16 @@
                 {{ form_errors(form.birthday) }}
             </div>
         </div>
+
     <!--form addresse -->
         <div class="col custom-address">
-            {{ form_label(form.address) }}
-           <!-- <input type="text" id="target" class="adresse autocomplete" autocomplete="false">-->
-             <!--<label for="target">Adresse</label>-->
-            {{ form_widget(form.address)}}
+            <div class="input-field">
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address)}}
+            </div>
         </div>
-        <!-- form additional address-->
+    
+    <!-- form additional address-->
         <div class="col">
             {{ form_label(form.additionalAddress) }}
             <label for="autocomplete-input">
@@ -57,20 +56,21 @@
                 {{ form_errors(form.additionalAddress) }}
             </div>
         </div>
-        <!--form postal code -->
-        <div class="col custom-address">
+    
+    <!--form postal code -->
+        <div class="col">
+        <div class="input-field">
             {{ form_label(form.postalCode) }}
-            <!--<input type="text" id="code" class="postalcode autocomplete">-->
-            <!--<label for="target">postal code</label>-->
-            <!--<label for="city">city</label>-->
             {{ form_widget(form.postalCode)}}
         </div>
-          <!--form city -->
+        </div>
+    
+    <!--form city -->
         <div class="col">
+        <div class="input-field">
             {{ form_label(form.city) }}
-             <!--<input type="text" id="city" class="cityautocomplete">-->
-            <!--<label for="target">city</label>-->
             {{ form_widget(form.city)}}
+            </div>
         </div>
      <!-- form country-->
         <div class="col">
@@ -90,7 +90,8 @@
                 {{ form_errors(form.phone) }}
             </div>
         </div>
-         <!-- form email-->
+    
+    <!-- form email-->
         <div class="col">
             {{ form_label(form.email) }}
             <label for="autocomplete-input">
@@ -99,7 +100,8 @@
                 {{ form_errors(form.email) }}
             </div>
         </div>
-           <!-- form password-->
+    
+    <!-- form password-->
         <div class="col">
             {{ form_label(form.password.first) }}
             <label for="autocomplete-input">
@@ -108,6 +110,7 @@
                 {{ form_errors(form.password.first) }}
             </div>
         </div>
+    
     <!-- form repeat password-->
         <div class="col">
             {{ form_label(form.password.second) }}
@@ -125,11 +128,12 @@
                 </label>
             </p>
         </div>
+        
         <div class="col">
             <button type="submit" class="btn btn-large">Inscription</button>
         </div>
-       
-            {{ form_end( form ) }} 
+
+    {{ form_end( form ) }} 
 
 </div>
 

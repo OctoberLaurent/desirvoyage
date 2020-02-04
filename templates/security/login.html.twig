@@ -25,10 +25,10 @@
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}">
 
-                <button type="submit" class="btn btn-large">connexion</button>
+                <button type="submit" class="btn btn-large" id="submit">Connexion</button>
     
             <div id="forgotPasswordContainer">
-                <a id="forgetPasswordLink" href="{{ path("forget_password") }}">Mot de passe oublié ?</a>
+                <a id="forgetPasswordLink" href="{{ path("RenewPassword") }}">Mot de passe oublié ?</a>
             </div>
         </div>
     </form>

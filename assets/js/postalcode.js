@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    M.updateTextFields();
     $( "#register_address" ).on( "keyup", function() {
         clearTimeout($.data(this, 'timer'));
         var wait = setTimeout(search, 200);
@@ -9,7 +9,6 @@ $(document).ready(function(){
         onAutocomplete: loadData
     });
 
-
 });
 
 function search(){
@@ -18,8 +17,6 @@ function search(){
     let query = autocomplete.value;
     //requete limit one
     let limit = "1";
-
-
 
     //console.log(query);
     //first request with an Ajax for the address
@@ -40,7 +37,6 @@ function search(){
                 
                 autodata[ row.properties.label ] = null;
                  autopost[ row.properties.postcode] = null;
-                //autocity[row.properties.city]= null;
             }
 
            
@@ -55,7 +51,6 @@ function search(){
 function loadData(){
     let query = document.getElementById("register_address").value;
 
-
     //second resquest with an ajax for postal code
     $.ajax({
         method: "GET",
@@ -63,7 +58,6 @@ function loadData(){
         data: { q: query, limit: 1 }
     })
     .done(function( results_post ) { 
-        M.updateTextFields();
         results_post = JSON.parse(results_post);
         var Postcode = document.getElementById("register_postalCode");
         var address = document.getElementById("register_address");
@@ -71,7 +65,7 @@ function loadData(){
         Postcode.value = results_post.features[0].properties.postcode;
         address.value = results_post.features[0].properties.name;
         city.value = results_post.features[0].properties.city;
- //console.log(results_post.features[0].properties);
+
     });
 
  }
