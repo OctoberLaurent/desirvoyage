@@ -15,12 +15,18 @@ class TravelController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(CategoriesRepository $categoriesReposotory)
+    public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
     {
         $categories = $categoriesReposotory->findBy([],[],3);
+        $travels = $travelReposotory->findBy([],[],6);
+        //$travels = $travelReposotory->findAll();
 
+        //$test = array_rand($travels, 6);
+
+        //dd($test);
         return $this->render('travel/index.html.twig', [
-            'categories' => $categories
+            'categories' => $categories,
+            'travels' => $travels
         ]);
     }
 
@@ -76,6 +82,14 @@ class TravelController extends AbstractController
         return $this->render('travel/allcategories.html.twig', [
             'categories' => $categories
         ]);
+    }
+
+    /**
+     * @Route("/terms/", name="terms")
+     */
+    public function showTerms()
+    {
+        return $this->render('travel/terms.html.twig', []);
     }
 
 }

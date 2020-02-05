@@ -67,7 +67,6 @@ class RegisterType extends AbstractType
                 "attr" => [
                     'class' => "adresse autocomplete",
                 ],
-                
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre adresse",

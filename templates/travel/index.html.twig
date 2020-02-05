@@ -42,6 +42,8 @@
 
     {# __________  Cattegory ______________ #}
 
+    <h2 class="center-align" >Nos catégories</h2>
+    <hr class="pink">
     <div class="cards-list container">
         {% for category in categories %}
             <a href="{{ path('travel_list', { 'category': category.id }) }}">
@@ -68,55 +70,38 @@
         </a>
     </div>
     {# ______________ cards ______________ #}
-    {# <div class="row">
-      <div class="offset-s1 col s3">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://i.picsum.photos/id/11/200/200.jpg">
-            <span class="card-title">Card Title</span>
+    <h2 class="center-align" >Quelques voyages</h2>
+    <hr class="pink">
+    <div class="container">
+      <div class="row">
+        {% for travel in travels %}
+        <div class="col l6">
+          <div class="flip">
+            {% if travel.pictures is not empty %}
+              <div class="front" alt= "{{ travel.pictures.get(0).name }}" style="background-image: url({{ travel.pictures.get(0).picturename }})">
+            {% else %}
+              <div class="front" style="background-image: url(/data/default.png)">
+            {% endif %}
+              <h1 class="grey-text text-lighten-5 text-shadow center-align">{{ travel.name }}</hi>
           </div>
-          <div class="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
+          <div class="back">
+            <h2 class="grey-text text-lighten-5">{{ travel.name }}</h2>
+            <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
+              <p class="grey-text text-lighten-5">{{ travel.descriptions }}</p>
           </div>
-          <div class="card-action">
-            <a href="#">This is a link</a>
           </div>
+        
         </div>
-      </div>
 
-      <div class="col s3">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://i.picsum.photos/id/13/200/200.jpg">
-            <span class="card-title">Card Title</span>
-          </div>
-          <div class="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
-          </div>
-          <div class="card-action">
-            <a href="#">This is a link</a>
-          </div>
-        </div>
+        {% endfor %}
       </div>
-
-      <div class="col s3">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://i.picsum.photos/id/12/200/200.jpg">
-            <span class="card-title">Card Title</span>
-          </div>
-          <div class="card-content">
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
-          </div>
-          <div class="card-action">
-            <a href="#">This is a link</a>
-          </div>
-        </div>
-      </div>
-      </div> #}
+          <div class="container right-align mt-1 margin-bottom">
+        <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
+            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all categories{% endtrans %}
+        </a>
+    </div>
+    </div>
+  
 
 {% endblock %}
     {% block body %}{% endblock %}
