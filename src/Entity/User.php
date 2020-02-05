@@ -35,8 +35,8 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\Length(
-     *      min=6,
-     *      max=30,
+     *      min=8,
+     *      max=15,
      *      minMessage="Your pasword must be at least {{limit}} characters long.",
      *      maxMessage="Your password cannot be longuer than {{limit}} characters."
      * )
@@ -106,7 +106,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\Length(min = 9, max = 10, minMessage = "min_length", maxMessage = "max_length")
-     * @Assert\Regex(pattern = "/^[0-9]*$/", message = "number_only")
      */
     private $phone;
 

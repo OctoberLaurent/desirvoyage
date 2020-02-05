@@ -48,6 +48,9 @@
             <!-- <input type="text" id="target" class="adresse autocomplete" autocomplete="false">-->
                 <!--<label for="target">Adresse</label>-->
                 {{ form_widget(form.address)}}
+                <div class="errors red-text">
+                    {{ form_errors(form.address) }}
+                </div>
             </div>
         </div>
         <!-- form additional address-->
@@ -61,21 +64,27 @@
         </div>
         <!--form postal code -->
         <div class="col">
-        <div class="input-field">
+            <div class="input-field">
             {{ form_label(form.postalCode) }}
             <!--<input type="text" id="code" class="postalcode autocomplete">-->
             <!--<label for="target">postal code</label>-->
             <!--<label for="city">city</label>-->
             {{ form_widget(form.postalCode)}}
-        </div>
+                <div class="errors red-text">
+                    {{ form_errors(form.postalCode) }}
+                </div>
+            </div>
         </div>
           <!--form city -->
         <div class="col">
-        <div class="input-field">
+            <div class="input-field">
             {{ form_label(form.city) }}
              <!--<input type="text" id="city" class="cityautocomplete">-->
             <!--<label for="target">city</label>-->
             {{ form_widget(form.city)}}
+                <div class="errors red-text">
+                {{ form_errors(form.city) }}
+                </div>
             </div>
         </div>
      <!-- form country-->
@@ -110,6 +119,9 @@
             {{ form_label(form.password.first) }}
             <label for="autocomplete-input">
             {{ form_widget(form.password.first) }}
+            <div class="help black-text">
+            {{ form_help(form.password.first) }}
+            </div>
             <div class="errors red-text">
                 {{ form_errors(form.password.first) }}
             </div>
@@ -119,6 +131,9 @@
             {{ form_label(form.password.second) }}
             <label for="autocomplete-input">
             {{ form_widget(form.password.second) }}
+            <div class="help black-text">
+            {{ form_help(form.password.first) }}
+            </div>
             <div class="errors red-text">
                 {{ form_errors(form.password.second) }}
             </div>
