@@ -19,7 +19,11 @@ class TravelController extends AbstractController
     {
         $categories = $categoriesReposotory->findBy([],[],3);
         $travels = $travelReposotory->findBy([],[],6);
+        //$travels = $travelReposotory->findAll();
 
+        //$test = array_rand($travels, 6);
+
+        //dd($test);
         return $this->render('travel/index.html.twig', [
             'categories' => $categories,
             'travels' => $travels
