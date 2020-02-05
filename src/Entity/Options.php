@@ -40,7 +40,7 @@ class Options
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Travel", mappedBy="options", cascade={"persist"})
      */
-    private $travel;
+    private $travels;
 
     /**
      * @ORM\Column(type="float")

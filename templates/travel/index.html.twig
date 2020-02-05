@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'Welcome to' |trans }} {{ website }}{% endblock %}
+{% block title %}{{ 'Welcome to' | trans }} {{ website }}{% endblock %}
 
 {% block content %}
 
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    {# __________  Cattegory ______________ #}
+    {# __________  Category ______________ #}
 
     <h2 class="center-align" >Nos catégories</h2>
     <hr class="pink">
@@ -66,7 +66,7 @@
     {# Button see all categories #}
     <div class="container right-align mt-1 margin-bottom">
         <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
-            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all categories{% endtrans %}
+            <i class="material-icons right">keyboard_arrow_right</i>{% trans %} See all categorie {% endtrans %}
         </a>
     </div>
     {# ______________ cards ______________ #}
@@ -88,20 +88,18 @@
             <h2 class="grey-text text-lighten-5">{{ travel.name }}</h2>
             <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
               <p class="grey-text text-lighten-5">{{ travel.descriptions }}</p>
+              <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %} : {{ travel.getMinPrice() | number_format(2) }}</p>
           </div>
           </div>
-        
         </div>
-
         {% endfor %}
       </div>
           <div class="container right-align mt-1 margin-bottom">
         <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
-            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all categories{% endtrans %}
+            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all travels{% endtrans %}
         </a>
     </div>
     </div>
-  
 
 {% endblock %}
     {% block body %}{% endblock %}
