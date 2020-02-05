@@ -44,6 +44,9 @@
             <div class="input-field">
                 {{ form_label(form.address) }}
                 {{ form_widget(form.address)}}
+                <div class="errors red-text">
+                    {{ form_errors(form.address) }}
+                </div>
             </div>
         </div>
     
@@ -59,17 +62,23 @@
     
     <!--form postal code -->
         <div class="col">
-        <div class="input-field">
+            <div class="input-field">
             {{ form_label(form.postalCode) }}
             {{ form_widget(form.postalCode)}}
-        </div>
+                <div class="errors red-text">
+                    {{ form_errors(form.postalCode) }}
+                </div>
+            </div>
         </div>
     
     <!--form city -->
         <div class="col">
-        <div class="input-field">
+            <div class="input-field">
             {{ form_label(form.city) }}
             {{ form_widget(form.city)}}
+                <div class="errors red-text">
+                {{ form_errors(form.city) }}
+                </div>
             </div>
         </div>
      <!-- form country-->
@@ -106,6 +115,9 @@
             {{ form_label(form.password.first) }}
             <label for="autocomplete-input">
             {{ form_widget(form.password.first) }}
+            <div class="help black-text">
+            {{ form_help(form.password.first) }}
+            </div>
             <div class="errors red-text">
                 {{ form_errors(form.password.first) }}
             </div>
@@ -116,6 +128,9 @@
             {{ form_label(form.password.second) }}
             <label for="autocomplete-input">
             {{ form_widget(form.password.second) }}
+            <div class="help black-text">
+            {{ form_help(form.password.first) }}
+            </div>
             <div class="errors red-text">
                 {{ form_errors(form.password.second) }}
             </div>
