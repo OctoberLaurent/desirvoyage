@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -51,6 +53,17 @@ class Stays
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="stays", cascade={"persist"})
      */
     private $travel;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="stays")
+     */
+    private $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -133,4 +146,34 @@ class Stays
     {
         return $this->depature;
     }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->addStay($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
+            $reservation->removeStay($this);
+        }
+
+        return $this;
+    }
+
+    
 }

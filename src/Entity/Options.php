@@ -47,9 +47,15 @@ class Options
      */
     private $price;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="options")
+     */
+    private $reservations;
+
     public function __construct()
     {
         $this->travels = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +142,34 @@ class Options
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->addOption($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
+            $reservation->removeOption($this);
+        }
 
         return $this;
     }

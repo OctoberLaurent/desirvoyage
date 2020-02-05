@@ -158,11 +158,7 @@ class RegisterType extends AbstractType
                         'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
                         'required' => true,
                         'constraints' => [
-                            new Regex([
-                                "pattern" => "#^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$#"
-                                ,
-                                "message" => "Don't use spaces in your password."
-                            ]),
+                          
                             new NotNull([
                                 'message' => "Saisir votre mot de passe",
                             ]),
@@ -175,10 +171,7 @@ class RegisterType extends AbstractType
                         'label' => "Repéter le mot de passe",
                         'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
                         'constraints' => [
-                            new Regex([
-                                //"pattern" => "#^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$#",
-                                "message" => "Don't use spaces in your password."
-                            ]),
+                    
                             new NotBlank([
                                 'message' => "Repéter le mot de passe",
                             ]),
