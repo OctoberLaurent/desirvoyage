@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -128,6 +129,10 @@ class RegisterType extends AbstractType
                     'class'=> "form-control",
                 ],
                 'constraints' => [
+                    new Regex([
+                        "pattern" => '/^[0-9]*$/',
+                        "message" => "Don't use spaces in your password."
+                    ]),
                     new NotBlank([
                         'message' => "Saisir votre numéro de téléphone",
                     ])
@@ -151,8 +156,14 @@ class RegisterType extends AbstractType
                     'type' => PasswordType::class,
                     'first_options'  => [
                         'label' => "mot de passe",
+                        'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
                         'required' => true,
                         'constraints' => [
+                            new Regex([
+                                "pattern" => "#^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$#"
+                                ,
+                                "message" => "Don't use spaces in your password."
+                            ]),
                             new NotNull([
                                 'message' => "Saisir votre mot de passe",
                             ]),
@@ -163,7 +174,13 @@ class RegisterType extends AbstractType
                     ],
                     'second_options' => [
                         'label' => "Repéter le mot de passe",
+                        'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
                         'constraints' => [
+                            new Regex([
+                                //"pattern" => "#^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$#"
+                                ,
+                                "message" => "Don't use spaces in your password."
+                            ]),
                             new NotBlank([
                                 'message' => "Repéter le mot de passe",
                             ]),
