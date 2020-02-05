@@ -70,11 +70,11 @@
                         <div class="col">
                             <h3 class="center-align">{% trans %} Options {% endtrans %} </h2>
                                 <hr class="pink">
-                                
+                                <div>
                                     <ul>
                                         {% for option in travel.options %}
-                                            <div>{{ option.description }}</div>
-                                            <div> {{ option.price }}</div>
+                                            <li>{{ option.description }}</li>
+                                            <li> {{ option.price }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>

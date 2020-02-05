@@ -177,8 +177,7 @@ class RegisterType extends AbstractType
                         'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
                         'constraints' => [
                             new Regex([
-                                //"pattern" => "#^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$#"
-                                ,
+                                //"pattern" => "#^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$#",
                                 "message" => "Don't use spaces in your password."
                             ]),
                             new NotBlank([
