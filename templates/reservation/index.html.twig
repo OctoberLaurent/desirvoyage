@@ -1,20 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ReservationController!{% endblock %}
+{% block title %}reservation{% endblock %}
 
 {% block content %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container">
+    <h1 class="center-align">Reservation</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores accusantium asperiores, at saepe obcaecati blanditiis, et eum nihil sit, debitis facere officiis. Sint voluptatem vel et pariatur a nulla explicabo.</p>
+    {% if items  | length > 0 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>nom du voyage</th>
+                <th>Départ</th>
+                <th>arrivé</th>
+                <th>date de départ</th>
+                <th>date d'arrivé</th>
+                <th>prix</th>
+                <th>configurer votre voyage</th>
+                <th>supprimer</th>
+                
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+            <tr>
+            {% for item in items %}
+                <td>{{item.travel.name}}</td>
+                <td>{{item.travel.stays.get(0).getDepature()}}</td>
+                <td>{{item.travel.stays.get(0).getArrival()}}</td>
+                <td>{{item.travel.stays.get(0).getStarDate() | date("d/m/Y") }}</td>
+                <td>{{item.travel.stays.get(0).getEndDate()  | date("d/m/Y") }}</td>
+                <td>{{item.travel.stays.get(0).price()}} €</td>
+                <td>
+                <a href="{{ path('reservation_configure')}}">
+                    <a href="{{ path('reservation_configure')}}" class="waves-effect waves-light btn">button</a>
+                </a>
+                </td>
+                <td>
+                    <a href="{{ path('reservation_remove', {'id': item.travel.id}) }}">
+                    <i class="material-icons red-text">delete_sweep</i>
+                    </a>
+                </td>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div></div>
+    {% else %}
+    <p>Surprise, c'est vide!</p>
+    {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/symfony/src/Controller/ReservationController.php'|file_link(0) }}">src/Controller/ReservationController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/symfony/templates/reservation/index.html.twig'|file_link(0) }}">templates/reservation/index.html.twig</a></code></li>
-    </ul>
+
+
+    
+    
+  
+    
 </div>
-{% endblock %}
+  {% endblock %}
+
+
