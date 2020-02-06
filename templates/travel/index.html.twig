@@ -1,46 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'Welcome to' |trans }} {{ website }}{% endblock %}
+{% block title %}{{ 'Welcome to' | trans }} {{ website }}{% endblock %}
 
 {% block content %}
-
     {# Slider in partials #}
     {% include "./partials/_slider.html.twig" %}
 
     {# Icons #}
     <div class="row margin-top">
-        <div class="col s4">
-            <div class="col s3">
+        <div class="col l4">
+            <div class="col s4">
                 <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1">
                     <i class="material-icons blue-text">wb_sunny</i></a>
             </div>
-            <div class="col s9">
+            <div class="col s8">
                 <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
             </div>
         </div>
 
-        <div class="col s4 ">
-            <div class="col s3">
+        <div class="col l4 ">
+            <div class="col s4">
                 <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
                             class="material-icons blue-text">airplanemode_active</i></a>
             </div>
-            <div class="col s9">
+            <div class="col s8">
                 <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
             </div>
         </div>
 
-        <div class="col s4 ">
-            <div class="col s3">
+        <div class="col l4 ">
+            <div class="col s4">
                 <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
                             class="material-icons blue-text">beach_access</i></a>
             </div>
-            <div class="col s9">
+            <div class="col s8">
                 <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
             </div>
         </div>
     </div>
 
-    {# __________  Cattegory ______________ #}
+    {# __________  Category ______________ #}
 
     <h2 class="center-align" >Nos catégories</h2>
     <hr class="pink">
@@ -66,7 +65,7 @@
     {# Button see all categories #}
     <div class="container right-align mt-1 margin-bottom">
         <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
-            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all categories{% endtrans %}
+            <i class="material-icons right">keyboard_arrow_right</i>{% trans %} See all categorie {% endtrans %}
         </a>
     </div>
     {# ______________ cards ______________ #}
@@ -82,26 +81,25 @@
             {% else %}
               <div class="front" style="background-image: url(/data/default.png)">
             {% endif %}
-              <h1 class="grey-text text-lighten-5 text-shadow center-align">{{ travel.name }}</hi>
+              <h1 class="center-align" >{{ travel.name }}</hi>
           </div>
           <div class="back">
             <h2 class="grey-text text-lighten-5">{{ travel.name }}</h2>
             <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
               <p class="grey-text text-lighten-5">{{ travel.descriptions }}</p>
+              <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %} : {{ travel.getMinPrice() | number_format(2) }}</p>
+              <a  href="{{ path('travel', { 'slug': travel.slug }) }}" class="waves-effect waves-light btn-small red darken-4">{% trans %} See travel {% endtrans %}</a>
           </div>
           </div>
-        
         </div>
-
         {% endfor %}
       </div>
           <div class="container right-align mt-1 margin-bottom">
         <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
-            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all categories{% endtrans %}
+            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all travels{% endtrans %}
         </a>
     </div>
     </div>
-  
 
 {% endblock %}
     {% block body %}{% endblock %}

@@ -3,7 +3,6 @@
 namespace App\Event;
 
 use App\Entity\Travel;
-use App\Entity\Pictures;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -36,7 +35,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
         // Persist option
         foreach($event->getSubject()->getOptions() as $option){
-            $entity->addOption($option);
+            $entity->addOptions($option);
         }
 
         $event['entity'] = $entity;
