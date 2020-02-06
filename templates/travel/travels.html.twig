@@ -28,7 +28,7 @@
                         <div class="col l7 divheight">
                             <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h5>{{ travel.name }}</h5></a>
                             <h6>{{ travel.subtitle }}</h6>
-                            <p>{{ travel.descriptions }}</p>
+                            <p>{{ travel.descriptions | raw}}</p>
                         </div>
                         <br>
                     {% endfor %}
@@ -36,6 +36,7 @@
             </div>
         </div>
 
+        {% if nbtravels > 10 %}
         <ul class="pagination center-align">
             <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
             <li class="active"><a href="#!">1</a></li>
@@ -45,6 +46,7 @@
             <li class="waves-effect"><a href="#!">5</a></li>
             <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+        {% endif %}
     </div>
 {% endblock %}
     {% block body %}{% endblock %}

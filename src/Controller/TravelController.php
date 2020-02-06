@@ -17,16 +17,27 @@ class TravelController extends AbstractController
      */
     public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
     {
+        // return 3 firsts categories
         $categories = $categoriesReposotory->findBy([],[],3);
-        $travels = $travelReposotory->findBy([],[],6);
-        //$travels = $travelReposotory->findAll();
-
-        //$test = array_rand($travels, 6);
-
-        //dd($test);
+        
+        // initializes the random travels
+        $random_travels = [];
+        
+        // Get all travels
+        $travels = $travelReposotory->findAll();
+        
+        // generate random key 
+        $keys = array_rand($travels, 6);
+        
+        // Creating a Random Object Array
+        foreach($keys as $key ){
+            $random_travels[] = ($travels[$key]);
+        
+        }
+ 
         return $this->render('travel/index.html.twig', [
             'categories' => $categories,
-            'travels' => $travels
+            'travels' => $random_travels
         ]);
     }
 
