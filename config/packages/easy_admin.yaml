@@ -17,6 +17,7 @@ easy_admin:
             - { entity: 'Categories', icon: 'folder-open' }
             - { entity: 'Options', icon: 'sun' }
             - { entity: 'formality', icon: 'globe' }
+            - { entity: 'Reservation', icon: 'globe' }
     user:
         display_name: true
         display_avatar: false
@@ -62,7 +63,7 @@ easy_admin:
                     - property: name
                     - property: subtitle
                     - property: descriptions
-                      type: 'fos_ckeditor'
+                      type: 'text_editor'
                     - property: 'pictures'
                       type: 'collection'
                       type_options: 
@@ -109,8 +110,10 @@ easy_admin:
                     - property: description
             form:
                 fields:
-                    - { property: 'destination', type: 'country', with_flag: true }
+                    - property: 'destination'
+                      type: 'country'
                     - property: description
+                      type: 'text_editor'
         Stays:
             class: App\Entity\Stays
             list:
@@ -144,10 +147,15 @@ easy_admin:
                 fields:
                 - property: name
                 - property: description
+                - property: price
+                - property: type
             form:
                 fields:
                 - property: name
+                - property: price
+                - property: type
                 - property: description
+                  type: 'text_editor'
         ### USERS ###
         Users:
             class: App\Entity\User
@@ -190,3 +198,6 @@ easy_admin:
                     - property: city
                     - property: birthday
                       type: 'birthday'
+          ### Reservation ###
+        Reservation:
+          class: App\Entity\Reservation
