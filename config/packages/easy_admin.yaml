@@ -114,6 +114,7 @@ easy_admin:
                       type: 'country'
                     - property: description
                       type: 'text_editor'
+        ### STAYS ###
         Stays:
             class: App\Entity\Stays
             list:
@@ -126,6 +127,7 @@ easy_admin:
                         widget: single_text
                     - property : endDate
                     - property : price
+                    - property : stock
             form: 
                 fields:
                     - property : travel
@@ -139,6 +141,7 @@ easy_admin:
                     - property : endDate
                       type_options:
                         widget: single_text
+                    - property : stock
                     - property : price
         ### OPTIONS ###
         Options:

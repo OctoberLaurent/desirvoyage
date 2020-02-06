@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class StayType extends AbstractType
 {
@@ -23,6 +24,7 @@ class StayType extends AbstractType
             ])
             ->add('depature', TextType::class)
             ->add('arrival', TextType::class)
+            ->add('stock', NumberType::class)
             ->add('price', MoneyType::class)
         ;
     }
