@@ -6,6 +6,14 @@
 <div class="container">
     <h1 class="center-align">Configurer votre voyage</h1>
     <i class="large material-icons">check_box</i>
+    <pre>
+    {% for i in stays.travel.options %}
+    
+        {{ dump( i )  }}
+    {% endfor %}
+        
+    </pre>
+    <div></div>
 
 </div>
 

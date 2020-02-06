@@ -26,19 +26,17 @@
            
             <tr>
             {% for item in items %}
-                <td>{{item.travel.name}}</td>
-                <td>{{item.travel.stays.get(0).getDepature()}}</td>
-                <td>{{item.travel.stays.get(0).getArrival()}}</td>
-                <td>{{item.travel.stays.get(0).getStarDate() | date("d/m/Y") }}</td>
-                <td>{{item.travel.stays.get(0).getEndDate()  | date("d/m/Y") }}</td>
-                <td>{{item.travel.stays.get(0).price()}} €</td>
+                <td>{{item.stays.travel.getName}}</td>
+                <td>{{item.stays.depature}}</td>
+                <td>{{item.stays.arrival}}</td>
+                <td>{{item.stays.starDate | date("d/m/Y") }}</td>
+                <td>{{item.stays.endDate  | date("d/m/Y") }}</td>
+                <td>{{item.stays.price}} €</td>
                 <td>
-                <a href="{{ path('reservation_configure')}}">
-                    <a href="{{ path('reservation_configure')}}" class="waves-effect waves-light btn">button</a>
-                </a>
+                    <a href="{{ path('reservation_configure', {'id': item.stays.id})}}" class="waves-effect waves-light btn">button</a>
                 </td>
                 <td>
-                    <a href="{{ path('reservation_remove', {'id': item.travel.id}) }}">
+                    <a href="{{ path('reservation_remove', {'id': item.stays.id}) }}">
                     <i class="material-icons red-text">delete_sweep</i>
                     </a>
                 </td>

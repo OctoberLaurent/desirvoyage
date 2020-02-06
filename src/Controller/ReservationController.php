@@ -2,21 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Stays;
+use App\Entity\Travel;
+use Doctrine\ORM\Query\Expr\Func;
 use App\Repository\StaysRepository;
 use App\Repository\TravelRepository;
-use Doctrine\ORM\Query\Expr\Func;
+use Twig\Node\Expression\FunctionExpression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Twig\Node\Expression\FunctionExpression;
 
 class ReservationController extends AbstractController
 {
     /**
      * @Route("/reservation", name="reservation_index")
      */
-    public function index(SessionInterface $session, TravelRepository $travelRepository)
+    public function index(SessionInterface $session, StaysRepository $stayRepository, TravelRepository $travelRepository)
     {
         $reservation = $session->get('reservation',[]);
 
@@ -25,7 +27,7 @@ class ReservationController extends AbstractController
         foreach($reservation as $id => $quantity)
         {
             $reservationWithData[] = [
-                'travel' => $travelRepository->find($id),
+                'stays' => $stayRepository->find($id),
                 'quantity' => $quantity
 
             ];
@@ -63,14 +65,14 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @route("/reservation/configure", name="reservation_configure")
+     * @route("/reservation/configure/{id}", name="reservation_configure")
      */
-    public Function configure()
+    public Function configure(Stays $stays)
     {
         
 
         return $this->render('reservation/configureTravel.html.twig', [
-            
+            'stays' => $stays,
         ]);
 
     }
