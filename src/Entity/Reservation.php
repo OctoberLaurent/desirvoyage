@@ -49,11 +49,6 @@ class Reservation
      */
     private $stays;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $stock;
-
     public function __construct()
     {
         $this->travelers = new ArrayCollection();
@@ -181,18 +176,6 @@ class Reservation
         if ($this->stays->contains($stay)) {
             $this->stays->removeElement($stay);
         }
-
-        return $this;
-    }
-
-    public function getStock(): ?int
-    {
-        return $this->stock;
-    }
-
-    public function setStock(int $stock): self
-    {
-        $this->stock = $stock;
 
         return $this;
     }

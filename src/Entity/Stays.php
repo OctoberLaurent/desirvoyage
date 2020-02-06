@@ -59,6 +59,11 @@ class Stays
      */
     private $reservations;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $stock;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -171,6 +176,18 @@ class Stays
             $this->reservations->removeElement($reservation);
             $reservation->removeStay($this);
         }
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }
