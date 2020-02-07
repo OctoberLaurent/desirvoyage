@@ -259,9 +259,9 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
         line-height: 160%;
         color: #999;
       }
-
     }
 }
+
 
 .img-100 {
     max-width: 100% !important ;
@@ -271,3 +271,25 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
   overflow:auto;
   max-height: 23em;
 }
+
+.voyageurs{
+
+  background-image: url(/images/bagages.jpg);
+  background-repeat: no-repeat;
+  width: auto;
+  height: auto;
+  padding: 1em;
+  .container{
+    background-color: #ffffff80 ;
+    
+   
+  }
+  .ligne{
+    margin: 100px auto;
+    width: 50%;
+    height: 2px;
+    background-color: #0000FF;
+    border: none; /*on supprime le style par défaut*/
+  }
+}
+
