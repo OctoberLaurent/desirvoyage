@@ -5,16 +5,23 @@
 {% block content %}
 <div class="container">
     <h1 class="center-align">Configurer votre voyage</h1>
-    <i class="large material-icons">check_box</i>
-    <pre>
-    {% for i in stays.travel.options %}
+   
+   
+    <p>Pour que vous puisez profiter au mieux de votre séjour, nous vous laissons le choix pour vos options</p>
+    <p>Voici les options que nous proposons pour votre séjour</p>
+    {% for opt in stays.travel.options %}
     
-        {{ dump( i )  }}
+    <p>
+      <label>
+        <input type="checkbox" class="option" />
+        <span class= "black-text">{{opt.name}} {{opt.price}} €</span>
+      </label>
+    </p>
     {% endfor %}
-        
-    </pre>
-    <div></div>
-
+    <p>Il n'y a pas d'option supplémentaire</p>
+    
+<a href="{{path('reservation_configure_user', {'id': stays.id})}}" class="waves-effect waves-light btn">button</a>
+<a href="{{path('reservation_add', {'id': stays.id})}}" class="waves-effect waves-light btn">valider</a>
 </div>
 
 {% endblock %}
