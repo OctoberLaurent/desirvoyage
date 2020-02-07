@@ -3,60 +3,35 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
+
 <div class="container">
-    <h1 class="center-align">Reservation</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores accusantium asperiores, at saepe obcaecati blanditiis, et eum nihil sit, debitis facere officiis. Sint voluptatem vel et pariatur a nulla explicabo.</p>
-    {% if items  | length > 0 %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>nom du voyage</th>
-                <th>Départ</th>
-                <th>arrivé</th>
-                <th>date de départ</th>
-                <th>date d'arrivé</th>
-                <th>prix</th>
-                <th>configurer votre voyage</th>
-                <th>supprimer</th>
-                
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-           
-            <tr>
-            {% for item in items %}
-                <td>{{item.stays.travel.getName}}</td>
-                <td>{{item.stays.depature}}</td>
-                <td>{{item.stays.arrival}}</td>
-                <td>{{item.stays.starDate | date("d/m/Y") }}</td>
-                <td>{{item.stays.endDate  | date("d/m/Y") }}</td>
-                <td>{{item.stays.price}} €</td>
-                <td>
-                    <a href="{{ path('reservation_configure', {'id': item.stays.id})}}" class="waves-effect waves-light btn">button</a>
-                </td>
-                <td>
-                    <a href="{{ path('reservation_remove', {'id': item.stays.id}) }}">
-                    <i class="material-icons red-text">delete_sweep</i>
-                    </a>
-                </td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div></div>
-    {% else %}
-    <p>Surprise, c'est vide!</p>
-    {% endif %}
-
-
-
-    
-    
-  
-    
+    <h1 class="center-align mt-1 "> {% trans %}Your reservation {% endtrans %}</h1>
+    <div class="row">
+        <div class="col l6 center-align">
+            <img class= "img-100 mt-1" src="{{ items[0].stays.travel.pictures.get(0).picturename }}" alt="items[0].stays.travel.pictures.get(0).name }}" >
+            <h3 class="mt-1" >
+                {{ items[0].stays.depature }} -> {{ items[0].stays.arrival }}
+             </h3>
+                <p>{% trans %} Depature at  {% endtrans %} <strong>{{ items[0].stays.starDate |  format_datetime('full', 'none', locale='fr')}}</strong></p>
+                <p>{% trans %} Arrival at  {% endtrans %} <strong>{{ items[0].stays.endDate |  format_datetime('full', 'none', locale='fr')}}</strong></p>
+        </div>
+        <div class="col l6">
+            <h2>{{ items[0].stays.travel.name }}</h2>
+            <h2>{{ items[0].stays.travel.subtitle }}</h2>
+            <div class= "descriptions">
+                <p>{{ items[0].stays.travel.descriptions | raw }}</p>
+            </div>
+            <div class="center-align">
+                        <span> {% trans %} From {% endtrans %}
+                        <div class="price">
+                        {{ items[0].stays.price }}€
+                        </div>
+                <a href="{{ path('reservation_configure', {'id': items[0].stays.id})}}" class="waves-effect waves-light btn">{% trans %} Configure my travel {% endtrans %}</a>
+                <a href="{{ path('reservation_remove', {'id': items[0].stays.id}) }}" class="waves-effect waves-light btn red darken-1">Remove</a>
+            </div>
+        </div>
+    </div>
 </div>
-  {% endblock %}
+{% endblock %}
 
 

@@ -49,7 +49,7 @@
                     </thead>
 
                     <tbody>
-                    {% for stay in travel.stays %}
+                    {% for stay in travel.stays | sortByField('starDate') %}
                         <tr>
                             <td>{{ stay.depature }}</td>
                             <td>{{ stay.arrival }}</td>
