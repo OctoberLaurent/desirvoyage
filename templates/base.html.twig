@@ -19,8 +19,10 @@
         {% endfor %}
     {% endfor %}
 
-    
-    {% block content %} {% endblock %}
+    <main>
+    {% block content %} 
+    {% endblock %}
+    </main>
 
     {% block footer %}
     {% include "partials/_footer.html.twig" %}

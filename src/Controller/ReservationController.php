@@ -6,11 +6,10 @@ use App\Entity\Stays;
 use App\Entity\Travel;
 use App\Entity\Traveler;
 use App\Form\TravelerType;
-use Doctrine\ORM\Query\Expr\Func;
+use App\Entity\Reservation;
+use App\Form\ReservationOptionType;
 use App\Repository\StaysRepository;
-use App\Repository\TravelRepository;
 use App\Repository\OptionsRepository;
-use Twig\Node\Expression\FunctionExpression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -21,26 +20,47 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation", name="reservation_index")
      */
-    public function index(SessionInterface $session, StaysRepository $stayRepository, OptionsRepository $optionRepository)
+    public function index(Request $request, SessionInterface $session, StaysRepository $stayRepository, OptionsRepository $optionRepository)
     {
+        
+        $id = $request->query->get('stayid');
 
-        $reservation = $session->get('reservation',[]);
+        $stay = $stayRepository->find($id);
+        
+        $reservation = new Reservation();
 
-        $reservationWithData = [];
+        $reservation->addStay($stay);
+        $reservation->setUser($this->getUser());
 
-        foreach($reservation as $id => $quantity)
-        {
-            $reservationWithData[] = [
-                'stays' => $stayRepository->find($id),
-                'quantity' => $quantity,
-                'option' => $optionRepository
+        $session->set('reservation', $reservation);
 
-            ];
-        }
-        //dd($reservationWithData);
         return $this->render('reservation/index.html.twig', [
-            'items' => $reservationWithData
+            'stay' => $stay
         ]);
+    }
+
+    /**
+     * @route("/reservation/configure/{id}", name="reservation_configure")
+     */
+    public function configure(Stays $stays, SessionInterface $session, Request $request, OptionsRepository $repo)
+    {
+        $reservationSession = $session->get('reservation');
+
+        $form = $this->createForm(ReservationOptionType::class, $reservationSession);
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+
+            dd($reservationSession);
+
+        }
+
+        return $this->render('reservation/configureTravel.html.twig', [
+            'stays' => $stays,
+            'form' => $form->createView(),
+        ]);
+        
     }
 
     /**
@@ -49,9 +69,10 @@ class ReservationController extends AbstractController
     public function add($id, SessionInterface $session)
     {
         
-       
-        $reservation = $session->get('reservation', []);
 
+        $reservation = new Reservation();
+       
+        dd($reservation);
        
 
             //quantité de base
@@ -65,21 +86,7 @@ class ReservationController extends AbstractController
         return $this->redirectToRoute("reservation_index");
     }
 
-    /**
-     * @route("/reservation/configure/{id}", name="reservation_configure")
-     */
-    public Function configure(Stays $stays)
-    {
-        
 
-       
-       
-        return $this->render('reservation/configureTravel.html.twig', [
-            'stays' => $stays,
-            
-        ]);
-        
-    }
 
     /**
      * @route("/reservation/configure/configureUser/{id}", name="reservation_configure_user")

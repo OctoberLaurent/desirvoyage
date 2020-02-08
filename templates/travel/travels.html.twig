@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'Welcome to' |trans }} {{ website }}{% endblock %}
+{% block title %}{{ 'Welcome to' | trans }} {{ website }}{% endblock %}
 {% set nbtravels = travels | length %}
 
 {% block content %}
     <div class="container mt-1">
         <div class="row">
-            <div class="col l3 z-depth-1 mt-1">
+            <div class="col pad l3 z-depth-1 mt-1">
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
                 <button type="submit" class="btn waves-effect waves-light">{% trans %} search {% endtrans %}</button>
                 {{ form_end(form) }}
             </div>
-            <div class="col l9">
+            <div class="col pad l9">
                 <div class="row">
                     <h5>{{ nbtravels }} {% trans %} Travels {% endtrans %}</h5>
                     <hr>
                     {% for travel in travels %}
-                        <div class="col l5 divheight center-align">
+                        <div class="col pad l5 divheight center-align">
                             {% if travel.pictures is not empty %}
                                 <img src="{{ travel.pictures.get(0).picturename }}"
                                      alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
@@ -25,7 +25,7 @@
                                 <img src="/data/default.png" class="picturelist ">
                             {% endif %}
                         </div>
-                        <div class="col l7 divheight">
+                        <div class="col pad l7 divheight">
                             <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h5>{{ travel.name }}</h5></a>
                             <h6>{{ travel.subtitle }}</h6>
                             <p>{{ travel.descriptions | raw}}</p>
