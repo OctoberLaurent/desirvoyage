@@ -4,12 +4,13 @@
 
 {% block content %}
 <div class="voyageurs">
+    <img class= "img-25 mt-1" src="/images/bagages.jpg" alt="" >
     <div class ="container">
-        <h1 class= "center-align">Futur Voyageurs</h1>
+        <h1 class= "center-align ">Futur Voyageurs</h1>
             <div class="coordonne">
                 <div class="row">
                     <div class="col l4">
-                        <h2>Vos coordonnées:</h2>
+                        <h2 class="center-align">Vos coordonnées:</h2>
                     </div>
                     <div class="col l4">
                         <div>Nom : {{app.user.lastname}}</div>
@@ -27,27 +28,29 @@
             </div>
             <!--lgne de séparation -->
             <div class="ligne"></div>
-            <div>
-                <h2 class="center-align">Accompagnant </h2>
-                {{ form_start( form ) }}
+                <h2 class="center-align">Accompagnant </h2> 
                 <div class="row">
-                    <div class="col l3">
-                        {{ form_row(form.lastname) }}
+                    <div class="col l4">
+                        {{ form_start( form ) }}
+                    {% for traveler in form.travelers %}
+                        <div class ="form-group">
+                            <div class="">
+                                <div class="">
+                                    {{ form_widget(traveler) }}
+                                    {{ form_errors(traveler) }}   
+                                </div>
+                            </div>     
+                        </div>  
+                    {% endfor %}
+                    {{ form_end( form ) }} 
+                    <a class="waves-effect waves-light btn" type="button" id="add-traveler">ajouter des utilisateurs</a>
                     </div>
-                    <div class="col l3">
-                        {{ form_row(form.firstname) }}
-                    </div>
-                    <div class="col l3">
-                        {{ form_row(form.email) }}
-                    </div>
-                    <div class="col s3">
-                        {{ form_row(form.birthday) }}
-                    </div>
-                </div>
-                {{ form_end( form ) }} 
-            </div>  
-        </div>
+                </div>        
+            </div>
+        </div>  
+    </div>
 </div>
 
 
 {% endblock %}
+{% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('usercollection') }}{% endblock %}

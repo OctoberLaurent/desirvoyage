@@ -20,71 +20,46 @@ class TravelerType extends AbstractType
             /* lastname*/ 
             ->add('lastname', TextType::class, [
                 "label" => "Nom",
-                "attr" => [
-                    'class' => "form-control",
-                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre nom",
                     ])
                 ]
             ]) 
-            /* lastname collectiontype*/
-            ->add('lastname', CollectionType::class, [
-                'entry_type' => TextType::class,     
-               
-            ])
              /* firstname*/ 
              ->add('firstname', TextType::class, [
-                "label" => "Nom",
-                "attr" => [
-                    'class' => "form-control",
-                ],
+                "label" => "Prénom",
+              
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre prenom",
                     ])
                 ]
             ]) 
-            /* firstname collectiontype*/
-            ->add('firstname', CollectionType::class, [
-                'entry_type' => TextType::class
-            ])
+           
             /* email */ 
             ->add('email', EmailType::class, [
                 "label" => "Email",
-                "attr" => [
-                    "class" => "form-control",
-                ],
+              
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre email",
                     ])
                 ]
             ])
-            /* emailcollectiontype*/ 
-            ->add('email', CollectionType::class, [
-                'entry_type' => EmailType::class
-            ])
 
             /* birthday */ 
             ->add('birthday', BirthdayType::class, [
                 "label" => "date de naissance",
                 "widget" =>'single_text',
-                "attr" => [
-                    'class' => "form-control",
-                    'format' => 'yyyy-MM-dd',
-                ],
+               
                 'constraints' => [
-                    new NotBlank([
+                  new NotBlank([
                         'message' => "Saisir votre date de naissance",
                     ])
                 ]
             ])
-            /* birthdaycollectiontype*/ 
-            ->add('birthday', CollectionType::class, [
-               'entry_type' => BirthdayType::class
-            ])
+           
         ;
     }
 
