@@ -7,6 +7,7 @@ use App\Entity\Travel;
 use App\Entity\Traveler;
 use App\Form\TravelerType;
 use App\Entity\Reservation;
+use App\Form\TravelersType;
 use App\Form\ReservationOptionType;
 use App\Repository\StaysRepository;
 use App\Repository\OptionsRepository;
@@ -88,16 +89,16 @@ class ReservationController extends AbstractController
     }
 
 
-
     /**
      * @route("/reservation/configure/configureUser/{id}", name="reservation_configure_user")
      */
-    public Function configureUser(Stays $stays, Request $request)
+    public Function configureUser( Request $request)
     {
         
         //form collection
-        $traveler = new Traveler();
-        $form = $this->createForm( TravelerType::class, $traveler);
+        $traveler = new Reservation();
+        
+        $form = $this->createForm( TravelersType::class, $traveler);
 
         $form->handleRequest( $request );
         
@@ -105,14 +106,14 @@ class ReservationController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
             
-            $em->persist($traveler );
-            $em->flush();
+            $em->persist($traveler);
+            
         }
         //fin form collection
         
         return $this->render('reservation/configureUser.html.twig', [
             'form' => $form->createView(), //for form collection
-            'stays' => $stays,
+            
         ]);
 
     }
