@@ -3,154 +3,154 @@
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
-<h1 class ="center-align">Inscription</h1>
-{{ form_start( form ) }} 
-
-<div class="container">
+    <h1 class="center-align">Inscription</h1>
     {{ form_start( form ) }}
 
-    <!-- form lastname -->
-   
+    <div class="container">
+        {{ form_start( form ) }}
+
+        <!-- form lastname -->
+
         <div class="col">
             {{ form_label(form.lastname) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.lastname) }}
-              <div class="errors red-text">
-                {{ form_errors(form.lastname) }}
-              </div>
+                {{ form_widget(form.lastname) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.lastname) }}
+                </div>
         </div>
-    
-    <!-- form firstname -->
+
+        <!-- form firstname -->
         <div class="col">
             {{ form_label(form.firstname) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.firstname) }}
-            <div class="errors red-text">
-                {{ form_errors(form.firstname) }}
-            </div>     
+                {{ form_widget(form.firstname) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.firstname) }}
+                </div>
         </div>
-    <!-- form birthday -->
+        <!-- form birthday -->
         <div class="col">
             {{ form_label(form.birthday) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.birthday) }}
-            <div class="errors red-text">
-                {{ form_errors(form.birthday) }}
-            </div>
+                {{ form_widget(form.birthday) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.birthday) }}
+                </div>
         </div>
 
-    <!--form addresse -->
+        <!--form addresse -->
         <div class="col custom-address">
             <div class="input-field">
                 {{ form_label(form.address) }}
-                {{ form_widget(form.address)}}
+                {{ form_widget(form.address) }}
                 <div class="errors red-text">
                     {{ form_errors(form.address) }}
                 </div>
             </div>
         </div>
-    
-    <!-- form additional address-->
+
+        <!-- form additional address-->
         <div class="col">
             {{ form_label(form.additionalAddress) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.additionalAddress) }}
-            <div class="errors red-text">
-                {{ form_errors(form.additionalAddress) }}
-            </div>
+                {{ form_widget(form.additionalAddress) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.additionalAddress) }}
+                </div>
         </div>
-    
-    <!--form postal code -->
+
+        <!--form postal code -->
         <div class="col">
             <div class="input-field">
-            {{ form_label(form.postalCode) }}
-            {{ form_widget(form.postalCode)}}
+                {{ form_label(form.postalCode) }}
+                {{ form_widget(form.postalCode) }}
                 <div class="errors red-text">
                     {{ form_errors(form.postalCode) }}
                 </div>
             </div>
         </div>
-    
-    <!--form city -->
+
+        <!--form city -->
         <div class="col">
             <div class="input-field">
-            {{ form_label(form.city) }}
-            {{ form_widget(form.city)}}
+                {{ form_label(form.city) }}
+                {{ form_widget(form.city) }}
                 <div class="errors red-text">
-                {{ form_errors(form.city) }}
+                    {{ form_errors(form.city) }}
                 </div>
             </div>
         </div>
-     <!-- form country-->
+        <!-- form country-->
         <div class="col">
             {{ form_label(form.country) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.country) }}
-            <div class="errors red-text">
-                {{ form_errors(form.country) }}
-            </div>
+                {{ form_widget(form.country) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.country) }}
+                </div>
         </div>
-    <!-- form mobile-->
+        <!-- form mobile-->
         <div class="col">
             {{ form_label(form.phone) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.phone) }}
-            <div class="errors red-text">
-                {{ form_errors(form.phone) }}
-            </div>
+                {{ form_widget(form.phone) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.phone) }}
+                </div>
         </div>
-    
-    <!-- form email-->
+
+        <!-- form email-->
         <div class="col">
             {{ form_label(form.email) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.email) }}
-            <div class="errors red-text">
-                {{ form_errors(form.email) }}
-            </div>
+                {{ form_widget(form.email) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.email) }}
+                </div>
         </div>
-    
-    <!-- form password-->
+
+        <!-- form password-->
         <div class="col">
             {{ form_label(form.password.first) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.password.first) }}
-            <div class="help black-text">
-            {{ form_help(form.password.first) }}
-            </div>
-            <div class="errors red-text">
-                {{ form_errors(form.password.first) }}
-            </div>
+                {{ form_widget(form.password.first) }}
+                <div class="help black-text">
+                    {{ form_help(form.password.first) }}
+                </div>
+                <div class="errors red-text">
+                    {{ form_errors(form.password.first) }}
+                </div>
         </div>
-    
-    <!-- form repeat password-->
+
+        <!-- form repeat password-->
         <div class="col">
             {{ form_label(form.password.second) }}
             <label for="autocomplete-input">
-            {{ form_widget(form.password.second) }}
-            <div class="help black-text">
-            {{ form_help(form.password.first) }}
-            </div>
-            <div class="errors red-text">
-                {{ form_errors(form.password.second) }}
-            </div>
+                {{ form_widget(form.password.second) }}
+                <div class="help black-text">
+                    {{ form_help(form.password.first) }}
+                </div>
+                <div class="errors red-text">
+                    {{ form_errors(form.password.second) }}
+                </div>
         </div>
         <div class="col">
             <p>
                 <label>
-                {{ form_widget(form.agreeTerms) }}
-                <span>J'accepte les CUG</span>
+                    {{ form_widget(form.agreeTerms) }}
+                    <span>J'accepte les CUG</span>
                 </label>
             </p>
         </div>
-        
+
         <div class="col">
             <button type="submit" class="btn btn-large">Inscription</button>
         </div>
 
-    {{ form_end( form ) }} 
+        {{ form_end( form ) }}
 
-</div>
+    </div>
 
 
 

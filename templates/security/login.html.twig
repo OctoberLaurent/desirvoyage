@@ -6,9 +6,9 @@
     <form method="post">
         <div class="login">
             <div class="container">
-                <h1>connexion</h1>
+                <h1 class="pad">Se connecter</h1>
                 <div class="col s9">
-                    <div class="input-field col s6">
+                    <div class="input-field col">
                         <i class="material-icons prefix"></i>
                         <input type="email" value="{{ last_username }}" id="email-input" class="autocomplete"
                                name="email">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="col s3">
-                    <div class="input-field col s9">
+                    <div class="input-field col">
                         <i class="material-icons prefix"></i>
                         <input type="password" id="password-input" class="password" name="password">
                         <label for="password">mot de passe</label>
@@ -26,9 +26,10 @@
                        value="{{ csrf_token('authenticate') }}">
 
                 <button type="submit" class="btn btn-large" id="submit">Connexion</button>
-    
-            <div id="forgotPasswordContainer">
-                <a id="forgetPasswordLink" href="{{ path("RenewPassword") }}">Mot de passe oublié ?</a>
+
+                <div id="forgotPasswordContainer">
+                    <a id="forgetPasswordLink" href="{{ path("RenewPassword") }}">Mot de passe oublié ?</a>
+                </div>
             </div>
         </div>
     </form>

@@ -3,31 +3,49 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
+{% if not app.user %} 
 
 <div class="container">
+    <div class="card-panel red darken-2 white-text center-align text-lighten-5">
+          {% trans %} You must be logged in to book a trip ! {% endtrans %}
+    </div>
+</div>
+{% else %}
+<div class="container mt-1">
+    <nav>
+        <div class="nav-wrapper">
+            <div class="col s12">
+                <a href="#" class="breadcrumb pl-1">> {% trans %} Travel {% endtrans %} > </a>
+            </div>
+        </div>
+    </nav>
+</div>
+{% endif %}
+<div class="container">
+
     <h1 class="center-align mt-1 "> {% trans %}Your reservation {% endtrans %}</h1>
     <div class="row">
-        <div class="col l6 center-align">
-            <img class= "img-100 mt-1" src="{{ items[0].stays.travel.pictures.get(0).picturename }}" alt="items[0].stays.travel.pictures.get(0).name }}" >
+        <div class="col pad l6 center-align">
+            <img class= "img-100 mt-1" src="{{ stay.travel.pictures.get(0).picturename }}" alt="stay.travel.pictures.get(0).name }}" >
             <h3 class="mt-1" >
-                {{ items[0].stays.depature }} -> {{ items[0].stays.arrival }}
+                {{ stay.depature }} -> {{ stay.arrival }}
              </h3>
-                <p>{% trans %} Depature at  {% endtrans %} <strong>{{ items[0].stays.starDate |  format_datetime('full', 'none', locale='fr')}}</strong></p>
-                <p>{% trans %} Arrival at  {% endtrans %} <strong>{{ items[0].stays.endDate |  format_datetime('full', 'none', locale='fr')}}</strong></p>
+                <p>{% trans %} Depature at  {% endtrans %} <strong>{{ stay.starDate |  format_datetime('full', 'none', locale='fr')}}</strong></p>
+                <p>{% trans %} Arrival at  {% endtrans %} <strong>{{ stay.endDate |  format_datetime('full', 'none', locale='fr')}}</strong></p>
         </div>
-        <div class="col l6">
-            <h2>{{ items[0].stays.travel.name }}</h2>
-            <h2>{{ items[0].stays.travel.subtitle }}</h2>
+        <div class="col pad l6">
+            <h2>{{ stay.travel.name }}</h2>
+            <h2>{{ stay.travel.subtitle }}</h2>
             <div class= "descriptions">
-                <p>{{ items[0].stays.travel.descriptions | raw }}</p>
+                <p>{{ stay.travel.descriptions | raw }}</p>
             </div>
             <div class="center-align">
                         <span> {% trans %} From {% endtrans %}
                         <div class="price">
-                        {{ items[0].stays.price }}€
-                        </div>
-                <a href="{{ path('reservation_configure', {'id': items[0].stays.id})}}" class="waves-effect waves-light btn">{% trans %} Configure my travel {% endtrans %}</a>
-                <a href="{{ path('reservation_remove', {'id': items[0].stays.id}) }}" class="waves-effect waves-light btn red darken-1">Remove</a>
+                        {{ stay.price }}€
+                        </div> 
+                <a href="{{ path('reservation_configure', {'id': stay.id})}}" class="waves-effect waves-light btn mt-1"  {% if not app.user %} disabled {% endif %}>{% trans %} Configure my travel {% endtrans %}</a>
+                <a href="{{ path('reservation_remove', {'id': stay.id}) }}" class="waves-effect waves-light btn red darken-1 mt-1" {% if not app.user %} disabled {% endif %} >Remove</a>
             </div>
         </div>
     </div>

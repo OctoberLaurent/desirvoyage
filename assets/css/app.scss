@@ -2,6 +2,13 @@
 
 body {
     background-color: #fff;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
 }
 
 h1{
@@ -43,6 +50,10 @@ hr.pink {
   width : 70%;
   border: 2px solid pink !important;
   border-radius: 5px;
+}
+
+.pl-1{
+  padding-left : 1em;
 }
 
 .marg{
@@ -88,10 +99,10 @@ hr.pink {
     text-align: center;
 }
 
-.col {
+.pad {
   padding: 2em !important;
   box-sizing:border-box;
-}
+ }
 
 .picturelist{
     max-width: 23em;
@@ -184,9 +195,10 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
   }
 }
 
-// card 2
+.cache {
+  display: none;
+}
 
-// base
 .flip {
     position: relative;
     >.front,
@@ -262,14 +274,26 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
     }
 }
 
-
 .img-100 {
     max-width: 100% !important ;
 }
+
+.img-100pc {
+  height: 50vw;
+  transform: translate( 0 , -50%);
+}
+
+.divmg{
+  max-height: 30vw;
+  overflow:hidden;
+}
+
 .descriptions{
   margin-top: 1em;
   overflow:auto;
   max-height: 23em;
+  min-height: 8em;
+
 }
 .bagage{
   margin-top: 20px;
@@ -320,4 +344,5 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
       border: none;
     } 
 }
+
 

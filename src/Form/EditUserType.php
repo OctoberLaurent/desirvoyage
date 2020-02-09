@@ -6,7 +6,6 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,11 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
-class RegisterType extends AbstractType
+class EditUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -111,7 +107,6 @@ class RegisterType extends AbstractType
             ])
             /* country */
             ->add('country', CountryType::class, [
-                'preferred_choices' => ['FR'],
                 "label" => "pays",
                 "attr" => [
                     'class'=> "form-control",
@@ -127,15 +122,6 @@ class RegisterType extends AbstractType
                 "label" => "telephone",
                 "attr" => [
                     'class'=> "form-control",
-                ],
-                'constraints' => [
-                    new Regex([
-                        "pattern" => '/^[0-9]*$/',
-                        "message" => "Don't use spaces in your password."
-                    ]),
-                    new NotBlank([
-                        'message' => "Saisir votre numéro de téléphone",
-                    ])
                 ]
             ])
             /* email */
@@ -149,53 +135,7 @@ class RegisterType extends AbstractType
                             'message' => "Saisir votre email",
                         ])
                     ]
-            ])
-            /* Mot de passe */
-            ->add('password', RepeatedType::class, [
-                    'label' => false,
-                    'type' => PasswordType::class,
-                    'first_options'  => [
-                        'label' => "mot de passe",
-                        'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
-                        'required' => true,
-                        'constraints' => [
-                            new NotNull([
-                                'message' => "Saisir votre mot de passe",
-                            ]),
-                            new NotBlank([
-                                'message' => "Saisir votre mot de passe",
-                            ]),
-                        ],
-                    ],
-                    'second_options' => [
-                        'label' => "Repéter le mot de passe",
-                        'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
-                        'constraints' => [
-                    
-                            new NotBlank([
-                                'message' => "Repéter le mot de passe",
-                            ]),
-                        ],
-                    ],
-                    'invalid_message' => "Les mots de passe doivent etre identiques.",
-            ])
-            /* Accepte les conditions d'utilisation */
-            ->add('agreeTerms', CheckboxType::class, [
-                    'label' => false,
-                    "attr" => [
-                        "class" => "filled-in",
-                    ],
-                    'mapped' => false, // ce champ n'est pas dans l'entité User
             ]);   
-            
-            
-        
-           
-            
-          
-            
-            
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

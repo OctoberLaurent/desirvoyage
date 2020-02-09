@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition de mon profile{% endblock %}
+
+{% block content %}
+    <h1 class="center-align mt-1">Edition de mon profile</h1>
+    {{ form_start( form ) }}
+
+    <div class="container">
+        <div class="row">
+            <h2 class="col l12 mt-1 card-panel grey white-text pad center-align"> {{ app.user.fullname }} </h2>
+            <!-- form lastname -->
+            <div class="col l6">
+                {{ form_label(form.lastname) }}
+                <label for="autocomplete-input">
+                    {{ form_widget(form.lastname) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.lastname) }}
+                    </div>
+            </div>
+
+            <!-- form firstname -->
+            <div class="col l6">
+                {{ form_label(form.firstname) }}
+                <label for="autocomplete-input">
+                    {{ form_widget(form.firstname) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.firstname) }}
+                    </div>
+            </div>
+
+            <!-- form email-->
+            <div class="col l6">
+                {{ form_label(form.email) }}
+                <label for="autocomplete-input">
+                    {{ form_widget(form.email) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.email) }}
+                    </div>
+            </div>
+
+            <!-- form birthday -->
+            <div class="col l6">
+                {{ form_label(form.birthday) }}
+                {{ form_widget(form.birthday) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.birthday) }}
+                </div>
+            </div>
+
+            <h2 class="col l12 mt-1 card-panel grey white-text pad center-align"> Vos coordonnées : </h2>
+            <!--form addresse -->
+            <div class="col l6 custom-address">
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address) }}
+                <div class="errors red-text">
+                    {{ form_errors(form.address) }}
+                </div>
+            </div>
+
+            <!-- form additional address-->
+            <div class="col l6">
+                {{ form_label(form.additionalAddress) }}
+                <label for="autocomplete-input">
+                    {{ form_widget(form.additionalAddress) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.additionalAddress) }}
+                    </div>
+            </div>
+
+            <!--form postal code -->
+            <div class="col l6">
+                <div class="input-field">
+                    {{ form_label(form.postalCode) }}
+                    {{ form_widget(form.postalCode) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.postalCode) }}
+                    </div>
+                </div>
+            </div>
+
+            <!--form city -->
+            <div class="col l6">
+                <div class="input-field">
+                    {{ form_label(form.city) }}
+                    {{ form_widget(form.city) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.city) }}
+                    </div>
+                </div>
+            </div>
+            <!-- form country-->
+            <div class="col l6">
+                {{ form_label(form.country) }}
+                <label for="autocomplete-input">
+                    {{ form_widget(form.country) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.country) }}
+                    </div>
+            </div>
+
+            <!-- form mobile-->
+            <div class="col l6">
+                {{ form_label(form.phone) }}
+                <label for="autocomplete-input">
+                    {{ form_widget(form.phone) }}
+                    <div class="errors red-text">
+                        {{ form_errors(form.phone) }}
+                    </div>
+            </div>
+
+
+            <div class="col l12 right-align mt-1">
+                <button type="submit" class="btn btn-large">Valider</button>
+            </div>
+            {{ form_end( form ) }}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('postalcode') }}{% endblock %}
