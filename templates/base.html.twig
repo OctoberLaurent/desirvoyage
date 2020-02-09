@@ -11,14 +11,16 @@
      {% include "partials/_navbar.html.twig" %}
     {% endblock %}
 
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="card-panel {{ label }} center-align text-lighten-5">
-                {{ message }}
-            </div>
+    <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="card-panel {{ label }} center-align white-text">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-
+    </div>
+    
     <main>
     {% block content %} 
     {% endblock %}

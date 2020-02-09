@@ -28,9 +28,6 @@ Encore
     .addEntry('postalcode', './assets/js/postalcode.js')
     .addEntry('datePicker', './assets/js/datePicker.js')
     .addEntry('reservation', './assets/js/reservation.js')
-    //.addEntry('resetPassword', './assets/js/components/resetPassword.js')
-    //.addEntry('renewPassword', './assets/js/components/renewPassword.js')
-    //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

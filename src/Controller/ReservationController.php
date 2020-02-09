@@ -44,15 +44,16 @@ class ReservationController extends AbstractController
      */
     public function configure(Stays $stays, SessionInterface $session, Request $request, OptionsRepository $repo)
     {
-        $reservationSession = $session->get('reservation');
+        $reservation = $session->get('reservation');
+        dd($reservation->getOptions());
 
-        $form = $this->createForm(ReservationOptionType::class, $reservationSession);
+        $form = $this->createForm(ReservationOptionType::class, $reservation);
 
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) { 
 
-            dd($reservationSession);
+            dd($reservation);
 
         }
 

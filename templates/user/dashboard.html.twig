@@ -1,17 +1,12 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block title %}Dashboard {% endblock %}
 
 {% block content %}
 
-  <h1 class="center-align">Mon profil</h1>
-  <div class = "right-align">
-  <i class="medium material-icons ">add_shopping_cart</i>
-</div>
+  <h1 class="center-align mt-1">Mon profil</h1>
 
-<div class="container">
+<div class="container pad">
   <div class="profil">
     <div class="row">
         <div class="col s6 m-12">
@@ -43,7 +38,7 @@
             <span>Ville: {{app.user.city}}</span>
             </div>
             <div>
-            <span>Pays: {{app.user.country}}</span>
+            <span>Pays: {{app.user.country | country_name('fr')}}</span>
             </div>
         </div>
       </div> 
@@ -59,8 +54,9 @@
           </div>
           <div>
             <span>Pour changer votre mot de passe en toute tranquilité, veuillez cliquer sur ce lien</span>
-            <div><a id="NewPasswordLink" href="{{ path("new_password") }}">réinitialisation du mot de passe</a></div>
-
+            <div>
+            <a id="NewPasswordLink" href="{{ path("new_password") }}">Changer mon mot de passe</a></div>
+            <a  href="{{ path("user_edit") }}">Éditer mon profile</a></div>
           </div>
         </div>
       </div> 
