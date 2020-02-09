@@ -19,22 +19,15 @@ class OptionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Options::class);
     }
 
-    // /**
-    //  * @return Options[] Returns an array of Options objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOptions($travel)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+            ->where(':travel MEMBER OF o.travels')
+            ->setParameter('travel', $travel)
         ;
     }
-    */
+ 
+    // SELECT * FROM `travel_options` WHERE travel_id = 253
 
     /*
     public function findOneBySomeField($value): ?Options

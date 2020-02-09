@@ -35,14 +35,7 @@ class User implements UserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
-     * @Assert\Length(
-     *      min=8,
-     *      max=15,
-     *      minMessage="Your pasword must be at least {{limit}} characters long.",
-     *      maxMessage="Your password cannot be longuer than {{limit}} characters."
-     * )
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
@@ -112,7 +105,7 @@ class User implements UserInterface
     private $phone;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=20)
      * @Assert\Length(min = 5, max = 5, minMessage = "min_length", maxMessage = "max_length")
      */
     private $postalCode;

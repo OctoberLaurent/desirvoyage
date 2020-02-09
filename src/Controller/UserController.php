@@ -3,17 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\EditUserType;
 use App\Form\RegisterType;
 use App\Service\UserService;
 use App\Service\MailerService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class UserController extends AbstractController
 {
@@ -28,12 +30,14 @@ class UserController extends AbstractController
         $this->userService = $userService;
         $this->urlGenerator = $urlGenerator;
     }
+
     /**
      * @Route("/register", name="register")
      */
     public function register(Request $request):Response
     {
         if( $this->getUser() ){
+            
             return $this->redirectToRoute('home');
             
         }
@@ -67,6 +71,33 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/profil/edit/", name="user_edit")
+     * @IsGranted("ROLE_USER")
+     */
+    public function edit(Request $request):Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(EditUserType::class, $user );
+
+        $form->handleRequest( $request );
+        
+        if( $form->isSubmitted() && $form->isValid() ){
+            
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist( $user );
+            $em->flush();
+
+            $this->addFlash( 'blue darken-1', 'Les données de votre compte ont bien été modifiées' );
+            return $this->redirectToRoute( 'dashboard' );
+        }
+        return $this->render('user/edituser.html.twig', array(
+            'form' => $form->createView(),
+        ));  
+    }
+
+    /**
      * @Route("/api/address", name="api-address", methods={"GET"})
      */
     public function api(HttpClientInterface $httpClient, Request $request){
@@ -89,28 +120,27 @@ class UserController extends AbstractController
         ));
         return new Response( $response->getContent() );
     }
+
     /**
      * @Route("/api/city", name="api-city", methods={"GET"})
      */
     public function city(HttpClientInterface $httpClient, Request $request){
+        
         $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
             'query' => array(
                 'q' => $request->query->get('q'),
-                'limit' => $request->query->get('limit'),
-                
-                
-
+                'limit' => $request->query->get('limit'),     
             )
         ));
         return new Response( $response->getContent() );
     }
 
      /**
-     * @Route("/dashboard", name="dashboard", methods={"GET", "POST"})
+     * @Route("/profil/dashboard", name="dashboard", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function dashboard()
    {
     return $this->render("user/dashboard.html.twig");
    }
-
 }

@@ -3,104 +3,107 @@
 {% block title %}{{ 'Welcome to' | trans }} {{ website }}{% endblock %}
 
 {% block content %}
-    {# Slider in partials #}
-    {% include "./partials/_slider.html.twig" %}
+{# Slider in partials #}
+{% include "./partials/_slider.html.twig" %}
 
-    {# Icons #}
-    <div class="row margin-top">
-        <div class="col l4">
-            <div class="col s4">
-                <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1">
-                    <i class="material-icons blue-text">wb_sunny</i></a>
-            </div>
-            <div class="col s8">
-                <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
-            </div>
+{# Icons #}
+<div class="row margin-top">
+    <div class="col l4">
+        <div class="col s4">
+            <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1">
+                <i class="material-icons blue-text">wb_sunny</i></a>
         </div>
-
-        <div class="col l4 ">
-            <div class="col s4">
-                <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
-                            class="material-icons blue-text">airplanemode_active</i></a>
-            </div>
-            <div class="col s8">
-                <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
-            </div>
-        </div>
-
-        <div class="col l4 ">
-            <div class="col s4">
-                <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
-                            class="material-icons blue-text">beach_access</i></a>
-            </div>
-            <div class="col s8">
-                <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
-            </div>
+        <div class="col s8">
+            <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
         </div>
     </div>
 
-    {# __________  Category ______________ #}
+    <div class="col l4 ">
+        <div class="col s4">
+            <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
+                        class="material-icons blue-text">airplanemode_active</i></a>
+        </div>
+        <div class="col s8">
+            <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
+        </div>
+    </div>
 
-    <h2 class="center-align" >Nos catégories</h2>
-    <hr class="pink">
-    <div class="cards-list container">
-        {% for category in categories %}
-            <a href="{{ path('travel_list', { 'category': category.id }) }}">
-                <div class="card 1">
-                    <div class="card_image">
-                        {% if category.url %}
-                            <img src="{{ category.picturename }}" alt="{{ category.title }}"/>
-                        {% else %}
-                            <img src="/data/default.png"/>
-                        {% endif %}
-                    </div>
-                    <div class="card_title title-white">
-                    </div>
+    <div class="col l4 ">
+        <div class="col s4">
+            <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
+                        class="material-icons blue-text">beach_access</i></a>
+        </div>
+        <div class="col s8">
+            <p class="blue-text">Le monde à portée de main<br> Des réductions négociées par nos experts </p>
+        </div>
+    </div>
+</div>
+
+{# __________  Category ______________ #}
+
+<h2 class="center-align">Nos catégories</h2>
+<hr class="pink">
+<div class="cards-list container">
+    {% for category in categories %}
+        <a href="{{ path('travel_list', { 'category': category.id }) }}">
+            <div class="card 1">
+                <div class="card_image">
+                    {% if category.url %}
+                        <img src="{{ category.picturename }}" alt="{{ category.title }}"/>
+                    {% else %}
+                        <img src="/data/default.png"/>
+                    {% endif %}
                 </div>
-                <h6 class="center-align">{{ category.title }}</h6>
-            </a>
-        {% endfor %}
-    </div>
-
-    {# Button see all categories #}
-    <div class="container right-align mt-1 margin-bottom">
-        <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
-            <i class="material-icons right">keyboard_arrow_right</i>{% trans %} See all categorie {% endtrans %}
+                <div class="card_title title-white">
+                </div>
+            </div>
+            <h6 class="center-align">{{ category.title }}</h6>
         </a>
-    </div>
-    {# ______________ cards ______________ #}
-    <h2 class="center-align" >Quelques voyages</h2>
-    <hr class="pink">
-    <div class="container">
-      <div class="row">
+    {% endfor %}
+</div>
+
+{# Button see all categories #}
+<div class="container right-align mt-1 margin-bottom">
+    <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
+        <i class="material-icons right">keyboard_arrow_right</i>{% trans %} See all categorie {% endtrans %}
+    </a>
+</div>
+{# ______________ cards ______________ #}
+<h2 class="center-align">Quelques voyages</h2>
+<hr class="pink">
+<div class="container">
+    <div class="row">
         {% for travel in travels %}
         <div class="col l6">
-          <div class="flip">
-            {% if travel.pictures is not empty %}
-              <div class="front" alt= "{{ travel.pictures.get(0).name }}" style="background-image: url({{ travel.pictures.get(0).picturename }})">
-            {% else %}
-              <div class="front" style="background-image: url(/data/default.png)">
-            {% endif %}
-              <h1 class="center-align" >{{ travel.name }}</hi>
-          </div>
-          <div class="back">
-            <h2 class="grey-text text-lighten-5">{{ travel.name }}</h2>
-            <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
-              <p class="grey-text text-lighten-5">{{ travel.descriptions }}</p>
-              <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %} : {{ travel.getMinPrice() | number_format(2) }}</p>
-              <a  href="{{ path('travel', { 'slug': travel.slug }) }}" class="waves-effect waves-light btn-small red darken-4">{% trans %} See travel {% endtrans %}</a>
-          </div>
-          </div>
+            <div class="flip">
+                {% if travel.pictures is not empty %}
+                <div class="front" alt="{{ travel.pictures.get(0).name }}"
+                     style="background-image: url({{ travel.pictures.get(0).picturename }})">
+                    {% else %}
+                    <div class="front" style="background-image: url(/data/default.png)">
+                        {% endif %}
+                        <h1 class="center-align">{{ travel.name }}</hi>
+                    </div>
+                    <div class="back">
+                        <h2 class="grey-text text-lighten-5">{{ travel.name }}</h2>
+                        <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
+                        <p class="grey-text text-lighten-5">{{ travel.descriptions }}</p>
+                        <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %}
+                            : {{ travel.getMinPrice() | number_format(2) }}</p>
+                        <a href="{{ path('travel', { 'slug': travel.slug }) }}"
+                           class="waves-effect waves-light btn-small red darken-4">{% trans %} See travel {% endtrans %}</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-          <div class="container right-align mt-1 margin-bottom">
-        <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
-            <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all travels{% endtrans %}
-        </a>
-    </div>
+        <div class="container right-align mt-1 margin-bottom">
+            <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
+                <i class="material-icons right">keyboard_arrow_right</i>{% trans %}See all travels{% endtrans %}
+            </a>
+        </div>
     </div>
 
-{% endblock %}
+    {% endblock %}
     {% block body %}{% endblock %}
     {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('carousel') }}{% endblock %}
