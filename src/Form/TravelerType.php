@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class TravelerType extends AbstractType
@@ -55,7 +56,7 @@ class TravelerType extends AbstractType
                         'message' => "Saisir votre date de naissance",
                     ])
                 ]
-            ]) 
+            ])
         ;
     }
     public function configureOptions(OptionsResolver $resolver)

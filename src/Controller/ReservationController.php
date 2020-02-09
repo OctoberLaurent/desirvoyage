@@ -43,10 +43,9 @@ class ReservationController extends AbstractController
     /**
      * @route("/reservation/configure/{id}", name="reservation_configure")
      */
-    public function configure(Stays $stays, SessionInterface $session, Request $request, OptionsRepository $repo)
+    public function configure(Stays $stays, SessionInterface $session, Request $request, $id)
     {
         $reservation = $session->get('reservation');
-        dd($reservation->getOptions());
 
         $form = $this->createForm(ReservationOptionType::class, $reservation);
 
@@ -54,15 +53,39 @@ class ReservationController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) { 
 
-            dd($reservation);
-
+            $session->set('reservation', $reservation);
+            return $this->redirectToRoute('traveler_configure', ['id' => $id]);
         }
 
         return $this->render('reservation/configureTravel.html.twig', [
             'stays' => $stays,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @route("/reservation/configure/configureTravelers/{id}", name="traveler_configure")
+     */
+    public Function configureTravelers( Request $request, SessionInterface $session, $id)
+    {
+
+        $reservation = $session->get('reservation');
         
+        $form = $this->createForm( TravelersType::class,  $reservation);
+
+        $form->handleRequest( $request );
+        
+        if( $form->isSubmitted() && $form->isValid() ){
+
+            $session->set('reservation', $reservation);
+            dd($reservation);
+            
+        }
+        
+        return $this->render('reservation/configureTravelers.html.twig', [
+            'form' => $form->createView()
+        ]);
+
     }
 
     /**
@@ -70,53 +93,20 @@ class ReservationController extends AbstractController
      */
     public function add($id, SessionInterface $session)
     {
-        
 
         $reservation = new Reservation();
        
         dd($reservation);
        
-
             //quantité de base
             $reservation[$id] = 1;
        
-        
-
         $session->set('reservation', $reservation);
 
         //dd($session->get('reservation'));
         return $this->redirectToRoute("reservation_index");
     }
 
-
-    /**
-     * @route("/reservation/configure/configureUser/{id}", name="reservation_configure_user")
-     */
-    public Function configureUser( Request $request)
-    {
-        
-        //form collection
-        $traveler = new Reservation();
-        
-        $form = $this->createForm( TravelersType::class, $traveler);
-
-        $form->handleRequest( $request );
-        
-        if( $form->isSubmitted() && $form->isValid() ){
-
-            $em = $this->getDoctrine()->getManager();
-            
-            $em->persist($traveler);
-            
-        }
-        //fin form collection
-        
-        return $this->render('reservation/configureUser.html.twig', [
-            'form' => $form->createView(), //for form collection
-            
-        ]);
-
-    }
 
     /**
      * @route("/reservation/remove/{id}", name= "reservation_remove")

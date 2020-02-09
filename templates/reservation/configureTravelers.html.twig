@@ -30,20 +30,33 @@
             <div class="ligne"></div>
             <h2 class="center-align">Accompagnant </h2> 
                 <div class="row">
-                    <div class="col l4">
-                    {{ form_start( form ) }}
-                    {% for traveler in form.travelers %}
-                        <div class="form-group">
-                            <div>
-                                <div>
-                                    {{ form_widget(traveler) }}
-                                    {{ form_errors(traveler) }} 
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col l12">
+                    {{ form_start( form ) }}                    
+                        <ul id="traveler-fields-list"
+                        data-prototype="{{ form_widget(form.travelers.vars.prototype)|e }}"
+                        data-widget-tags="{{ '<li></li>'|e }}"
+                        data-widget-counter="{{ form.travelers|length }}">
+                        {% for t in form.travelers %}
+                            <li>
+                                {{ form_row(t.firstname) }}
+                                {{ form_row(t.lastname) }}
+                                {{ form_row(t.email) }}
+                                {{ form_row(t.birthday) }}
+                            </li>
                         {% endfor %}
+                        </ul>
+                        <button type="button"
+                        class="add-another-collection-widget btn btn-primary indigo"
+                        data-list-selector="#traveler-fields-list">Add another traveler</button>
+                        <br>
+                        <div class="right-align">
+                        <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}" >Preview
+                        <i class="material-icons left">keyboard_arrow_left</i>
+                        </a>
+                        <button type="submit" class="waves-effect waves-light btn" name="action">Next
+                        <i class="material-icons right">keyboard_arrow_right</i></button>
+                        </div>
                         {{ form_end( form ) }} 
-                        <a class="waves-effect waves-light btn" type="button" id="add-traveler">ajouter des utilisateurs</a>
                     </div>
                 </div>
     </div>
