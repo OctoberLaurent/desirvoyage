@@ -29,7 +29,6 @@ class TravelerType extends AbstractType
              /* firstname*/ 
              ->add('firstname', TextType::class, [
                 "label" => "Prénom",
-              
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre prenom",

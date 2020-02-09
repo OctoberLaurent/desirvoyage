@@ -271,25 +271,53 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
   overflow:auto;
   max-height: 23em;
 }
-
 .bagage{
+  margin-top: 20px;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
   width: 500px;
   height: 200px;
- 
+  margin-left: 500px;
+    //media queries for iphone 5
+    @media all and (max-device-width: 567px)
+  {
+    margin-left: 30px;
+    width: 300px;
+  }
+   //for Galaxy S5
+   @media all and (min-width: 568px) and (max-width: 727px)
+   {
+     margin-left: 60px;
+   }
 
+  //for Ipad and Iphone X
+  @media all and (min-width: 728px) and (max-width: 1023px)
+  {
+    margin-left: 130px;
+  }
+  //for Ipad pro
+  @media all and (min-width: 1024px) and (max-width: 1366px)
+  {
+    margin-left: 280px;
+  }
 }
 .traveler{
-    
+    .coordonne{
+      margin-top: 10px;
+      border: 1px double #ddd;
+      border-radius: 4px;
+      padding: 5px;
+      h2{
+        text-decoration: underline;
+      }
+    }
     .ligne{
       margin: 100px auto;
       width: 50%;
       height: 2px;
       background-color: #0000FF;
-      border: none; /*on supprime le style par défaut*/
-    }
-
+      border: none;
+    } 
 }
 

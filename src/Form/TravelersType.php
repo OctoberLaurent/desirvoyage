@@ -18,7 +18,7 @@ class TravelersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            
+            /* travelers collectionType */
             ->add('travelers', CollectionType::class, [
                 'entry_type' => TravelerType::class,
                 'allow_add'=> true,
@@ -26,17 +26,13 @@ class TravelersType extends AbstractType
                     'label' => false,
                 ],
                 'label' => false,
-                
-
             ])
-
         ;
     }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,
-            
+            'data_class' => Reservation::class,  
         ]);
     }
 }
