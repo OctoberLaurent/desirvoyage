@@ -4,69 +4,68 @@
 
 {% block content %}
 
-  <h1 class="center-align mt-1">Mon profil</h1>
+    <h1 class="center-align mt-1">Mon profil</h1>
 
-<div class="container pad">
-  <div class="profil">
-    <div class="row">
-        <div class="col s6 m-12">
-          <div class="card-panel">
-            <h5 class="blue lighten-4">Civilité</h5>
-            <div>
-              <span>Nom: {{app.user.lastname}}</span>
-            </div>
-            <div>
-            <span>Prénom: {{app.user.firstname}}</span>
-            </div>
-            <h5 class="blue lighten-4">Adresse</h5>
-            <div>
-              <span>Adresse: {{app.user.Address}}</span>
-            </div>
-            <div>
-            <span>Complément d'Adresse: {{app.user.additionalAddress}}</span>
-            </div>
-            <div>
-            <span>Code Postale: {{app.user.postalCode}}</span>
-            </div>
-            <div>
-            <span>Numéro de téléphone: {{app.user.phone}}</span>
-            </div>
-            <div>
-            <span>Code postale: {{app.user.postalCode}}</span>
-            </div>
-            <div>
-            <span>Ville: {{app.user.city}}</span>
-            </div>
-            <div>
-            <span>Pays: {{app.user.country | country_name('fr')}}</span>
+    <div class="container pad">
+        <div class="divmg mt-1">
+            <img class="img-100pc" src="/images/beach.jpg" alt="Options_travel">
+        </div>
+        <div class="profil">
+            <div class="row">
+                <div class="col s6 m-12">
+                    <div class="card-panel">
+                        <h5 class="blue lighten-4">Civilité</h5>
+                        <div>
+                            <span>Nom: {{ app.user.lastname }}</span>
+                        </div>
+                        <div>
+                            <span>Prénom: {{ app.user.firstname }}</span>
+                        </div>
+                        <h5 class="blue lighten-4">Adresse</h5>
+                        <div>
+                            <span>Adresse: {{ app.user.Address }}</span>
+                        </div>
+                        <div>
+                            <span>Complément d'Adresse: {{ app.user.additionalAddress }}</span>
+                        </div>
+                        <div>
+                            <span>Code Postale: {{ app.user.postalCode }}</span>
+                        </div>
+                        <div>
+                            <span>Numéro de téléphone: {{ app.user.phone }}</span>
+                        </div>
+                        <div>
+                            <span>Code postale: {{ app.user.postalCode }}</span>
+                        </div>
+                        <div>
+                            <span>Ville: {{ app.user.city }}</span>
+                        </div>
+                        <div>
+                            <span>Pays: {{ app.user.country | country_name('fr') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 m-12">
+                        <div class="card-panel">
+                            <h5 class="blue lighten-4">email/password</h5>
+                            <div>
+                                <span>email: {{ app.user.email }}</span>
+                            </div>
+                            <div>
+                                <span>password: ****</span>
+                            </div>
+                            <div>
+                                <span>Pour changer votre mot de passe en toute tranquilité, veuillez cliquer sur ce lien</span>
+                                <div>
+                                    <a id="NewPasswordLink" href="{{ path("new_password") }}">Changer mon mot de
+                                        passe</a></div>
+                                <a href="{{ path("user_edit") }}">Éditer mon profile</a></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-      </div> 
-      <div class="row">
-        <div class="col s6 m-12">
-          <div class="card-panel">
-          <h5 class="blue lighten-4">email/password</h5>
-          <div>
-            <span>email: {{app.user.email}}</span>
-          </div>
-          <div>
-            <span>password: ****</span>
-          </div>
-          <div>
-            <span>Pour changer votre mot de passe en toute tranquilité, veuillez cliquer sur ce lien</span>
-            <div>
-            <a id="NewPasswordLink" href="{{ path("new_password") }}">Changer mon mot de passe</a></div>
-            <a  href="{{ path("user_edit") }}">Éditer mon profile</a></div>
-          </div>
-        </div>
-      </div> 
     </div>
-  </div>
-</div>
-</div>
-
-
-
-
- 
+    </div>
 {% endblock %}

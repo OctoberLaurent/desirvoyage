@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
-    </head>
-    {% block header %}
-     {% include "partials/_navbar.html.twig" %}
-    {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+</head>
+{% block header %}
+    {% include "partials/_navbar.html.twig" %}
+{% endblock %}
 
-    <div class="container">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="card-panel {{ label }} center-align white-text">
-                    {{ message }}
-                </div>
-            {% endfor %}
+<div class="container">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="card-panel {{ label }} center-align white-text">
+                {{ message }}
+            </div>
         {% endfor %}
-    </div>
-    
-    <main>
-    {% block content %} 
-    {% endblock %}
-    </main>
+    {% endfor %}
+</div>
 
-    {% block footer %}
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+{% block footer %}
     {% include "partials/_footer.html.twig" %}
-    {% endblock %}   
-        
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
-    </body>
+{% endblock %}
+
+<body>
+{% block body %}{% endblock %}
+{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+</body>
 </html>

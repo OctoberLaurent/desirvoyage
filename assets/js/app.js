@@ -10,7 +10,7 @@ import '../css/app.scss';
 import 'materialize-css/sass/materialize.scss';
 import 'materialize-css/dist/js/materialize.js';
 import '@ciar4n/izmir/izmir.min.css';
-
+import '../js/dropDown.js';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 const $ = require('jquery');

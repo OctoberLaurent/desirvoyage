@@ -111,6 +111,7 @@ class RegisterType extends AbstractType
             ])
             /* country */
             ->add('country', CountryType::class, [
+                'preferred_choices' => ['FR'],
                 "label" => "pays",
                 "attr" => [
                     'class'=> "form-control",
@@ -158,7 +159,6 @@ class RegisterType extends AbstractType
                         'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
                         'required' => true,
                         'constraints' => [
-                          
                             new NotNull([
                                 'message' => "Saisir votre mot de passe",
                             ]),

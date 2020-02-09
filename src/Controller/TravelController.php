@@ -42,9 +42,9 @@ class TravelController extends AbstractController
     }
 
     /**
-     * @Route("/travels", name="travel_list")
+     * @Route("/travels/{page}", name="travel_list")
      */
-    public function travels(TravelRepository $travelRepository, Request $request)
+    public function travels(TravelRepository $travelRepository, Request $request, $page =  1)
     {
         // get category if exist
         $category = $request->query->get('category');
@@ -68,6 +68,7 @@ class TravelController extends AbstractController
 
         return $this->render('travel/travels.html.twig', [
             'travels' => $travels,
+            'page' => $page,
             'form' => $form->createView(),
         ]);
     }
@@ -100,7 +101,7 @@ class TravelController extends AbstractController
      */
     public function showTerms()
     {
-        return $this->render('travel/terms.html.twig', []);
+        return $this->render('travel/terms.html.twig');
     }
 
 }
