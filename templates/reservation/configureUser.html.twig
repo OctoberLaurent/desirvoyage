@@ -3,21 +3,22 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
-<div class="voyageurs">
-    <div class ="container">
-        <h1 class= "center-align">Futur Voyageurs</h1>
+<h1 class= "center-align ">Futur Voyageurs</h1>
+<img class= "bagage" src="/images/bagages.jpg" alt="bagage">
+<div class="traveler">
+    <div class="container">
             <div class="coordonne">
                 <div class="row">
-                    <div class="col l4">
+                    <div class="col l4 s7">
                         <h2>Vos coordonnées:</h2>
                     </div>
-                    <div class="col l4">
+                    <div class="col l4 s7">
                         <div>Nom : {{app.user.lastname}}</div>
                         <div>Prénom : {{app.user.firstname}}</div>
                         <div> né le : {{app.user.birthday | date("d/m/Y")}}</div>
                         <div>telephone: {{app.user.phone}}</div>
                     </div>
-                    <div class="col l4">
+                    <div class="col l4 s7">
                         <div>adresse : {{app.user.Address}}</div>
                         <div>complément d'adresse : {{app.user.additionalAddress}}</div>
                         <div>code postale : {{app.user.postalCode}}</div>
@@ -25,29 +26,27 @@
                     </div>
                 </div>
             </div>
-            <!--lgne de séparation -->
+             <!--separation line -->
             <div class="ligne"></div>
-            <div>
-                <h2 class="center-align">Accompagnant </h2>
-                {{ form_start( form ) }}
+            <h2 class="center-align">Accompagnant </h2> 
                 <div class="row">
-                    <div class="col l3">
-                        {{ form_row(form.lastname) }}
-                    </div>
-                    <div class="col l3">
-                        {{ form_row(form.firstname) }}
-                    </div>
-                    <div class="col l3">
-                        {{ form_row(form.email) }}
-                    </div>
-                    <div class="col s3">
-                        {{ form_row(form.birthday) }}
+                    <div class="col l4">
+                    {{ form_start( form ) }}
+                    {% for traveler in form.travelers %}
+                        <div class="form-group">
+                            <div>
+                                <div>
+                                    {{ form_widget(traveler) }}
+                                    {{ form_errors(traveler) }} 
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {{ form_end( form ) }} 
+                        <a class="waves-effect waves-light btn" type="button" id="add-traveler">ajouter des utilisateurs</a>
                     </div>
                 </div>
-                {{ form_end( form ) }} 
-            </div>  
-        </div>
+    </div>
 </div>
-
-
 {% endblock %}
+{% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('usercollection') }}{% endblock %}
