@@ -3,10 +3,10 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
-<div class="voyageurs">
-    <img class= "img-25 mt-1" src="/images/bagages.jpg" alt="" >
-    <div class ="container">
-        <h1 class= "center-align ">Futur Voyageurs</h1>
+<h1 class= "center-align ">Futur Voyageurs</h1>
+<img class= "bagage" src="/images/bagages.jpg" alt="bagage">
+<div class="traveler">
+    <div class="container">
             <div class="coordonne">
                 <div class="row">
                     <div class="col l4">
@@ -26,31 +26,27 @@
                     </div>
                 </div>
             </div>
-            <!--lgne de séparation -->
+             <!--lgne de séparation -->
             <div class="ligne"></div>
-                <h2 class="center-align">Accompagnant </h2> 
+            <h2 class="center-align">Accompagnant </h2> 
                 <div class="row">
                     <div class="col l4">
-                        {{ form_start( form ) }}
+                    {{ form_start( form ) }}
                     {% for traveler in form.travelers %}
-                        <div class ="form-group">
-                            <div class="">
-                                <div class="">
+                        <div class="form-group">
+                            <div>
+                                <div>
                                     {{ form_widget(traveler) }}
-                                    {{ form_errors(traveler) }}   
+                                    {{ form_errors(traveler) }} 
                                 </div>
-                            </div>     
-                        </div>  
-                    {% endfor %}
-                    {{ form_end( form ) }} 
-                    <a class="waves-effect waves-light btn" type="button" id="add-traveler">ajouter des utilisateurs</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {{ form_end( form ) }} 
+                        <a class="waves-effect waves-light btn" type="button" id="add-traveler">ajouter des utilisateurs</a>
                     </div>
-                </div>        
-            </div>
-        </div>  
+                </div>
     </div>
 </div>
-
-
 {% endblock %}
 {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('usercollection') }}{% endblock %}

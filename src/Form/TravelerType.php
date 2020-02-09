@@ -36,7 +36,6 @@ class TravelerType extends AbstractType
                     ])
                 ]
             ]) 
-           
             /* email */ 
             ->add('email', EmailType::class, [
                 "label" => "Email",
@@ -47,7 +46,6 @@ class TravelerType extends AbstractType
                     ])
                 ]
             ])
-
             /* birthday */ 
             ->add('birthday', BirthdayType::class, [
                 "label" => "date de naissance",
@@ -58,11 +56,9 @@ class TravelerType extends AbstractType
                         'message' => "Saisir votre date de naissance",
                     ])
                 ]
-            ])
-           
+            ]) 
         ;
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
