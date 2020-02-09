@@ -1,9 +1,9 @@
 {% set route = app.request.attributes.get('_route') %}
 <ul id="dropdown1" class="dropdown-content">
-<li><a href="{{ path('dashboard') }}">Mon profil</a></li>
-<li><a href="{{ path('reservation_index') }}">Mes voyages</a></li>
+<li><a href="{{ path('dashboard') }}" class="blue-text">Mon profil</a></li>
+<li><a href="{{ path('reservation_index') }}" class="blue-text">Mes voyages</a></li>
     <li class="divider"></li>
-<li><a href="{{ path('logout') }}">Déconnexion</a></li>
+<li><a href="{{ path('logout') }}" class="blue-text">Déconnexion</a></li>
 </ul>
 <nav>
     <div class="nav-wrapper deep-purple darken-1">
