@@ -64,6 +64,16 @@ class Stays
      */
     private $stock;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $serial;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdDate;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -188,6 +198,30 @@ class Stays
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getSerial(): ?string
+    {
+        return $this->serial;
+    }
+
+    public function setSerial(?string $serial): self
+    {
+        $this->serial = $serial;
+
+        return $this;
+    }
+
+    public function getCreatedDate(): ?\DateTimeInterface
+    {
+        return $this->createdDate;
+    }
+
+    public function setCreatedDate(?\DateTimeInterface $createdDate): self
+    {
+        $this->createdDate = $createdDate;
 
         return $this;
     }

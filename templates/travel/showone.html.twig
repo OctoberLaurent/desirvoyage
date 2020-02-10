@@ -43,23 +43,26 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Price</th>
-                            <th></th>
+                            <th>Stock</th>
                         </tr>
                         </thead>
-
                         <tbody>
                         {% for stay in travel.stays | sortByField('starDate') %}
                             <tr>
+                                {% if stay.stock > 1 %}
                                 <td>{{ stay.depature }}</td>
                                 <td>{{ stay.arrival }}</td>
                                 <td>{{ stay.starDate | date("d/m/Y") }}</td>
                                 <td>{{ stay.endDate  | date("d/m/Y") }}</td>
                                 <td>{{ stay.price }} €</td>
+                                <td>{{ stay.stock }}</td>
                                 <td>
+                               
                                     <a href="{{ path('reservation_index', { 'stayid': stay.id }) }}"
                                        class="btn-floating btn-large waves-effect waves-light red"><i
                                                 class="material-icons">add</i></a>
                                 </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>

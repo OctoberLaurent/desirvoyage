@@ -27,7 +27,6 @@ Encore
     .addEntry('carousel', './assets/js/carousel.js')
     .addEntry('postalcode', './assets/js/postalcode.js')
     .addEntry('usercollection', './assets/js/usercollection.js')
-
     .addEntry('datePicker', './assets/js/datePicker.js')
     .addEntry('reservation', './assets/js/reservation.js')
 

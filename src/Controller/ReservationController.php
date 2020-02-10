@@ -78,14 +78,40 @@ class ReservationController extends AbstractController
         if( $form->isSubmitted() && $form->isValid() ){
 
             $session->set('reservation', $reservation);
-            dd($reservation);
-            
+
+            return $this->redirectToRoute('summary_reservation');
         }
         
         return $this->render('reservation/configureTravelers.html.twig', [
             'form' => $form->createView()
         ]);
 
+    }
+
+    /**
+     * @route("/reservation/summary", name="summary_reservation")
+     */
+    public function summary(SessionInterface $session)
+    {
+        $reservation = $session->get('reservation');
+
+        // get price stays for 1 traveler
+        $stayPrice = $reservation->getStays()[0]->getPrice();
+        // get price for all options
+        $options = $reservation->getOptions();
+        $optionsPrice = 0;
+        foreach($options as $option){
+            $optionsPrice += $option->getPrice();
+        }
+        // get numbers of travelers
+        $nbtravelers =  count($reservation->getTravelers())+1;
+
+        $totalPrice = ($stayPrice+$optionsPrice)*$nbtravelers;
+
+        return $this->render('reservation/summary.html.twig', [
+            'reservation' => $reservation,
+            'totalPrice' => $totalPrice,
+        ]);
     }
 
     /**
@@ -106,7 +132,6 @@ class ReservationController extends AbstractController
         //dd($session->get('reservation'));
         return $this->redirectToRoute("reservation_index");
     }
-
 
     /**
      * @route("/reservation/remove/{id}", name= "reservation_remove")

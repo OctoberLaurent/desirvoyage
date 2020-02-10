@@ -49,6 +49,11 @@ class Reservation
      */
     private $stays;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdDate;
+
     public function __construct()
     {
         $this->travelers = new ArrayCollection();
@@ -176,6 +181,18 @@ class Reservation
         if ($this->stays->contains($stay)) {
             $this->stays->removeElement($stay);
         }
+
+        return $this;
+    }
+
+    public function getCreatedDate(): ?\DateTimeInterface
+    {
+        return $this->createdDate;
+    }
+
+    public function setCreatedDate(?\DateTimeInterface $createdDate): self
+    {
+        $this->createdDate = $createdDate;
 
         return $this;
     }

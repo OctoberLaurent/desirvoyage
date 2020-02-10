@@ -3,63 +3,66 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
-<h1 class= "center-align ">Futur Voyageurs</h1>
-<img class= "bagage" src="/images/bagages.jpg" alt="bagage">
-<div class="traveler">
+    <h1 class="center-align mt-1">Qui embarque ?</h1>
     <div class="container">
-            <div class="coordonne">
-                <div class="row">
-                    <div class="col l4 s7">
-                        <h2>Vos coordonnées:</h2>
-                    </div>
-                    <div class="col l4 s7">
-                        <div>Nom : {{app.user.lastname}}</div>
-                        <div>Prénom : {{app.user.firstname}}</div>
-                        <div> né le : {{app.user.birthday | date("d/m/Y")}}</div>
-                        <div>telephone: {{app.user.phone}}</div>
-                    </div>
-                    <div class="col l4 s7">
-                        <div>adresse : {{app.user.Address}}</div>
-                        <div>complément d'adresse : {{app.user.additionalAddress}}</div>
-                        <div>code postale : {{app.user.postalCode}}</div>
-                        <div>Ville : {{app.user.city}}</div>
-                    </div>
-                </div>
-            </div>
-             <!--separation line -->
-            <div class="ligne"></div>
-            <h2 class="center-align">Accompagnant </h2> 
-                <div class="row">
-                    <div class="col l12">
-                    {{ form_start( form ) }}                    
-                        <ul id="traveler-fields-list"
-                        data-prototype="{{ form_widget(form.travelers.vars.prototype)|e }}"
-                        data-widget-tags="{{ '<li></li>'|e }}"
-                        data-widget-counter="{{ form.travelers|length }}">
-                        {% for t in form.travelers %}
-                            <li>
-                                {{ form_row(t.firstname) }}
-                                {{ form_row(t.lastname) }}
-                                {{ form_row(t.email) }}
-                                {{ form_row(t.birthday) }}
-                            </li>
-                        {% endfor %}
-                        </ul>
-                        <button type="button"
+        <div class="divmg mt-1">
+            <img class="img-100pc" src="/images/polynesia.jpg" alt="Options_travel">
+        </div>
+        <h2>Les voyageurs</h2>
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Anniversaire</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Voyageur 1</td>
+                <td>{{ app.user.lastname }}</td>
+                <td>{{ app.user.firstname }}</td>
+                <td>{{ app.user.email }}</td>
+                <td>{{ app.user.birthday | date("d/m/Y") }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <!--separation line -->
+        <h2 class="center-align pad">Accompagnant </h2>
+        <hr class="pink">
+        <div class="row">
+            <div class="col l12">
+                {{ form_start( form ) }}
+                <ul id="traveler-fields-list"
+                    data-prototype="{{ form_widget(form.travelers.vars.prototype)|e }}"
+                    data-widget-tags="{{ '<li></li>'|e }}"
+                    data-widget-counter="{{ form.travelers|length }}">
+                    {% for t in form.travelers %}
+                        <li>
+                            {{ form_row(t.firstname) }}
+                            {{ form_row(t.lastname) }}
+                            {{ form_row(t.email) }}
+                            {{ form_row(t.birthday) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button type="button"
                         class="add-another-collection-widget btn btn-primary indigo"
-                        data-list-selector="#traveler-fields-list">Add another traveler</button>
-                        <br>
-                        <div class="right-align">
-                        <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}" >Preview
+                        data-list-selector="#traveler-fields-list">Add another traveler
+                </button>
+                <br>
+                <div class="right-align">
+                    <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}">Preview
                         <i class="material-icons left">keyboard_arrow_left</i>
-                        </a>
-                        <button type="submit" class="waves-effect waves-light btn" name="action">Next
+                    </a>
+                    <button type="submit" class="waves-effect waves-light btn" name="action">Next
                         <i class="material-icons right">keyboard_arrow_right</i></button>
-                        </div>
-                        {{ form_end( form ) }} 
-                    </div>
                 </div>
+                {{ form_end( form ) }}
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}
 {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('usercollection') }}{% endblock %}
