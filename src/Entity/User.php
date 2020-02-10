@@ -112,6 +112,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\LessThan("-13 years")
      */
     private $birthday;
 

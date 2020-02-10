@@ -5,13 +5,12 @@ namespace App\Form;
 use App\Entity\Traveler;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class TravelerType extends AbstractType
 {
@@ -24,7 +23,7 @@ class TravelerType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre nom",
-                    ])
+                    ]),
                 ]
             ]) 
              /* firstname*/ 
@@ -39,8 +38,8 @@ class TravelerType extends AbstractType
             /* email */ 
             ->add('email', EmailType::class, [
                 "label" => "Email",
-              
                 'constraints' => [
+
                     new NotBlank([
                         'message' => "Saisir votre email",
                     ])

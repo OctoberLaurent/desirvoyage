@@ -25,13 +25,13 @@ class Travel
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=100, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 100 characters")
+     * @Assert\Length(min=10, max=30, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 30 characters")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=100, minMessage="Your subtitle must be at least 10 characters long", maxMessage="Your subtitle must not exceed 100 characters")
+     * @Assert\Length(min=10, max=50, minMessage="Your subtitle must be at least 10 characters long", maxMessage="Your subtitle must not exceed 50 characters")
      */
     private $subtitle;
 
@@ -43,7 +43,7 @@ class Travel
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Assert\NotBlank(message="this field must not be empty")
-     * @Assert\Length(min=10, max=100, minMessage="Your description must be at least 100 characters long", maxMessage="Your description must not exceed 1800 characters")
+     * @Assert\Length(min=10, max=1800, minMessage="Your description must be at least 10 characters long", maxMessage="Your description must not exceed 1800 characters")
      */
     private $descriptions;
 

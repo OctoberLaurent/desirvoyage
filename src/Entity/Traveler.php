@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TravelerRepository")
@@ -18,16 +19,29 @@ class Traveler
 
     /**
      * @ORM\Column(type="string", length=80)
+     * @Assert\Length(
+     *     min=3,
+     *     max=80,
+     *     minMessage="Your lastname must be at least {{ limit }} characters long.",
+     *     maxMessage="Your lastname cannot be longer than {{ limit }} characters."
+     * )
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=80)
+     * @Assert\Length(
+     *     min=3,
+     *     max=80,
+     *     minMessage="Your firstname must be at least {{ limit }} characters long.",
+     *     maxMessage="Your firstname cannot be longer than {{ limit }} characters."
+     * )
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
@@ -38,6 +52,8 @@ class Traveler
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\LessThan("-13 years")
+     *     
      */
     private $birthday;
 
