@@ -3,47 +3,125 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
+{% set nbtravelers = reservation.travelers | length %}
+{% set nboptions = reservation.options | length %}
     <div class="container">
-    <h1 class= "mt-1 center-align">Récapitulatif du voyage</h1>
+    <h1 class= "center-align mt-1">Récapitulatif de votre voyage</h1>
     
     <div class="divmg mt-1">
         <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
     </div>
-    
+    <div class="row">
+    <div class="col l6 center-align">
+    <strong>{{ nbtravelers + 1}} 
+        {% if nbtravelers+1 > 1 %}Voyageurs 
+        {% else %} Voyageur {% endif %}
+    </strong>
+    <br>
+    <strong>{{ nboptions }} 
+        {% if nboptions > 1 %}Options 
+        {% else %} option {% endif %}
+    </strong>
+    </div>
+    <div class="col l6 center-align grey lighten-3">
+        <span> {% trans %} Total {% endtrans %} </span>
+        <div class="price">
+        {{ totalPrice }}€ 
+        </div> 
+    </div>
+    </div>
+    <h2 class= "center-align mt-1">Votre voyage</h2>
+    <table class="centered">
+        <thead>
+          <tr>
+              <th colspan = 2  >Destination</th>
+              <th>Depart</th>
+              <th>Arrivé</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for stay in reservation.stays %}
+        <tr>
+            <td>{{ stay.travel.name }}</td>
+            <td>{{ stay.travel.subtitle }}</td>
+            <td>{{ stay.starDate | date("d/m/Y") }}</td>
+            <td>{{ stay.endDate | date("d/m/Y") }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    <h2 class= "center-align mt-1">Les voyageurs</h2>
     <table>
         <thead>
           <tr>
-              <th>Name</th>
-              <th>Item Name</th>
-              <th>Item Price</th>
+            <th></th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Date de naissance</th>
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <td>Alvin</td>
-            <td>Eclair</td>
-            <td>$0.87</td>
+            <td>Voyageur 1</td>
+            <td>{{ app.user.lastname }}</td>
+            <td>{{ app.user.firstname }}</td>
+            <td>{{ app.user.email }}</td>
+            <td>{{ app.user.birthday | date("d/m/Y") }}</td>
           </tr>
           <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-          </tr>
-          <tr>
-            <td>Jonathan</td>
-            <td>Lollipop</td>
-            <td>$7.00</td>
+            {% for traveler in reservation.travelers %}
+            <td> Voyageur {{ loop.index + 1}}</td>
+            <td>{{ traveler.lastname }}</td>
+            <td>{{ traveler.firstname }}</td>
+            <td>{{ traveler.email }}</td>
+            <td>{{ traveler.birthday | date("d/m/Y") }}</td>
+            {% endfor %}
           </tr>
         </tbody>
       </table>
-    
-    <pre>
-    {{ dump(reservation) }}
-    {{ dump(totalPrice) }}
-    </pre>
-    {% for stay in reservation.stays %}
-        
-    {% endfor %}
-    
+    {% if reservation.options %}
+    <h2 class= "center-align mt-1">Vos options</h2>
+    <table class="centered">
+        <thead>
+          <tr>
+                <th></th>
+                <th>Option</th>
+                <th>Description</th>
+                <th>prix total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for option in reservation.options %}
+          <tr>
+            <td> Option {{ loop.index }}</td>
+            <td>{{ option.name }}</td>
+            <td>{{ option.description | raw }}</td>
+            <td>{{ option.price * (1 + nbtravelers) }} €</td>
+          </tr>
+          {% endfor %}
+          <tr>
+          <td> Prix Total </td>
+          <td colspan = 2></td>
+          <td > <strong>{{ totalPriceOptions }} €</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pad">
+        <div class="right-align">
+            <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}">Preview
+                <i class="material-icons left">keyboard_arrow_left</i>
+            </a>
+            <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">Remove
+            </a>
+            <a type="submit" href="{{ path('reservation_validate') }}" class="waves-effect waves-light btn" name="action">Validate
+                <i class="material-icons right">keyboard_arrow_right</i>
+            </a>
+        </div>
+
+      </div>
+    {% endif %}
 {% endblock %}

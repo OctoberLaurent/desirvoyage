@@ -180,6 +180,13 @@ class Stays
         return $this;
     }
 
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+
+        return $this;
+    }
+
     public function removeReservation(Reservation $reservation): self
     {
         if ($this->reservations->contains($reservation)) {

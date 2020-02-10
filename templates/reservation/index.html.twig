@@ -5,11 +5,10 @@
 {% block content %}
     {% if not app.user %}
 
-        <div class="container">
-            <div class="card-panel red darken-2 white-text center-align text-lighten-5">
-                {% trans %} You must be logged in to book a trip ! {% endtrans %}
-            </div>
-        </div>
+    <div class="card-panel red darken-2 white-text center-align text-lighten-5">
+        {% trans %} You must be logged in to book a trip ! {% endtrans %}
+    </div>
+
     {% else %}
         <div class="container mt-1">
             <nav>
@@ -43,14 +42,12 @@
                     <p>{{ stay.travel.descriptions | raw }}</p>
                 </div>
                 <div class="center-align">
-                        <span> {% trans %} From {% endtrans %}
+                        <span> {% trans %} From {% endtrans %} </span>
                         <div class="price">
-                        {{ stay.price }}€
+                        {{ stay.price }}€ 
                         </div> 
                 <a href="{{ path('reservation_configure', {'id': stay.id}) }}"
                    class="waves-effect waves-light btn mt-1"  {% if not app.user %} disabled {% endif %}>{% trans %} Configure my travel {% endtrans %}</a>
-                <a href="{{ path('reservation_remove', {'id': stay.id}) }}"
-                   class="waves-effect waves-light btn red darken-1 mt-1" {% if not app.user %} disabled {% endif %} >Remove</a>
                 </div>
             </div>
         </div>
