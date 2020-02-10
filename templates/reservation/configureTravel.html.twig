@@ -8,60 +8,62 @@
     <nav>
         <div class="nav-wrapper ">
             <div class="col s12">
-                <a href="{{ app.request.headers.get('referer') }}" class="breadcrumb pl-1">{% trans %} Travel {% endtrans %}</a>
+                <a href="{{ app.request.headers.get('referer') }}"
+                   class="breadcrumb pl-1">{% trans %} Travel {% endtrans %}</a>
                 <a href="#" class="breadcrumb pl-1">{% trans %} Options {% endtrans %}</a>
             </div>
         </div>
     </nav>
-
-    <h1 class="center-align mt-1">Configurer votre voyage</h1>
+    
+    <h1 class="mt-1">Configurer votre voyage</h1>
 
     <div class="divmg mt-1">
-    <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
+        <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
     </div>
 
-    <h2 class="center-align">Pour que vous puisez profiter au mieux de votre séjour, nous vous laissons le choix de vos options</h2>
+    <h2 class="center-align">Pour que vous puisez profiter au mieux de votre séjour, nous vous laissons le choix de vos
+        options</h2>
     <div class="row">
-    <div class="col l6 center-align">
-        <h1 class="mt-1">{{ stays.travel.name }}</h1>
-        <h2>{{ stays.travel.subtitle }}</h2>
-        <h3><i class="material-icons">airplanemode_active</i>
-            {{ stays.depature }} -> {{ stays.arrival }}
-        </h3>
+        <div class="col l6 center-align">
+            <h1 class="mt-1">{{ stays.travel.name }}</h1>
+            <h2>{{ stays.travel.subtitle }}</h2>
+            <h3><i class="material-icons">airplanemode_active</i>
+                {{ stays.depature }} -> {{ stays.arrival }}
+            </h3>
+        </div>
+        <div class="col l6 pad grey lighten-3 mt-1 center-align">
+            <div class="price center-align">
+                <span class="blue-text text-darken-2">{% trans %} Price {% endtrans %}</span>
+                <strong id="price"> {{ stays.price }} </strong><span>€</span>
+            </div>
+        </div>
     </div>
-    <div class="col l6 pad grey lighten-3 mt-1 center-align">
-      <div class="price center-align">
-      <span class="blue-text text-darken-2">{% trans %} Price {% endtrans %}</span> 
-          <strong id="price"> {{ stays.price }} </strong><span>€</span>
-      </div> 
-    </div>
-    </div>
-        <h3 class="center-align">Voici les options que nous vous proposons pour ce séjour</h3>
-        <br>
-
-    <div class="row">
-      
-    {{ form_start(form)}}
-    {% for opt in form.options %}
-      <div class="col l4">
-      <label>
-      {{ form_widget( opt ) }}
-      <span class="blue-text text-darken-2" >{{ stays.travel.options[loop.index0].name }} </span>
-      <span class="blue-text text-darken-2 amount" >{{ stays.travel.options[loop.index0].price }} €</span>
-      </label>
-      <span class="green-text cache">{{ stays.travel.options[loop.index0].description | raw }}</span>
-      </div>
-    {% endfor %}
+    <h3 class="center-align">Voici les options que nous vous proposons pour ce séjour</h3>
     <br>
-    <div class="mt-1 right-align">
-      <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}" >Preview
-        <i class="material-icons left">keyboard_arrow_left</i>
-      </a>
-      <button class="btn waves-effect waves-light" name="action">Next
-        <i class="material-icons right">keyboard_arrow_right</i>  
-      </button>
+
+    <div class="row">
+
+        {{ form_start(form) }}
+        {% for opt in form.options %}
+            <div class="col l4">
+                <label>
+                    {{ form_widget( opt ) }}
+                    <span class="blue-text text-darken-2">{{ stays.travel.options[loop.index0].name }} </span>
+                    <span class="blue-text text-darken-2 amount">{{ stays.travel.options[loop.index0].price }} €</span>
+                </label>
+                <span class="green-text cache">{{ stays.travel.options[loop.index0].description | raw }}</span>
+            </div>
+        {% endfor %}
+        <br>
+        <div class="mt-1 right-align">
+            <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}">Preview
+                <i class="material-icons left">keyboard_arrow_left</i>
+            </a>
+            <button class="btn waves-effect waves-light" name="action">Next
+                <i class="material-icons right">keyboard_arrow_right</i>
+            </button>
+        </div>
+        {{ form_end(form) }}
     </div>
-    {{ form_end(form) }}
-    </div>
-{% endblock %}
+    {% endblock %}
 {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('reservation') }}{% endblock %}

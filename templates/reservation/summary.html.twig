@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}reservation{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1 class= "mt-1 center-align">Récapitulatif du voyage</h1>
+    
+    <div class="divmg mt-1">
+        <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
+    </div>
+    
+    <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Item Name</th>
+              <th>Item Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Alvin</td>
+            <td>Eclair</td>
+            <td>$0.87</td>
+          </tr>
+          <tr>
+            <td>Alan</td>
+            <td>Jellybean</td>
+            <td>$3.76</td>
+          </tr>
+          <tr>
+            <td>Jonathan</td>
+            <td>Lollipop</td>
+            <td>$7.00</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    <pre>
+    {{ dump(reservation) }}
+    {{ dump(totalPrice) }}
+    </pre>
+    {% for stay in reservation.stays %}
+        
+    {% endfor %}
+    
+{% endblock %}

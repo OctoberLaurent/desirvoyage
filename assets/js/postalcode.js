@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    M.updateTextFields();
     $( "#register_address" ).on( "keyup", function() {
         clearTimeout($.data(this, 'timer'));
         var wait = setTimeout(search, 200);
