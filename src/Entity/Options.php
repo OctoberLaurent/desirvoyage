@@ -21,13 +21,13 @@ class Options
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Assert\Length(min=10, max=100, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 100 characters")
+     * @Assert\Length(min=10, max=60, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 60 characters")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=10, max=100, minMessage="Your description must be at least 100 characters long", maxMessage="Your description must not exceed 1800 characters")
+     * @Assert\Length(min=10, max=400, minMessage="Your description must be at least 400 characters long", maxMessage="Your description must not exceed 1800 characters")
      */
     private $description;
 

@@ -20,7 +20,7 @@
             {% if app.user is empty %}
                 <!-- If user is not connected -->
                 <li><a href="{{ path('login') }}">Connexion</a></li>
-                <li><a href="{{ path('register') }}">S'inscription</a></li>
+                <li><a href="{{ path('register') }}">Inscription</a></li>
             {% else %}
                 <!-- If user is connected -->
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.fullName }}<i class="material-icons right">arrow_drop_down</i></a></li>

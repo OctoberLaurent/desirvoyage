@@ -135,7 +135,7 @@ class UserController extends AbstractController
         return new Response( $response->getContent() );
     }
 
-     /**
+    /**
      * @Route("/profil/dashboard", name="dashboard", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */

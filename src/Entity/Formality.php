@@ -26,7 +26,7 @@ class Formality
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Length(min=3, max=40, minMessage="Your description must not exceed 1800 characters")
+     * @Assert\Length(min=3, max=1800,minMessage="Your description must be at least 10 characters long", maxMessage="Your description must not exceed 1800 characters")
      */
     private $description;
 
