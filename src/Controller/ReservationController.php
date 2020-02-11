@@ -162,10 +162,13 @@ class ReservationController extends AbstractController
         $merged = $seservationMergeService->reservationMerge($entityManager, $reservation);
 
         $entityManager->persist($merged);
+        
 
         $entityManager->flush();
 
-        return $this->redirectToRoute("home");
+        $session->set('reservation', $merged);
+
+        return $this->redirectToRoute("payment_create");
     }
 
     /**

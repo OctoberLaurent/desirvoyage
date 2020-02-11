@@ -4,11 +4,18 @@ namespace App\Controller;
 
 use Stripe\Charge;
 use Stripe\Stripe;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * 
+ * @Route("/payment", name="payment")
+ */
 class PaymentController extends AbstractController
 {
+    
     private $publicKey;
     private $privateKey;
 
@@ -20,13 +27,17 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * @Route("/payment", name="payment")
+     * @Route("", name="_create")
      */
-    public function index()
+    public function index(SessionInterface $session)
     {
+        $reservation = $session->get('reservation');
+        $amount = $reservation->getPrice();
+        
         return $this->render('payment/index.html.twig', [
                 'publicKey' => $this->publicKey,
-                'privateKey' => $this->privateKey, 
+                'privateKey' => $this->privateKey,
+                'amount' =>  $amount,
         ]);
     }
 
@@ -35,26 +46,29 @@ class PaymentController extends AbstractController
      *
      * @param Request $request
      */
-    public function charge()
+    public function charge(Request $request, SessionInterface $session)
     {
+        $reservation = $session->get('reservation');
+        $amount = $reservation->getPrice();
 
         \Stripe\Stripe::setApiKey($this->privateKey);
-
         try
         {
             \Stripe\Charge::create([
-                'amount' => 12,
+                'amount' => $amount*100,
                 'currency' => 'eur',
-                'description' => 'test',
-                'source' => 'test',
+                'description' => 'commande '.$reservation->getSerial(),
+                'source' => $request->request->get('stripeToken'),
             ]);
         } catch (\Exception $e)
         {
-            $this->addFlash('warning', "Le paiement a été refusé.");
+            $this->addFlash('red', "Le paiement a été refusé.");
             return $this->redirectToRoute('home');
+            
         }
         
-    
+            $this->addFlash('green', "Le paiement est OK");
+            return $this->redirectToRoute('home');
     }
 
 }
