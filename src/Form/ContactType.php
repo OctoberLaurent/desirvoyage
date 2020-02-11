@@ -56,7 +56,7 @@ class ContactType extends AbstractType
             ->add('description', TextareaType::class, [
                 "label" => "description",
                 "attr" => [
-                    'class' => "form-control",
+                    'class' => "materialize-textarea",
                 ],
                 'constraints' => [
                     new NotBlank([

@@ -11,38 +11,34 @@
         <div class="row">
             <div class="col l6">
                 {{ form_label(form.lastname) }}
-                <label for="autocomplete-input"/>
-                    {{ form_widget(form.lastname) }}
+                {{ form_widget(form.lastname) }}
                     <div class="errors red-text">
                         {{ form_errors(form.lastname) }}
                     </div>
             </div>
             <div class="col l6">
                 {{ form_label(form.firstname) }}
-                <label for="autocomplete-input"/>
-                    {{ form_widget(form.firstname) }}
+                {{ form_widget(form.firstname) }}
                     <div class="errors red-text">
                         {{ form_errors(form.firstname) }}
                     </div>
             </div>
             <div class="col l6">
                 {{ form_label(form.email) }}
-                <label for="autocomplete-input"/>
-                    {{ form_widget(form.email) }}
+                {{ form_widget(form.email) }}
                     <div class="errors red-text">
                         {{ form_errors(form.email) }}
                     </div>
             </div>
             <div class="col l12">
                 {{ form_label(form.description) }}
-                <label for="autocomplete-input"/>
-                    {{ form_widget(form.description) }}
+                {{ form_widget(form.description) }}
                     <div class="errors red-text">
                         {{ form_errors(form.description) }}
                     </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-large">envoyer</button>
+        <button type="submit" class="btn btn-large">{% trans %} Send {% endtrans %}</button>
     </div>   
         {{ form_end( form ) }}
 </div>

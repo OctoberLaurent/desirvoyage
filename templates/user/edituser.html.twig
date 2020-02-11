@@ -3,7 +3,7 @@
 {% block title %}Edition de mon profile{% endblock %}
 
 {% block content %}
-    <h1 class="center-align mt-1">Edition de mon profile</h1>
+    <h1 class="center-align mt-1"> {% trans %} editing my profile {% endtrans %} </h1>
     {{ form_start( form ) }}
 
     <div class="container">
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <h2 class="col l12 mt-1 card-panel white-text blue darken-4 pad center-align"> Vos coordonnées : </h2>
+            <h2 class="col l12 mt-1 card-panel white-text blue darken-4 pad center-align"> {% trans %} your contact details {% endtrans %}: </h2>
             <!--form addresse -->
             <div class="col l6 custom-address">
                 {{ form_label(form.address) }}
@@ -111,7 +111,7 @@
 
 
             <div class="col l12 right-align mt-1">
-                <button type="submit" class="btn btn-large">Valider</button>
+                <button type="submit" class="btn btn-large">{% trans %} Validate {% endtrans %}</button>
             </div>
             {{ form_end( form ) }}
         </div>

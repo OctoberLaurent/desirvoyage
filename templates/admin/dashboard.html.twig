@@ -29,14 +29,15 @@
                 </div>
             </div>
         </div>
-        {# Messages #}
+        {# Contact #}
         <div class="col-6 bg-light p-1">
             <div class="row">
                 <div class="col-3 bg-primary p-3 ">
+                    <a href="{{ path('easyadmin', {entity: 'Contact', action: 'list'}) }}">
                     <h3 class="text-center text-white"><i class="fas fa-envelope fa-3x"></i></h3>
                 </div>
                 <div class="col-9">
-                    Messages
+                   Contact
                 </div>
             </div>
         </div>
@@ -49,15 +50,38 @@
                     </a>
                 </div>
                 <div class="col-9">
-                    Messages
+                    User
                 </div>
             </div>
         </div>
-    </div>
-    <pre>
-     <a href="{{ path('easyadmin', {entity: 'Travels', action: 'list'}) }}">
-       test
-    </a>
-        {{ dump() }}
-    </pre>
+        {# Reservation #}
+        <div class="text-right">
+            <h3>Reservation</h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">user_id</th>
+                <th scope="col">serial</th>
+                <th scope="col">price</th>
+                <th scope="col">created_date</th>
+                <th scope="col">lastname</th>
+                <th scope="col">firstname</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reservation in reservations | reverse %}
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.User.id }}</td>
+                <td>{{ reservation.serial }}</td>
+                <td>{{ reservation.price }} €</td>
+                <td>{{ reservation.createdDate | date("d/m/Y") }}</td>
+                <td>{{ reservation.User.lastname }}</td>
+                <td>{{ reservation.User.firstname }}</td>
+            </tbody>
+        {% endfor %}
+        </table>
+    </div> 
 {% endblock %}

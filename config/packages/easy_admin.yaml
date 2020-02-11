@@ -17,7 +17,9 @@ easy_admin:
             - { entity: 'Categories', icon: 'folder-open' }
             - { entity: 'Options', icon: 'sun' }
             - { entity: 'formality', icon: 'globe' }
-            - { entity: 'Reservation', icon: 'globe' }
+            - { entity: 'Contact' , icon: 'envelope' }
+            
+           
     user:
         display_name: true
         display_avatar: false
@@ -204,3 +206,37 @@ easy_admin:
           ### Reservation ###
         Reservation:
           class: App\Entity\Reservation
+          ### Contact ###
+        Contact:
+          disabled_actions: ['edit']      
+          class: App\Entity\Contact
+          show:
+              fields:
+                  - property: firstname
+                    label: First name
+                  - property: lastname
+                    label: Last name
+                  - property: email
+                    label: Email
+                  - property: description
+                    label: Description
+          list:
+              actions: ['show']
+              fields:
+                  - property: firstname
+                    label: First name
+                  - property: lastname
+                    label: Last name
+                  - property: email
+                    label: Email
+                  - property: description
+                    label: Description
+                    
+
+              
+                  
+
+
+         
+
+                    

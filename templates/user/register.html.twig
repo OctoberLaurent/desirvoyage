@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}{% trans %} Register {% endtrans %}{% endblock %}
 
 {% block content %}
-    <h1 class="center-align">Inscription</h1>
+    <h1 class="center-align">{% trans %} Register {% endtrans %}</h1>
 
     <div class="container">
         {{ form_start( form ) }}
@@ -138,13 +138,13 @@
             <p>
                 <label>
                     {{ form_widget(form.agreeTerms) }}
-                    <span>J'accepte les CUG</span>
+                    <span> {% trans %} I accept the CUG {% endtrans %} </span>
                 </label>
             </p>
         </div>
 
         <div class="col">
-            <button type="submit" class="btn btn-large">Inscription</button>
+            <button type="submit" class="btn btn-large">{% trans %} Register {% endtrans %}</button>
         </div>
 
         {{ form_end( form ) }}
