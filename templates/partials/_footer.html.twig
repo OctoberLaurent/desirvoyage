@@ -13,14 +13,14 @@
                 <h5 class="white-text">{% trans %}Utils links{% endtrans %}</h5>
                 <ul>
                     <li><a class = "grey-text text-lighten-3" target="_blank" href="{{ path('terms') }}">{% trans %}Terms of use{% endtrans %}</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                    <li><a class="grey-text text-lighten-3" href="{{path('contact') }}">{% trans %} Contact us {% endtrans %}</a></li>
                     {% if app.user is empty %}
                     <!-- If user is not connected -->
                         <li><a class = "grey-text text-lighten-3" href="{{ path('login') }}">Connexion</a></li>
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('register') }}">inscription</a></li>
+                        <li><a class = "grey-text text-lighten-3" href="{{ path('register') }}"> {% trans %}register {% endtrans %}</a></li>  
                     {% else %}
                     <!-- If user is connected -->
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('dashboard') }}">mon profil</a></li>
+                        <li><a class = "grey-text text-lighten-3" href="{{ path('dashboard') }}">My Profil</a></li>
                         <li><a class = "grey-text text-lighten-3" href="">mon panier</a></li>
                         <li><a class = "grey-text text-lighten-3" href="{{ path('logout') }}">déconnexion</a></li>
                 {% endif %}

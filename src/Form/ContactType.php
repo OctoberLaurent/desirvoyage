@@ -2,66 +2,75 @@
 
 namespace App\Form;
 
-use App\Entity\Traveler;
+use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class TravelerType extends AbstractType
+class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            /* lastname*/ 
+            /* lastname */
             ->add('lastname', TextType::class, [
                 "label" => "Nom",
+                "attr" => [
+                    'class' => "form-control",
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre nom",
-                    ]),
-                ]
-            ]) 
-             /* firstname*/ 
-             ->add('firstname', TextType::class, [
-                "label" => "Prénom",
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Saisir votre prenom",
                     ])
                 ]
-            ]) 
-            /* email */ 
-            ->add('email', EmailType::class, [
-                "label" => "Email",
+            ])
+            /* firstname */ 
+            ->add('firstname',TextType::class, [
+                "label" => "Prénom",
+                "attr" => [
+                    'class' => "form-control",
+                ],
                 'constraints' => [
-
+                    new NotBlank([
+                        'message' => "Saisir votre prénom",
+                    ])
+                ]
+            ])
+            /* email */
+            ->add('email',EmailType::class, [
+                "label" => "Email",
+                "attr" => [
+                    "class" => "form-control",
+                ],
+                'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre email",
                     ])
                 ]
             ])
-            /* birthday */ 
-            ->add('birthday', BirthdayType::class, [
-                "label" => "date de naissance",
-                "widget" =>'single_text',
-               
+            /* description */
+            ->add('description', TextareaType::class, [
+                "label" => "description",
+                "attr" => [
+                    'class' => "form-control",
+                ],
                 'constraints' => [
-                  new NotBlank([
-                        'message' => "Saisir votre date de naissance",
+                    new NotBlank([
+                        'message' => "Veuillez décrire votre problématique",
                     ])
                 ]
             ])
         ;
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Traveler::class,
+            'data_class' => Contact::class,
         ]);
     }
 }

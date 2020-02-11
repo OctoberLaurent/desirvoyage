@@ -65,7 +65,7 @@ class Stays
     private $stock;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      */
     private $serial;
 

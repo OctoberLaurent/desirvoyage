@@ -4,7 +4,6 @@
 
 {% block content %}
     <h1 class="center-align">Inscription</h1>
-    {{ form_start( form ) }}
 
     <div class="container">
         {{ form_start( form ) }}
@@ -13,7 +12,7 @@
 
         <div class="col">
             {{ form_label(form.lastname) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.lastname) }}
                 <div class="errors red-text">
                     {{ form_errors(form.lastname) }}
@@ -23,7 +22,7 @@
         <!-- form firstname -->
         <div class="col">
             {{ form_label(form.firstname) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.firstname) }}
                 <div class="errors red-text">
                     {{ form_errors(form.firstname) }}
@@ -32,7 +31,7 @@
         <!-- form birthday -->
         <div class="col">
             {{ form_label(form.birthday) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.birthday) }}
                 <div class="errors red-text">
                     {{ form_errors(form.birthday) }}
@@ -53,7 +52,7 @@
         <!-- form additional address-->
         <div class="col">
             {{ form_label(form.additionalAddress) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.additionalAddress) }}
                 <div class="errors red-text">
                     {{ form_errors(form.additionalAddress) }}
@@ -84,7 +83,7 @@
         <!-- form country-->
         <div class="col">
             {{ form_label(form.country) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.country) }}
                 <div class="errors red-text">
                     {{ form_errors(form.country) }}
@@ -93,7 +92,7 @@
         <!-- form mobile-->
         <div class="col">
             {{ form_label(form.phone) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.phone) }}
                 <div class="errors red-text">
                     {{ form_errors(form.phone) }}
@@ -103,7 +102,7 @@
         <!-- form email-->
         <div class="col">
             {{ form_label(form.email) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.email) }}
                 <div class="errors red-text">
                     {{ form_errors(form.email) }}
@@ -113,7 +112,7 @@
         <!-- form password-->
         <div class="col">
             {{ form_label(form.password.first) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.password.first) }}
                 <div class="help black-text">
                     {{ form_help(form.password.first) }}
@@ -126,7 +125,7 @@
         <!-- form repeat password-->
         <div class="col">
             {{ form_label(form.password.second) }}
-            <label for="autocomplete-input">
+            <label for="autocomplete-input"/>
                 {{ form_widget(form.password.second) }}
                 <div class="help black-text">
                     {{ form_help(form.password.first) }}

@@ -15,7 +15,7 @@
             </div>
             {# Price #}
             <div class="col pad l6 grey lighten-3 mt-1 center-align">
-        <span> {% trans %} From {% endtrans %}
+        <span> {% trans %} From {% endtrans %} </span>
             {% set price = travel.getMinPrice() | number_format(2) %}
         <div class="price">
             {{ price }}€
@@ -32,7 +32,7 @@
         </div>
 
         <div class="col pad">
-            <h3 class="center-align">{% trans %} Tarifs et dates {% endtrans %} </h2>
+            <h3 class="center-align">{% trans %} Tarifs et dates {% endtrans %} </h3>
                 <hr class="pink">
                 <div>
                     <table>
@@ -50,36 +50,61 @@
                         {% for stay in travel.stays | sortByField('starDate') %}
                             <tr>
                                 {% if stay.stock > 1 %}
+                                
                                 <td>{{ stay.depature }}</td>
                                 <td>{{ stay.arrival }}</td>
                                 <td>{{ stay.starDate | date("d/m/Y") }}</td>
                                 <td>{{ stay.endDate  | date("d/m/Y") }}</td>
                                 <td>{{ stay.price }} €</td>
-                                <td>{{ stay.stock }}</td>
+                                {% if stay.stock <= 10 %}
+                                <td><i class="material-icons orange-text">fiber_manual_record</i></td>
+                                {% else %}
+                                <td><i class="material-icons green-text">fiber_manual_record</i></td>
+                                {% endif %}
                                 <td>
-                               
+                
                                     <a href="{{ path('reservation_index', { 'stayid': stay.id }) }}"
                                        class="btn-floating btn-large waves-effect waves-light red"><i
                                                 class="material-icons">add</i></a>
                                 </td>
+                                
                                 {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-
+                    <div class="row">
+                        <div class="col l6">
+                            <p>
+                                <label>
+                                    <i class= "material-icons orange-text">fiber_manual_record</i>
+                                    <span class= "quantity">Limited Quantity</span>
+                                </label>
+                            </p>
+                        </div>
+                    <div class="col l6">
+                        <p>
+                            <label>
+                                <i class= "material-icons green-text">fiber_manual_record</i>
+                                <span class= "quantity">Normal Quantity</span>
+                            </label>
+                        </p>
+                    </div>
+                   
+               
+                                        
                     <div class="col pad">
-                        <h3 class="center-align">{% trans %} Description {% endtrans %} </h2>
+                        <h3 class="center-align">{% trans %} Description {% endtrans %} </h3>
                             <hr class="pink">
                             <div class="descriptions"> {{ travel.descriptions | raw }} </div>
                             <div class="col">
-                                <h3 class="center-align">{% trans %} Options {% endtrans %} </h2>
+                                <h3 class="center-align">{% trans %} Options {% endtrans %} </h3>
                                     <hr class="pink">
                                     <div>
                                         <ul class="collection">
                                             {% for option in travel.options %}
-                                                <li class="collection-item">{{ option.description }}
-                                                    : {{ option.price }} €
+                                                <li class="collection-item">{{ option.description | raw}} 
+                                                  {{ option.price }} €  
                                                 </li>
                                             {% endfor %}
                                         </ul>
