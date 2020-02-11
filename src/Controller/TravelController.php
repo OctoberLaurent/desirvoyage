@@ -78,7 +78,6 @@ class TravelController extends AbstractController
      */
     public function showOne(Travel $travel)
     {
-        
         return $this->render('travel/showone.html.twig', [
             'travel' => $travel
         ]);

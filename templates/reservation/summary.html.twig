@@ -2,11 +2,8 @@
 
 {% block title %}reservation{% endblock %}
 
-<pre>
-  {{ dump() }}
-</pre>
-
 {% block content %}
+
 {% set nbtravelers = reservation.travelers | length %}
 {% set nboptions = reservation.options | length %}
     <div class="container">
@@ -109,7 +106,7 @@
       </table>
       <div class="pad">
         <div class="right-align">
-            <a class="btn waves-effect waves-light" href="{{ path('reservation_configure', {'id': stay.id}) }}">Preview
+            <a class="btn waves-effect waves-light" href="{{ path('traveler_configure', {'id': reservation.stays[0].id}) }}">Preview
                 <i class="material-icons left">keyboard_arrow_left</i>
             </a>
             <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">Remove
@@ -118,7 +115,6 @@
                 <i class="material-icons right">keyboard_arrow_right</i>
             </a>
         </div>
-
       </div>
     {% endif %}
 {% endblock %}

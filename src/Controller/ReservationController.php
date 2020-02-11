@@ -13,9 +13,10 @@ use App\Service\MakeSerialService;
 use App\Form\ReservationOptionType;
 use App\Repository\StaysRepository;
 use App\Repository\OptionsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Service\ReservationMergeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -62,6 +63,7 @@ class ReservationController extends AbstractController
         return $this->render('reservation/configureTravel.html.twig', [
             'stays' => $stays,
             'form' => $form->createView(),
+            'reservation' => $reservation
         ]);
     }
 
@@ -84,7 +86,8 @@ class ReservationController extends AbstractController
         }
         
         return $this->render('reservation/configureTravelers.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'reservation' => $reservation
         ]);
 
     }
@@ -93,9 +96,23 @@ class ReservationController extends AbstractController
      * @route("/reservation/summary", name="summary_reservation")
      */
     public function summary(SessionInterface $session)
-    {
-        $reservation = $session->get('reservation');
+    {   
+         $reservation = $session->get('reservation');
+        // get numbers of travelers
+        $nbtravelers =  count($reservation->getTravelers());
+        if ($nbtravelers < 1){
 
+            $id = $reservation->getStays()[0]->getId();
+
+            $this->addFlash(
+                'orange', 
+                'OUPS ! Il n\'y a personne d\'enregistré sur ce voyoyage'
+            );
+            
+            return $this->redirectToRoute("traveler_configure", ['id' => $id] );
+
+        }
+       
         // get price stays for 1 traveler
         $stayPrice = $reservation->getStays()[0]->getPrice();
         // get price for all options
@@ -104,8 +121,6 @@ class ReservationController extends AbstractController
         foreach($options as $option){
             $optionsPrice += $option->getPrice();
         }
-        // get numbers of travelers
-        $nbtravelers =  count($reservation->getTravelers());
 
         $totalPriceOptions = ($optionsPrice)*$nbtravelers;
         $totalPrice = ($stayPrice+$optionsPrice)*$nbtravelers;
@@ -122,7 +137,8 @@ class ReservationController extends AbstractController
     /**
      * @route("/reservation/validate/", name="reservation_validate")
      */
-    public function validate(SessionInterface $session, MakeSerialService $service, StaysRepository $stayRepo)
+    public function validate(SessionInterface $session, MakeSerialService $service, 
+    StaysRepository $stayRepo, ReservationMergeService $seservationMergeService)
     {
         $reservation = $session->get('reservation');
         $stock = $stayRepo->findStockByid($reservation->getStays()[0]->getId());
@@ -143,17 +159,8 @@ class ReservationController extends AbstractController
         
         $entityManager = $this->getDoctrine()->getManager();
 
-        //
-        $merged = $entityManager->merge($reservation);
-        $merged->setTravelers( $reservation->getTravelers() );
-        $merged->setOptions( $reservation->getOptions() );
-        $stays = $reservation->getStays();
-        $mstays = new ArrayCollection();
-        foreach( $stays as $stay ){
-            $mstays[] = $entityManager->merge( $stay );
-        }
-        $merged->setStays( $mstays );
-        //
+        $merged = $seservationMergeService->reservationMerge($entityManager, $reservation);
+
         $entityManager->persist($merged);
 
         $entityManager->flush();
