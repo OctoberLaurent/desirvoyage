@@ -105,7 +105,7 @@ class ReservationController extends AbstractController
             $optionsPrice += $option->getPrice();
         }
         // get numbers of travelers
-        $nbtravelers =  count($reservation->getTravelers())+1;
+        $nbtravelers =  count($reservation->getTravelers());
 
         $totalPriceOptions = ($optionsPrice)*$nbtravelers;
         $totalPrice = ($stayPrice+$optionsPrice)*$nbtravelers;
@@ -157,8 +157,6 @@ class ReservationController extends AbstractController
         $entityManager->persist($merged);
 
         $entityManager->flush();
-
-
 
         return $this->redirectToRoute("home");
     }

@@ -13,8 +13,8 @@
     </div>
     <div class="row">
     <div class="col l6 center-align">
-    <strong>{{ nbtravelers + 1}} 
-        {% if nbtravelers+1 > 1 %}Voyageurs 
+    <strong>{{ nbtravelers}} 
+        {% if nbtravelers > 1 %}Voyageurs 
         {% else %} Voyageur {% endif %}
     </strong>
     <br>
@@ -65,15 +65,8 @@
 
         <tbody>
           <tr>
-            <td>Voyageur 1</td>
-            <td>{{ app.user.lastname }}</td>
-            <td>{{ app.user.firstname }}</td>
-            <td>{{ app.user.email }}</td>
-            <td>{{ app.user.birthday | date("d/m/Y") }}</td>
-          </tr>
-          <tr>
             {% for traveler in reservation.travelers %}
-            <td> Voyageur {{ loop.index + 1}}</td>
+            <td> Voyageur {{ loop.index }}</td>
             <td>{{ traveler.lastname }}</td>
             <td>{{ traveler.firstname }}</td>
             <td>{{ traveler.email }}</td>
@@ -100,7 +93,7 @@
             <td> Option {{ loop.index }}</td>
             <td>{{ option.name }}</td>
             <td>{{ option.description | raw }}</td>
-            <td>{{ option.price * (1 + nbtravelers) }} €</td>
+            <td>{{ option.price * ( nbtravelers) }} €</td>
           </tr>
           {% endfor %}
           <tr>

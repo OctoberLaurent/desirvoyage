@@ -8,29 +8,29 @@
         <div class="divmg mt-1">
             <img class="img-100pc" src="/images/polynesia.jpg" alt="Options_travel">
         </div>
-        <h2>Les voyageurs</h2>
+        <p>Pour vous ajouter au voyage, appuyez simplement sur le bouton m'ajouter.</p>
         <table>
             <thead>
             <tr>
-                <th></th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Anniversaire</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Voyageur 1</td>
                 <td>{{ app.user.lastname }}</td>
                 <td>{{ app.user.firstname }}</td>
                 <td>{{ app.user.email }}</td>
                 <td>{{ app.user.birthday | date("d/m/Y") }}</td>
+                <td><button class="waves-effect waves-light btn green" id="add-user-in-traveler">M'ajouter</button></td>
             </tr>
             </tbody>
         </table>
         <!--separation line -->
-        <h2 class="center-align pad">Accompagnant </h2>
+        <h2 class="center-align pad">Les voyageurs </h2>
         <hr class="pink">
         <div class="row">
             <div class="col l12">
@@ -50,7 +50,8 @@
                 </ul>
                 <button type="button"
                         class="add-another-collection-widget btn btn-primary indigo"
-                        data-list-selector="#traveler-fields-list">Add another traveler
+                        data-list-selector="#traveler-fields-list"
+                        id="add-traveler">Add another traveler
                 </button>
                 <br>
                 <div class="right-align">
