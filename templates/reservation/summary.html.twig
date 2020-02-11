@@ -2,6 +2,10 @@
 
 {% block title %}reservation{% endblock %}
 
+<pre>
+  {{ dump() }}
+</pre>
+
 {% block content %}
 {% set nbtravelers = reservation.travelers | length %}
 {% set nboptions = reservation.options | length %}
@@ -64,15 +68,15 @@
         </thead>
 
         <tbody>
+          {% for traveler in reservation.travelers %}
           <tr>
-            {% for traveler in reservation.travelers %}
             <td> Voyageur {{ loop.index }}</td>
             <td>{{ traveler.lastname }}</td>
             <td>{{ traveler.firstname }}</td>
             <td>{{ traveler.email }}</td>
             <td>{{ traveler.birthday | date("d/m/Y") }}</td>
-            {% endfor %}
           </tr>
+          {% endfor %}
         </tbody>
       </table>
     {% if reservation.options %}
@@ -105,7 +109,7 @@
       </table>
       <div class="pad">
         <div class="right-align">
-            <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}">Preview
+            <a class="btn waves-effect waves-light" href="{{ path('reservation_configure', {'id': stay.id}) }}">Preview
                 <i class="material-icons left">keyboard_arrow_left</i>
             </a>
             <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">Remove

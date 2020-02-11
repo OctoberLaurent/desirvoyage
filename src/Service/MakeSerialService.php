@@ -12,6 +12,7 @@ class MakeSerialService
         for($i=0;$i<9;$i++){
             $serial .= (!($i % 3) && $i ? '-' : '').$chars[rand(0, $max)];
         }
+        
         return $serial;
     }
 }
