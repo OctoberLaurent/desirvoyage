@@ -19,22 +19,22 @@ class StaysRepository extends ServiceEntityRepository
         parent::__construct($registry, Stays::class);
     }
 
-    // /**
-    //  * @return Stays[] Returns an array of Stays objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Stays[] Returns an array of Stays objects
+     *
+     */
+    public function findStockByid($idStay)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+        $stock = $this->createQueryBuilder('s')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $idStay)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
         ;
+        return $stock[0]->getStock();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Stays

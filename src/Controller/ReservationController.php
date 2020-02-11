@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Stays;
 use App\Entity\Travel;
 use App\Entity\Traveler;
 use App\Form\TravelerType;
 use App\Entity\Reservation;
 use App\Form\TravelersType;
+use App\Service\MakeSerialService;
 use App\Form\ReservationOptionType;
 use App\Repository\StaysRepository;
 use App\Repository\OptionsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -23,7 +26,6 @@ class ReservationController extends AbstractController
      */
     public function index(Request $request, SessionInterface $session, StaysRepository $stayRepository, OptionsRepository $optionRepository)
     {
-        
         $id = $request->query->get('stayid');
 
         $stay = $stayRepository->find($id);
@@ -68,7 +70,6 @@ class ReservationController extends AbstractController
      */
     public Function configureTravelers( Request $request, SessionInterface $session, $id)
     {
-
         $reservation = $session->get('reservation');
         
         $form = $this->createForm( TravelersType::class,  $reservation);
@@ -104,49 +105,71 @@ class ReservationController extends AbstractController
             $optionsPrice += $option->getPrice();
         }
         // get numbers of travelers
-        $nbtravelers =  count($reservation->getTravelers())+1;
+        $nbtravelers =  count($reservation->getTravelers());
 
+        $totalPriceOptions = ($optionsPrice)*$nbtravelers;
         $totalPrice = ($stayPrice+$optionsPrice)*$nbtravelers;
+
+        $reservation->setPrice($totalPrice);
 
         return $this->render('reservation/summary.html.twig', [
             'reservation' => $reservation,
             'totalPrice' => $totalPrice,
+            'totalPriceOptions' => $totalPriceOptions
         ]);
     }
 
     /**
-     * @route("/reservation/add/{id}", name="reservation_add")
+     * @route("/reservation/validate/", name="reservation_validate")
      */
-    public function add($id, SessionInterface $session)
+    public function validate(SessionInterface $session, MakeSerialService $service, StaysRepository $stayRepo)
     {
+        $reservation = $session->get('reservation');
+        $stock = $stayRepo->findStockByid($reservation->getStays()[0]->getId());
+ 
+        if(count ($reservation->getTravelers()) > $stock ){
+            
+            $this->addFlash(
+                'red darken-4', 
+                'Il ne reste pas suffisamment de place 
+                <br> merci de choisir un autre voyage ou une autre période '
+            );
 
-        $reservation = new Reservation();
-       
-        dd($reservation);
-       
-            //quantité de base
-            $reservation[$id] = 1;
-       
-        $session->set('reservation', $reservation);
+            return $this->redirectToRoute("travel_list");
+        }
 
-        //dd($session->get('reservation'));
-        return $this->redirectToRoute("reservation_index");
+        $reservation->setSerial($service->makeSerial());
+        $reservation->setCreateddate(new \DateTime('now') );
+        
+        $entityManager = $this->getDoctrine()->getManager();
+
+        //
+        $merged = $entityManager->merge($reservation);
+        $merged->setTravelers( $reservation->getTravelers() );
+        $merged->setOptions( $reservation->getOptions() );
+        $stays = $reservation->getStays();
+        $mstays = new ArrayCollection();
+        foreach( $stays as $stay ){
+            $mstays[] = $entityManager->merge( $stay );
+        }
+        $merged->setStays( $mstays );
+        //
+        $entityManager->persist($merged);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute("home");
     }
 
     /**
-     * @route("/reservation/remove/{id}", name= "reservation_remove")
+     * @route("/reservation/remove/", name= "reservation_remove")
      */
-    public Function remove($id, SessionInterface $session)
+    public function remove(SessionInterface $session)
     {
-        $reservation = $session->get('reservation', []);
+        $session->set('reservation', null);
 
-        if(!empty($reservation[$id]))
-        {
-            unset($reservation[$id]);
-        }
-
-        $session->set('reservation', $reservation);
-
-        return $this->redirectToRoute("reservation_index");
+        $this->addFlash('red darken-4', 'Vous avez annulé votre voyage');
+        
+        return $this->redirectToRoute("home");
     }
 }

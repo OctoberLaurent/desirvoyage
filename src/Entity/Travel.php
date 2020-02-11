@@ -58,7 +58,7 @@ class Travel
     private $stays;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel",cascade={"persist"} )
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel")
      */
     private $categories;
 

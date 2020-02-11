@@ -29,23 +29,23 @@ class Reservation
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reservations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reservations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $User;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation", cascade={"persist"})
      */
     private $travelers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Options", inversedBy="reservations")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Options", inversedBy="reservations", cascade={"persist"})
      */
     private $options;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Stays", inversedBy="reservations")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Stays", inversedBy="reservations", cascade={"persist"})
      */
     private $stays;
 
@@ -110,6 +110,15 @@ class Reservation
         return $this->travelers;
     }
 
+    public function setTravelers( Collection $travelers )
+    {
+        foreach( $travelers as $traveler ){
+            $this->addTraveler( $traveler );
+        }
+
+        return $this;
+    }
+
     public function addTraveler(Traveler $traveler): self
     {
         if (!$this->travelers->contains($traveler)) {
@@ -141,10 +150,19 @@ class Reservation
         return $this->options;
     }
 
+    public function setOptions( Collection $options )
+    {
+        foreach( $options as $option ){
+            $this->addOption( $option );
+        }
+        return $this;
+    }
+
     public function addOption(Options $option): self
     {
         if (!$this->options->contains($option)) {
             $this->options[] = $option;
+            $option->setReservation($this);
         }
 
         return $this;
@@ -154,6 +172,9 @@ class Reservation
     {
         if ($this->options->contains($option)) {
             $this->options->removeElement($option);
+            if ($option->getReservations() === $this) {
+                $option->setReservation(null);
+            }
         }
 
         return $this;
@@ -167,10 +188,20 @@ class Reservation
         return $this->stays;
     }
 
+    public function setStays( Collection $stays )
+    {
+        foreach( $stays as $stay ){
+            $this->addStay( $stay );
+        }
+
+        return $this;
+    }
+
     public function addStay(Stays $stay): self
     {
         if (!$this->stays->contains($stay)) {
             $this->stays[] = $stay;
+            $stay->setReservation($this);
         }
 
         return $this;
@@ -180,6 +211,9 @@ class Reservation
     {
         if ($this->stays->contains($stay)) {
             $this->stays->removeElement($stay);
+            if ($stay->getReservations() === $this) {
+                $stay->setReservation(null);
+            }
         }
 
         return $this;
