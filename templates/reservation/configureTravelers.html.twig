@@ -55,7 +55,11 @@
                 </button>
                 <br>
                 <div class="right-align">
+<<<<<<< HEAD
                     <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}"> {% trans %} Preview {% endtrans %}
+=======
+                    <a class="btn waves-effect waves-light" href="{{ path('reservation_configure', {'id': reservation.stays[0].id}) }}">Preview
+>>>>>>> master
                         <i class="material-icons left">keyboard_arrow_left</i>
                     </a>
                     <button type="submit" class="waves-effect waves-light btn" name="action"> {% trans %} Next {% endtrans %}
