@@ -10,9 +10,43 @@ Pictures : Images
 Stays : Séjours
 Options : Options
 Title : Titre
+## Customers ##
+Register: Inscription
 Firstname : Prénom
 Lastname : Nom
+My profil: Mon profil
+Civility: Civilité
+Address: Adresse
+Additional Address: Adresse complémentaire
+Zip Code: Code Postale
+City: Ville
+Phone number : Numéro de téléphone
+Country: Pays
+Password: Mot de passe
+## profil ##
+My travels: Mes voyages
+Edit my profil: Editer mon profil
+editing my profile: Edition de mon profil
+Validate: Valider
+your contact details: Vos coordonnées
+## Password ##
+To change your password safely, please click on this link: Pour changer votre mot de passe en toute tranquilité, veuillez cliquer sur ce lien
+Change my password: Changer mon mot de passe
 Enabled : Compte Activé
+Change password: Modification du mot de passe
+change the password: modifier le mot de passe 
+Password reset: Reinitialisation du mot de passe
+Enter your email address to reset your password: Saisissez votre adresse email pour réinitialiser votre mot de passe
+To be able to change your password. Please fill in the following fields: Pour pouvoir changer de mot de passe. Veuillez remplir les champs suivants
+Save Changes: Enregister les modifications
+## Login ##
+To log in: Se connecter
+Login: Connexion
+Logout: Déconnexion
+Forgot your password: Mot de passe oublié
+## Register ##
+I accept the CUG: J'accepte les CUG
+## Traveler ##
 Image name : Nom de l'image
 Depature : Départ
 Arrival : Arrivé
@@ -20,13 +54,14 @@ Start date : Date de départ
 End date : Date de fin
 Price : Prix
 ## front ##
+The travellers: Les voyageurs
 travels : voyages
 see all categories : voir toutes les catégories
 What are you looking for ?: Que recherchez-vous ?
 search : rechercher
 Maximum price : Prix maximum
 From : À partir de 
-Description: Déscription
+Description: Description
 Home: Accueil
 Terms of use : Mentions légales
 Utils links : Liens utiles
@@ -37,7 +72,29 @@ Your reservation : Votre réservation
 Depature at : Départ le
 Arrival at : Retour le 
 Configure my travel : Configurer mon voyage
+So that you can make the most of your stay, we leave you the choice of your options: Pour que vous puisez profiter au mieux de votre séjour, nous vous laissons le choix de vos options
+Here are the options we offer you for this stay: Voici les options que nous vous proposons pour ce séjour
 You must be logged in to book a trip ! : Vous devez être connecté pour réserver votre voyage !
+##ConfigureTravel##
+Who's on board: Qui embarque
+Add me: M'ajouter
+To add yourself to the trip, simply press the add me button: Pour vous ajouter au voyage, appuyez simplement sur le bouton m'ajouter
+Birthday: Date de naissance
+Add another traveler: Ajouter un autre voyageur
+Preview: Précédent
+Next: Suivant
+##Showone##
+Stock: Stock
+Add: Ajouter
+Limited quantity: Quantité limité
+Normal quantity: Quantité normal
+##TravelIndex##
+Some trips: Quelques voyages
+Our categories: Nos categories
+The world at your fingertips: Le monde à portée de mains
+Discounts negotiated by our experts: Des réductions négociées par nos experts
+##Allcategories##
+All our categories: Toutes nos categories
 ##contact##
 Contact us: Nous contactez
-register: inscription
+Send: Envoyer

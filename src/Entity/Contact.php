@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Contact
 {
@@ -50,6 +52,12 @@ class Contact
      * @Assert\Length(min=10, max=1800, minMessage="Your description must be at least 10 characters long", maxMessage="Your description must not exceed 1800 characters")
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * 
+     */
+    private $SendDate;
 
     public function getId(): ?int
     {
@@ -100,6 +108,18 @@ class Contact
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSendDate(): ?\DateTimeInterface
+    {
+        return $this->SendDate;
+    }
+
+    public function setSendDate(\DateTimeInterface $SendDate): self
+    {
+        $this->SendDate = $SendDate;
 
         return $this;
     }

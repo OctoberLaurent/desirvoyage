@@ -37,12 +37,12 @@
                     <table>
                         <thead>
                         <tr>
-                            <th>Depature</th>
-                            <th>Arrival</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Price</th>
-                            <th>Stock</th>
+                            <th> {% trans %} Depature {% endtrans %}</th>
+                            <th>{% trans %} Arrival {% endtrans %}</th>
+                            <th>{% trans %} Start date {% endtrans %}</th>
+                            <th>{% trans %} End date {% endtrans %}</th>
+                            <th>{% trans %} Price {% endtrans %}</th>
+                            <th>{% trans %} Stock {% endtrans %}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,7 +62,7 @@
                                 <td>
                                     <a href="{{ path('reservation_index', { 'stayid': stay.id }) }}"
                                        class="btn-floating btn-large waves-effect waves-light red"><i
-                                                class="material-icons">add</i></a>
+                                                class="material-icons">{% trans %} add {% endtrans %}</i></a>
                                 </td>
                                 {% endif %}
                             </tr>
@@ -74,17 +74,18 @@
                             <p>
                                 <label>
                                     <i class= "material-icons orange-text">fiber_manual_record</i>
-                                    <span class= "quantity">Limited Quantity</span>
+                                    <span class= "quantity">{% trans %} Limited quantity {% endtrans %}</span>
                                 </label>
                             </p>
                         </div>
-                    <div class="col l6">
-                        <p>
-                            <label>
-                                <i class= "material-icons green-text">fiber_manual_record</i>
-                                <span class= "quantity">Normal Quantity</span>
-                            </label>
-                        </p>
+                        <div class="col l6">
+                            <p>
+                                <label>
+                                    <i class= "material-icons green-text">fiber_manual_record</i>
+                                    <span class= "quantity">{% trans %} Normal quantity {% endtrans %}</span>
+                                </label>
+                            </p>
+                        </div>
                     </div>
                    
                
