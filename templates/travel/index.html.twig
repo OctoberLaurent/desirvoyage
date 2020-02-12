@@ -87,7 +87,7 @@
                     <div class="back">
                         <h2 class="grey-text text-lighten-5">{{ travel.name }}</h2>
                         <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
-                        <p class="grey-text text-lighten-5">{{ travel.descriptions }}</p>
+                        <p class="grey-text text-lighten-5">{{ travel.descriptions | raw }}</p>
                         <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %}
                             : {{ travel.getMinPrice() | number_format(2) }}</p>
                         <a href="{{ path('travel', { 'slug': travel.slug }) }}"

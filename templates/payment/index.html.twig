@@ -1,0 +1,72 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement{% endblock %}
+
+{% block stylesheets %} {{ parent() }}
+
+<style>
+#formcard{
+    border-radius: 2%;
+    position: absolute;
+    min-height: 30%;
+    min-width: 30%;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    padding : 2em;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); 
+}
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="center-align mt-1">Validez votre Réservation</h1>
+<div id="formcard" class="grey lighten-3">
+    <div class="center-align">
+    <h3 class="mt-1">{{ amount }} €</h3>
+    </div>
+     <form  class="pad" action="{{ path('payment_charge') }}" method="post" id="payment-form">
+        <div class="row" style="display: inherit;">
+            <div id="card-element" >
+            </div>
+            <!-- Used to display Element errors. -->
+            <div id="card-errors" role="alert"></div>
+        </div>
+        <div class="center-align">
+        <button class="waves-effect waves-light btn purple darken-4">Payer</button>
+        </div>
+</form>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://js.stripe.com/v3/"></script>
+<script>var stripe = Stripe('{{ publicKey }}');</script>
+{{ encore_entry_script_tags('stripe') }}
+{% endblock %}

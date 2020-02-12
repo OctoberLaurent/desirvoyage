@@ -22,7 +22,6 @@
         </div>
             </div>
         </div>
-
         <div class="col pad">
             <div class="carousel carousel-slider">
                 {% for picture in travel.pictures %}
@@ -50,7 +49,6 @@
                         {% for stay in travel.stays | sortByField('starDate') %}
                             <tr>
                                 {% if stay.stock > 1 %}
-                                
                                 <td>{{ stay.depature }}</td>
                                 <td>{{ stay.arrival }}</td>
                                 <td>{{ stay.starDate | date("d/m/Y") }}</td>
@@ -62,12 +60,10 @@
                                 <td><i class="material-icons green-text">fiber_manual_record</i></td>
                                 {% endif %}
                                 <td>
-                
                                     <a href="{{ path('reservation_index', { 'stayid': stay.id }) }}"
                                        class="btn-floating btn-large waves-effect waves-light red"><i
                                                 class="material-icons">add</i></a>
                                 </td>
-                                
                                 {% endif %}
                             </tr>
                         {% endfor %}

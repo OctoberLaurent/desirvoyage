@@ -3,23 +3,6 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
-    {% if not app.user %}
-
-    <div class="card-panel red darken-2 white-text center-align text-lighten-5">
-        {% trans %} You must be logged in to book a trip ! {% endtrans %}
-    </div>
-
-    {% else %}
-        <div class="container mt-1">
-            <nav>
-                <div class="nav-wrapper">
-                    <div class="col s12">
-                        <a href="#" class="breadcrumb pl-1">> {% trans %} Travel {% endtrans %} > </a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    {% endif %}
     <div class="container">
 
         <h1 class="center-align mt-1 "> {% trans %}Your reservation {% endtrans %}</h1>

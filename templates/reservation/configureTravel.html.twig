@@ -3,18 +3,8 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
-
 <div class="container mt-1">
-    <nav>
-        <div class="nav-wrapper ">
-            <div class="col s12">
-                <a href="{{ app.request.headers.get('referer') }}"
-                   class="breadcrumb pl-1">{% trans %} Travel {% endtrans %}</a>
-                <a href="#" class="breadcrumb pl-1">{% trans %} Options {% endtrans %}</a>
-            </div>
-        </div>
-    </nav>
-    
+
     <h1 class="mt-1">Configurer votre voyage</h1>
 
     <div class="divmg mt-1">
@@ -56,7 +46,7 @@
         {% endfor %}
         <br>
         <div class="mt-1 right-align">
-            <a class="btn waves-effect waves-light" href="{{ app.request.headers.get('referer') }}">Preview
+            <a class="btn waves-effect waves-light" href="{{ path('reservation_index', {'stayid': reservation.stays[0].id}) }}">Preview
                 <i class="material-icons left">keyboard_arrow_left</i>
             </a>
             <button class="btn waves-effect waves-light" name="action">Next

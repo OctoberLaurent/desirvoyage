@@ -29,6 +29,7 @@ Encore
     .addEntry('usercollection', './assets/js/usercollection.js')
     .addEntry('datePicker', './assets/js/datePicker.js')
     .addEntry('reservation', './assets/js/reservation.js')
+    .addEntry('stripe', './assets/js/stripe.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
