@@ -27,7 +27,6 @@ class AdminController extends EasyAdminController
         return $this->render('admin/dashboard.html.twig', [
             'reservations' => $reservations,
             'travels' => $travels,
-
             'numbersOfTrips' => $numbersOfTrips
         ]);
     }

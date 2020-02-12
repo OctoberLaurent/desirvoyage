@@ -108,14 +108,11 @@
                         {{ form_errors(form.phone) }}
                     </div>
             </div>
-
-
             <div class="col l12 right-align mt-1">
                 <button type="submit" class="btn btn-large">{% trans %} Validate {% endtrans %}</button>
             </div>
             {{ form_end( form ) }}
         </div>
     </div>
-
 {% endblock %}
 {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('postalcode') }}{% endblock %}
