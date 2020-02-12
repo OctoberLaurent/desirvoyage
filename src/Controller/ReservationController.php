@@ -151,8 +151,7 @@ class ReservationController extends AbstractController
      * @route("/reservation/validate/", name="reservation_validate")
      */
     public function validate(SessionInterface $session, MakeSerialService $service, 
-     ReservationMergeService $seservationMergeService, 
-    StockManagementService $stockManagementService)
+     ReservationMergeService $seservationMergeService, StockManagementService $stockManagementService)
     {
         // reservation in session
         $reservation = $session->get('reservation');
@@ -164,7 +163,7 @@ class ReservationController extends AbstractController
             $this->addFlash(
                 'red darken-4', 
                 'Il ne reste pas suffisamment de place 
-               <br> merci de choisir un autre voyage ou une autre période '
+                merci de choisir un autre voyage ou une autre période '
             );
 
            return $this->redirectToRoute("travel_list");

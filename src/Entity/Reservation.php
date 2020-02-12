@@ -112,6 +112,7 @@ class Reservation
 
     public function setTravelers( Collection $travelers )
     {
+        $this->travlers = new ArrayCollection();
         foreach( $travelers as $traveler ){
             $this->addTraveler( $traveler );
         }
