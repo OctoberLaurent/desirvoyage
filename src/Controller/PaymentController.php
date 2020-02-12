@@ -51,10 +51,10 @@ class PaymentController extends AbstractController
         $reservation = $session->get('reservation');
         $amount = $reservation->getPrice();
 
-        \Stripe\Stripe::setApiKey($this->privateKey);
+         \Stripe\Stripe::setApiKey($this->privateKey);
         try
         {
-            \Stripe\Charge::create([
+            $charge = \Stripe\Charge::create([
                 'amount' => $amount*100,
                 'currency' => 'eur',
                 'description' => 'commande '.$reservation->getSerial(),
@@ -64,9 +64,11 @@ class PaymentController extends AbstractController
         {
             $this->addFlash('red', "Le paiement a été refusé.");
             return $this->redirectToRoute('home');
-            
+            // TODO erase dump.
+            dump($e);
         }
-        
+            // transaction ID
+            $charge = $charge->id;
             $this->addFlash('green', "Le paiement est OK");
             return $this->redirectToRoute('home');
     }
