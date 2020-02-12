@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Service\MailerService;
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -25,6 +27,7 @@ class ContactController extends AbstractController
     {
         //form the contact us
         $contact = new Contact();
+        $contact->setSendDate(new \DateTime());
         $form = $this->createForm( ContactType::class, $contact);
 
         $form->handleRequest( $request );
