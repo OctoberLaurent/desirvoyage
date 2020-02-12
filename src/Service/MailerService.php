@@ -6,6 +6,7 @@ namespace App\Service;
 use Swift_Mailer;
 use Swift_Message;
 use App\Entity\User;
+use App\Entity\Contact;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -55,5 +56,16 @@ class MailerService{
 
         $this->mailer->send( $message );
     }
+    public function sendContactMessage($email)
+    {
+        $text = "
+                Bonjour,
+                votre demande à bien été pris en compte. Elle sera traité dans les plus bref délais.
+                Cordialement,
+                l'équipe de Désirvoyage";
+
+        $this->send( $email, $text);
+    }
+
  
 }

@@ -16,13 +16,13 @@
                     <li><a class="grey-text text-lighten-3" href="{{path('contact') }}">{% trans %} Contact us {% endtrans %}</a></li>
                     {% if app.user is empty %}
                     <!-- If user is not connected -->
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('login') }}">Connexion</a></li>
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('register') }}"> {% trans %}register {% endtrans %}</a></li>  
+                        <li><a class = "grey-text text-lighten-3" href="{{ path('login') }}"> {% trans %} Login {% endtrans %} </a></li>
+                        <li><a class = "grey-text text-lighten-3" href="{{ path('register') }}"> {% trans %} Register {% endtrans %}</a></li>  
                     {% else %}
                     <!-- If user is connected -->
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('dashboard') }}">My Profil</a></li>
+                        <li><a class = "grey-text text-lighten-3" href="{{ path('dashboard') }}"> {% trans %} My Profil {% endtrans %} </a></li>
                         <li><a class = "grey-text text-lighten-3" href="">mon panier</a></li>
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('logout') }}">déconnexion</a></li>
+                        <li><a class = "grey-text text-lighten-3" href="{{ path('logout') }}"> {% trans %} Logout {% endtrans %} </a></li>
                 {% endif %}
                 </ul>
             </div>

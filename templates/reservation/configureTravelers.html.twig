@@ -3,19 +3,19 @@
 {% block title %}Reservation{% endblock %}
 
 {% block content %}
-    <h1 class="center-align mt-1">Qui embarque ?</h1>
+    <h1 class="center-align mt-1">{% trans %} Who's on board {% endtrans %} ?</h1>
     <div class="container">
         <div class="divmg mt-1">
             <img class="img-100pc" src="/images/polynesia.jpg" alt="Options_travel">
         </div>
-        <p>Pour vous ajouter au voyage, appuyez simplement sur le bouton m'ajouter.</p>
+        <p> {% trans %} To add yourself to the trip, simply press the add me button {% endtrans %}.</p>
         <table>
             <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
+                <th> {% trans %} Lastname {% endtrans %} </th>
+                <th> {% trans %} Firstname{% endtrans %} </th>
                 <th>Email</th>
-                <th>Anniversaire</th>
+                <th> {% trans %} Birthday {% endtrans %} </th>
                 <th></th>
             </tr>
             </thead>
@@ -25,12 +25,12 @@
                 <td>{{ app.user.firstname }}</td>
                 <td>{{ app.user.email }}</td>
                 <td>{{ app.user.birthday | date("d/m/Y") }}</td>
-                <td><button class="waves-effect waves-light btn green" id="add-user-in-traveler">M'ajouter</button></td>
+                <td><button class="waves-effect waves-light btn green" id="add-user-in-traveler"> {% trans %} Add me {% endtrans %} </button></td>
             </tr>
             </tbody>
         </table>
         <!--separation line -->
-        <h2 class="center-align pad">Les voyageurs </h2>
+        <h2 class="center-align pad"> {% trans %} The travellers {% endtrans %} </h2>
         <hr class="pink">
         <div class="row">
             <div class="col l12">
@@ -51,14 +51,16 @@
                 <button type="button"
                         class="add-another-collection-widget btn btn-primary indigo"
                         data-list-selector="#traveler-fields-list"
-                        id="add-traveler">Add another traveler
+                        id="add-traveler"> {% trans %} Add another traveler{% endtrans %}
                 </button>
                 <br>
                 <div class="right-align">
+
                     <a class="btn waves-effect waves-light" href="{{ path('reservation_configure', {'id': reservation.stays[0].id}) }}">Preview
+
                         <i class="material-icons left">keyboard_arrow_left</i>
                     </a>
-                    <button type="submit" class="waves-effect waves-light btn" name="action">Next
+                    <button type="submit" class="waves-effect waves-light btn" name="action"> {% trans %} Next {% endtrans %}
                         <i class="material-icons right">keyboard_arrow_right</i></button>
                 </div>
                 {{ form_end( form ) }}
