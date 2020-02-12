@@ -155,10 +155,17 @@ class ReservationController extends AbstractController
     {
         // reservation in session
         $reservation = $session->get('reservation');
-        // stock management
-        $realStock = $stockManagementService->decrementStock($reservation);
-        // if stays is not in stock 
-        if(count ($reservation->getTravelers()) > $realStock ){
+
+        // make serial and date
+        if($reservation->getSerial() == null ){
+            
+            $reservation->setSerial($service->makeSerial());
+            $reservation->setCreateddate(new \DateTime('now') );
+            // stock management
+            $realStock = $stockManagementService->decrementStock($reservation);
+            
+            // if stays is not in stock 
+            if(count ($reservation->getTravelers()) > $realStock ){
             
             $this->addFlash(
                 'red darken-4', 
@@ -168,16 +175,17 @@ class ReservationController extends AbstractController
 
            return $this->redirectToRoute("travel_list");
         }
-        // make serial and date
-        $reservation->setSerial($service->makeSerial());
-        $reservation->setCreateddate(new \DateTime('now') );
+
+        } else {
+            $reservation->setUpdateAt(new \DateTime('now') );
+        }
         
         $entityManager = $this->getDoctrine()->getManager();
         // mannage persist in service
         $merged = $seservationMergeService->reservationMerge($entityManager, $reservation);
 
         $entityManager->persist($merged);
-        
+
         $entityManager->flush();
 
         $session->set('reservation', $merged);

@@ -54,6 +54,17 @@ class Reservation
      */
     private $createdDate;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist", "remove"})
+     */
+    private $payment;
+
+
     public function __construct()
     {
         $this->travelers = new ArrayCollection();
@@ -228,6 +239,30 @@ class Reservation
     public function setCreatedDate(?\DateTimeInterface $createdDate): self
     {
         $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): self
+    {
+        $this->payment = $payment;
 
         return $this;
     }

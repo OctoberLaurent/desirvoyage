@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use DateTime;
 use Stripe\Charge;
 use Stripe\Stripe;
+use App\Entity\Payment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -67,8 +69,20 @@ class PaymentController extends AbstractController
             // TODO erase dump.
             dump($e);
         }
-            // transaction ID
-            $charge = $charge->id;
+
+            $payment = new Payment();
+            $payment->setPayAt(new \DateTime());
+            $payment->setType('Stripe');
+            $payment->setPaymentId( $charge->id);
+            $payment->setAmount($charge->amount/100);
+            
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist( $payment );
+            $reservation->setPayment($payment);
+            $em->persist( $reservation );
+            $em->flush();
+            
             $this->addFlash('green', "Le paiement est OK");
             return $this->redirectToRoute('home');
     }
