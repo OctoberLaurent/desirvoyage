@@ -17,9 +17,7 @@ easy_admin:
             - { entity: 'Categories', icon: 'folder-open' }
             - { entity: 'Options', icon: 'sun' }
             - { entity: 'formality', icon: 'globe' }
-            - { entity: 'Contact' , icon: 'envelope' }
-            
-           
+            - { entity: 'Contact' , icon: 'envelope' } 
     user:
         display_name: true
         display_avatar: false
