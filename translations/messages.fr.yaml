@@ -61,7 +61,7 @@ What are you looking for ?: Que recherchez-vous ?
 search : rechercher
 Maximum price : Prix maximum
 From : À partir de 
-Description: Déscription
+Description: Description
 Home: Accueil
 Terms of use : Mentions légales
 Utils links : Liens utiles
@@ -81,8 +81,18 @@ Add me: M'ajouter
 To add yourself to the trip, simply press the add me button: Pour vous ajouter au voyage, appuyez simplement sur le bouton m'ajouter
 Birthday: Date de naissance
 Add another traveler: Ajouter un autre voyageur
-Preview: Précedant
+Preview: Précédent
 Next: Suivant
+##Showone##
+Stock: Stock
+Add: Ajouter
+Limited quantity: Quantité limité
+Normal quantity: Quantité normal
+##TravelIndex##
+Some trips: Quelques voyages
+Our categories: Nos categories
+The world at your fingertips: Le monde à portée de mains
+Discounts negotiated by our experts: Des réductions négociées par nos experts
 ##Allcategories##
 All our categories: Toutes nos categories
 ##contact##
