@@ -3,6 +3,8 @@
 namespace App\Event;
 
 use App\Entity\Travel;
+use App\Service\MakeSerialService;
+use App\Repository\StaysRepository;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

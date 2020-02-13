@@ -2,13 +2,18 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Service\MakeSerialService;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StaysRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Stays
 {
@@ -21,7 +26,7 @@ class Stays
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today")
+     * 
      */
     private $starDate;
 
@@ -71,6 +76,7 @@ class Stays
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\GreaterThan("today")
      */
     private $createdDate;
 
@@ -214,9 +220,12 @@ class Stays
         return $this->serial;
     }
 
-    public function setSerial(?string $serial): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setSerial(): self
     {
-        $this->serial = $serial;
+        $this->serial = $this->serialEasy();
 
         return $this;
     }
@@ -225,13 +234,23 @@ class Stays
     {
         return $this->createdDate;
     }
-
-    public function setCreatedDate(?\DateTimeInterface $createdDate): self
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedDate(): self
     {
-        $this->createdDate = $createdDate;
+        $this->createdDate = new \DateTime();
 
         return $this;
     }
-
-    
+    public function serialEasy(){
+        $chars = array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        $serial = '';
+        $max = count($chars)-1;
+        for($i=0;$i<12;$i++){
+            $serial .= (!($i % 4) && $i ? '-' : '').$chars[rand(0, $max)];
+        }
+        return $serial;
+    }
 }

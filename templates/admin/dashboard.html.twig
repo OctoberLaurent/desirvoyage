@@ -58,12 +58,12 @@
         <div class="text-right">
             <h3>Reservation</h3>
         </div>
+         
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">id</th>
-                <th scope="col">user_id</th>
                 <th scope="col">serial</th>
+                <th scope="col">numero de série du voyage</th>
                 <th scope="col">price</th>
                 <th scope="col">created_date</th>
                 <th scope="col">lastname</th>
@@ -73,9 +73,9 @@
             </thead>
             <tbody>
             {% for reservation in reservations | reverse %}
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.User.id }}</td>
+          
                 <td>{{ reservation.serial }}</td>
+                <td>{{ reservation.stays.0.serial }}</td>
                 <td>{{ reservation.price }} €</td>
                 <td>{{ reservation.createdDate | date("d/m/Y") }}</td>
                 <td>{{ reservation.User.lastname }}</td>
