@@ -46,7 +46,7 @@ class Traveler
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Reservation", inversedBy="travelers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Reservation", inversedBy="travelers", cascade={"persist"})
      */
     private $reservation;
 
@@ -121,4 +121,5 @@ class Traveler
 
         return $this;
     }
+
 }

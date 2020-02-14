@@ -1,0 +1,7 @@
+APP_ENV=dev
+APP_SECRET=a7d8a766701a4a63797b6d784ff3ccf7
+
+STRIPE_PUBLIC_KEY=pk_test_nEd8A5kaZatpCv3xNLqo2yoH00ODSRA7NG
+STRIPE_PRIVATE_KEY=sk_test_kG51IoG2wnwtoxIwazEodx2P00szIRxEyE
+
+DATABASE_URL=mysql://root:root@127.0.0.1:8889/symfony

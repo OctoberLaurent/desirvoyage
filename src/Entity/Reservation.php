@@ -35,7 +35,7 @@ class Reservation
     private $User;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation", cascade={"persist","remove"})
      */
     private $travelers;
 
@@ -53,6 +53,17 @@ class Reservation
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist", "remove"})
+     */
+    private $payment;
+
 
     public function __construct()
     {
@@ -112,6 +123,7 @@ class Reservation
 
     public function setTravelers( Collection $travelers )
     {
+        $this->travlers = new ArrayCollection();
         foreach( $travelers as $traveler ){
             $this->addTraveler( $traveler );
         }
@@ -152,6 +164,7 @@ class Reservation
 
     public function setOptions( Collection $options )
     {
+        $this->options = new ArrayCollection();
         foreach( $options as $option ){
             $this->addOption( $option );
         }
@@ -230,4 +243,29 @@ class Reservation
 
         return $this;
     }
+
+    public function getUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): self
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
 }

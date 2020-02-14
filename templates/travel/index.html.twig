@@ -89,7 +89,7 @@
                         <h3 class="grey-text text-lighten-5">{{ travel.subtitle }}</h3>
                         <p class="grey-text text-lighten-5">{{ travel.descriptions | raw }}</p>
                         <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %}
-                            : {{ travel.getMinPrice() | number_format(2) }}</p>
+                            : {{ travel.getMinPrice() | number_format(2) }} €</p>
                         <a href="{{ path('travel', { 'slug': travel.slug }) }}"
                            class="waves-effect waves-light btn-small red darken-4">{% trans %} See travel {% endtrans %}</a>
                     </div>

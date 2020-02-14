@@ -2,6 +2,8 @@
 <ul id="dropdown1" class="dropdown-content">
 <li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
 <li><a href="{{ path('reservation_index') }}" class="blue-text">{% trans %} My travels {% endtrans %}</a></li>
+<li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
+
     <li class="divider"></li>
 <li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
 </ul>
@@ -23,6 +25,7 @@
                 <li><a href="{{ path('register') }}"> {% trans %} Register {% endtrans %} </a></li>
             {% else %}
                 <!-- If user is connected -->
+                <li><a href="{{ path('reservation_list') }}">Mes réservations</a></li>
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.fullName }}<i class="material-icons right">arrow_drop_down</i></a></li>
             {% endif %}
         </ul>

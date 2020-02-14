@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de vos resservations{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="divmg mt-1">
+      <img class="img-reseravtions" src="/images/panoram.jpg" alt="Options_travel">
+    </div>
+    <h1 class="center-align mt-1">Vos réservations : </h1>
+    {% if not reservation %}
+    <h3 class="center-align marg" >Vous n'avez pas encore de réservation</h3>
+    {% else %}
+    {% for reservation in user.reservations | reverse %}
+    <h3 class="mt-1">Récapitulatif de votre séjour réservé le {{ reservation.createdDate | format_datetime('full', 'none', locale='fr')}} </h3>
+    <hr>
+    <table class="centered">
+        <thead>
+          <tr>
+              <th>Réservation</th>
+              <th>Séjour</th>
+              <th>Prix total</th>
+              <th>Départ</th>
+              <th>Arrivée</th>
+              <th>Payé</th>
+              <th>facture</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>{{ reservation.serial }}</td>
+            <td>{{ reservation.stays.0.travel.name }}</td>
+            <td>{{ reservation.price }} €</td>
+            <td>{{ reservation.stays.0.starDate | date("m/d/Y à H:i:s") }} </td>
+            <td>{{ reservation.stays.0.endDate | date("m/d/Y à H:i:s") }} </td>
+            <td>
+            {% if reservation.payment %}
+            <i class="material-icons green-text">stars</i>
+            {% else %}
+            <a href="{{ path('payment_create', { 'id': reservation.id }) }}" class="waves-effect waves-light btn-small red accent-4">{% trans %} Paid {% endtrans %}</a>
+            {% endif %}
+            </td>
+            <td><a href="" {% if not reservation.payment %} disabled {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a></td>
+          </tr>
+        </tbody>
+    </table>
+    <br>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
