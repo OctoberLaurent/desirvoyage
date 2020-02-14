@@ -34,7 +34,8 @@
             <div class="row">
                 <div class="col-3 bg-primary p-3 ">
                     <a href="{{ path('easyadmin', {entity: 'Contact', action: 'list'}) }}">
-                    <h3 class="text-center text-white"><i class="fas fa-envelope fa-3x"></i></h3>
+                        <h3 class="text-center text-white"><i class="fas fa-envelope fa-3x"></i></h3>
+                    </a>
                 </div>
                 <div class="col-9">
                    Contact
@@ -55,15 +56,15 @@
             </div>
         </div>
         {# Reservation #}
-        <div class="text-right">
+        <div class="text-center">
             <h3>Reservation</h3>
         </div>
+         
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">id</th>
-                <th scope="col">user_id</th>
                 <th scope="col">serial</th>
+                <th scope="col">numero de série du voyage</th>
                 <th scope="col">price</th>
                 <th scope="col">created_date</th>
                 <th scope="col">lastname</th>
@@ -73,9 +74,9 @@
             </thead>
             <tbody>
             {% for reservation in reservations | reverse %}
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.User.id }}</td>
-                <td>{{ reservation.serial }}</td>
+          
+                <td> <a href="{{ path('admin_show', { 'id': reservation.id })}}"> {{ reservation.serial }}</a></td>
+                <td>{{ reservation.stays.0.serial }}</td>
                 <td>{{ reservation.price }} €</td>
                 <td>{{ reservation.createdDate | date("d/m/Y") }}</td>
                 <td>{{ reservation.User.lastname }}</td>
@@ -84,4 +85,5 @@
         {% endfor %}
         </table>
     </div> 
+    
 {% endblock %}

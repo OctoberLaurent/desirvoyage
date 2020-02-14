@@ -1,0 +1,52 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block main %}
+<div class="container">
+
+
+    <div class="row ">
+            <div class="col bg-light p-1">
+                <h3 class="text-center">Réservation {{reservation.serial}}</h3>
+                <div class="row">
+                    <div class="col-1 ">
+                        <div>depature</div>
+                        <div>{{reservation.stays.0.depature}}</div> 
+                    </div>
+                    <div class="col-1">
+                        <div>star_date</div>
+                        <div>{{reservation.stays.0.starDate | date("d/m/Y")}}</div>
+                    </div>
+                    <div class="col-1 ">
+                        <div>arrival</div>
+                        <div>{{reservation.stays.0.arrival}}</div> 
+                    </div>
+                    <div class="col-1">
+                        <div class="text-center">end_start</div>
+                        <div>{{reservation.stays.0.endDate | date("d/m/Y")}}</div>
+                    </div>
+                    <div class="col-1">
+                        <div>price</div>
+                        <div>{{reservation.stays.0.price}} €</div> 
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center">options</div>
+                            {% for option in reservation.options %}
+                        <div>
+                            - {{ option.name }} : {{ option.price }} €  
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-2">
+                        <div>nombre de personnes</div>
+                        {% for traveler in reservation.travelers %}
+                            <div>- {{ traveler.lastname }} {{ traveler.firstname }} </div>  
+                            {% endfor %}
+                    </div>
+                    <div class="col-2">
+                        <div>Prix total</div>
+                            <div>{{reservation.price}} €</div>
+                    </div>
+                </div>
+            </div>
+</div>
+{% endblock %}

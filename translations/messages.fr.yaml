@@ -83,6 +83,7 @@ Birthday: Date de naissance
 Add another traveler: Ajouter un autre voyageur
 Preview: Précédent
 Next: Suivant
+Configure your travel : Configurer votre voyage
 ##Showone##
 Stock: Stock
 Add: Ajouter
@@ -91,10 +92,21 @@ Normal quantity: Quantité normal
 ##TravelIndex##
 Some trips: Quelques voyages
 Our categories: Nos categories
+We are at the dawn of a new travel experience: Nous sommes à l'aube d'une nouvelle experience de voyage
+Smart prices: Prix malins
 The world at your fingertips: Le monde à portée de mains
+Go wherever you want: partez ou vous vous voulez
 Discounts negotiated by our experts: Des réductions négociées par nos experts
 ##Allcategories##
 All our categories: Toutes nos categories
+##Summary##
+Your options: Vos options
+Full cost: prix total
+Remove: Retour en arrière
+Paid: Payé 
 ##contact##
 Contact us: Nous contactez
 Send: Envoyer
+##payement##
+Validate your Reservation: Valider votre réservation
+Pay: Payer
