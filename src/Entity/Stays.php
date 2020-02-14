@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
+use Exception;
 use Doctrine\ORM\Mapping as ORM;
+use App\Service\MakeSerialService;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StaysRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Stays
 {
@@ -21,7 +27,7 @@ class Stays
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today")
+     * 
      */
     private $starDate;
 
@@ -71,6 +77,7 @@ class Stays
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\GreaterThan("today")
      */
     private $createdDate;
 
@@ -214,10 +221,16 @@ class Stays
         return $this->serial;
     }
 
-    public function setSerial(?string $serial): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setSerial(): self
     {
-        $this->serial = $serial;
-
+        
+            $this->serial = $this->serialEasy();
+       
+      
+        
         return $this;
     }
 
@@ -225,13 +238,20 @@ class Stays
     {
         return $this->createdDate;
     }
-
-    public function setCreatedDate(?\DateTimeInterface $createdDate): self
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedDate(): self
     {
-        $this->createdDate = $createdDate;
+        $this->createdDate = new \DateTime();
 
         return $this;
     }
-
-    
+    public function serialEasy(){
+        for($i=0;$i<20;$i++){
+            $serial = uniqid();
+        }
+        return $serial;
+    }
 }

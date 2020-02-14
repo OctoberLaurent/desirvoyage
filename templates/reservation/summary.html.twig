@@ -57,17 +57,17 @@
         <thead>
           <tr>
             <th></th>
-            <th>Nom</th>
-            <th>Prénom</th>
+            <th>{% trans %} Lastname {% endtrans %}</th>
+            <th>{% trans %} Firstname {% endtrans %}</th>
             <th>Email</th>
-            <th>Date de naissance</th>
+            <th>{% trans %} Birthday {% endtrans %}</th>
           </tr>
         </thead>
 
         <tbody>
           {% for traveler in reservation.travelers %}
           <tr>
-            <td> Voyageur {{ loop.index }}</td>
+            <td> {% trans %} Travelers {% endtrans %}{{ loop.index }}</td>
             <td>{{ traveler.lastname }}</td>
             <td>{{ traveler.firstname }}</td>
             <td>{{ traveler.email }}</td>
@@ -77,14 +77,14 @@
         </tbody>
       </table>
     {% if reservation.options %}
-    <h2 class= "center-align mt-1">Vos options</h2>
+    <h2 class= "center-align mt-1">{% trans %} Your options {% endtrans %}</h2>
     <table class="centered">
         <thead>
           <tr>
                 <th></th>
                 <th>Option</th>
                 <th>Description</th>
-                <th>prix total</th>
+                <th>{% trans %} Full cost {% endtrans %}</th>
           </tr>
         </thead>
 
@@ -98,7 +98,7 @@
           </tr>
           {% endfor %}
           <tr>
-          <td> Prix Total </td>
+          <td> {% trans %} Full cost {% endtrans %}</td>
           <td colspan = 2></td>
           <td > <strong>{{ totalPriceOptions }} €</strong></td>
           </tr>
@@ -106,12 +106,14 @@
       </table>
       <div class="pad">
         <div class="right-align">
-            <a class="btn waves-effect waves-light" href="{{ path('traveler_configure', {'id': reservation.stays[0].id}) }}">Preview
+            <a class="btn waves-effect waves-light" href="{{ path('traveler_configure', {'id': reservation.stays[0].id}) }}">{% trans %} Preview {% endtrans %}
                 <i class="material-icons left">keyboard_arrow_left</i>
             </a>
-            <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">Remove
+            <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">{% trans %} Remove {% endtrans %}
             </a>
+
             <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Valider
+
                 <i class="material-icons right">keyboard_arrow_right</i>
             </a>
 

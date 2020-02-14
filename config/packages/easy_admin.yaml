@@ -17,9 +17,7 @@ easy_admin:
             - { entity: 'Categories', icon: 'folder-open' }
             - { entity: 'Options', icon: 'sun' }
             - { entity: 'formality', icon: 'globe' }
-            - { entity: 'Contact' , icon: 'envelope' }
-            
-           
+            - { entity: 'Contact' , icon: 'envelope' } 
     user:
         display_name: true
         display_avatar: false
@@ -119,7 +117,7 @@ easy_admin:
         ### STAYS ###
         Stays:
             class: App\Entity\Stays
-            list:
+            show:
                 fields:
                     - property : travel
                     - property : depature
@@ -130,6 +128,22 @@ easy_admin:
                     - property : endDate
                     - property : price
                     - property : stock
+                    - property : serial 
+                    - property : createdDate
+            list:
+                actions: ['show']
+                fields:
+                    - property : travel
+                    - property : depature
+                    - property : arrival
+                    - property : starDate
+                      type_options:
+                        widget: single_text
+                    - property : endDate
+                    - property : price
+                    - property : stock
+                    - property : serial
+                    - property : createdDate
             form: 
                 fields:
                     - property : travel

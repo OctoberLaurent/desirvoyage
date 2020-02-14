@@ -45,7 +45,7 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="center-align mt-1">Validez votre Réservation</h1>
+<h1 class="center-align mt-1">{% trans %} Validate your Reservation {% endtrans %}</h1>
 <div id="formcard" class="grey lighten-3">
     <div class="center-align">
     <h3 class="mt-1">{{ amount }} €</h3>
@@ -58,7 +58,7 @@
             <div id="card-errors" role="alert"></div>
         </div>
         <div class="center-align">
-        <button class="waves-effect waves-light btn purple darken-4">Payer</button>
+        <button class="waves-effect waves-light btn purple darken-4">{% trans %} Pay {% endtrans %}</button>
         </div>
 </form>
 </div>
