@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Reservation;
 use App\Service\MakeSerialService;
 use App\Repository\StaysRepository;
 use App\Repository\TravelRepository;
@@ -31,6 +32,17 @@ class AdminController extends EasyAdminController
             'reservations' => $reservations,
             'travels' => $travels,
             'numbersOfTrips' => $numbersOfTrips
+        ]);
+    }
+
+    /**
+     * @route("/show/{id}", name="admin_show")
+     */
+    public function show(Reservation $reservation){
+
+        return $this->render('admin/show.html.twig', [
+            'reservation' => $reservation,
+            
         ]);
     }
 
