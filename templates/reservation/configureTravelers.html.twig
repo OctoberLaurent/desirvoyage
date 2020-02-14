@@ -25,7 +25,7 @@
                 <td>{{ app.user.firstname }}</td>
                 <td>{{ app.user.email }}</td>
                 <td>{{ app.user.birthday | date("d/m/Y") }}</td>
-                <td><button class="waves-effect waves-light btn green" id="add-user-in-traveler"> {% trans %} Add me {% endtrans %} </button></td>
+                <td><button class="waves-effect waves-light btn green" id="add-user-in-traveler" {% if reservation.travelers | length > 0 %} disabled {% endif %} > {% trans %} Add me {% endtrans %} </button></td>
             </tr>
             </tbody>
         </table>

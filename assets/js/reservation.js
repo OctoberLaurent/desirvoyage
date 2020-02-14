@@ -1,5 +1,16 @@
 $(document).ready(function(){
 
+     $('input:checkbox').each(function() {
+        
+        totalPrice = extractNumbers($( this ).parent().text())
+        
+        if ($( this ).is(':checked')){
+           changePrice(totalPrice)
+        } 
+
+     });
+    
+
     $('input:checkbox').click(function() {
 
         totalPrice = extractNumbers($( this ).parent().text())

@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use DateTime;
 use Stripe\Charge;
 use Stripe\Stripe;
+use App\Entity\Payment;
+use App\Entity\Reservation;
+use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -27,30 +31,43 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * @Route("", name="_create")
+     * @Route("/{id}", name="_create")
      */
-    public function index(SessionInterface $session)
+    public function index(Reservation $reservation )
     {
-        $reservation = $session->get('reservation');
+        $user = $this->getUser();
+        $userReservation = $reservation->getUser();
+
+        if ($user != $userReservation){
+
+            $this->addFlash(
+                'red', 
+                "Réservation non référencée"
+            );
+
+            return $this->redirectToRoute("travel_list");
+        
+        }
+        
         $amount = $reservation->getPrice();
         
         return $this->render('payment/index.html.twig', [
                 'publicKey' => $this->publicKey,
                 'privateKey' => $this->privateKey,
                 'amount' =>  $amount,
+                'reservation' => $reservation,
         ]);
     }
 
     /**
-     * @Route("/verification", name="_charge")
+     * @Route("/verification/{id}", name="_charge")
      *
      * @param Request $request
      */
-    public function charge(Request $request, SessionInterface $session)
+    public function charge(Request $request, Reservation $reservation)
     {
-        $reservation = $session->get('reservation');
         $amount = $reservation->getPrice();
-
+        
          \Stripe\Stripe::setApiKey($this->privateKey);
         try
         {
@@ -63,14 +80,25 @@ class PaymentController extends AbstractController
         } catch (\Exception $e)
         {
             $this->addFlash('red', "Le paiement a été refusé.");
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('reservation_list');
             // TODO erase dump.
             dump($e);
         }
-            // transaction ID
-            $charge = $charge->id;
+
+            $payment = new Payment();
+            $payment->setPayAt(new \DateTime());
+            $payment->setType('Stripe');
+            $payment->setPaymentId( $charge->id);
+            $payment->setAmount($charge->amount/100);
+
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist( $payment );
+            $reservation->setPayment($payment);
+            $em->persist( $reservation );
+            $em->flush();
+  
             $this->addFlash('green', "Le paiement est OK");
             return $this->redirectToRoute('home');
     }
-
 }

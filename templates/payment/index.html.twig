@@ -50,7 +50,7 @@
     <div class="center-align">
     <h3 class="mt-1">{{ amount }} €</h3>
     </div>
-     <form  class="pad" action="{{ path('payment_charge') }}" method="post" id="payment-form">
+     <form  class="pad" action="{{ path('payment_charge', { 'id': reservation.id }) }}" method="post" id="payment-form">
         <div class="row" style="display: inherit;">
             <div id="card-element" >
             </div>

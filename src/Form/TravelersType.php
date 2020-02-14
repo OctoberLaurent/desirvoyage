@@ -19,6 +19,7 @@ class TravelersType extends AbstractType
             ->add('travelers', CollectionType::class, [
                 'entry_type' => TravelerType::class,
                 'allow_add'=> true,
+                'allow_delete' => true,
                 'entry_options'=> [
                     'label' => false,
                 ],

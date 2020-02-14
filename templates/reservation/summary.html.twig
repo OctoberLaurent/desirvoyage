@@ -111,10 +111,30 @@
             </a>
             <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">{% trans %} Remove {% endtrans %}
             </a>
-            <a type="submit" href="{{ path('reservation_validate') }}" class="waves-effect waves-light btn" name="action">{% trans %} Paid {% endtrans %}
+
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Valider
+
                 <i class="material-icons right">keyboard_arrow_right</i>
             </a>
+
         </div>
       </div>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Votre réservation</h4>
+        <p> Avant le paiement de votre réservation, il est important de vérifier les informations 
+            que vous nous avez fourni, une fois le voyage validé, vous ne pourrez plus les modifier. </p>
+    </div>
+    <div class="modal-footer">
+        <a class="blue darken-2 waves-effect waves-light btn modal-close">Verifier
+            <i class="material-icons right">check</i>
+        </a>
+        <a type="submit" href="{{ path('reservation_validate') }}" class="waves-effect waves-light btn" name="action">Paid
+            <i class="material-icons right">keyboard_arrow_right</i>
+        </a>
+    </div>
+  </div>
     {% endif %}
 {% endblock %}
