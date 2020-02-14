@@ -35,7 +35,7 @@ class Reservation
     private $User;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation", cascade={"persist","remove"})
      */
     private $travelers;
 
@@ -164,6 +164,7 @@ class Reservation
 
     public function setOptions( Collection $options )
     {
+        $this->options = new ArrayCollection();
         foreach( $options as $option ){
             $this->addOption( $option );
         }
@@ -266,4 +267,5 @@ class Reservation
 
         return $this;
     }
+
 }

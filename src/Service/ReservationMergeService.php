@@ -3,36 +3,40 @@
 namespace App\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ReservationMergeService
 {
-    public function reservationMerge($entityManager, $reservation)
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $em){
+        $this->entityManager = $em;
+    }
+
+    public function reservationMerge($reservation)
     {
-        $merged = $entityManager->merge($reservation);
+        $merged = $this->entityManager->merge($reservation);
         $merged->setTravelers( $reservation->getTravelers() );
         $merged->setOptions( $reservation->getOptions() );
+        
         $stays = $reservation->getStays();
         $mstays = new ArrayCollection();
         foreach( $stays as $stay ){
-            $mstays[] = $entityManager->merge( $stay );
+            $mstays[] = $this->entityManager->merge( $stay );
         }
         $merged->setStays( $mstays );
 
         return $merged;
     }
 
-    public function reservationOptionsMerge($entityManager, $reservation)
+    public function reservationOptionsMerge($reservation)
     {
-        $merged = $entityManager->merge($reservation);
-        $merged->setTravelers( $reservation->getTravelers() );
-        $merged->setOptions( $reservation->getOptions() );
-        $stays = $reservation->getStays();
-        $mstays = new ArrayCollection();
-        foreach( $stays as $stay ){
-            $mstays[] = $entityManager->merge( $stay );
+        $options = $reservation->getOptions();
+        $moptions = new ArrayCollection();
+        foreach( $options as $option ){
+            $moptions[] = $this->entityManager->merge( $option );
         }
-        $merged->setStays( $mstays );
-
-        return $merged;
+        $reservation->setOptions( $moptions );
     }
+
 }

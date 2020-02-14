@@ -4,9 +4,6 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Stays;
-use App\Entity\Travel;
-use App\Entity\Traveler;
-use App\Form\TravelerType;
 use App\Entity\Reservation;
 use App\Form\TravelersType;
 use App\Service\MakeSerialService;
@@ -17,9 +14,9 @@ use App\Service\StockManagementService;
 use App\Service\ReservationMergeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ReservationController extends AbstractController
 {
@@ -27,6 +24,8 @@ class ReservationController extends AbstractController
      * Start configure travel
      * 
      * @Route("/reservation", name="reservation_index")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function index(Request $request, SessionInterface $session, StaysRepository $stayRepository, OptionsRepository $optionRepository)
     {
@@ -51,16 +50,21 @@ class ReservationController extends AbstractController
      * Configure option
      * 
      * @route("/reservation/configure/{id}", name="reservation_configure")
+     * 
+     * @IsGranted("ROLE_USER")
      */
-    public function configure(Stays $stays, SessionInterface $session, Request $request, $id)
+    public function configure(Stays $stays, SessionInterface $session, Request $request, 
+    $id , ReservationMergeService $seservationMergeService)
     {
         // get session
         $reservation = $session->get('reservation');
+        
+        $seservationMergeService->reservationOptionsMerge($reservation );
         // insert $reservation in form
         $form = $this->createForm(ReservationOptionType::class, $reservation);
         // retrieve request
         $form->handleRequest($request);
-    
+            
         if ($form->isSubmitted() && $form->isValid()) { 
 
             $session->set('reservation', $reservation);
@@ -78,9 +82,14 @@ class ReservationController extends AbstractController
      * congigure travelers
      * 
      * @route("/reservation/configure/configureTravelers/{id}", name="traveler_configure")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public Function configureTravelers( Request $request, SessionInterface $session, $id)
     {
+        if ($session->get('reservation') == null){
+            return $this->redirectToRoute('reservation_list');
+        };
         // get session
         $reservation = $session->get('reservation');
         // insert $reservation in form
@@ -105,10 +114,15 @@ class ReservationController extends AbstractController
      * show configuration travel and calcul coast
      * 
      * @route("/reservation/summary", name="summary_reservation")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function summary(SessionInterface $session)
-    {   
-         $reservation = $session->get('reservation');
+    { 
+        if ($session->get('reservation') == null){
+            return $this->redirectToRoute('reservation_list');
+        };
+        $reservation = $session->get('reservation');
         // get numbers of travelers
         $nbtravelers =  count($reservation->getTravelers());
         // if there is no registered traveler
@@ -149,10 +163,15 @@ class ReservationController extends AbstractController
      * Valid for pay travel
      * 
      * @route("/reservation/validate/", name="reservation_validate")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function validate(SessionInterface $session, MakeSerialService $service, 
      ReservationMergeService $seservationMergeService, StockManagementService $stockManagementService)
     {
+        if ($session->get('reservation') == null){
+            return $this->redirectToRoute('reservation_list');
+        };
         // reservation in session
         $reservation = $session->get('reservation');
 
@@ -182,21 +201,43 @@ class ReservationController extends AbstractController
         
         $entityManager = $this->getDoctrine()->getManager();
         // mannage persist in service
-        $merged = $seservationMergeService->reservationMerge($entityManager, $reservation);
+        $merged = $seservationMergeService->reservationMerge($reservation);
 
         $entityManager->persist($merged);
 
         $entityManager->flush();
 
-        $session->set('reservation', $merged);
+        $id = $merged->getId();
+        $session->clear();
+        $session->set('id', $id);
+        return $this->redirectToRoute('payment_create', ['id' => $id]);
+    }
 
-        return $this->redirectToRoute("payment_create");
+    /**
+     * reservations list
+     * 
+     * @route("/reservation/list/", name= "reservation_list")
+     * 
+     * @IsGranted("ROLE_USER")
+     */
+    public function reservationsList()
+    {
+        $user = $this->getUser();
+        $reservation = $user->getReservations();
+
+        return $this->render('reservation/reservationlist.html.twig', [
+                'user' => $user,
+                'reservation' => $reservation,
+        ]);
+
     }
 
     /**
      * remove travel in session
      * 
      * @route("/reservation/remove/", name= "reservation_remove")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function remove(SessionInterface $session)
     {
