@@ -7,7 +7,7 @@
 {% set nbtravelers = reservation.travelers | length %}
 {% set nboptions = reservation.options | length %}
     <div class="container">
-    <h1 class= "center-align mt-1">Récapitulatif de votre voyage</h1>
+    <h1 class= "center-align mt-1">{% trans %} Summary of your trip {% endtrans %}</h1>
     
     <div class="divmg mt-1">
         <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
@@ -31,13 +31,13 @@
         </div> 
     </div>
     </div>
-    <h2 class= "center-align mt-1">Votre voyage</h2>
+    <h2 class= "center-align mt-1">{% trans %} Your travel {% endtrans %}</h2>
     <table class="centered">
         <thead>
           <tr>
-              <th colspan = 2  >Destination</th>
-              <th>Depart</th>
-              <th>Arrivé</th>
+              <th colspan= 2>Destination</th>
+              <th>{% trans %} Depature {% endtrans %}</th>
+              <th>{% trans %} Arrival {% endtrans %}</th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +52,7 @@
         </tbody>
       </table>
 
-    <h2 class= "center-align mt-1">Les voyageurs</h2>
+    <h2 class= "center-align mt-1">{% trans %} The travelers {% endtrans %}</h2>
     <table>
         <thead>
           <tr>
@@ -112,7 +112,7 @@
             <a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">{% trans %} Remove {% endtrans %}
             </a>
 
-            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Valider
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">{% trans %} Validate {% endtrans %}
 
                 <i class="material-icons right">keyboard_arrow_right</i>
             </a>
@@ -123,15 +123,15 @@
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <h4>Votre réservation</h4>
+      <h4>{% trans %} Your reservation {% endtrans %}</h4>
         <p> Avant le paiement de votre réservation, il est important de vérifier les informations 
             que vous nous avez fourni, une fois le voyage validé, vous ne pourrez plus les modifier. </p>
     </div>
     <div class="modal-footer">
-        <a class="blue darken-2 waves-effect waves-light btn modal-close">Verifier
+        <a class="blue darken-2 waves-effect waves-light btn modal-close">{% trans %} Check {% endtrans %}
             <i class="material-icons right">check</i>
         </a>
-        <a type="submit" href="{{ path('reservation_validate') }}" class="waves-effect waves-light btn" name="action">Paid
+        <a type="submit" href="{{ path('reservation_validate') }}" class="waves-effect waves-light btn" name="action">{% trans %} Paid {% endtrans %}
             <i class="material-icons right">keyboard_arrow_right</i>
         </a>
     </div>

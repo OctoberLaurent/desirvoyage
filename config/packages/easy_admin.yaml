@@ -181,21 +181,27 @@ easy_admin:
             list:
                 fields:
                     - property: firstname
-                      label: First name
+                      label: Prénom
                     - property: lastname
-                      label: Last name
+                      label: Nom
                     - property: email
                       label: Email
+                    - property: phone
+                      label: Telephone
                     - property: enabled
                       label: Enabled
+                    - { property: 'country', type: 'country', with_flag: true }
+                    
             form:
                 fields:
                     - property: firstname
-                      label: First name
+                      label: Prénom
                     - property: lastname
-                      label: Last name
+                      label: Nom
                     - property: email
                       label: Email
+                    - property: phone
+                      label: Telephone
                     - property: enabled
                       label: enabled
                     - property: password
@@ -217,19 +223,50 @@ easy_admin:
                     - property: city
                     - property: birthday
                       type: 'birthday'
+                    - property: country
+                      type: 'country'
           ### Reservation ###
         Reservation:
+          disabled_actions: ['edit', 'new']
+         
           class: App\Entity\Reservation
+          show:
+            fields:
+                - property: Serial
+                  label: Numero de série
+                - property: price
+                  label: Prix
+                - property: createdDate
+                  label: Date de création
+                - property: update_at
+                  label: update_at
+                - property: user
+                  label: Utilisateur
+                - property: travelers
+                  label: Voyageurs
+          list:
+            actions: ['show']
+            fields:
+                - property: Serial
+                  label: Numero de série
+                - property: price
+                  label: Prix
+                - property: createdDate
+                  label: Date de création
+                - property: travelers
+                  label: Voyageurs
+               
+
           ### Contact ###
         Contact:
-          disabled_actions: ['edit']      
+          disabled_actions: ['edit','new']      
           class: App\Entity\Contact
           show:
               fields:
-                  - property: firstname
-                    label: First name
                   - property: lastname
-                    label: Last name
+                    label: Nom 
+                  - property: firstname
+                    label: Prénom
                   - property: email
                     label: Email
                   - property: description
@@ -237,11 +274,11 @@ easy_admin:
           list:
               actions: ['show']
               fields:
-                  - property: firstname
-                    label: First name
                   - property: lastname
-                    label: Last name
+                    label: Nom
+                  - property: firstname
+                    label: Prénom
                   - property: email
                     label: Email
                   - property: description
-                    label: Description
+                    label: Message

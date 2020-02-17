@@ -4,14 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\MyPassword;
-
-
 use App\Form\MyPasswordType;
 use App\Service\UserService;
-
 use App\Service\MailerService;
 use App\Form\RenewPasswordType;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -51,7 +47,7 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         
         if ($error){
-             $this->addFlash('white', $error->getmessage() );
+             $this->addFlash('red', $error->getmessage() );
         }
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername, 

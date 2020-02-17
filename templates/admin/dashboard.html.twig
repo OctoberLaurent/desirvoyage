@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="container bg-info p-1 mt-1">
-        <h3 class="text-center text-white">Dashboard</h3>
+        <h3 class="text-center text-white">{% trans %}Dashboard{% endtrans %}</h3>
     </div>
     {# Trips #}
     <div class="row m-3">
@@ -14,7 +14,7 @@
                     </a>
                 </div>
                 <div class="col-9">
-                    {{ numbersOfTrips }} Voyages mis en ligne
+                    {{ numbersOfTrips }} {% trans %}Trips posted online{% endtrans %}
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     <h3 class="text-center text-white"><i class="fas fa-shopping-cart fa-3x"></i></h3>
                 </div>
                 <div class="col-9">
-                    Ventes
+                    {% trans %}Sales{% endtrans %}
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                     </a>
                 </div>
                 <div class="col-9">
-                    User
+                    {% trans %}User{% endtrans %}
                 </div>
             </div>
         </div>
@@ -63,19 +63,18 @@
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">serial</th>
-                <th scope="col">numero de série du voyage</th>
-                <th scope="col">price</th>
-                <th scope="col">created_date</th>
-                <th scope="col">lastname</th>
-                <th scope="col">firstname</th>
-                <th scope="col"></th>
+                <th scope="col">{% trans %} Serial number {% endtrans %}</th>
+                <th scope="col">{% trans %} Serial number of travelers{% endtrans %}</th>
+                <th scope="col">{% trans %}Price{% endtrans %}</th>
+                <th scope="col">{% trans %}Created date{% endtrans %}</th>
+                <th scope="col">{% trans %}Lastname{% endtrans %}</th>
+                <th scope="col">{% trans %}Firstname{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>
             {% for reservation in reservations | reverse %}
           
-                <td> <a href="{{ path('admin_show', { 'id': reservation.id })}}"> {{ reservation.serial }}</a></td>
+                <td> <a href="{{ path('admin_show', {'id': reservation.id })}}"> {{ reservation.serial }}</a></td>
                 <td>{{ reservation.stays.0.serial }}</td>
                 <td>{{ reservation.price }} €</td>
                 <td>{{ reservation.createdDate | date("d/m/Y") }}</td>
