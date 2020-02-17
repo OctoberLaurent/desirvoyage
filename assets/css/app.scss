@@ -9,6 +9,8 @@ body {
 
 main {
     flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 h1{
@@ -367,6 +369,15 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
 
 // align
 .align {
-  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+
+  form{
+    min-width: 70%;
+  }
 }
 
