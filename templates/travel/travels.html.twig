@@ -32,6 +32,7 @@
                             <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h5>{{ travel.name }}</h5></a>
                             <h6>{{ travel.subtitle }}</h6>
                             <p>{{ travel.descriptions | raw }}</p>
+                            <strong class="blue-text" >{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</strong>
                         </div>
                         <br>
                         {% endif %}

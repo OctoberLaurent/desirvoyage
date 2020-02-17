@@ -36,7 +36,7 @@ class IncrementalStaysNotPurchasedCommand extends Command
          );
         $seats = 0;
         foreach( $notPurshased as $reservation){
-        // TODO
+        
         $stay = $reservation->getStays()[0];
         $stock = $stay->getStock();
         $traveler = $reservation->getTravelers();

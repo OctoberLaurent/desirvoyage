@@ -3,36 +3,31 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+<div class="align">
     <form method="post">
-        <div class="login">
-            <div class="container">
-                <h1 class="pad">{% trans %} To log in {% endtrans %}</h1>
-                <div class="col s9">
-                    <div class="input-field col">
+            <div class="container mt-1 center-align">
+                <div class="row">
+                <h1>{% trans %} To log in {% endtrans %}</h1>
+                    <div class="input-field col s12">
                         <i class="material-icons prefix"></i>
-                        <input type="email" value="{{ last_username }}" id="email-input" class="autocomplete"
-                               name="email">
+                        <input type="email" value="{{ last_username }}" id="email-input" name="email">
                         <label for="email-input">Email</label>
                     </div>
-                </div>
-                <div class="col s3">
-                    <div class="input-field col">
+                    <div class="input-field col s12">
                         <i class="material-icons prefix"></i>
                         <input type="password" id="password-input" class="password" name="password">
                         <label for="password">{% trans %} Password {% endtrans %}</label>
                     </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_target_path"value="{{ app.request.headers.get('referer') }}" />
+                <div class="col s12">
+                    <button type="submit" class="btn btn-large" id="submit">Connection</button>
                 </div>
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}">
-
-                <button type="submit" class="btn btn-large" id="submit">{% trans %} Login {% endtrans %}</button>
-
-                <div id="forgotPasswordContainer">
+                <div id="forgotPasswordContainer" class="col s12">
                     <a id="forgetPasswordLink" href="{{ path("RenewPassword") }}">{% trans %} Forgot your password {% endtrans %} ?</a>
                 </div>
+                </div>
             </div>
-        </div>
     </form>
-
-
+</div>
 {% endblock %}

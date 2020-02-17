@@ -45,7 +45,4 @@ $('.datepicker-date-display').remove();
         }
 
     });
-
-
-
 })

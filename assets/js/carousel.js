@@ -14,9 +14,6 @@ function autoplay() {
 
 autoplay();
 
-// for responsive sidebar
-$('.sidenav').sidenav();
-
 $('#flash').click(function(){
     $('#flash').remove()
 })
