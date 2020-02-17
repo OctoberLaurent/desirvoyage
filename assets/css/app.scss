@@ -63,6 +63,10 @@ hr.pink {
     margin-top: 1em;
 }
 
+.mt-2{
+    margin-top: 3em;
+}
+
 .margin-top{
     margin-top: 2em;
 }
@@ -363,16 +367,6 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
 
 // align
 .align {
-  display: flex;
-}
-
-.align-container{
-  height: 100%;
-  margin: auto;
-}
-
-.align-form{
-  width: 100%;
-  display: flex;
+  margin-top: 10%;
 }
 
