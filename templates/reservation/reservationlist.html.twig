@@ -41,8 +41,8 @@
             <a href="{{ path('payment_create', { 'id': reservation.id }) }}" class="waves-effect waves-light btn-small red accent-4">{% trans %} Paid {% endtrans %}</a>
             {% endif %}
             </td>
-            <td><a href="" {% if not reservation.payment %} disabled {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a></td>
-          </tr>
+            <td><a href="{{ path('invoice_pdf', {'id' : reservation.id }) }}" {% if not reservation.payment %} disabled {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a></td>
+          </tr> 
         </tbody>
     </table>
     <br>
