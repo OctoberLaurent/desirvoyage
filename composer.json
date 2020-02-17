@@ -5,6 +5,7 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/api-pack": "^1.2",
         "cocur/slugify": "^4.0",
         "easycorp/easyadmin-bundle": "^2.3",
         "friendsofsymfony/ckeditor-bundle": "^2.2",
