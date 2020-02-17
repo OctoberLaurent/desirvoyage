@@ -24,18 +24,24 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        // datas
+        $firstNameTab = ["Laurent","user" ];
+        $lastNameTab = ["Laurent","user" ];
+        $roleTab = ["ROLE_ADMIN", "ROLE_UER"];
+        $mailTab = ["laurent@lepl.at", "user@user.fr"];
+
         $datetime=new Datetime;
-        for($i=0; $i < 10;$i++){
+        for($i=0; $i < 3;$i++){
 
         $person = file_get_contents('https://randomuser.me/api/?nat=fr');
         $person = json_decode($person);
         $user = new User();
 
-        $user->setFirstname($person->results[0]->name->first);
-        $user->setLastname($person->results[0]->name->last);
+        $user->setFirstname($firstNameTab[$i]);
+        $user->setLastname($lastNameTab[$i]);
         $user->setEnabled(true);
-        $user->setRoles(["ROLE_ADMIN"]);
-        $user->setEmail($person->results[0]->email);
+        $user->setRoles([$roleTab[$i]]);
+        $user->setEmail($mailTab[$i]);
         $user->setPassword($this->passwordEncoder->encodePassword($user, "123456"));
         $user->setToken($person->results[0]->login->sha1);
         $user->setAddress($person->results[0]->location->street->number);

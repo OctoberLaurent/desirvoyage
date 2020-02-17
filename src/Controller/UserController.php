@@ -122,20 +122,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/api/city", name="api-city", methods={"GET"})
-     */
-    public function city(HttpClientInterface $httpClient, Request $request){
-        
-        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
-            'query' => array(
-                'q' => $request->query->get('q'),
-                'limit' => $request->query->get('limit'),     
-            )
-        ));
-        return new Response( $response->getContent() );
-    }
-
-    /**
      * @Route("/profil/dashboard", name="dashboard", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */

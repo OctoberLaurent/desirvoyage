@@ -4,10 +4,9 @@
 
 {% block content %}
     <div class="container">
-
         <h1 class="center-align mt-1 "> {% trans %}Your reservation {% endtrans %}</h1>
         <div class="row">
-            <div class="col pad l6 center-align">
+            <div class="col l6 s12 center-align">
                 <img class="img-100 mt-1" src="{{ stay.travel.pictures.get(0).picturename }}"
                      alt="stay.travel.pictures.get(0).name }}">
                 <h3 class="mt-1">
@@ -18,7 +17,7 @@
                 <p>{% trans %} Arrival at  {% endtrans %}
                     <strong>{{ stay.endDate |  format_datetime('full', 'none', locale='fr') }}</strong></p>
             </div>
-            <div class="col pad l6">
+            <div class="col l6 s12 center-align mt-2">
                 <h2>{{ stay.travel.name }}</h2>
                 <h2>{{ stay.travel.subtitle }}</h2>
                 <div class="descriptions">
@@ -29,9 +28,8 @@
                         <div class="price">
                         {{ stay.price }}€ 
                         </div> 
-                <a href="{{ path('reservation_configure', {'id': stay.id}) }}"
-                   class="waves-effect waves-light btn mt-1"  {% if not app.user %} disabled {% endif %}>{% trans %} Configure my travel {% endtrans %}</a>
                 </div>
+                <a href="{{ path('reservation_configure', {'id': stay.id}) }}" class="waves-effect waves-light btn mt-2"  {% if not app.user %} disabled {% endif %}>{% trans %} Configure my travel {% endtrans %}</a>
             </div>
         </div>
     </div>

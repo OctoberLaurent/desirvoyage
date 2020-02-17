@@ -1,9 +1,7 @@
 {% set route = app.request.attributes.get('_route') %}
 <ul id="dropdown1" class="dropdown-content">
 <li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
-<li><a href="{{ path('reservation_index') }}" class="blue-text">{% trans %} My travels {% endtrans %}</a></li>
 <li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
-
     <li class="divider"></li>
 <li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
 </ul>
@@ -31,13 +29,22 @@
         </ul>
     </div>
 </nav>
-
 <ul class="sidenav" id="mobile-demo">
-    <li><a href="sass.html">Sass</a></li>
-    <li><a href="badges.html">Components</a></li>
-    <li><a href="collapsible.html">Javascript</a></li>
+    <li {% if route == 'home' %} class="active"{% endif %} >
+    <a href="{{ path('home') }}">{% trans %}Home{% endtrans %}</a>
+    </li>
+    <li {% if route == 'categorie_list' %} class="active"{% endif %}><a href="{{ path('categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
+    <li {% if route == 'travel_list' %} class="active"{% endif %}><a href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
     <hr>
-    <li><a href="mobile.html">Mobile</a></li>
-    <li><a href="#">Login</a></li>
-    <li><a href="#">inscription</a></li>
+    {% if app.user is empty %}
+        <!-- If user is not connected -->
+        <li><a href="{{ path('login') }}"> {% trans %} Login {% endtrans %} </a></li>
+        <li><a href="{{ path('register') }}"> {% trans %} Register {% endtrans %} </a></li>
+    {% else %}
+        <!-- If user is connected -->
+        <li><a href="{{ path('reservation_list') }}">Mes réservations</a></li>
+        <li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
+        <li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
+        <li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
+    {% endif %}
 </ul>

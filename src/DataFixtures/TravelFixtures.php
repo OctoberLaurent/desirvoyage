@@ -21,8 +21,25 @@ class TravelFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+        $categoriesTab = ["Promo","Canarie", "Gréce", "Thaïlande", "Caraïbes", "Tunisie", 
+        "Espagne", "Mexique", "Portugal"];
+        $imagesTab=["default.png","default.png","default.png","default.png","default.png",
+        "default.png","default.png","default.png","default.png"];
+        
+        // CATEGORIES
+        $j=0;
+        foreach( $categoriesTab as $category ){
+        $category = new Categories();
+        $category->setTitle($category);
+        $category->setUrl($imagesTab[$j]);
+        //$category->addTravel($travel);
+        
+        $manager->persist($category);
+        $j++;
+        }
 
         for($i=0; $i < 10;$i++){
+            
             // TRAVELS
             $travel = new Travel();
             $travel->setName($faker->sentence($nbWords = 3, $variableNbWords = true));
@@ -37,8 +54,6 @@ class TravelFixtures extends Fixture
             $manager->persist($category);
 
             // STAYS
-             $max = mt_rand(1,3);
-            for($count=0; $count < $max;$count++){
             $stay = new Stays();
             $sdate = $faker->dateTimeBetween($startDate = '+30 days', $endDate = '+365 days', $timezone = null);
             $edate = clone $sdate;
@@ -53,7 +68,6 @@ class TravelFixtures extends Fixture
             $travel-> addStay($stay);
             
             $manager->persist($stay);
-            }
             
             //OPTIONS
             $option = new Options();
