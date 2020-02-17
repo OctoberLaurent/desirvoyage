@@ -366,28 +366,6 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
     text-align: center;
   }
 }
-<<<<<<< HEAD
-.card-panel{
-  position: relative;
-  z-index:10;
-  
-  i{
-    float: right;
-    top: 2.1em;
-  }
-}
-/* homepage */
-.home{
-  display: block;
-}
-.reservations{
-  .form-horizontal{
-    margin-left: 200px;
-  }
-  
-}
-=======
-
 // align
 .align {
   display: flex;
@@ -401,5 +379,19 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
     min-width: 70%;
   }
 }
+.flash{
+  position: absolute;
+  z-index:10; 
+  top: 14%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  i{
+    float: right;
+    top: 2.1em;
+  }
+}
+/* homepage */
+.home{
+  display: block;
+}
 
->>>>>>> master

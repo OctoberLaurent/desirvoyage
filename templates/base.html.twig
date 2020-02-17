@@ -15,10 +15,12 @@
 
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            
-            <div class="card-panel {{ label }} center-align white-text">
+        
+            <div class=" flash card-panel {{ label }} center-align white-text">
+                <div id ="clear">
                <i class="tiny material-icons">close</i>
                 {{ message }}
+            </div>
         </div>
         {% endfor %}
     {% endfor %}
