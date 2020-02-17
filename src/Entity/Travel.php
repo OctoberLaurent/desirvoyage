@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -26,12 +28,14 @@ class Travel
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=10, max=30, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 30 characters")
+     * @Groups({"read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=10, max=50, minMessage="Your subtitle must be at least 10 characters long", maxMessage="Your subtitle must not exceed 50 characters")
+     * @Groups({"read"})
      */
     private $subtitle;
 
@@ -44,6 +48,7 @@ class Travel
      * @ORM\Column(type="text", nullable=true)
      * @Assert\NotBlank(message="this field must not be empty")
      * @Assert\Length(min=10, max=1800, minMessage="Your description must be at least 10 characters long", maxMessage="Your description must not exceed 1800 characters")
+     * @Groups({"read"})
      */
     private $descriptions;
 
