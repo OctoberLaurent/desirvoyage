@@ -14,13 +14,13 @@ class LoginPageControllerTest extends WebTestCase
     {
     $client = static::createClient();
     $crawler = $client->request('GET', '/login');
-    $form = $crawler->selectButton('Connexion')->form([
-        'email' => 'estelle.denis@example.com',
+    $form = $crawler->selectButton('Connection')->form([
+        'email' => 'test@test.fr',
         'password' => '123456'
     ]);
     $client->submit($form);
-    $this->assertResponseRedirects('/admin/dashboard');
+    $this->assertResponseRedirects('/');
     $client->followRedirect();
-    //$this->assertSelectorExists('.card-panel .red');
+    //$this->assertSelectorExists('.card');
     }
 }
