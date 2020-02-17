@@ -10,11 +10,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StaysRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     itemOperations={"get"},
+ *     collectionOperations={"get"},
+ * )
  */
 class Stays
 {
@@ -27,6 +34,7 @@ class Stays
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read"})
      * 
      */
     private $starDate;
@@ -34,29 +42,34 @@ class Stays
     /**
      * @ORM\Column(type="datetime")
      * @Assert\GreaterThan(propertyPath="starDate", message="La date de départ doit être plus éloignée que la date d'arrivée !")
+     * @Groups({"read"})
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="string", length=60)
      * @Assert\Length(min=3, max=40, minMessage="This field must be have 3 characters long", maxMessage="This field must not exceed 60 characters long")
+     * @Groups({"read"})
      */
     private $depature;
 
     /**
      * @ORM\Column(type="string", length=60)
      * @Assert\Length(min=3, max=40, minMessage="This field must be have 3 characters long", maxMessage="This field must not exceed 60 characters long")
+     * @Groups({"read"})
      */
     private $arrival;
 
     /**
      * @ORM\Column(type="float")
      * @Assert\Type(type="float")
+     * @Groups({"read"})
      */
     private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="stays", cascade={"persist"})
+     * @Groups({"read"})
      */
     private $travel;
 
@@ -67,6 +80,7 @@ class Stays
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $stock;
 
