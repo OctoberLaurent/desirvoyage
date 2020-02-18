@@ -335,7 +335,7 @@
 					</div>
 				</div>
 			</div>
-
+          
 			<table border="0" cellspacing="0" cellpadding="0">
 				<thead>
 					<tr>
@@ -347,7 +347,9 @@
 				</thead>
 				<tbody>
                     <tr>
-						<td class="desc"><h3>{{reservation.stays.0.travel.name}}</h3>{{reservation.stays.0.travel.subtitle}}</td>
+						<td class="desc"><h3>{{reservation.stays.0.travel.name}}</h3>{{reservation.stays.0.travel.subtitle}}
+                        {{ reservation.stays.0.starDate | date("d/m/Y") }} - {{ reservation.stays.0.endDate | date("d/m/Y") }} 
+                        </td>
 						<td class="qty">{{ nbtravelers}}</td>
 						<td class="unit">{{reservation.stays.0.price}} €</td>
 						<td class="total">{{ nbtravelers * reservation.stays.0.price}} €</td>
@@ -372,13 +374,13 @@
 							<td class="desc"></td>
 							<td class="qty"></td>
 							<td class="unit">Prix HT</td>
-							<td class="total">{{ ht | number_format(2) }}</td>
+							<td class="total">{{ ht | number_format(2) }} €</td>
 						</tr>
 						<tr>
 							<td class="desc"></td>
 							<td class="qty"></td>
 							<td class="unit">TVA 20%:</td>
-							<td class="total">{{ (reservation.price - ht) | number_format(2)}}</td>
+							<td class="total">{{ (reservation.price - ht) | number_format(2)}} €</td>
 						</tr>
 						<tr>
 							<td class="desc"></td>
