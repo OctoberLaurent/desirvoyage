@@ -8,59 +8,43 @@
 <style>
 #formcard{
     border-radius: 2%;
-    position: absolute;
-    min-height: 30%;
-    min-width: 30%;
-    left: 50%;
-    top: 35%;
-    transform: translate(-50%, -50%);
     padding : 2em;
-    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); 
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    min-width : 35%;
+    margin : 20px;
 }
 
-.StripeElement {
-  box-sizing: border-box;
-  height: 40px;
-  padding: 10px 12px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
-  transition: box-shadow 150ms ease;
-}
-
-.StripeElement--focus {
-  box-shadow: 0 1px 3px 0 #cfd7df;
-}
-
-.StripeElement--invalid {
-  border-color: #fa755a;
-}
-
-.StripeElement--webkit-autofill {
-  background-color: #fefde5 !important;
+@media (max-width: 600px) {
+  #formcard{
+    border-radius: 2%;
+    padding : 2em;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    min-width : 35%;
+    margin : 20px;
+  } 
 }
 </style>
 {% endblock %}
 
 {% block content %}
 <h1 class="center-align mt-1">{% trans %} Validate your Reservation {% endtrans %}</h1>
-<div id="formcard" class="grey lighten-3">
-    <div class="center-align">
-    <h3 class="mt-1">{{ amount }} €</h3>
-    </div>
-     <form  class="pad" action="{{ path('payment_charge', { 'id': reservation.id }) }}" method="post" id="payment-form">
-        <div class="row" style="display: inherit;">
-            <div id="card-element" >
-            </div>
-            <!-- Used to display Element errors. -->
-            <div id="card-errors" role="alert"></div>
-        </div>
-        <div class="center-align">
-        <button class="waves-effect waves-light btn purple darken-4">{% trans %} Pay {% endtrans %}</button>
-        </div>
-</form>
+<div class="align">
+  <div id="formcard" class="grey lighten-3">
+      <div class="center-align">
+      <h3 class="mt-1">{{ amount }} €</h3>
+      </div>
+      <form  class="pad" action="{{ path('payment_charge', { 'id': reservation.id }) }}" method="post" id="payment-form">
+          <div class="row" style="display: inherit;">
+              <div id="card-element" >
+              </div>
+              <!-- Used to display Element errors. -->
+              <div id="card-errors" role="alert"></div>
+          </div>
+          <div class="center-align">
+          <button class="waves-effect waves-light btn purple darken-4">{% trans %} Pay {% endtrans %}</button>
+          </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
 
