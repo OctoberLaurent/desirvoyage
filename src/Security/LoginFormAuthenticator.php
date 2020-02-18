@@ -69,7 +69,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         if (!$user) {
             
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('Le mail ou mot de passe est incorrect.');
         }
 
         return $user;
@@ -87,7 +87,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
         else
         {
-            throw new CustomUserMessageAuthenticationException('Le mot de passe entré est incorrect.');
+            throw new CustomUserMessageAuthenticationException('Le mail ou mot de passe est incorrect.');
         }
         return false;
     }

@@ -23,14 +23,6 @@ $(document).ready(function(){
 
     });
 
-    $('label').hover(function() {
- 
-        $( ".cache" ).toggle( "slow", function() {
-                $('this').show( "fast" );
-         });
-        
-    });
-
     function changePrice(amount){
 
         price = $('#price').text();
