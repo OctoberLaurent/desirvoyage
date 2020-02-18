@@ -21,4 +21,7 @@ $(document).ready(function(){
     $('select').formSelect();
   });
 
+  $("#clear").on ("click",  function (e) {
+    $(this).closest("div.card-panel").fadeOut();
+})
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

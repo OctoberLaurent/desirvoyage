@@ -7,23 +7,23 @@
     <div class="divmg mt-1">
       <img class="img-reseravtions" src="/images/panoram.jpg" alt="Options_travel">
     </div>
-    <h1 class="center-align mt-1">Vos réservations : </h1>
+    <h1 class="center-align mt-1">{% trans %} Your reservations {% endtrans %} : </h1>
     {% if not reservation %}
-    <h3 class="center-align marg" >Vous n'avez pas encore de réservation</h3>
+    <h3 class="center-align marg" >{% trans %} You don't have a reservation yet {% endtrans %}</h3>
     {% else %}
     {% for reservation in user.reservations | reverse %}
-    <h3 class="mt-1">Récapitulatif de votre séjour réservé le {{ reservation.createdDate | format_datetime('full', 'none', locale='fr')}} </h3>
+    <h3 class="mt-1">{% trans %} Summary of your stay booked on {% endtrans %}{{ reservation.createdDate | format_datetime('full', 'none', locale='fr')}} </h3>
     <hr>
     <table class="centered">
         <thead>
           <tr>
-              <th>Réservation</th>
-              <th>Séjour</th>
-              <th>Prix total</th>
-              <th>Départ</th>
-              <th>Arrivée</th>
-              <th>Payé</th>
-              <th>facture</th>
+              <th>{% trans %} Reservation {% endtrans %}</th>
+              <th>{% trans %} Stay {% endtrans %}</th>
+              <th>{% trans %} Full cost {% endtrans %}</th>
+              <th>{% trans %} Depature {% endtrans %}</th>
+              <th> {% trans %} Arrival {% endtrans %}</th>
+              <th>{% trans %} Paid {% endtrans %}</th>
+              <th> {% trans %} Invoice {% endtrans %}</th>
           </tr>
         </thead>
 

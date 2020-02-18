@@ -10,3 +10,5 @@ This field must not exceed 40 characters long : Ce champ doit comporter au maxim
 This field must not exceed 60 characters long : Ce champ doit comporter au maximum 60 caractères
 This field must be have 3 characters long : Ce champs doit contenir au moins 3 caractères
 The departure date must be later than the arrival date!: La date de départ doit être plus éloignée que la date d'arrivée !
+Your title must be at least 5 characters long: Votre titre doit avoir au moins 5 caractères
+Your title must not exceed 30 characters: Votre titre ne doit pas dépasser 30 caractères

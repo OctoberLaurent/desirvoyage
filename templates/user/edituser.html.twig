@@ -51,11 +51,13 @@
             <h2 class="col l12 mt-1 card-panel white-text blue darken-4 pad center-align"> {% trans %} your contact details {% endtrans %}: </h2>
             <!--form addresse -->
             <div class="col l6 custom-address">
+            <div class="input-field">
                 {{ form_label(form.address) }}
                 {{ form_widget(form.address) }}
                 <div class="errors red-text">
                     {{ form_errors(form.address) }}
                 </div>
+            </div>
             </div>
 
             <!-- form additional address-->

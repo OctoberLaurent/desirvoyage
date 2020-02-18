@@ -286,8 +286,9 @@ class User implements UserInterface
         return $this->additionalAddress;
     }
 
-    public function setAdditionalAddress(string $additionalAddress): self
+    public function setAdditionalAddress(?string $additionalAddress): self
     {
+        //? pour setadditionaladress sinon null
         $this->additionalAddress = $additionalAddress;
 
         return $this;
