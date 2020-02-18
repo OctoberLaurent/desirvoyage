@@ -2,51 +2,78 @@
 
 {% block main %}
 <div class="container">
-
-
-    <div class="row ">
-            <div class="col bg-light p-1">
-                <h3 class="text-center">Réservation {{reservation.serial}}</h3>
-                <div class="row">
-                    <div class="col-1 ">
-                        <div>depature</div>
-                        <div>{{reservation.stays.0.depature}}</div> 
+    <h3 class="text-center">Réservation {{reservation.serial}}</h3>
+        <div class="row ">
+            <div class="form-horizontal text-center col align-content-lg-center">
+                <div class="form-group field-string flex-nowrap">
+                    <label class="control-label">
+                    {% trans %}Depature{% endtrans %}
+                    </label>
+                    <div class="form-control">
+                        {{reservation.stays.0.depature}}
                     </div>
-                    <div class="col-1">
-                        <div>star_date</div>
-                        <div>{{reservation.stays.0.starDate | date("d/m/Y")}}</div>
+                </div>
+                <div class="form-group field-string flex-nowrap">
+                    <label class="control-label">
+                    {% trans %}starDate{% endtrans %}
+                    </label>
+                    <div class="form-control ">
+                        {{reservation.stays.0.starDate | date("d/m/Y")}}
                     </div>
-                    <div class="col-1 ">
-                        <div>arrival</div>
-                        <div>{{reservation.stays.0.arrival}}</div> 
+                </div>
+                <div class="form-group field-string flex-nowrap">
+                    <label class="control-label">
+                    {% trans %}Arrival{% endtrans %}
+                    </label>
+                    <div class="form-control">
+                        {{reservation.stays.0.arrival}}
                     </div>
-                    <div class="col-1">
-                        <div class="text-center">end_start</div>
-                        <div>{{reservation.stays.0.endDate | date("d/m/Y")}}</div>
+                </div>
+                <div class="form-group field-string flex-nowrap">
+                    <label class="control-label">
+                    {% trans %}endDate{% endtrans %}
+                    </label>
+                    <div class="form-control ">
+                        {{reservation.stays.0.endDate | date("d/m/Y")}}
                     </div>
-                    <div class="col-1">
-                        <div>price</div>
-                        <div>{{reservation.stays.0.price}} €</div> 
+                </div>
+                <div class="form-group field-string flex-nowrap">
+                    <label class="control-label">
+                    {% trans %}price{% endtrans %}
+                    </label>
+                    <div class="form-control ">
+                        {{reservation.stays.0.price}} €
                     </div>
-                    <div class="col-3">
-                        <div class="text-center">options</div>
-                            {% for option in reservation.options %}
-                        <div>
-                            - {{ option.name }} : {{ option.price }} €  
-                        </div>
+                </div>
+                <div class="form-group flex-nowrap">
+                    <label class="control-label">
+                    Options
+                    </label>
+                    <ul class="text-left">
+                    {% for option in reservation.options %}
+                        <li>{{ option.name }}</li>
+                         {% endfor %}
+                    </ul>
+                </div>
+                <div class="form-group field-string flex-nowrap">
+                    <label class="control-label">
+                    Nombre de personnes
+                    </label>
+                    <div class="form-control ">
+                        {% for traveler in reservation.travelers %}
+                        {{ traveler.lastname }} {{ traveler.firstname }}  
                         {% endfor %}
                     </div>
-                    <div class="col-2">
-                        <div>nombre de personnes</div>
-                        {% for traveler in reservation.travelers %}
-                            <div>- {{ traveler.lastname }} {{ traveler.firstname }} </div>  
-                            {% endfor %}
-                    </div>
-                    <div class="col-2">
-                        <div>Prix total</div>
-                            <div>{{reservation.price}} €</div>
+                </div>
+                <div class="form-group field-string flex-nowrap align-items-center">
+                    <label class="control-label">
+                    Prix total
+                    </label>
+                    <div class="form-control">
+                    {{reservation.price}} €
                     </div>
                 </div>
             </div>
+        </div>  
 </div>
 {% endblock %}
