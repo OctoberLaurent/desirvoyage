@@ -120,6 +120,8 @@ User: Utilisateur
 Created date: Date de création
 Serial number: Numéro de série
 Serial number of travelers: numéro de série du voyage
+stays left in stock : séjours en stock
+reservations : réservations
 ##reservationlist##
 Reservation: réservation
 Stay: Séjour

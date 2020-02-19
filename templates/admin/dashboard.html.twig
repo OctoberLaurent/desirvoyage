@@ -1,6 +1,7 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
 {% block main %}
+    {% set nbreservations = reservations | length %}
     <div class="container bg-info p-1 mt-1">
         <h3 class="text-center text-white">{% trans %}Dashboard{% endtrans %}</h3>
     </div>
@@ -14,7 +15,8 @@
                     </a>
                 </div>
                 <div class="col-9">
-                    {{ numbersOfTrips }} {% trans %}Trips posted online{% endtrans %}
+                    <h4>{{ numbersOfTrips }} {% trans %}Trips posted online{% endtrans %}</h4>
+                    <h4>{{ totalStock }} {% trans %}stays left in stock{% endtrans %} </h4>
                 </div>
             </div>
         </div>
@@ -25,7 +27,7 @@
                     <h3 class="text-center text-white"><i class="fas fa-shopping-cart fa-3x"></i></h3>
                 </div>
                 <div class="col-9">
-                    {% trans %}Sales{% endtrans %}
+                    <h4>{{ nbreservations }} {% trans %}reservations{% endtrans %} </h4>
                 </div>
             </div>
         </div>
@@ -51,7 +53,7 @@
                     </a>
                 </div>
                 <div class="col-9">
-                    {% trans %}User{% endtrans %}
+                    <h4>{{ nbUsers }} {% trans %}Users{% endtrans %}</h4>
                 </div>
             </div>
         </div>

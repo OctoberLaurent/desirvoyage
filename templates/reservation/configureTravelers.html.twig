@@ -9,7 +9,7 @@
             <img class="img-100pc" src="/images/polynesia.jpg" alt="Options_travel">
         </div>
         <p> {% trans %} To add yourself to the trip, simply press the add me button {% endtrans %}.</p>
-        <table>
+        <table class= "responsive-table">
             <thead>
             <tr>
                 <th> {% trans %} Lastname {% endtrans %} </th>
@@ -41,10 +41,24 @@
                     data-widget-counter="{{ form.travelers|length }}">
                     {% for t in form.travelers %}
                         <li>
-                            {{ form_row(t.firstname) }}
-                            {{ form_row(t.lastname) }}
-                            {{ form_row(t.email) }}
-                            {{ form_row(t.birthday) }}
+                            <div class="row">
+                                <div>
+                                    {{ form_label(t.lastname) }}
+                                    {{ form_widget(t.lastname) }}
+                                </div>
+                                <div>
+                                    {{ form_label(t.firstname) }}
+                                    {{ form_widget(t.firstname) }}
+                                </div>
+                                <div>
+                                    {{ form_label(t.email) }}
+                                    {{ form_widget(t.email) }}
+                                </div>
+                                <div>
+                                    {{ form_label(t.birthday) }}
+                                    {{ form_widget(t.birthday) }}                                
+                                </div>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>

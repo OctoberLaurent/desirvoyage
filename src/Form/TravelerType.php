@@ -19,7 +19,10 @@ class TravelerType extends AbstractType
         $builder
             /* lastname*/ 
             ->add('lastname', TextType::class, [
-                "label" => "Nom",
+                "attr" => [
+                    // "class" => "col s6",
+                ],
+                "label" => 'Votre nom',
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre nom",
@@ -28,7 +31,10 @@ class TravelerType extends AbstractType
             ]) 
              /* firstname*/ 
              ->add('firstname', TextType::class, [
-                "label" => "Prénom",
+                "attr" => [
+                    // "class" => "col s6" 
+                ],
+                "label" => 'Votre prénom',
                 'constraints' => [
                     new NotBlank([
                         'message' => "Saisir votre prenom",
@@ -37,7 +43,9 @@ class TravelerType extends AbstractType
             ]) 
             /* email */ 
             ->add('email', EmailType::class, [
-                "label" => "Email",
+                "attr" => [
+                    // "class" => "col s6"
+                ],
                 'constraints' => [
 
                     new NotBlank([
@@ -47,7 +55,10 @@ class TravelerType extends AbstractType
             ])
             /* birthday */ 
             ->add('birthday', BirthdayType::class, [
-                "label" => "date de naissance",
+                "attr" => [
+                // "class" => "col s6" 
+                ],
+                "label" => 'Votre date de naissance',
                 "widget" =>'single_text',
                
                 'constraints' => [

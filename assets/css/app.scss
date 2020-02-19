@@ -101,12 +101,15 @@ hr.pink {
 }
 
 .pad {
-  padding: 2em !important;
-  box-sizing:border-box;
+  padding: 1em !important;
  }
 
+.p-1{
+  padding: 1em;
+}
+
 .picturelist{
-    max-width: 23em;
+    max-width: 18em;
     max-height: 12em; 
     object-fit: contain; 
 }
@@ -130,7 +133,7 @@ hr.pink {
   width: 300px;
   height: 300px;
   border-radius: 40px;
-box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
+  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
   cursor: pointer;
   transition: 0.4s;
 }
@@ -176,6 +179,13 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
   .card-list {
     /* On small screens, we are no longer using row direction but column */
     flex-direction: column;
+  }
+}
+
+@media all and (max-width: 700px) {
+  .contain-bike {
+  width: 70%;
+  margin: 0 auto;  
   }
 }
 
@@ -364,8 +374,6 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
 }
 // align
 .align {
-  display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   flex-grow: 1;
@@ -393,3 +401,55 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), 5px 5px 5px 5px rgba(0,0,0,0.22);
   display: block;
 }
 
+#traveler-fields-list li > div{
+  display: flex;
+  flex-wrap: wrap;
+
+  & > div{
+    width: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+.responsive-table-line td:before { content: attr(data-title); }
+.responsive-table-line table, 
+.responsive-table-line thead, 
+.responsive-table-line tbody, 
+.responsive-table-line th, 
+.responsive-table-line td, 
+.responsive-table-line tr { 
+display: block; 
+}
+ 
+.responsive-table-line thead tr { 
+display:none;
+}
+.responsive-table-line td { 
+position: relative;
+border: 0px solid transparent;
+padding-left: 50% !important; 
+white-space: normal;
+text-align:right; 
+}
+ 
+.responsive-table-line td:before { 
+position: absolute;
+top: 0px;
+left: 0px;
+width: 45%; 
+padding-right: 15px; 
+height:100%;
+white-space: nowrap;
+text-overflow: ellipsis !important;
+overflow:hidden !important;
+text-align:left;
+background-color:#f8f8f8;
+padding:2px;
+}
+}
+
+.contain-bike{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
