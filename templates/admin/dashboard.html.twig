@@ -40,7 +40,7 @@
                     </a>
                 </div>
                 <div class="col-9">
-                   Contact
+                   <h4>{{ nbMessages }} Messages </h4>
                 </div>
             </div>
         </div>
@@ -75,7 +75,6 @@
             </thead>
             <tbody>
             {% for reservation in reservations | reverse %}
-          
                 <td> <a href="{{ path('admin_show', {'id': reservation.id })}}"> {{ reservation.serial }}</a></td>
                 <td>{{ reservation.stays.0.serial }}</td>
                 <td>{{ reservation.price }} €</td>
@@ -86,5 +85,4 @@
         {% endfor %}
         </table>
     </div> 
-    
 {% endblock %}
