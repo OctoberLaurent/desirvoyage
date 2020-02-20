@@ -4,49 +4,184 @@
 
 {% block stylesheets %} {{ parent() }}
 
-    <style>
+<style>
+main{
+    background-color: #525f7f;
+    display: flex;
+    flex-wrap: wrap;
+}
 
-        #formcard {
-            border-radius: 2%;
-            padding: 2em;
-            box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
-            min-width: 35%;
-            margin: 20px;
-        }
+.bike{
+    max-width : 50%;
+}
 
-        @media (max-width: 800px) {
-            #formcard {
-                border-radius: 2%;
-                padding: 2em;
-                box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
-                min-width: 100%;
-                margin: 20px;
-            }
-        }
-    </style>
+.example.example3 {
+  background-color: #525f7f;
+}
+
+.example.example3 * {
+  font-family: Quicksand, Open Sans, Segoe UI, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.example.example3 .fieldset {
+  margin: 0 15px 30px;
+  padding: 0;
+  border-style: none;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.example.example3 .field {
+  padding: 10px 20px 11px;
+  background-color: #7488aa;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.example.example3 .field.half-width {
+  width: calc(50% - (5px / 2));
+}
+
+.example.example3 .field.third-width {
+  width: calc(33% - (5px / 3));
+}
+
+.example.example3 .field + .field {
+  margin-top: 6px;
+}
+
+.example.example3 .field.focus,
+.example.example3 .field:focus {
+  color: #424770;
+  background-color: #f6f9fc;
+}
+
+.example.example3 .field.invalid {
+  background-color: #fa755a;
+}
+
+.example.example3 .field.invalid.focus {
+  background-color: #f6f9fc;
+}
+
+.example.example3 .field.focus::-webkit-input-placeholder,
+.example.example3 .field:focus::-webkit-input-placeholder {
+  color: #cfd7df;
+}
+
+.example.example3 .field.focus::-moz-placeholder,
+.example.example3 .field:focus::-moz-placeholder {
+  color: #cfd7df;
+}
+
+.example.example3 .field.focus:-ms-input-placeholder,
+.example.example3 .field:focus:-ms-input-placeholder {
+  color: #cfd7df;
+}
+
+.example.example3 input, .example.example3 button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}
+
+.example.example3 input {
+  color: #fff;
+}
+
+.example.example3 input::-webkit-input-placeholder {
+  color: #9bacc8;
+}
+
+.example.example3 input::-moz-placeholder {
+  color: #9bacc8;
+}
+
+.example.example3 input:-ms-input-placeholder {
+  color: #9bacc8;
+}
+
+.example.example3 button {
+  display: block;
+  width: calc(100% - 30px);
+  height: 40px;
+  margin: 0 15px;
+  background-color: #fcd669;
+  border-radius: 20px;
+  color: #525f7f;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.example.example3 button:active {
+  background-color: #f5be58;
+}
+
+.example.example3 .error svg .base {
+  fill: #fa755a;
+}
+
+.example.example3 .error svg .glyph {
+  fill: #fff;
+}
+
+.example.example3 .error .message {
+  color: #fff;
+}
+
+.example.example3 .success .icon .border {
+  stroke: #fcd669;
+}
+
+.example.example3 .success .icon .checkmark {
+  stroke: #fff;
+}
+
+.example.example3 .success .title {
+  color: #fff;
+}
+
+.example.example3 .success .message {
+  color: #9cabc8;
+}
+
+.example.example3 .success .reset path {
+  fill: #fff;
+}
+</style>
 {% endblock %}
 
 {% block content %}
-    <h1 class="center-align mt-1">{% trans %} Validate your Reservation {% endtrans %}</h1>
-    <div class="align">
-        <div id="formcard" class="grey lighten-3">
-            <div class="center-align">
-                <h3 class="mt-1">{{ amount }} €</h3>
-            </div>
-            <form class="pad" action="{{ path('payment_charge', { 'id': reservation.id }) }}" method="post"
-                  id="payment-form">
-                <div class="row" style="display: inherit;">
-                    <div id="card-element">
-                    </div>
-                    <!-- Used to display Element errors. -->
-                    <div id="card-errors" role="alert"></div>
-                </div>
-                <div class="center-align">
-                    <button class="waves-effect waves-light btn purple darken-4">{% trans %} Pay {% endtrans %}</button>
-                </div>
-            </form>
-        </div>
+<div class="exemple exemple3">
+    <div class=" example example3 pad container bike" id="example-3">
+        <form action="{{ path('payment_charge', { 'id': reservation.id }) }}" method="post" id="payment-form" >
+          {# <div class="fieldset">
+            <input id="example3-name" data-tid="elements_examples.form.name_label" class="field" type="text" placeholder="Name" required="" autocomplete="name">
+            <input id="example3-email" data-tid="elements_examples.form.email_label" class="field half-width" type="email" placeholder="Email" required="" autocomplete="email">
+            <input id="example3-phone" data-tid="elements_examples.form.phone_label" class="field half-width" type="tel" placeholder="Phone" required="" autocomplete="tel">
+          </div> #}
+          <div class="fieldset">
+            <div id="example3-card-number" class="field empty"></div>
+            <div id="example3-card-expiry" class="field empty half-width"></div>
+            <div id="example3-card-cvc" class="field empty half-width"></div>
+            {# <input id="example3-zip" data-tid="elements_examples.form.postal_code_placeholder" class="field empty third-width" placeholder="94107"> #}
+          </div>
+          <div class="error"></div>
+            <a href="" class="reset"></a>
+            <input type="hidden" class="token" name="stripeToken">
+          <button type="submit" data-tid="elements_examples.form.pay_button">Payer {{ amount }} €</button>
+        </form>
     </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

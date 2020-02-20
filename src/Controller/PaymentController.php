@@ -70,7 +70,6 @@ class PaymentController extends AbstractController
 	{
 		$user = $this->getUser();
 		$amount = $reservation->getPrice();
-
 		\Stripe\Stripe::setApiKey($this->privateKey);
 		try {
 			$charge = \Stripe\Charge::create([
@@ -81,6 +80,7 @@ class PaymentController extends AbstractController
 			]);
 		} catch (\Exception $e) {
 			$this->addFlash('red', "Le paiement a été refusé vous pouver effectuer une nouvelle tentative.");
+			dd($e);
 			return $this->redirectToRoute('reservation_list');
 		}
 
