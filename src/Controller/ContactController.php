@@ -13,39 +13,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactController extends AbstractController
 {
-    private $mailer;
+	private $mailer;
 
-    public function __construct( MailerService $mailer ){
-       
-        $this->mailer = $mailer;
-    
-    }
-    /**
-     * @Route("/contact", name="contact")
-     */
-    public function contact(Request $request, MailerService $mailerService)
-    {
-        //form the contact us
-        $contact = new Contact();
-        $contact->setSendDate(new \DateTime());
-        $form = $this->createForm( ContactType::class, $contact);
+	public function __construct(MailerService $mailer)
+	{
 
-        $form->handleRequest( $request );
-        
-        if( $form->isSubmitted() && $form->isValid() ){
+		$this->mailer = $mailer;
 
-            $em = $this->getDoctrine()->getManager();
-            
-            $em->persist( $contact );
-            $em->flush();
-            //email for contact us
-            $mailerService->sendContactMessage($contact->getEmail(),$contact);
-            //homepage message after the user ask information
-            $this->addFlash( 'green accent-3', 'Votre demande a bien été enregistré, Il sera traité dans les plus bref délais' );
-            return $this->redirectToRoute( 'home' );
-        }
-        return $this->render('contact/index.html.twig', [
-                'form' => $form->createView(),
-        ]);
-    }
+	}
+
+	/**
+	 * @Route("/contact", name="contact")
+	 */
+	public function contact(Request $request, MailerService $mailerService)
+	{
+		//form the contact us
+		$contact = new Contact();
+		$contact->setSendDate(new \DateTime());
+		$form = $this->createForm(ContactType::class, $contact);
+
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+
+			$em = $this->getDoctrine()->getManager();
+
+			$em->persist($contact);
+			$em->flush();
+			//email for contact us
+			$mailerService->sendContactMessage($contact->getEmail(), $contact);
+			//homepage message after the user ask information
+			$this->addFlash('green accent-3', 'Votre demande a bien été enregistré, Il sera traité dans les plus bref délais');
+			return $this->redirectToRoute('home');
+		}
+		return $this->render('contact/index.html.twig', [
+			'form' => $form->createView(),
+		]);
+	}
 }

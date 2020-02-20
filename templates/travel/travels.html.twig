@@ -11,31 +11,36 @@
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
                 <button type="submit" class="btn waves-effect waves-light">{% trans %} search {% endtrans %}</button>
-                <button type="reset" class="btn waves-effect waves-light indigo darken-4">{% trans %} reset {% endtrans %}</button>
+                <button type="reset"
+                        class="btn waves-effect waves-light indigo darken-4">{% trans %} reset {% endtrans %}</button>
                 {{ form_end(form) }}
             </div>
             {# travels list #}
-            <div class="col pad l9">
+            <div class="col l9">
                 <div class="row">
                     <h5>{{ nbtravels }} {% trans %} Travels {% endtrans %}</h5>
                     <hr>
                     {% for travel in travels %}
                         {% if loop.index > page*10-10 and loop.index < page*10+1 %}
-                        <div class="col s12 l6 divheight left-align">
-                            {% if travel.pictures is not empty %}
-                                <img src="{{ travel.pictures.get(0).picturename }}"
-                                     alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
-                            {% else %}
-                                <img src="/data/default.png" class="picturelist ">
-                            {% endif %}
-                        </div>
-                        <div class="col s12 l6 divheight">
-                            <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h5>{{ travel.name }}</h5></a>
-                            <h6>{{ travel.subtitle }}</h6>
-                            <p>{{ travel.descriptions | raw }}</p>
-                            <strong class="blue-text" >{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</strong>
-                        </div>
-                        <br>
+                            <div class="col s12 l6 divheight left-align">
+                                {% if travel.pictures is not empty %}
+                                    <img src="{{ travel.pictures.get(0).picturename }}"
+                                         alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
+                                {% else %}
+                                    <img src="/data/default.png" class="picturelist ">
+                                {% endif %}
+                            </div>
+                            <div class="col s12 l6 divheight">
+                                <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h2>{{ travel.name }}</h2></a>
+                                <h4>{{ travel.subtitle }}</h4>
+                                <div class="descriptions">
+                                    <p>{{ travel.descriptions | raw }}</p>
+                                </div>
+                                <div class="center-align">
+                                    <span class="new indigo darken-4 white-text ">{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</span>
+                                </div>
+                            </div>
+                            <br>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -44,26 +49,26 @@
         {% if nbtravels > 10 %}
             {% set current,last,f,l, nbPages = page, page+9, 5, 5 , travels  | length / 10 %}
             {% set last = nbPages | round( 0, 'ceil') %}
-                {% if current > last-5 %}
-                    {% set f,l = 10-(last-current),last-current %}
-                {% elseif  current < 6 %}
-                    {% set f,l = current - 1 ,  11 - current %}
-                {% endif %}
+            {% if current > last-5 %}
+                {% set f,l = 10-(last-current),last-current %}
+            {% elseif  current < 6 %}
+                {% set f,l = current - 1 ,  11 - current %}
+            {% endif %}
 
             <ul class="pagination center-align">
                 <li {% if page == 1 %} class="disabled" {% endif %}>
                     <a href="{{ path('travel_list', {'page': page-1 }) }}">
-                    <i class="material-icons">chevron_left</i></a>
+                        <i class="material-icons">chevron_left</i></a>
                 </li>
                 {% for i in current-f..current+l %}
                     {% if i > 0 %}
-                  <li class="active"><a href="{{ path('travel_list', {'page': i }) }}">{{ i }}</a></li> 
+                        <li class="active"><a href="{{ path('travel_list', {'page': i }) }}">{{ i }}</a></li>
                     {% endif %}
                 {% endfor %}
-                    <li {% if page == last %} class = "disabled" {% endif %}>
-                        <a href="{{ path('travel_list', {'page': page+1 }) }}">
+                <li {% if page == last %} class="disabled" {% endif %}>
+                    <a href="{{ path('travel_list', {'page': page+1 }) }}">
                         <i class="material-icons">chevron_right</i></a>
-                    </li>
+                </li>
             </ul>
         {% endif %}
     </div>

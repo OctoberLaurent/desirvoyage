@@ -19,214 +19,211 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
-    private $encoder;
-    private $userService;
-    private $mailer;
-    private $urlGenerator;
+	private $encoder;
+	private $userService;
+	private $mailer;
+	private $urlGenerator;
 
-    public function __construct( UserPasswordEncoderInterface $encoder, MailerService $mailer, UserService $userService, UrlGeneratorInterface $urlGenerator ){
-        $this->encoder = $encoder;
-        $this->mailer = $mailer;
-        $this->userService = $userService;
-        $this->urlGenerator = $urlGenerator;
-    }
+	public function __construct(UserPasswordEncoderInterface $encoder, MailerService $mailer, UserService $userService, UrlGeneratorInterface $urlGenerator)
+	{
+		$this->encoder = $encoder;
+		$this->mailer = $mailer;
+		$this->userService = $userService;
+		$this->urlGenerator = $urlGenerator;
+	}
 
-    /**
-     * @Route("/login", name="login")
-     */
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-         if ($this->getUser()) {
-            $this->addFlash('blue', 'Vous êtes déja connecté(e)');
-            return $this->redirectToRoute('dashboard');
-         }
+	/**
+	 * @Route("/login", name="login")
+	 */
+	public function login(AuthenticationUtils $authenticationUtils): Response
+	{
+		if ($this->getUser()) {
+			$this->addFlash('blue', 'Vous êtes déja connecté(e)');
+			return $this->redirectToRoute('dashboard');
+		}
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-        
-        if ($error){
-             $this->addFlash('red', $error->getmessage() );
-        }
-        return $this->render('security/login.html.twig', array(
-            'last_username' => $lastUsername, 
-            'error' => $error));
-    }
+		// get the login error if there is one
+		$error = $authenticationUtils->getLastAuthenticationError();
+		// last username entered by the user
+		$lastUsername = $authenticationUtils->getLastUsername();
 
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logout()
-    {
-        //Je n'affiche rien dans la fonction. Tout est fait automatiquement
-    }
+		if ($error) {
+			$this->addFlash('red', $error->getmessage());
+		}
+		return $this->render('security/login.html.twig', array(
+			'last_username' => $lastUsername,
+			'error' => $error));
+	}
 
-    /**
-     * Activate account
-     *
-     * @Route("/user/activate/{token}", name="user_activate")
-     */
-    public function activate( $token, User $user )
-    {
-        if(! $user->getEnabled())
-        {
-            if ($user->getTokenExpire() > new \DateTime())
-            {
-                // set enable true and token null if valid condition
-                $user->setEnabled(true);
-                $this->userService->resetToken($user);
-                // database entry
-                $em = $this->getDoctrine()->getManager();
-                $em->flush($user);
-                // add message if account is activate
-                $this->addFlash(
-                    'blue',
-                    'Votre compte a été activé');
-            } else {
-                // add message if date is expired
-                $url = $this->urlGenerator->generate( 'user_resendactivatetoken', ['id' => $user->getId()], UrlGenerator::ABSOLUTE_URL);
+	/**
+	 * @Route("/logout", name="logout")
+	 */
+	public function logout()
+	{
+		//Je n'affiche rien dans la fonction. Tout est fait automatiquement
+	}
 
-                $this->addFlash(
-                    'red',
-                    'Ce lien a expiré <a href="'.$url.'"> Renvoyer le mail d\'activation </a>');
-            }
-        }
-        // redirect to login route
-        return $this->redirectToRoute('login');
-    }
-        /**
-     * Send activate token
-     *
-     * @Route("user/resendactivatetoken/{id}", name="user_resendactivatetoken")
-     */
-    public function resendactivatetoken (User $user){
+	/**
+	 * Activate account
+	 *
+	 * @Route("/user/activate/{token}", name="user_activate")
+	 */
+	public function activate($token, User $user)
+	{
+		if (!$user->getEnabled()) {
+			if ($user->getTokenExpire() > new \DateTime()) {
+				// set enable true and token null if valid condition
+				$user->setEnabled(true);
+				$this->userService->resetToken($user);
+				// database entry
+				$em = $this->getDoctrine()->getManager();
+				$em->flush($user);
+				// add message if account is activate
+				$this->addFlash(
+					'blue',
+					'Votre compte a été activé');
+			} else {
+				// add message if date is expired
+				$url = $this->urlGenerator->generate('user_resendactivatetoken', ['id' => $user->getId()], UrlGenerator::ABSOLUTE_URL);
 
-        if( !$user->getEnabled() ){
-            // generate token and expire date
-            $this->userService->generateToken($user);
-            $em = $this->getDoctrine()->getManager();
-            $em->flush($user);
-            // resend a activation token
-            $this->mailer->sendActivationMail($user);
-            // message if link is send.
-            $this->addFlash(
-                    'blue',
-                    'Un lien d\'activation vous a été envoyé');
-            // redirect to login route
-            return $this->redirectToRoute('login');
-        }
-    }
-    /**
-     * Permet d'initier la méthode du mot de passe oublié
-     *
-     * @Route("/mot-de-passe-oublie",name="RenewPassword")
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function forgetPassword(Request $request)
-    {
-        if ($request->isMethod('POST'))
-        {
-            $email = $request->request->get('email');
+				$this->addFlash(
+					'red',
+					'Ce lien a expiré <a href="' . $url . '"> Renvoyer le mail d\'activation </a>');
+			}
+		}
+		// redirect to login route
+		return $this->redirectToRoute('login');
+	}
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $user = $entityManager->getRepository(User::class)->findOneByEmail($email);
+	/**
+	 * Send activate token
+	 *
+	 * @Route("user/resendactivatetoken/{id}", name="user_resendactivatetoken")
+	 */
+	public function resendactivatetoken(User $user)
+	{
 
-            if ($user) {
-                $this->userService->generateToken( $user );
-                $entityManager->flush();
+		if (!$user->getEnabled()) {
+			// generate token and expire date
+			$this->userService->generateToken($user);
+			$em = $this->getDoctrine()->getManager();
+			$em->flush($user);
+			// resend a activation token
+			$this->mailer->sendActivationMail($user);
+			// message if link is send.
+			$this->addFlash(
+				'blue',
+				'Un lien d\'activation vous a été envoyé');
+			// redirect to login route
+			return $this->redirectToRoute('login');
+		}
+	}
 
-                $this->mailer->sendResetPassword( $user );
-            }
+	/**
+	 * Permet d'initier la méthode du mot de passe oublié
+	 *
+	 * @Route("/mot-de-passe-oublie",name="RenewPassword")
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function forgetPassword(Request $request)
+	{
+		if ($request->isMethod('POST')) {
+			$email = $request->request->get('email');
 
-            $this->addFlash('blue', 'Si un compte existe avec cette adresse email, un email vous sera envoyé.');
-            return $this->redirectToRoute('home');
-        }
-        return $this->render('user/forgotten_password.html.twig');
-    }
+			$entityManager = $this->getDoctrine()->getManager();
+			$user = $entityManager->getRepository(User::class)->findOneByEmail($email);
 
-        /**
-     * Permet de réintialiser le mot de passe
-     *
-     * @Route("/reset_password/{token}", name="reset_password")
-     *
-     * @param string $token
-     * @param Request $request
-     * @return Response
-     */
-    public function resetPassword(string $token, Request $request): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(User::class)->findOneByToken($token);
+			if ($user) {
+				$this->userService->generateToken($user);
+				$entityManager->flush();
 
-        if ($user == null) {
-            // A rediriger vers la 404
-            return $this->redirectToRoute('home');
-        }
+				$this->mailer->sendResetPassword($user);
+			}
 
-        $myPassword = new MyPassword;
+			$this->addFlash('blue', 'Si un compte existe avec cette adresse email, un email vous sera envoyé.');
+			return $this->redirectToRoute('home');
+		}
+		return $this->render('user/forgotten_password.html.twig');
+	}
 
-        $form = $this->createForm(MyPasswordType::class, $myPassword);
-        $form->handleRequest($request);
+	/**
+	 * Permet de réintialiser le mot de passe
+	 *
+	 * @Route("/reset_password/{token}", name="reset_password")
+	 *
+	 * @param string $token
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function resetPassword(string $token, Request $request): Response
+	{
+		$entityManager = $this->getDoctrine()->getManager();
+		$user = $entityManager->getRepository(User::class)->findOneByToken($token);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            if ($user->getExpiredToken() < new \DateTime())
-            {
-                $this->addFlash('alert', 'Votre token a expiré.');
-            }
-            else
-            {
-                $user->setPassword($this->encoder->encodePassword($user, $myPassword->getPassword()));
-                $this->userService->resetToken($user);
-                $entityManager->flush();
+		if ($user == null) {
+			// A rediriger vers la 404
+			return $this->redirectToRoute('home');
+		}
 
-                $this->addFlash('green accent-3', 'Le mot de passe a bien été modifié.');
-            }
-            return $this->redirectToRoute('home');
-        }
+		$myPassword = new MyPassword;
 
-        return $this->render('security/reset_password.html.twig',[
-            'form' => $form->createView(),
-        ]);
-    }
+		$form = $this->createForm(MyPasswordType::class, $myPassword);
+		$form->handleRequest($request);
 
-    /**
-     * Permet de changer de mot de passe
-     * 
-     * @Route("/newpassword", name="new_password", methods={"GET", "POST"})
-     * 
-     * @param Request $request
-     * @return RedirectResponse|Response
-     */
-    public function newPassword(Request $request): Response
-    {
-        $user = $this->getUser();
+		if ($form->isSubmitted() && $form->isValid()) {
+			if ($user->getExpiredToken() < new \DateTime()) {
+				$this->addFlash('alert', 'Votre token a expiré.');
+			} else {
+				$user->setPassword($this->encoder->encodePassword($user, $myPassword->getPassword()));
+				$this->userService->resetToken($user);
+				$entityManager->flush();
 
-        $form = $this->createForm(RenewPasswordType::class, []);
+				$this->addFlash('green accent-3', 'Le mot de passe a bien été modifié.');
+			}
+			return $this->redirectToRoute('home');
+		}
 
-        $form->handleRequest($request);
+		return $this->render('security/reset_password.html.twig', [
+			'form' => $form->createView(),
+		]);
+	}
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newPassword = $form["password"]->getData("password");
-           
-            $user->setPassword($this->encoder->encodePassword($user, $newPassword));
+	/**
+	 * Permet de changer de mot de passe
+	 *
+	 * @Route("/newpassword", name="new_password", methods={"GET", "POST"})
+	 *
+	 * @param Request $request
+	 * @return RedirectResponse|Response
+	 */
+	public function newPassword(Request $request): Response
+	{
+		$user = $this->getUser();
 
-            $this
-                ->getDoctrine()
-                ->getManager()
-                ->flush();
+		$form = $this->createForm(RenewPasswordType::class, []);
 
-            $this->addFlash('green accent-3', "Votre mot de passe a bien été modifié.");
+		$form->handleRequest($request);
 
-            return $this->redirectToRoute("home");
-        }
+		if ($form->isSubmitted() && $form->isValid()) {
+			$newPassword = $form["password"]->getData("password");
 
-        return $this->render("user/RenewPassword.html.twig", [
-            "form" => $form->createView(),
-        ]);
-    }
+			$user->setPassword($this->encoder->encodePassword($user, $newPassword));
+
+			$this
+				->getDoctrine()
+				->getManager()
+				->flush();
+
+			$this->addFlash('green accent-3', "Votre mot de passe a bien été modifié.");
+
+			return $this->redirectToRoute("home");
+		}
+
+		return $this->render("user/RenewPassword.html.twig", [
+			"form" => $form->createView(),
+		]);
+	}
 
 }
