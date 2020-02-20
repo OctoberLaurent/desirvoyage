@@ -6,7 +6,6 @@ function registerElements(elements, exampleName) {
   var resetButton = example.querySelector('a.reset');
   var error = form.querySelector('.error');
   var errorMessage = error.querySelector('.message');
-    console.log( form );
   function enableInputs() {
     Array.prototype.forEach.call(
       form.querySelectorAll(
@@ -70,7 +69,6 @@ function registerElements(elements, exampleName) {
   });
 
   // Listen on the form's 'submit' handler...
-  console.log( form );
   form.addEventListener('submit', function(e) {
     e.preventDefault();
 
