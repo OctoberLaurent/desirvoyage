@@ -62,12 +62,13 @@
 
             <!-- form additional address-->
             <div class="col l6">
+                <div class="input-field">
                 {{ form_label(form.additionalAddress) }}
-                <label for="autocomplete-input"/>
                     {{ form_widget(form.additionalAddress) }}
                     <div class="errors red-text">
                         {{ form_errors(form.additionalAddress) }}
                     </div>
+                </div>
             </div>
 
             <!--form postal code -->

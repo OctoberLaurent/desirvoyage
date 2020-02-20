@@ -11,6 +11,7 @@
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
                 <button type="submit" class="btn waves-effect waves-light">{% trans %} search {% endtrans %}</button>
+                <button type="reset" class="btn waves-effect waves-light indigo darken-4">{% trans %} reset {% endtrans %}</button>
                 {{ form_end(form) }}
             </div>
             {# travels list #}
@@ -20,7 +21,7 @@
                     <hr>
                     {% for travel in travels %}
                         {% if loop.index > page*10-10 and loop.index < page*10+1 %}
-                        <div class="col pad l5 divheight center-align">
+                        <div class="col s12 l6 divheight left-align">
                             {% if travel.pictures is not empty %}
                                 <img src="{{ travel.pictures.get(0).picturename }}"
                                      alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
@@ -28,7 +29,7 @@
                                 <img src="/data/default.png" class="picturelist ">
                             {% endif %}
                         </div>
-                        <div class="col pad l7 divheight">
+                        <div class="col s12 l6 divheight">
                             <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h5>{{ travel.name }}</h5></a>
                             <h6>{{ travel.subtitle }}</h6>
                             <p>{{ travel.descriptions | raw }}</p>

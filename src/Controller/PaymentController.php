@@ -81,8 +81,6 @@ class PaymentController extends AbstractController
         {
             $this->addFlash('red', "Le paiement a été refusé.");
             return $this->redirectToRoute('reservation_list');
-            // TODO erase dump.
-            dump($e);
         }
 
             $payment = new Payment();
@@ -98,7 +96,7 @@ class PaymentController extends AbstractController
             $em->persist( $reservation );
             $em->flush();
   
-            $this->addFlash('green', "Le paiement est OK");
-            return $this->redirectToRoute('home');
+            $this->addFlash('green', "Votre paiement a bien été effectué");
+            return $this->redirectToRoute('reservation_list');
     }
 }

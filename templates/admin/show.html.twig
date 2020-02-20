@@ -57,13 +57,13 @@
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    Nombre de personnes
+                    <p>Les voyageurs</p>   
                     </label>
-                    <div class="form-control ">
+                        <ul>
                         {% for traveler in reservation.travelers %}
-                        {{ traveler.lastname }} {{ traveler.firstname }}  
+                        <li>{{ traveler.lastname }}{{ traveler.firstname }}</li>
                         {% endfor %}
-                    </div>
+                        </ul>
                 </div>
                 <div class="form-group field-string flex-nowrap align-items-center">
                     <label class="control-label">
@@ -75,5 +75,7 @@
                 </div>
             </div>
         </div>  
+        <a class="btn btn-info btn-lg float-right m-3" href="{{ path('admin_dashboard') }}">Revenir</a>
+        <a class="btn btn-danger btn-lg float-right m-3" href="{{ path('admin_reservation_delete', {'id' : reservation.id }) }}">Annuler la réservation</a>
 </div>
 {% endblock %}
