@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="col l4 ">
+        <div class="col l4">
             <div class="col s4">
                 <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
                             class="material-icons blue-text">beach_access</i></a>
@@ -72,10 +72,10 @@
     {# ______________ cards ______________ #}
     <h2 class="center-align">{% trans %} Some trips {% endtrans %}</h2>
     <hr class="pink">
-    <div class="container">
+    <div class="contain-bike container">
         <div class="row">
             {% for travel in travels %}
-            <div class="col l6">
+            <div class="col l6 center-align">
                 <div class="flip">
                     {% if travel.pictures is not empty %}
                     <div class="front" alt="{{ travel.pictures.get(0).name }}"

@@ -12,9 +12,10 @@
     <h3 class="center-align marg" >{% trans %} You don't have a reservation yet {% endtrans %}</h3>
     {% else %}
     {% for reservation in user.reservations | reverse %}
-    <h3 class="mt-1">{% trans %} Summary of your stay booked on {% endtrans %}{{ reservation.createdDate | format_datetime('full', 'none', locale='fr')}} </h3>
+    <h3 class="mt-1">{% trans %} Summary of your stay booked on {% endtrans %} {{ reservation.createdDate | format_datetime('full', 'none', locale='fr')}} </h3>
     <hr>
-    <table class="centered">
+    <div class="">
+    <table class="centered responsive-table">
         <thead>
           <tr>
               <th>{% trans %} Reservation {% endtrans %}</th>
@@ -41,10 +42,11 @@
             <a href="{{ path('payment_create', { 'id': reservation.id }) }}" class="waves-effect waves-light btn-small red accent-4">{% trans %} Paid {% endtrans %}</a>
             {% endif %}
             </td>
-            <td><a href="{{ path('invoice_pdf', {'id' : reservation.id }) }}" {% if not reservation.payment %} disabled {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a></td>
+            <td><a target="_blank" href="{{ path('invoice_pdf', {'id' : reservation.id }) }}" {% if not reservation.payment %} disabled {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a></td>
           </tr> 
         </tbody>
     </table>
+    </div>
     <br>
     {% endfor %}
     {% endif %}

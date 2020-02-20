@@ -103,9 +103,12 @@ All our categories: Toutes nos categories
 Your options: Vos options
 Full cost: prix total
 Remove: Annuler
-Paid: Payé 
+Paid: Payer
 Check: Vérifier
 Summary of your trip: Récapitulatif de votre voyage
+Before paying for your reservation, it is important to check the following information that you have provided us, once the trip has been validated, you will not be able to modify them:
+    Avant le paiement de votre réservation, il est important de vérifier les informations que vous nous avez fourni, une fois le voyage validé, vous ne pourrez plus les modifier.
+Your reservation remains blocked for 15 minutes: Votre réservation reste bloquée 15 minutes
 ##contact##
 Contact us: Nous contactez
 Send: Envoyer
@@ -120,6 +123,8 @@ User: Utilisateur
 Created date: Date de création
 Serial number: Numéro de série
 Serial number of travelers: numéro de série du voyage
+stays left in stock : séjours en stock
+reservations : réservations
 ##reservationlist##
 Reservation: réservation
 Stay: Séjour

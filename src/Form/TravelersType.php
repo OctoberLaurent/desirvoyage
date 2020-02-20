@@ -24,6 +24,9 @@ class TravelersType extends AbstractType
                     'label' => false,
                 ],
                 'label' => false,
+                'attr' => [
+                    'class' => 'custom_traveler'
+                ]
             ])
         ;
     }

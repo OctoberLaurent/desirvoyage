@@ -3,10 +3,20 @@
 
     var style = {
         base: {
-            // Add your base input styles here. For example:
-            fontSize: '16px',
-            color: '#32325d',
-        },
+        color: '#303238',
+        fontSize: '16px',
+        fontFamily: '"Open Sans", sans-serif',
+        fontSmoothing: 'antialiased',
+        '::placeholder': {
+        color: '#000',
+    },
+  },
+  invalid: {
+    color: '#e5424d',
+    ':focus': {
+      color: '#303238',
+    },
+  },
     };
 
     // Create an instance of the card Element.

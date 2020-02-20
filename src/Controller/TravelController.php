@@ -54,11 +54,10 @@ class TravelController extends AbstractController
         $form->handleRequest($request);
             
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            $search = ($request->request->get('travel_search'));
-            $travels = ($travelRepository->findTravelsByNameAndPrice($search["maxprice"], $search["search"], $search["startdate"], $search["enddate"]));
+            //dd(floatval($form->getData()["maxprice"]));
+            $travels = $travelRepository->findTravelsByNameAndPrice($form->getData());
 
-        } elseif($category){   
+        } elseif($category){
             $travels = $travelRepository->findBy(
                 ['categories' => $category]
             );

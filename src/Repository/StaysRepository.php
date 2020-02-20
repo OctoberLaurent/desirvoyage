@@ -35,16 +35,11 @@ class StaysRepository extends ServiceEntityRepository
         return $stock[0]->getStock();
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Stays
+    public function findAllStock()
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            return $this->createQueryBuilder('s')
+            ->select('SUM(s.stock)')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
 }
