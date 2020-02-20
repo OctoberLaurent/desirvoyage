@@ -24,7 +24,7 @@ class Categories
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=30, minMessage="Your title must be at least 5 characters long", maxMessage="Your title must not exceed 30 characters")
+     * @Assert\Length(min=4, max=30, minMessage="Your title must be at least 4 characters long", maxMessage="Your title must not exceed 30 characters")
      */
     private $title;
 
