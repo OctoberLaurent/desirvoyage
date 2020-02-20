@@ -68,9 +68,7 @@ class TravelSearchType extends AbstractType
                 'attr' => [
                     'class' => 'datepicker',
                 ]
-             ])
-             ->add('reset', ResetType::class, []);
-        ;
+             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

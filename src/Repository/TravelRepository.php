@@ -23,7 +23,7 @@ class TravelRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t');
         $qb->innerJoin('t.stays', 's')
-            ->innerJoin('t.formality', 'f');
+           ->innerJoin('t.formality', 'f');
         if($search['startdate'] && $search['enddate']){
             $qb->andwhere(
                 $qb->expr()->orX(
