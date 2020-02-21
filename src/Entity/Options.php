@@ -21,7 +21,7 @@ class Options
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Assert\Length(min=10, max=60, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 60 characters")
+     * @Assert\Length(min=5, max=60, minMessage="Your title must be at least 5 characters long", maxMessage="Your title must not exceed 60 characters")
      */
     private $name;
 

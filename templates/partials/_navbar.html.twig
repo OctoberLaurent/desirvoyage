@@ -26,8 +26,10 @@
             {% else %}
                 <!-- If user is connected -->
                 <li><a href="{{ path('reservation_list') }}">Mes réservations</a></li>
+
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.fullName }}<i
                                 class="material-icons right">arrow_drop_down</i></a></li>
+
             {% endif %}
         </ul>
     </div>

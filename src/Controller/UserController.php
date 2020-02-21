@@ -111,19 +111,6 @@ class UserController extends AbstractController
 		return new Response($response->getContent());
 	}
 
-	/**
-	 * @Route("/api/postal", name="api-postal", methods={"GET"})
-	 */
-	public function postal(HttpClientInterface $httpClient, Request $request)
-	{
-		$response = $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
-			'query' => array(
-				'q' => $request->query->get('q'),
-				'limit' => $request->query->get('limit'),
-			)
-		));
-		return new Response($response->getContent());
-	}
 
 	/**
 	 * @Route("/profil/dashboard", name="dashboard", methods={"GET", "POST"})
@@ -134,3 +121,4 @@ class UserController extends AbstractController
 		return $this->render("user/dashboard.html.twig");
 	}
 }
+
