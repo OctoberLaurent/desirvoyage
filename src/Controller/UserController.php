@@ -101,25 +101,17 @@ class UserController extends AbstractController
      * @Route("/api/address", name="api-address", methods={"GET"})
      */
     public function api(HttpClientInterface $httpClient, Request $request){
-        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
-            'query' => array(
-                'q' => $request->query->get('q'),
-            )
-        ));
-        return new Response( $response->getContent() );
-    }
-     /**
-     * @Route("/api/postal", name="api-postal", methods={"GET"})
-     */
-    public function postal(HttpClientInterface $httpClient, Request $request){
-        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
+        $response= $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/?q=", array(
             'query' => array(
                 'q' => $request->query->get('q'),
                 'limit' => $request->query->get('limit'),
+                'autocomplete' => $request->query->get('autocomplete'),
+                'type' => $request->query->get('type'),
             )
         ));
         return new Response( $response->getContent() );
     }
+  
 
     /**
      * @Route("/profil/dashboard", name="dashboard", methods={"GET", "POST"})
