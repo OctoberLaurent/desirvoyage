@@ -27,14 +27,14 @@ class Travel
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=30, minMessage="Your title must be at least 10 characters long", maxMessage="Your title must not exceed 30 characters")
+     * @Assert\Length(min=5, max=30, minMessage="Your title must be at least 5 characters long", maxMessage="Your title must not exceed 30 characters")
      * @Groups({"read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=50, minMessage="Your subtitle must be at least 10 characters long", maxMessage="Your subtitle must not exceed 50 characters")
+     * @Assert\Length(min=5, max=50, minMessage="Your subtitle must be at least 5 characters long", maxMessage="Your subtitle must not exceed 50 characters")
      * @Groups({"read"})
      */
     private $subtitle;
