@@ -31,7 +31,7 @@
                                 {% endif %}
                             </div>
                             <div class="col s12 l6 divheight">
-                                <a href="{{ path('travel', { 'slug': travel.slug }) }}"><h2>{{ travel.name }}</h2></a>
+                                <a href="{{ path('travel_show', { 'slug': travel.slug }) }}"><h2>{{ travel.name }}</h2></a>
                                 <h4>{{ travel.subtitle }}</h4>
                                 <div class="descriptions">
                                     <p>{{ travel.descriptions | raw }}</p>

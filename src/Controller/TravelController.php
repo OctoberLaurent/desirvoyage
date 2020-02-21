@@ -10,10 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+/**
+ * @Route("/", name="travel")
+ */
 class TravelController extends AbstractController
 {
 	/**
-	 * @Route("/", name="home")
+	 * @Route("", name="_home")
 	 */
 	public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
 	{
@@ -42,11 +46,11 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * @Route("/travels/{page}", name="travel_list")
+	 * @Route("/travels/{page}", name="_list")
 	 */
 	public function travels(TravelRepository $travelRepository, Request $request, $page = 1)
 	{
-		// get category if exist
+		// get category 
 		$category = $request->query->get('category');
 
 		$form = $this->createForm(TravelSearchType::class, null);
@@ -54,7 +58,7 @@ class TravelController extends AbstractController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			//dd(floatval($form->getData()["maxprice"]));
+
 			$travels = $travelRepository->findTravelsByNameAndPrice($form->getData());
 
 		} elseif ($category) {
@@ -65,7 +69,7 @@ class TravelController extends AbstractController
 			$travels = $travelRepository->findall();
 		}
 
-		return $this->render('travel/travels.html.twig', [
+		return $this->render('travel/alltravels.html.twig', [
 			'travels' => $travels,
 			'page' => $page,
 			'form' => $form->createView(),
@@ -73,7 +77,9 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * @Route("/travel/{slug}", name="travel")
+	 * Show One trave
+	 * 
+	 * @Route("/travel/{slug}", name="_show")
 	 */
 	public function showOne(Travel $travel)
 	{
@@ -83,7 +89,7 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * @Route("/categories/", name="categorie_list")
+	 * @Route("/categories/", name="_categorie_list")
 	 */
 	public function showAllCategorie(CategoriesRepository $repo)
 	{
@@ -95,7 +101,7 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * @Route("/terms/", name="terms")
+	 * @Route("/terms/", name="_terms")
 	 */
 	public function showTerms()
 	{

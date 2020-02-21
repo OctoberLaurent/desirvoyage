@@ -4,11 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 /**
+ * Generate invoice in html
+ * 
+ * @IsGranted("ROLE_USER")
+ * 
  * @Route("/invoice", name="invoice")
  */
 class InvoiceController extends AbstractController

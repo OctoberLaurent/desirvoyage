@@ -245,6 +245,6 @@ class ReservationController extends AbstractController
 
 		$this->addFlash('red darken-4', 'Vous avez annulé votre voyage');
 
-		return $this->redirectToRoute("home");
+		return $this->redirectToRoute("travel_home");
 	}
 }

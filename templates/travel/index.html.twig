@@ -5,7 +5,6 @@
 {% block content %}
     {# Slider in partials #}
     {% include "./partials/_slider.html.twig" %}
-
     {# Icons #}
     <div class="home">
         <div class="row margin-top">
@@ -19,7 +18,7 @@
                         <br>{% trans %} Go wherever you want {% endtrans %} </p>
                 </div>
             </div>
-
+            
             <div class="col l4">
                 <div class="col s4">
                     <a class="btn-floating btn-large yellow lighten-1 pulse margin-left mt-1"><i
@@ -67,7 +66,7 @@
 
         {# Button see all categories #}
         <div class="container right-align mt-1 margin-bottom">
-            <a href="{{ path('categorie_list') }}" class="waves-effect waves-light btn-large">
+            <a href="{{ path('travel_categorie_list') }}" class="waves-effect waves-light btn-large">
                 <i class="material-icons right">keyboard_arrow_right</i>{% trans %} See all categorie {% endtrans %}
             </a>
         </div>
@@ -92,7 +91,7 @@
                                 <h3 class="grey-text text-lighten-5v mt-1">{{ travel.subtitle }}</h3>
                                 <p class="grey-text text-lighten-5">{% trans %} Price {% endtrans %}
                                     : {{ travel.getMinPrice() | number_format(2) }} €</p>
-                                <a href="{{ path('travel', { 'slug': travel.slug }) }}"
+                                <a href="{{ path('travel_show', { 'slug': travel.slug }) }}"
                                    class="waves-effect waves-light btn-small red darken-4 mt-1">{% trans %} See travel {% endtrans %}</a>
                             </div>
                         </div>

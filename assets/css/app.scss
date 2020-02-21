@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Cabin&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
 body {
+    font-family: 'Ubuntu', sans-serif;
     background-color: #fff;
     display: flex;
     min-height: 100vh;
@@ -14,7 +15,6 @@ main {
 }
 
 h1{
-  font-family: 'Cabin', sans-serif;
   font-size: 2em !important;
   margin: 0;
   color: #09295e;
@@ -22,21 +22,18 @@ h1{
 }
 
 h2{
-  font-family: 'Cabin', sans-serif;
   font-size: 1.5em !important;
   margin: 0;
   color: #09295e;
 }
 
 h3{
-  font-family: 'Cabin', sans-serif;
   font-size: 1.2em !important;
   margin: 0;
   color: #09295e;
 }
 
 h4{
-  font-family: 'Cabin', sans-serif;
   font-size: 1em !important;
   margin: 0;
   color: #09295e;
@@ -44,7 +41,6 @@ h4{
 
 
 th{
-  font-family: 'Cabin', sans-serif;
   font-weight: 900;
   font-size: 1em !important;
   color: #09295e;

@@ -8,11 +8,10 @@ use Stripe\Stripe;
 use App\Entity\Payment;
 use App\Entity\Reservation;
 use App\Service\MailerService;
-use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  *
@@ -33,7 +32,12 @@ class PaymentController extends AbstractController
 	}
 
 	/**
+	 * 
+	 * Create a payment with stripe
+	 * 
 	 * @Route("/{id}", name="_create")
+	 * 
+	 * @IsGranted("ROLE_USER")
 	 */
 	public function index(Reservation $reservation)
 	{
@@ -62,7 +66,11 @@ class PaymentController extends AbstractController
 	}
 
 	/**
+	 * Validates or refuses payment 
+	 * 
 	 * @Route("/verification/{id}", name="_charge")
+	 * 
+	 * @IsGranted("ROLE_USER")
 	 *
 	 * @param Request $request
 	 */
@@ -79,11 +87,14 @@ class PaymentController extends AbstractController
 				'source' => $request->request->get('stripeToken'),
 			]);
 		} catch (\Exception $e) {
+			
 			$this->addFlash('red', "Le paiement a été refusé vous pouver effectuer une nouvelle tentative.");
-			dd($e);
+			
+			// Go back to the reservations to redo the payment
 			return $this->redirectToRoute('reservation_list');
 		}
 
+		// Create a new paiemement if valided.
 		$payment = new Payment();
 		$payment->setPayAt(new \DateTime());
 		$payment->setType('Stripe');
@@ -100,6 +111,7 @@ class PaymentController extends AbstractController
 		$mailerService->sendConfirmedPaimenent($user->getEmail());
 
 		$this->addFlash('green', "Votre paiement a bien été effectué");
+		
 		return $this->redirectToRoute('reservation_list');
 	}
 }

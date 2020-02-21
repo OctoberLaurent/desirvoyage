@@ -8,15 +8,15 @@
 <nav>
     <div class="nav-wrapper deep-purple darken-1">
         <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li {% if route == 'home' %} class="active"{% endif %} >
-                <a href="{{ path('home') }}">{% trans %}Home{% endtrans %}</a>
+            <li {% if route == 'travel_home' %} class="active"{% endif %} >
+                <a href="{{ path('travel_home') }}">{% trans %}Home{% endtrans %}</a>
             </li>
-            <li {% if route == 'categorie_list' %} class="active"{% endif %}><a
-                        href="{{ path('categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
+            <li {% if route == 'travel_categorie_list' %} class="active"{% endif %}><a
+                        href="{{ path('travel_categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
             <li {% if route == 'travel_list' %} class="active"{% endif %}><a
                         href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
         </ul>
-        <a href="{{ path('home') }}" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
+        <a href="{{ path('travel_home') }}" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             {% if app.user is empty %}
@@ -33,11 +33,11 @@
     </div>
 </nav>
 <ul class="sidenav" id="mobile-demo">
-    <li {% if route == 'home' %} class="active"{% endif %} >
-        <a href="{{ path('home') }}">{% trans %}Home{% endtrans %}</a>
+    <li {% if route == 'travel_home' %} class="active"{% endif %} >
+        <a href="{{ path('travel_home') }}">{% trans %}home{% endtrans %}</a>
     </li>
-    <li {% if route == 'categorie_list' %} class="active"{% endif %}><a
-                href="{{ path('categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
+    <li {% if route == 'travel_categorie_list' %} class="active"{% endif %}><a
+                href="{{ path('travel_categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
     <li {% if route == 'travel_list' %} class="active"{% endif %}><a
                 href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
     <hr>

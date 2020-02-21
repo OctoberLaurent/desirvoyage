@@ -3,8 +3,8 @@
 {% block title %}{{ 'Welcome to' | trans }} {{ website }}{% endblock %}
 
 {% block content %}
+    {# Travel #}
     <div class="container mt-1">
-        {# Travel #}
         <div class="row">
             <div class="col pad l6">
                 <h1>{{ travel.name }}</h1>
@@ -86,17 +86,17 @@
                             </p>
                         </div>
                     </div>
-                   
-               
-                                        
                     <div class="col pad">
                         <h3 class="center-align">{% trans %} Description {% endtrans %} </h3>
                             <hr class="pink">
-                            <div class="descriptions"> {{ travel.descriptions | raw }} </div>
+                            <div class="descriptions pad">
+                            <p>{{ travel.descriptions | raw }}</p>
+                            </div>
+                            
                             <div class="col">
                                 <h3 class="center-align">{% trans %} Options {% endtrans %} </h3>
                                     <hr class="pink">
-                                    <div>
+                                    <div class="mt-2">
                                         <ul class="collection">
                                             {% for option in travel.options %}
                                                 <li class="collection-item">{{ option.description | raw}} 

@@ -14,6 +14,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Symfony\Component\Mime\Message;
 
 /**
+ * Back Office
+ * 
  * @Route("/admin")
  */
 class AdminController extends EasyAdminController
@@ -50,6 +52,9 @@ class AdminController extends EasyAdminController
 	}
 
 	/**
+	 * 
+	 * show one reservation from backoffice
+	 * 
 	 * @route("/show/{id}", name="admin_show")
 	 */
 	public function show(Reservation $reservation)
@@ -62,6 +67,9 @@ class AdminController extends EasyAdminController
 	}
 
 	/**
+	 * 
+	 * Delete reseravtion from dashboard
+	 * 
 	 * @route("/delete-reservation/{id}", name="admin_reservation_delete")
 	 */
 	public function delete(Reservation $reservation)

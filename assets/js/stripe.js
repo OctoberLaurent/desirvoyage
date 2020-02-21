@@ -197,18 +197,18 @@ function registerElements(elements, exampleName) {
     style: elementStyles,
     classes: elementClasses,
   });
-  cardNumber.mount('#example3-card-number');
+  cardNumber.mount('#stripe-card-number');
 
   var cardExpiry = elements.create('cardExpiry', {
     style: elementStyles,
     classes: elementClasses,
   });
-  cardExpiry.mount('#example3-card-expiry');
+  cardExpiry.mount('#stripe-card-expiry');
 
   var cardCvc = elements.create('cardCvc', {
     style: elementStyles,
     classes: elementClasses,
   });
-  cardCvc.mount('#example3-card-cvc');
+  cardCvc.mount('#stripe-card-cvc');
 
-  registerElements([cardNumber, cardExpiry, cardCvc], 'example3');
+  registerElements([cardNumber, cardExpiry, cardCvc], 'stripe');
