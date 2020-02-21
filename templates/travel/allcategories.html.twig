@@ -4,11 +4,11 @@
 
 {% block content %}
     <div class="container mt-1 center-align">
-        <h1 class= "pad">{% trans %} All our categories {% endtrans %}</h1>
+        <h1 class="pad">{% trans %} All our categories {% endtrans %}</h1>
         <hr class="pink">
     </div>
 
-    <div class="cards-list container">
+    <div class="cards-list container margin-bottom">
         {% for category in categories %}
             <a href="{{ path('travel_list', { 'category': category.id }) }}">
                 <div class="card 1">

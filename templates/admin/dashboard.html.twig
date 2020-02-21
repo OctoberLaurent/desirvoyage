@@ -40,7 +40,7 @@
                     </a>
                 </div>
                 <div class="col-9">
-                   <h4>{{ nbMessages }} Messages </h4>
+                    <h4>{{ nbMessages }} Messages </h4>
                 </div>
             </div>
         </div>
@@ -61,28 +61,28 @@
         <div class="text-center">
             <h3>Reservation</h3>
         </div>
-         
+
         <table class="table">
             <thead>
-                <tr>
+            <tr>
                 <th scope="col">{% trans %} Serial number {% endtrans %}</th>
                 <th scope="col">{% trans %} Serial number of travelers{% endtrans %}</th>
                 <th scope="col">{% trans %}Price{% endtrans %}</th>
                 <th scope="col">{% trans %}Created date{% endtrans %}</th>
                 <th scope="col">{% trans %}Lastname{% endtrans %}</th>
                 <th scope="col">{% trans %}Firstname{% endtrans %}</th>
-                </tr>
+            </tr>
             </thead>
             <tbody>
             {% for reservation in reservations | reverse %}
-                <td> <a href="{{ path('admin_show', {'id': reservation.id })}}"> {{ reservation.serial }}</a></td>
-                <td>{{ reservation.stays.0.serial }}</td>
-                <td>{{ reservation.price }} €</td>
-                <td>{{ reservation.createdDate | date("d/m/Y") }}</td>
-                <td>{{ reservation.User.lastname }}</td>
-                <td>{{ reservation.User.firstname }}</td>
+            <td><a href="{{ path('admin_show', {'id': reservation.id }) }}"> {{ reservation.serial }}</a></td>
+            <td>{{ reservation.stays.0.serial }}</td>
+            <td>{{ reservation.price }} €</td>
+            <td>{{ reservation.createdDate | date("d/m/Y") }}</td>
+            <td>{{ reservation.User.lastname }}</td>
+            <td>{{ reservation.User.firstname }}</td>
             </tbody>
-        {% endfor %}
+            {% endfor %}
         </table>
-    </div> 
+    </div>
 {% endblock %}

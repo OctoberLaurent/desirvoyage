@@ -1,8 +1,6 @@
 <?php
 namespace App\Service;
 
-
-
 use Swift_Mailer;
 use Swift_Message;
 use App\Entity\User;
@@ -11,11 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
 class MailerService{
     private $urlGenerator;
     private $mailer;
-
 
     public function __construct(UrlGeneratorInterface $urlGenerator, Swift_Mailer $mailer)
     {
@@ -56,6 +52,7 @@ class MailerService{
 
         $this->mailer->send( $message );
     }
+    
     public function sendContactMessage($email)
     {
         $text = "
@@ -63,6 +60,19 @@ class MailerService{
                 votre demande à bien été pris en compte. Elle sera traité dans les plus bref délais.
                 Cordialement,
                 l'équipe de Désirvoyage";
+
+        $this->send( $email, $text);
+    }
+
+    public function sendConfirmedPaimenent($email)
+    {
+        $text = "
+                Bonjour,
+                Votre voyage a bien été réservé, vous pouvez retrouver le détail 
+                de votre voyage ainsi que votre facture dans votre espace,
+                nous vous remercions pour votre achat et nous restons à votre disposition pour tout information.
+                DésirVoyage.
+                ";
 
         $this->send( $email, $text);
     }

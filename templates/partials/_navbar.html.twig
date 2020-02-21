@@ -1,20 +1,22 @@
 {% set route = app.request.attributes.get('_route') %}
 <ul id="dropdown1" class="dropdown-content">
-<li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
-<li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
+    <li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
+    <li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
     <li class="divider"></li>
-<li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
+    <li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
 </ul>
 <nav>
     <div class="nav-wrapper deep-purple darken-1">
         <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li {% if route == 'home' %} class="active"{% endif %} >
-            <a href="{{ path('home') }}">{% trans %}Home{% endtrans %}</a>
+            <li {% if route == 'travel_home' %} class="active"{% endif %} >
+                <a href="{{ path('travel_home') }}">{% trans %}Home{% endtrans %}</a>
             </li>
-            <li {% if route == 'categorie_list' %} class="active"{% endif %}><a href="{{ path('categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
-            <li {% if route == 'travel_list' %} class="active"{% endif %}><a href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
+            <li {% if route == 'travel_categorie_list' %} class="active"{% endif %}><a
+                        href="{{ path('travel_categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
+            <li {% if route == 'travel_list' %} class="active"{% endif %}><a
+                        href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
         </ul>
-        <a href="{{ path('home') }}" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
+        <a href="{{ path('travel_home') }}" class="brand-logo center"><img class="logo" src="/images/logo.png" alt=""></a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             {% if app.user is empty %}
@@ -24,17 +26,20 @@
             {% else %}
                 <!-- If user is connected -->
                 <li><a href="{{ path('reservation_list') }}">Mes réservations</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.fullName }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{ app.user.fullName }}<i
+                                class="material-icons right">arrow_drop_down</i></a></li>
             {% endif %}
         </ul>
     </div>
 </nav>
 <ul class="sidenav" id="mobile-demo">
-    <li {% if route == 'home' %} class="active"{% endif %} >
-    <a href="{{ path('home') }}">{% trans %}Home{% endtrans %}</a>
+    <li {% if route == 'travel_home' %} class="active"{% endif %} >
+        <a href="{{ path('travel_home') }}">{% trans %}home{% endtrans %}</a>
     </li>
-    <li {% if route == 'categorie_list' %} class="active"{% endif %}><a href="{{ path('categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
-    <li {% if route == 'travel_list' %} class="active"{% endif %}><a href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
+    <li {% if route == 'travel_categorie_list' %} class="active"{% endif %}><a
+                href="{{ path('travel_categorie_list') }}">{% trans %}Categories{% endtrans %}</a></li>
+    <li {% if route == 'travel_list' %} class="active"{% endif %}><a
+                href="{{ path('travel_list') }}">{% trans %}Travels{% endtrans %}</a></li>
     <hr>
     {% if app.user is empty %}
         <!-- If user is not connected -->

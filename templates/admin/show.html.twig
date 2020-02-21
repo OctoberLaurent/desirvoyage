@@ -1,81 +1,82 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
 {% block main %}
-<div class="container">
-    <h3 class="text-center">Réservation {{reservation.serial}}</h3>
+    <div class="container">
+        <h3 class="text-center">Réservation {{ reservation.serial }}</h3>
         <div class="row ">
             <div class="form-horizontal text-center col align-content-lg-center">
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    {% trans %}Depature{% endtrans %}
+                        {% trans %}Depature{% endtrans %}
                     </label>
                     <div class="form-control">
-                        {{reservation.stays.0.depature}}
+                        {{ reservation.stays.0.depature }}
                     </div>
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    {% trans %}starDate{% endtrans %}
+                        {% trans %}starDate{% endtrans %}
                     </label>
                     <div class="form-control ">
-                        {{reservation.stays.0.starDate | date("d/m/Y")}}
+                        {{ reservation.stays.0.starDate | date("d/m/Y") }}
                     </div>
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    {% trans %}Arrival{% endtrans %}
+                        {% trans %}Arrival{% endtrans %}
                     </label>
                     <div class="form-control">
-                        {{reservation.stays.0.arrival}}
+                        {{ reservation.stays.0.arrival }}
                     </div>
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    {% trans %}endDate{% endtrans %}
+                        {% trans %}endDate{% endtrans %}
                     </label>
                     <div class="form-control ">
-                        {{reservation.stays.0.endDate | date("d/m/Y")}}
+                        {{ reservation.stays.0.endDate | date("d/m/Y") }}
                     </div>
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    {% trans %}price{% endtrans %}
+                        {% trans %}price{% endtrans %}
                     </label>
                     <div class="form-control ">
-                        {{reservation.stays.0.price}} €
+                        {{ reservation.stays.0.price }} €
                     </div>
                 </div>
                 <div class="form-group flex-nowrap">
                     <label class="control-label">
-                    Options
+                        Options
                     </label>
                     <ul class="text-left">
-                    {% for option in reservation.options %}
-                        <li>{{ option.name }}</li>
-                         {% endfor %}
+                        {% for option in reservation.options %}
+                            <li>{{ option.name }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                    <p>Les voyageurs</p>   
+                        <p>Les voyageurs</p>
                     </label>
-                        <ul>
+                    <ul>
                         {% for traveler in reservation.travelers %}
-                        <li>{{ traveler.lastname }}{{ traveler.firstname }}</li>
+                            <li>{{ traveler.lastname }}{{ traveler.firstname }}</li>
                         {% endfor %}
-                        </ul>
+                    </ul>
                 </div>
                 <div class="form-group field-string flex-nowrap align-items-center">
                     <label class="control-label">
-                    Prix total
+                        Prix total
                     </label>
                     <div class="form-control">
-                    {{reservation.price}} €
+                        {{ reservation.price }} €
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
         <a class="btn btn-info btn-lg float-right m-3" href="{{ path('admin_dashboard') }}">Revenir</a>
-        <a class="btn btn-danger btn-lg float-right m-3" href="{{ path('admin_reservation_delete', {'id' : reservation.id }) }}">Annuler la réservation</a>
-</div>
+        <a class="btn btn-danger btn-lg float-right m-3"
+           href="{{ path('admin_reservation_delete', {'id' : reservation.id }) }}">Annuler la réservation</a>
+    </div>
 {% endblock %}
