@@ -24,8 +24,7 @@ class IncrementalStaysNotPurchasedCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Add stays not purshased')
-        ;
+        $this->setDescription('Add stays not purshased');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

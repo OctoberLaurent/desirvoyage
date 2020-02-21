@@ -4,26 +4,32 @@
             <div class="col l6 s12">
                 <h5 class="white-text">Désir Voyage</h5>
                 <p class="grey-text text-lighten-4">
-                Désir voyage vous présente ses différentes destinations pour vous permettre de voyager 
-                ou de découvrir le monde, vous trouverez des départs à partir des grandes villes Française
-                vers le monde entier.
+                    Désir voyage vous présente ses différentes destinations pour vous permettre de voyager
+                    ou de découvrir le monde, vous trouverez des départs à partir des grandes villes Française
+                    vers le monde entier.
                 </p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">{% trans %}Utils links{% endtrans %}</h5>
                 <ul>
-                    <li><a class = "grey-text text-lighten-3" target="_blank" href="{{ path('terms') }}">{% trans %}Terms of use{% endtrans %}</a></li>
-                    <li><a class="grey-text text-lighten-3" href="{{path('contact') }}">{% trans %} Contact us {% endtrans %}</a></li>
+                    <li><a class="grey-text text-lighten-3" target="_blank"
+                           href="{{ path('travel_terms') }}">{% trans %}Terms of use{% endtrans %}</a></li>
+                    <li><a class="grey-text text-lighten-3"
+                           href="{{ path('contact') }}">{% trans %} Contact us {% endtrans %}</a></li>
                     {% if app.user is empty %}
-                    <!-- If user is not connected -->
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('login') }}"> {% trans %} Login {% endtrans %} </a></li>
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('register') }}"> {% trans %} Register {% endtrans %}</a></li>  
+                        <!-- If user is not connected -->
+                        <li><a class="grey-text text-lighten-3"
+                               href="{{ path('login') }}"> {% trans %} Login {% endtrans %} </a></li>
+                        <li><a class="grey-text text-lighten-3"
+                               href="{{ path('register') }}"> {% trans %} Register {% endtrans %}</a></li>
                     {% else %}
-                    <!-- If user is connected -->
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('dashboard') }}"> {% trans %} My Profil {% endtrans %} </a></li>
-                        <li><a class = "grey-text text-lighten-3" href="">mon panier</a></li>
-                        <li><a class = "grey-text text-lighten-3" href="{{ path('logout') }}"> {% trans %} Logout {% endtrans %} </a></li>
-                {% endif %}
+                        <!-- If user is connected -->
+                        <li><a class="grey-text text-lighten-3"
+                               href="{{ path('dashboard') }}"> {% trans %} My Profil {% endtrans %} </a></li>
+                        <li><a class="grey-text text-lighten-3" href="">mon panier</a></li>
+                        <li><a class="grey-text text-lighten-3"
+                               href="{{ path('logout') }}"> {% trans %} Logout {% endtrans %} </a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

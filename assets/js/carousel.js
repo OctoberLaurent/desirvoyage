@@ -18,4 +18,5 @@ $('#flash').click(function(){
     $('#flash').remove()
 })
 
+$('#modal1').modal();
     }); 

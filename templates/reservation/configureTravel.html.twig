@@ -3,48 +3,49 @@
 {% block title %}reservation{% endblock %}
 
 {% block content %}
-<div class="container mt-1">
-    <h1 class="mt-1 center-align">{% trans %} Configure your travel {% endtrans %}</h1>
+    <div class="container mt-1">
+        <h1 class="mt-1 center-align">{% trans %} Configure your travel {% endtrans %}</h1>
 
-    <div class="divmg mt-1">
-        <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
-    </div>
-    <h2 class="center-align">{% trans %} So that you can make the most of your stay, we leave you the choice of your options{% endtrans %}</h2>
-    <div class="row">
-        <div class="col l6 s12 center-align">
-            <h1 class="mt-1">{{ stays.travel.name }}</h1>
-            <h2>{{ stays.travel.subtitle }}</h2>
-            <h3><i class="material-icons">airplanemode_active</i>
-                {{ stays.depature }} -> {{ stays.arrival }}
-            </h3>
+        <div class="divmg mt-1">
+            <img class="img-100pc" src="/images/cocktail.jpg" alt="Options_travel">
         </div>
-        <div class="col l6 s12 pad grey lighten-3 mt-1 center-align">
-            <div class="price center-align">
-                <span class="blue-text text-darken-2">{% trans %} Price {% endtrans %}</span>
-                <strong id="price"> {{ stays.price }} </strong><span>€</span>
+        <h2 class="center-align">{% trans %} So that you can make the most of your stay, we leave you the choice of your options{% endtrans %}</h2>
+        <div class="row">
+            <div class="col l6 s12 center-align">
+                <h1 class="mt-1">{{ stays.travel.name }}</h1>
+                <h2>{{ stays.travel.subtitle }}</h2>
+                <h3><i class="material-icons">airplanemode_active</i>
+                    {{ stays.depature }} -> {{ stays.arrival }}
+                </h3>
+            </div>
+            <div class="col l6 s12 pad grey lighten-3 mt-1 center-align">
+                <div class="price center-align">
+                    <span class="blue-text text-darken-2">{% trans %} Price {% endtrans %}</span>
+                    <strong id="price"> {{ stays.price }} </strong><span>€</span>
+                </div>
             </div>
         </div>
-    </div>
-    <h3 class="center-align"> {% trans %} Here are the options we offer you for this stay {% endtrans %} </h3>
-    <br>
-    <div class="row">
-        {{ form_start(form) }}
-        {% for opt in form.options %}
-            <div class="col l12 s12">
-                <label>
-                    {{ form_widget( opt ) }}
-                    <span class="blue-text text-darken-2">{{ stays.travel.options[loop.index0].name }} </span>
-                    <span class="blue-text text-darken-2 amount">{{ stays.travel.options[loop.index0].price }} €</span>
-                </label>
-            </div>
-            <div class="col l12 s12">
-                <span class="green-text">{{ stays.travel.options[loop.index0].description | raw }}</span>
-            </div>
-        {% endfor %}
-    </div>
+        <h3 class="center-align"> {% trans %} Here are the options we offer you for this stay {% endtrans %} </h3>
+        <br>
+        <div class="row">
+            {{ form_start(form) }}
+            {% for opt in form.options %}
+                <div class="col l12 s12">
+                    <label>
+                        {{ form_widget( opt ) }}
+                        <span class="blue-text text-darken-2">{{ stays.travel.options[loop.index0].name }} </span>
+                        <span class="blue-text text-darken-2 amount">{{ stays.travel.options[loop.index0].price }} €</span>
+                    </label>
+                </div>
+                <div class="col l12 s12">
+                    <span class="green-text">{{ stays.travel.options[loop.index0].description | raw }}</span>
+                </div>
+            {% endfor %}
+        </div>
         <br>
         <div class="mt-1 right-align marg">
-            <a class="btn waves-effect waves-light" href="{{ path('reservation_index', {'stayid': reservation.stays[0].id}) }}">{% trans %} Preview {% endtrans %}
+            <a class="btn waves-effect waves-light"
+               href="{{ path('reservation_index', {'stayid': reservation.stays[0].id}) }}">{% trans %} Preview {% endtrans %}
                 <i class="material-icons left">keyboard_arrow_left</i>
             </a>
             <button class="btn waves-effect waves-light" name="action">{% trans %} Next {% endtrans %}
@@ -52,6 +53,6 @@
             </button>
         </div>
         {{ form_end(form) }}
- </div>
-    {% endblock %}
+    </div>
+{% endblock %}
 {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('reservation') }}{% endblock %}

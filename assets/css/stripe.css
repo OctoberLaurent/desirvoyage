@@ -1,0 +1,156 @@
+.car {
+    background-color: #525f7f;
+    height: 300px;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column; 
+}
+
+@media all and (min-width: 600px) {
+    .bike{
+        max-width : 60%;
+    }
+}
+
+.example.stripe {
+  background-color: #525f7f;
+}
+
+.example.stripe * {
+  font-family: Quicksand, Open Sans, Segoe UI, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.example.stripe .fieldset {
+  margin: 0 15px 30px;
+  padding: 0;
+  border-style: none;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.example.stripe .field {
+  padding: 10px 20px 11px;
+  background-color: #7488aa;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.example.stripe .field.half-width {
+  width: calc(50% - (5px / 2));
+}
+
+.example.stripe .field.third-width {
+  width: calc(33% - (5px / 3));
+}
+
+.example.stripe .field + .field {
+  margin-top: 6px;
+}
+
+.example.stripe .field.focus,
+.example.stripe .field:focus {
+  color: #424770;
+  background-color: #f6f9fc;
+}
+
+.example.stripe .field.invalid {
+  background-color: #fa755a;
+}
+
+.example.stripe .field.invalid.focus {
+  background-color: #f6f9fc;
+}
+
+.example.stripe .field.focus::-webkit-input-placeholder,
+.example.stripe .field:focus::-webkit-input-placeholder {
+  color: #cfd7df;
+}
+
+.example.stripe .field.focus::-moz-placeholder,
+.example.stripe .field:focus::-moz-placeholder {
+  color: #cfd7df;
+}
+
+.example.stripe .field.focus:-ms-input-placeholder,
+.example.stripe .field:focus:-ms-input-placeholder {
+  color: #cfd7df;
+}
+
+.example.stripe input, .example.stripe button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}
+
+.example.stripe input {
+  color: #fff;
+}
+
+.example.stripe input::-webkit-input-placeholder {
+  color: #9bacc8;
+}
+
+.example.stripe input::-moz-placeholder {
+  color: #9bacc8;
+}
+
+.example.stripe input:-ms-input-placeholder {
+  color: #9bacc8;
+}
+
+.example.stripe button {
+  display: block;
+  width: calc(100% - 30px);
+  height: 40px;
+  margin: 0 15px;
+  background-color: #8b69fc;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.example.stripe button:active {
+  background-color: #f5be58;
+}
+
+.example.stripe .error svg .base {
+  fill: #fa755a;
+}
+
+.example.stripe .error svg .glyph {
+  fill: #fff;
+}
+
+.example.stripe .error .message {
+  color: #fff;
+}
+
+.example.stripe .success .icon .border {
+  stroke: #fcd669;
+}
+
+.example.stripe .success .icon .checkmark {
+  stroke: #fff;
+}
+
+.example.stripe .success .title {
+  color: #fff;
+}
+
+.example.stripe .success .message {
+  color: #9cabc8;
+}
+
+.example.stripe .success .reset path {
+  fill: #fff;
+}

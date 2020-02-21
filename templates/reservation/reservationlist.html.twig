@@ -3,52 +3,57 @@
 {% block title %}Liste de vos resservations{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="divmg mt-1">
-      <img class="img-reseravtions" src="/images/panoram.jpg" alt="Options_travel">
-    </div>
-    <h1 class="center-align mt-1">{% trans %} Your reservations {% endtrans %} : </h1>
-    {% if not reservation %}
-    <h3 class="center-align marg" >{% trans %} You don't have a reservation yet {% endtrans %}</h3>
-    {% else %}
-    {% for reservation in user.reservations | reverse %}
-    <h3 class="mt-1">{% trans %} Summary of your stay booked on {% endtrans %} {{ reservation.createdDate | format_datetime('full', 'none', locale='fr')}} </h3>
-    <hr>
-    <div class="">
-    <table class="centered responsive-table">
-        <thead>
-          <tr>
-              <th>{% trans %} Reservation {% endtrans %}</th>
-              <th>{% trans %} Stay {% endtrans %}</th>
-              <th>{% trans %} Full cost {% endtrans %}</th>
-              <th>{% trans %} Depature {% endtrans %}</th>
-              <th> {% trans %} Arrival {% endtrans %}</th>
-              <th>{% trans %} Paid {% endtrans %}</th>
-              <th> {% trans %} Invoice {% endtrans %}</th>
-          </tr>
-        </thead>
+    <div class="container">
+        <div class="divmg mt-1">
+            <img class="img-reseravtions" src="/images/panoram.jpg" alt="Options_travel">
+        </div>
+        <h1 class="center-align mt-1">{% trans %} Your reservations {% endtrans %} : </h1>
+        {% if not reservation %}
+            <h3 class="center-align marg">{% trans %} You don't have a reservation yet {% endtrans %}</h3>
+        {% else %}
+            {% for reservation in user.reservations | reverse %}
+                <h3 class="mt-1">{% trans %} Summary of your stay booked on {% endtrans %} {{ reservation.createdDate | format_datetime('full', 'none', locale='fr') }} </h3>
+                <hr>
+                <div class="">
+                    <table class="centered responsive-table">
+                        <thead>
+                        <tr>
+                            <th>{% trans %} Reservation {% endtrans %}</th>
+                            <th>{% trans %} Stay {% endtrans %}</th>
+                            <th>{% trans %} Full cost {% endtrans %}</th>
+                            <th>{% trans %} Depature {% endtrans %}</th>
+                            <th> {% trans %} Arrival {% endtrans %}</th>
+                            <th>{% trans %} Paid {% endtrans %}</th>
+                            <th> {% trans %} Invoice {% endtrans %}</th>
+                        </tr>
+                        </thead>
 
-        <tbody>
-          <tr>
-            <td>{{ reservation.serial }}</td>
-            <td>{{ reservation.stays.0.travel.name }}</td>
-            <td>{{ reservation.price }} €</td>
-            <td>{{ reservation.stays.0.starDate | date("m/d/Y à H:i:s") }} </td>
-            <td>{{ reservation.stays.0.endDate | date("m/d/Y à H:i:s") }} </td>
-            <td>
-            {% if reservation.payment %}
-            <i class="material-icons green-text">stars</i>
-            {% else %}
-            <a href="{{ path('payment_create', { 'id': reservation.id }) }}" class="waves-effect waves-light btn-small red accent-4">{% trans %} Paid {% endtrans %}</a>
-            {% endif %}
-            </td>
-            <td><a target="_blank" href="{{ path('invoice_pdf', {'id' : reservation.id }) }}" {% if not reservation.payment %} disabled {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a></td>
-          </tr> 
-        </tbody>
-    </table>
+                        <tbody>
+                        <tr>
+                            <td>{{ reservation.serial }}</td>
+                            <td>{{ reservation.stays.0.travel.name }}</td>
+                            <td>{{ reservation.price }} €</td>
+                            <td>{{ reservation.stays.0.starDate | date("m/d/Y à H:i:s") }} </td>
+                            <td>{{ reservation.stays.0.endDate | date("m/d/Y à H:i:s") }} </td>
+                            <td>
+                                {% if reservation.payment %}
+                                    <i class="material-icons green-text">stars</i>
+                                {% else %}
+                                    <a href="{{ path('payment_create', { 'id': reservation.id }) }}"
+                                       class="waves-effect waves-light btn-small red accent-4">{% trans %} Paid {% endtrans %}</a>
+                                {% endif %}
+                            </td>
+                            <td><a target="_blank"
+                                   href="{{ path('invoice_pdf', {'id' : reservation.id }) }}" {% if not reservation.payment %}
+                                   disabled
+                                   {% endif %}class="waves-effect waves-light btn-small blue">{% trans %} Invoice {% endtrans %}</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            {% endfor %}
+        {% endif %}
     </div>
-    <br>
-    {% endfor %}
-    {% endif %}
-</div>
 {% endblock %}

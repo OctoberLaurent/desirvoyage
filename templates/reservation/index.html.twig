@@ -17,19 +17,20 @@
                 <p>{% trans %} Arrival at  {% endtrans %}
                     <strong>{{ stay.endDate |  format_datetime('full', 'none', locale='fr') }}</strong></p>
             </div>
-            <div class="col l6 s12 center-align mt-2">
+            <div class="col l6 s12 center-align mt-2 ">
                 <h2>{{ stay.travel.name }}</h2>
                 <h2>{{ stay.travel.subtitle }}</h2>
                 <div class="descriptions">
                     <p>{{ stay.travel.descriptions | raw }}</p>
                 </div>
                 <div class="center-align">
-                        <span> {% trans %} From {% endtrans %} </span>
-                        <div class="price">
-                        {{ stay.price }}€ 
-                        </div> 
+                    <span> {% trans %} From {% endtrans %} </span>
+                    <div class="price">
+                        {{ stay.price }}€
+                    </div>
                 </div>
-                <a href="{{ path('reservation_configure', {'id': stay.id}) }}" class="waves-effect waves-light btn mt-2"  {% if not app.user %} disabled {% endif %}>{% trans %} Configure my travel {% endtrans %}</a>
+                <a href="{{ path('reservation_configure', {'id': stay.id}) }}"
+                   class="waves-effect waves-light btn mt-2" {% if not app.user %} disabled {% endif %}>{% trans %} Configure my travel {% endtrans %}</a>
             </div>
         </div>
     </div>
