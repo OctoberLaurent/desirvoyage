@@ -34,13 +34,15 @@ class SecurityController extends AbstractController
 	}
 
 	/**
+	 * login
+	 * 
 	 * @Route("/login", name="login")
 	 */
 	public function login(AuthenticationUtils $authenticationUtils): Response
 	{
 		if ($this->getUser()) {
 			$this->addFlash('blue', 'Vous êtes déja connecté(e)');
-			return $this->redirectToRoute('dashboard');
+			return $this->redirectToRoute('user_dashboard');
 		}
 
 		// get the login error if there is one
@@ -57,6 +59,8 @@ class SecurityController extends AbstractController
 	}
 
 	/**
+	 * logout
+	 * 
 	 * @Route("/logout", name="logout")
 	 */
 	public function logout()
@@ -121,9 +125,9 @@ class SecurityController extends AbstractController
 	}
 
 	/**
-	 * Permet d'initier la méthode du mot de passe oublié
+	 * Allows to initiate the forgotten password method
 	 *
-	 * @Route("/mot-de-passe-oublie",name="RenewPassword")
+	 * @Route("/mot-de-passe-oublie",name="forgotten_password")
 	 *
 	 * @param Request $request
 	 * @return Response
