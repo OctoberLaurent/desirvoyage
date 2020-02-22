@@ -16,7 +16,7 @@
                 {{ form_end(form) }}
             </div>
             {# travels list #}
-            <div class="col l9">
+            <div class="col l9 padx">
                 <div class="row">
                     <h5>{{ nbtravels }} {% trans %} Travels {% endtrans %}</h5>
                     <hr>
@@ -37,7 +37,7 @@
                                     <p>{{ travel.descriptions | raw }}</p>
                                 </div>
                                 <div class="center-align">
-                                    <span class="new indigo darken-4 white-text ">{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</span>
+                                    <span class="new deep-orange darken-3 white-text price-travels">{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</span>
                                 </div>
                             </div>
                             <br>
