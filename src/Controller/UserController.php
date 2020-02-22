@@ -91,7 +91,7 @@ class UserController extends AbstractController
 			$em->flush();
 
 			$this->addFlash('blue darken-1', 'Les données de votre compte ont bien été modifiées');
-			return $this->redirectToRoute('dashboard');
+			return $this->redirectToRoute('user_dashboard');
 		}
 		return $this->render('user/edituser.html.twig', array(
 			'form' => $form->createView(),
@@ -113,7 +113,7 @@ class UserController extends AbstractController
 
 
 	/**
-	 * @Route("/profil/dashboard", name="dashboard", methods={"GET", "POST"})
+	 * @Route("/profil/dashboard", name="user_dashboard", methods={"GET", "POST"})
 	 * @IsGranted("ROLE_USER")
 	 */
 	public function dashboard()

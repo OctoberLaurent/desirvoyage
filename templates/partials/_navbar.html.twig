@@ -1,6 +1,6 @@
 {% set route = app.request.attributes.get('_route') %}
 <ul id="dropdown1" class="dropdown-content">
-    <li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
+    <li><a href="{{ path('user_dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
     <li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
     <li class="divider"></li>
     <li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
@@ -50,7 +50,7 @@
     {% else %}
         <!-- If user is connected -->
         <li><a href="{{ path('reservation_list') }}">Mes réservations</a></li>
-        <li><a href="{{ path('dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
+        <li><a href="{{ path('user_dashboard') }}" class="blue-text"> {% trans %} My profil {% endtrans %} </a></li>
         <li><a href="{{ path('reservation_list') }}" class="blue-text">Mes réservations</a></li>
         <li><a href="{{ path('logout') }}" class="blue-text"> {% trans %} Logout {% endtrans %} </a></li>
     {% endif %}
