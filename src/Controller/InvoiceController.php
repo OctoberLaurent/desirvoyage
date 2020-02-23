@@ -32,6 +32,8 @@ class InvoiceController extends AbstractController
 	}
 
 	/**
+	 * Genrate invoice in PDF
+	 * 
 	 * @Route("pdf/{id}", name="_pdf")
 	 */
 	public function InvoicePdf(Reservation $reservation)

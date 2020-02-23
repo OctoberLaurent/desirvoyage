@@ -76,6 +76,5 @@ class MailerService{
 
         $this->send( $email, $text);
     }
-
  
 }

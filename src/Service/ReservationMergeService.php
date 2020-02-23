@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Traveler;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -13,7 +14,13 @@ class ReservationMergeService
         $this->entityManager = $em;
     }
 
-    public function reservationMerge($reservation)
+    /**
+     * Reconstructs travelers attributes
+     *
+     * @param $reservation
+     * @return void
+     */
+    public function reservationMerge($reservation) : Traveler
     {
         $merged = $this->entityManager->merge($reservation);
         $merged->setTravelers( $reservation->getTravelers() );
@@ -29,7 +36,13 @@ class ReservationMergeService
         return $merged;
     }
 
-    public function reservationOptionsMerge($reservation)
+    /**
+     * Reconstructs option attributes
+     *
+     * @param $reservation
+     * @return void
+     */
+    public function reservationOptionsMerge($reservation) : void
     {
         $options = $reservation->getOptions();
         $moptions = new ArrayCollection();
