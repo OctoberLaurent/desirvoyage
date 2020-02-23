@@ -14,13 +14,8 @@ var results = {};
 function search(){
     var autocomplete = document.getElementById("register_address");
     
-    
     let query = autocomplete.value;
-    //requete limit one
-    let limit = "1";
-
-    //console.log(query);
-    //first request with an Ajax for the address
+  
     $.ajax({
         method: "GET",
         url: "/api/address",
@@ -40,18 +35,17 @@ function search(){
             $('#register_address').autocomplete("open");
 
         });
-
 }
 
 function loadData( string ){
-    /* On récupere les éléments id de l'adresse code postale et city */
+    /* We recover the elements id of the address postal code and city */
     var address = document.getElementById("register_address");
     var Postcode = document.getElementById("register_postalCode");
     var city = document.getElementById("register_city");
-   /* On boucle sur les result */
+   /* We loop on the results */
     for( var i in results.features ){
         var row = results.features[ i ];
-        /* si le label est egal à la variable string alors on affiche code postale, rue et ville*/ 
+        /* if the label is equal to the variable string then we display postal code, street and city */ 
         if( row.properties.label == string ){
             Postcode.value = row.properties.postcode;
             address.value = row.properties.name;
@@ -59,4 +53,3 @@ function loadData( string ){
         }
     }      
 }
-   
