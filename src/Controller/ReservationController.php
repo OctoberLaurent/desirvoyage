@@ -18,12 +18,17 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+
+/**
+ * @Route("/reservation", name="reservation")
+ *
+ */
 class ReservationController extends AbstractController
 {
 	/**
 	 * Start configure travel
 	 *
-	 * @Route("/reservation", name="reservation_index")
+	 * @Route("", name="_index")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
@@ -49,7 +54,7 @@ class ReservationController extends AbstractController
 	/**
 	 * Configure option
 	 *
-	 * @route("/reservation/configure/{id}", name="reservation_configure")
+	 * @route("/configure/{id}", name="_option")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
@@ -68,7 +73,7 @@ class ReservationController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 
 			$session->set('reservation', $reservation);
-			return $this->redirectToRoute('traveler_configure', ['id' => $id]);
+			return $this->redirectToRoute('reservation_traveler', ['id' => $id]);
 		}
 
 		return $this->render('reservation/configureTravel.html.twig', [
@@ -81,7 +86,7 @@ class ReservationController extends AbstractController
 	/**
 	 * congigure travelers
 	 *
-	 * @route("/reservation/configure/configureTravelers/{id}", name="traveler_configure")
+	 * @route("/configure/configureTravelers/{id}", name="_traveler")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
@@ -100,7 +105,7 @@ class ReservationController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 
 			$session->set('reservation', $reservation);
-			return $this->redirectToRoute('summary_reservation');
+			return $this->redirectToRoute('reservation_summary');
 		}
 
 		return $this->render('reservation/configureTravelers.html.twig', [
@@ -113,7 +118,7 @@ class ReservationController extends AbstractController
 	/**
 	 * show configuration travel and calcul coast
 	 *
-	 * @route("/reservation/summary", name="summary_reservation")
+	 * @route("/summary", name="_summary")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
@@ -135,7 +140,7 @@ class ReservationController extends AbstractController
 				'OUPS ! Il n\'y a personne d\'enregistré sur ce voyoyage'
 			);
 
-			return $this->redirectToRoute("traveler_configure", ['id' => $id]);
+			return $this->redirectToRoute("reservation_traveler", ['id' => $id]);
 
 		}
 
@@ -162,7 +167,7 @@ class ReservationController extends AbstractController
 	/**
 	 * Valid for pay travel
 	 *
-	 * @route("/reservation/validate/", name="reservation_validate")
+	 * @route("/validate/", name="_validate")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
@@ -216,7 +221,7 @@ class ReservationController extends AbstractController
 	/**
 	 * reservations list
 	 *
-	 * @route("/reservation/list/", name= "reservation_list")
+	 * @route("/list/", name= "_list")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
@@ -235,7 +240,7 @@ class ReservationController extends AbstractController
 	/**
 	 * remove travel in session
 	 *
-	 * @route("/reservation/remove/", name= "reservation_remove")
+	 * @route("/remove/", name= "_remove")
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
