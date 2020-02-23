@@ -43,8 +43,16 @@ class TravelRepository extends ServiceEntityRepository
         }
 
         if( $search['search'] ){
-            $qb->andWhere( $qb->expr()->like('s.arrival', ':search'))
-             ->setParameter('search', '%' . $search['search'] . '%' );
+            $qb->andwhere(
+                $qb->expr()->orX(
+                       $qb->expr()->like('s.arrival', ':search'),
+                       $qb->expr()->like('t.descriptions', ':search'),
+                       $qb->expr()->eq('f.destination', ':search'),
+                    )
+            )
+            ->setParameter('search', '%' . $search['search'] . '%' );
+            
+        
         }
 
         if( $search['maxprice'] ){

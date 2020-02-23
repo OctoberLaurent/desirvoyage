@@ -23,12 +23,14 @@
                     {% for travel in travels %}
                         {% if loop.index > page*10-10 and loop.index < page*10+1 %}
                             <div class="col s12 l6 divheight left-align">
-                                {% if travel.pictures is not empty %}
-                                    <img src="{{ travel.pictures.get(0).picturename }}"
-                                         alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
-                                {% else %}
-                                    <img src="/data/default.png" class="picturelist ">
-                                {% endif %}
+                                <a href="{{ path('travel_show', { 'slug': travel.slug }) }}">
+                                    {% if travel.pictures is not empty %}
+                                        <img src="{{ travel.pictures.get(0).picturename }}"
+                                            alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
+                                    {% else %}
+                                        <img src="/data/default.png" class="picturelist ">
+                                    {% endif %}
+                                </a>
                             </div>
                             <div class="col s12 l6 divheight">
                                 <a href="{{ path('travel_show', { 'slug': travel.slug }) }}"><h2>{{ travel.name }}</h2></a>
@@ -36,8 +38,10 @@
                                 <div class="descriptions">
                                     <p>{{ travel.descriptions | raw }}</p>
                                 </div>
-                                <div class="center-align">
-                                    <span class="new deep-orange darken-3 white-text price-travels">{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</span>
+                                <div class="center-align mt-1">
+                                    <a href="{{ path('travel_show', { 'slug': travel.slug }) }}">
+                                        <span class="new deep-orange darken-3 white-text price-travels">{% trans %} From {% endtrans %} {{ travel.getMinPrice() }} €</span>
+                                    </a>
                                 </div>
                             </div>
                             <br>
