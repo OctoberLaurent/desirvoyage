@@ -63,10 +63,7 @@ class SecurityController extends AbstractController
 	 * 
 	 * @Route("/logout", name="logout")
 	 */
-	public function logout()
-	{
-		//Je n'affiche rien dans la fonction. Tout est fait automatiquement
-	}
+	public function logout(){}
 
 	/**
 	 * Activate account
@@ -154,7 +151,7 @@ class SecurityController extends AbstractController
 	}
 
 	/**
-	 * Permet de réintialiser le mot de passe
+	 * Allows you to the reset password
 	 *
 	 * @Route("/reset_password/{token}", name="reset_password")
 	 *
@@ -168,7 +165,7 @@ class SecurityController extends AbstractController
 		$user = $entityManager->getRepository(User::class)->findOneByToken($token);
 
 		if ($user == null) {
-			// A rediriger vers la 404
+			// To redirect to the 404
 			return $this->redirectToRoute('home');
 		}
 
@@ -196,7 +193,7 @@ class SecurityController extends AbstractController
 	}
 
 	/**
-	 * Permet de changer de mot de passe
+	 * Allows you to change your password
 	 *
 	 * @Route("/newpassword", name="new_password", methods={"GET", "POST"})
 	 *
