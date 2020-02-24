@@ -2,10 +2,11 @@
 
 namespace App\Service;
 
+
+
 use App\Entity\Reservation;
-use App\Entity\Traveler;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class ReservationMergeService
 {

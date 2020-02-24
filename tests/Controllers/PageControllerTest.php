@@ -17,7 +17,7 @@ class PageControllerTest extends WebTestCase
     public function setUp()
     {
         $this->client = static::createClient([], [
-        'PHP_AUTH_USER' => 'test@test.fr',
+        'PHP_AUTH_USER' => 'user@user.fr',
         'PHP_AUTH_PW'   => '123456',
         ]);
     }
