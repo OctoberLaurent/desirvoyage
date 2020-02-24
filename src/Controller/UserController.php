@@ -39,7 +39,7 @@ class UserController extends AbstractController
 	{
 		if ($this->getUser()) {
 
-			return $this->redirectToRoute('home');
+			return $this->redirectToRoute('travel_home');
 
 		}
 
