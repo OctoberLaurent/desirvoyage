@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Reservation;
 use App\Entity\Traveler;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +21,7 @@ class ReservationMergeService
      * @param $reservation
      * @return void
      */
-    public function reservationMerge($reservation) : Traveler
+    public function reservationMerge($reservation) : Reservation
     {
         $merged = $this->entityManager->merge($reservation);
         $merged->setTravelers( $reservation->getTravelers() );

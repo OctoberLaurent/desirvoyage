@@ -104,7 +104,6 @@ class SecurityController extends AbstractController
 	 */
 	public function resendactivatetoken(User $user)
 	{
-
 		if (!$user->getEnabled()) {
 			// generate token and expire date
 			$this->userService->generateToken($user);
