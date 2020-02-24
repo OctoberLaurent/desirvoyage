@@ -145,7 +145,7 @@ class SecurityController extends AbstractController
 			}
 
 			$this->addFlash('blue', 'Si un compte existe avec cette adresse email, un email vous sera envoyé.');
-			return $this->redirectToRoute('home');
+			return $this->redirectToRoute('travel_home');
 		}
 		return $this->render('user/forgotten_password.html.twig');
 	}
@@ -166,7 +166,7 @@ class SecurityController extends AbstractController
 
 		if ($user == null) {
 			// To redirect to the 404
-			return $this->redirectToRoute('home');
+			return $this->redirectToRoute('travel_home');
 		}
 
 		$myPassword = new MyPassword;
@@ -184,7 +184,7 @@ class SecurityController extends AbstractController
 
 				$this->addFlash('green accent-3', 'Le mot de passe a bien été modifié.');
 			}
-			return $this->redirectToRoute('home');
+			return $this->redirectToRoute('travel_home');
 		}
 
 		return $this->render('security/reset_password.html.twig', [
