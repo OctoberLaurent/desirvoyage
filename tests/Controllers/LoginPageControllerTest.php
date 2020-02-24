@@ -15,7 +15,7 @@ class LoginPageControllerTest extends WebTestCase
     $client = static::createClient();
     $crawler = $client->request('GET', '/login');
     $form = $crawler->selectButton('Connection')->form([
-        'email' => 'test@test.fr',
+        'email' => 'user@user.fr',
         'password' => '123456'
     ]);
     $client->submit($form);
