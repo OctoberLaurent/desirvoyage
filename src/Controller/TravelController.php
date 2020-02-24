@@ -17,6 +17,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TravelController extends AbstractController
 {
 	/**
+	 * HomePage
+	 * 
 	 * @Route("", name="_home")
 	 */
 	public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
@@ -46,11 +48,13 @@ class TravelController extends AbstractController
 	}
 
 	/**
+	 * show all travels or travels in one category
+	 * 
 	 * @Route("/travels/{page}", name="_list")
 	 */
 	public function travels(TravelRepository $travelRepository, Request $request, $page = 1)
 	{
-		// get category 
+		// get id category in get
 		$category = $request->query->get('category');
 
 		$form = $this->createForm(TravelSearchType::class, null);
@@ -77,7 +81,7 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * Show One trave
+	 * Show One travel
 	 * 
 	 * @Route("/travel/{slug}", name="_show")
 	 */
@@ -89,10 +93,13 @@ class TravelController extends AbstractController
 	}
 
 	/**
+	 * Show all categories
+	 * 
 	 * @Route("/categories/", name="_categorie_list")
 	 */
 	public function showAllCategorie(CategoriesRepository $repo)
 	{
+		// retrieve all categories
 		$categories = $repo->findAll();
 
 		return $this->render('travel/allcategories.html.twig', [

@@ -206,6 +206,12 @@ hr.pink {
     object-fit: cover; 
 }
 
+.py-1 {
+
+  padding: 0 0 3em 0;;
+
+}
+
 .price {
   color: red;
   font-size: 3em;
@@ -376,7 +382,7 @@ hr.pink {
 .quantity{
   display: block;
   padding: 4px;
-  float: left;
+  float: right;
   right: -120px;
   position: relative;
 }
