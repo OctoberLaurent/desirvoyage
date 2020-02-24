@@ -43,6 +43,16 @@ $('.datepicker-date-display').remove();
             alert('la valeur indiquée n\'est pas correcte !' );
             this.value = '';
         }
-
     });
+
+    $('#reset').click(function(e) {
+       e.preventDefault();
+        inputs = $('form[name="travel_search"] input:not(#travel_search__token),form[name="travel_search"] select');
+        
+        inputs.each(function() {
+            $( this ).val('');
+        }).promise().done( function(){ $('form[name="travel_search"]').submit(); } );
+    
+    });
+
 })

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Reservation;
 use App\Entity\Traveler;
 use App\Entity\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
