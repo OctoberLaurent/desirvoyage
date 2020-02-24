@@ -19,4 +19,6 @@ $('#flash').click(function(){
 })
 
 $('#modal1').modal();
-    }); 
+   
+
+}); 
