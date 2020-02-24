@@ -12,7 +12,7 @@ $(document).ready(function () {
 
         newWidget = newWidget.replace(/__name__/g, counter);
         
-        newWidget += '<button type="button" class="waves-effect waves-light btn red darken-4 delete">Delete</button>';
+        newWidget += '<button type="button" class="waves-effect waves-light btn red darken-4 delete">Effacer</button>';
         
         global.counter = counter
         counter++;
