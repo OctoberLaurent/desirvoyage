@@ -26,7 +26,7 @@
                         <!-- If user is connected -->
                         <li><a class="grey-text text-lighten-3"
                                href="{{ path('user_dashboard') }}"> {% trans %} My Profil {% endtrans %} </a></li>
-                        <li><a class="grey-text text-lighten-3" href="">Mon panier</a></li>
+                        <li><a class="grey-text text-lighten-3" href="{{ path('reservation_list') }}">Mon panier</a></li>
                         <li><a class="grey-text text-lighten-3"
                                href="{{ path('logout') }}"> {% trans %} Logout {% endtrans %} </a></li>
                     {% endif %}
@@ -36,7 +36,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            © {{ "now"|date("Y") }} Copyright Désire Voyage
+            © {{ "now"|date("Y") }} Copyright Désir Voyage
         </div>
     </div>
 </footer>

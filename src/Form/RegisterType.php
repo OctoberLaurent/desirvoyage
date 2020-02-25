@@ -156,9 +156,12 @@ class RegisterType extends AbstractType
                     'type' => PasswordType::class,
                     'first_options'  => [
                         'label' => "mot de passe",
-                        'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
+                        'help' => "* de 8 à 15 caractères avec au moins un chiffre et un caractère spéciale",
                         'required' => true,
                         'constraints' => [
+                            new Regex([
+                                'pattern' => '/^(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/'
+                            ]),
                             new NotNull([
                                 'message' => "Saisir votre mot de passe",
                             ]),
@@ -169,9 +172,11 @@ class RegisterType extends AbstractType
                     ],
                     'second_options' => [
                         'label' => "Repéter le mot de passe",
-                        'help' => "* de 8 à 15 caractères avec au moins une lettre majuscule, un chiffre et un caractère spéciale",
+                        'help' => "* de 8 à 15 caractères avec un chiffre et un caractère spéciale",
                         'constraints' => [
-                    
+                            new Regex([
+                                'pattern' => '/^(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/'
+                            ]),
                             new NotBlank([
                                 'message' => "Repéter le mot de passe",
                             ]),
@@ -186,15 +191,7 @@ class RegisterType extends AbstractType
                         "class" => "filled-in",
                     ],
                     'mapped' => false, // ce champ n'est pas dans l'entité User
-            ]);   
-            
-            
-        
-           
-            
-          
-            
-            
+            ]);         
         ;
     }
 
