@@ -11,9 +11,9 @@ use Dompdf\Options;
 
 /**
  * Generate invoice in html
- * 
+ *
  * @IsGranted("ROLE_USER")
- * 
+ *
  * @Route("/invoice", name="invoice")
  */
 class InvoiceController extends AbstractController
@@ -33,7 +33,7 @@ class InvoiceController extends AbstractController
 
 	/**
 	 * Genrate invoice in PDF
-	 * 
+	 *
 	 * @Route("pdf/{id}", name="_pdf")
 	 */
 	public function InvoicePdf(Reservation $reservation)

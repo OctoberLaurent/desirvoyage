@@ -32,11 +32,11 @@ class PaymentController extends AbstractController
 	}
 
 	/**
-	 * 
+	 *
 	 * Create a payment with stripe
-	 * 
+	 *
 	 * @Route("/{id}", name="_create")
-	 * 
+	 *
 	 * @IsGranted("ROLE_USER")
 	 */
 	public function index(Reservation $reservation)
@@ -66,10 +66,10 @@ class PaymentController extends AbstractController
 	}
 
 	/**
-	 * Validates or refuses payment 
-	 * 
+	 * Validates or refuses payment
+	 *
 	 * @Route("/verification/{id}", name="_charge")
-	 * 
+	 *
 	 * @IsGranted("ROLE_USER")
 	 *
 	 * @param Request $request
@@ -87,9 +87,9 @@ class PaymentController extends AbstractController
 				'source' => $request->request->get('stripeToken'),
 			]);
 		} catch (\Exception $e) {
-			
+
 			$this->addFlash('red', "Le paiement a été refusé vous pouver effectuer une nouvelle tentative.");
-			
+
 			// Go back to the reservations to redo the payment
 			return $this->redirectToRoute('reservation_list');
 		}
@@ -111,7 +111,7 @@ class PaymentController extends AbstractController
 		$mailerService->sendConfirmedPaimenent($user->getEmail());
 
 		$this->addFlash('green', "Votre paiement a bien été effectué");
-		
+
 		return $this->redirectToRoute('reservation_list');
 	}
 }

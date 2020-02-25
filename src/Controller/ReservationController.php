@@ -59,7 +59,7 @@ class ReservationController extends AbstractController
 	 * @IsGranted("ROLE_USER")
 	 */
 	public function configure(Stays $stays, SessionInterface $session, Request $request,
-							  $id, ReservationMergeService $seservationMergeService) 
+							  $id, ReservationMergeService $seservationMergeService)
 	{
 		// get session
 		$reservation = $session->get('reservation');
@@ -122,7 +122,7 @@ class ReservationController extends AbstractController
 	 *
 	 * @IsGranted("ROLE_USER")
 	 */
-	public function summary(SessionInterface $session) 
+	public function summary(SessionInterface $session)
 	{
 		if ($session->get('reservation') == null) {
 			return $this->redirectToRoute('reservation_list');

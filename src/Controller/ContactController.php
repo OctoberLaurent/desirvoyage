@@ -24,7 +24,7 @@ class ContactController extends AbstractController
 
 	/**
 	 * Contact form
-	 * 
+	 *
 	 * @Route("/contact", name="contact")
 	 */
 	public function contact(Request $request, MailerService $mailerService)

@@ -18,7 +18,7 @@ class TravelController extends AbstractController
 {
 	/**
 	 * HomePage
-	 * 
+	 *
 	 * @Route("", name="_home")
 	 */
 	public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
@@ -49,7 +49,7 @@ class TravelController extends AbstractController
 
 	/**
 	 * show all travels or travels in one category
-	 * 
+	 *
 	 * @Route("/travels/{page}", name="_list")
 	 */
 	public function travels(TravelRepository $travelRepository, Request $request, $page = 1)
@@ -82,7 +82,7 @@ class TravelController extends AbstractController
 
 	/**
 	 * Show One travel
-	 * 
+	 *
 	 * @Route("/travel/{slug}", name="_show")
 	 */
 	public function showOne(Travel $travel)
@@ -94,7 +94,7 @@ class TravelController extends AbstractController
 
 	/**
 	 * Show all categories
-	 * 
+	 *
 	 * @Route("/categories/", name="_categorie_list")
 	 */
 	public function showAllCategorie(CategoriesRepository $repo)
