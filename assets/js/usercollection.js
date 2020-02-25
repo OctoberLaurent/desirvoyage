@@ -60,7 +60,7 @@ $(document).ready(function () {
     }
         
     function addTravelerFormDeleteLink($travelerFormLi) {
-        var $removeFormButton = $('<button type="button" class="waves-effect waves-light btn red darken-4 delete">Delete</button>');
+        var $removeFormButton = $('<button type="button" class="waves-effect waves-light btn red darken-4 delete">Effacer</button>');
         $travelerFormLi.append($removeFormButton);
 
         $removeFormButton.on('click', function(e) {

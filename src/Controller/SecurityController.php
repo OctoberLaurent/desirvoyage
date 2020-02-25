@@ -219,7 +219,7 @@ class SecurityController extends AbstractController
 
 			$this->addFlash('green accent-3', "Votre mot de passe a bien été modifié.");
 
-			return $this->redirectToRoute("home");
+			return $this->redirectToRoute("travel_home");
 		}
 
 		return $this->render("user/RenewPassword.html.twig", [
