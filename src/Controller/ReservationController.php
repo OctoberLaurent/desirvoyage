@@ -95,6 +95,7 @@ class ReservationController extends AbstractController
 		if ($session->get('reservation') == null) {
 			return $this->redirectToRoute('reservation_list');
 		};
+
 		// get session
 		$reservation = $session->get('reservation');
 		// insert $reservation in form
@@ -215,6 +216,7 @@ class ReservationController extends AbstractController
 		$id = $merged->getId();
 		$session->clear();
 		$session->set('id', $id);
+		
 		return $this->redirectToRoute('payment_create', ['id' => $id]);
 	}
 
