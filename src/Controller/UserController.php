@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
@@ -24,7 +24,7 @@ class UserController extends AbstractController
 	private $mailer;
 	private $urlGenerator;
 
-	public function __construct(UserPasswordEncoderInterface $encoder, MailerService $mailer, UserService $userService, UrlGeneratorInterface $urlGenerator)
+	public function __construct(UserPasswordHasherInterface $encoder, MailerService $mailer, UserService $userService, UrlGeneratorInterface $urlGenerator)
 	{
 		$this->encoder = $encoder;
 		$this->mailer = $mailer;
@@ -32,10 +32,8 @@ class UserController extends AbstractController
 		$this->urlGenerator = $urlGenerator;
 	}
 
-	/**
-	 * @Route("/register", name="register")
-	 */
-	public function register(Request $request): Response
+	#[Route(path: '/register', name: 'register')]
+    public function register(Request $request): Response
 	{
 		if ($this->getUser()) {
 
@@ -49,7 +47,7 @@ class UserController extends AbstractController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$password = $this->encoder->encodePassword($user, $user->getPassword());
+			$password = $this->encoder->hashPassword($user, $user->getPassword());
 			$user->setPassword($password);
 			$user->setRoles(["ROLE_USER"]);
 
@@ -72,10 +70,10 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/profil/edit/", name="user_edit")
-	 * @IsGranted("ROLE_USER")
-	 */
-	public function edit(Request $request): Response
+     * @IsGranted("ROLE_USER")
+     */
+    #[Route(path: '/profil/edit/', name: 'user_edit')]
+    public function edit(Request $request): Response
 	{
 		$user = $this->getUser();
 
@@ -98,10 +96,8 @@ class UserController extends AbstractController
 		));
 	}
 
-	/**
-	 * @Route("/api/address", name="api-address", methods={"GET"})
-	 */
-	public function api(HttpClientInterface $httpClient, Request $request)
+	#[Route(path: '/api/address', name: 'api-address', methods: ['GET'])]
+    public function api(HttpClientInterface $httpClient, Request $request)
 	{
 		$response = $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
 			'query' => array(
@@ -113,10 +109,10 @@ class UserController extends AbstractController
 
 
 	/**
-	 * @Route("/profil/dashboard", name="user_dashboard", methods={"GET", "POST"})
-	 * @IsGranted("ROLE_USER")
-	 */
-	public function dashboard()
+     * @IsGranted("ROLE_USER")
+     */
+    #[Route(path: '/profil/dashboard', name: 'user_dashboard', methods: ['GET', 'POST'])]
+    public function dashboard()
 	{
 		return $this->render("user/dashboard.html.twig");
 	}

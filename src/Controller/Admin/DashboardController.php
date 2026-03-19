@@ -10,10 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-    /**
-     * @Route("/admin", name="admin_dashboard")
-     */
     #[Route('/admin', name: 'admin_dashboard')]
+    #[Route(path: '/admin', name: 'admin_dashboard')]
     public function index(): Response
     {
         // En EasyAdmin 4, on peut initialement rediriger vers une page vierge ou vers un CRUD
@@ -31,7 +29,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToRoute('Retour au site', 'fa fa-arrow-left', 'index');
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
-        
+
         // On ajoutera les CRUDs de Travels, Categories, Users, etc. ici.
     }
 }

@@ -9,38 +9,26 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: \App\Repository\CategoriesRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Categories
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=4, max=30, minMessage="Your title must be at least 4 characters long", maxMessage="Your title must not exceed 30 characters")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(min: 4, max: 30, minMessage: 'Your title must be at least 4 characters long', maxMessage: 'Your title must not exceed 30 characters')]
     private $title;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Travel", mappedBy="categories", cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Travel::class, mappedBy: 'categories', cascade: ['persist'])]
     private $travel;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $url;
 
     public function __construct()
@@ -51,10 +39,10 @@ class Categories
      /**
      * return a slug !
      *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
      * @return void
      */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function initializeSlug() {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);

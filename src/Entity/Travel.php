@@ -12,69 +12,47 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TravelRepository")
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: \App\Repository\TravelRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Travel
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=30, minMessage="Your title must be at least 5 characters long", maxMessage="Your title must not exceed 30 characters")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(min: 5, max: 30, minMessage: 'Your title must be at least 5 characters long', maxMessage: 'Your title must not exceed 30 characters')]
+    #[Groups(['read'])]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=50, minMessage="Your subtitle must be at least 5 characters long", maxMessage="Your subtitle must not exceed 50 characters")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(min: 5, max: 50, minMessage: 'Your subtitle must be at least 5 characters long', maxMessage: 'Your subtitle must not exceed 50 characters')]
+    #[Groups(['read'])]
     private $subtitle;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank(message="this field must not be empty")
-     * @Assert\Length(min=10, max=1800, minMessage="Your description must be at least 10 characters long", maxMessage="Your description must not exceed 1800 characters")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Assert\NotBlank(message: 'this field must not be empty')]
+    #[Assert\Length(min: 10, max: 1800, minMessage: 'Your description must be at least 10 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
+    #[Groups(['read'])]
     private $descriptions;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Pictures", mappedBy="travel",cascade={"persist","remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Pictures::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
     private $pictures;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stays", mappedBy="travel",cascade={"persist", "remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Stays::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
     private $stays;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="travel")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Categories::class, inversedBy: 'travel')]
     private $categories;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Formality", inversedBy="travels", cascade={"persist"})
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Formality::class, inversedBy: 'travels', cascade: ['persist'])]
     private $formality;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Options", inversedBy="travels", cascade={"persist"})
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Options::class, inversedBy: 'travels', cascade: ['persist'])]
     private $options;
 
     public function __construct()
@@ -88,11 +66,11 @@ class Travel
      /**
      * return a slug !
      *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     * 
+     *
      * @return void
      */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function initializeSlug() {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->name);

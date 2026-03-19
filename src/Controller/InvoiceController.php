@@ -11,17 +11,14 @@ use Dompdf\Options;
 
 /**
  * Generate invoice in html
- * 
+ *
  * @IsGranted("ROLE_USER")
- * 
- * @Route("/invoice", name="invoice")
  */
+#[Route(path: '/invoice', name: 'invoice')]
 class InvoiceController extends AbstractController
 {
-	/**
-	 * @Route("/{id}", name="_html")
-	 */
-	public function InvoiceHtml(Reservation $reservation)
+	#[Route(path: '/{id}', name: '_html')]
+    public function InvoiceHtml(Reservation $reservation)
 	{
 		$projectRoot = $this->getParameter('kernel.project_dir');
 		return $this->render('invoice/index.html.twig', [
@@ -32,11 +29,10 @@ class InvoiceController extends AbstractController
 	}
 
 	/**
-	 * Genrate invoice in PDF
-	 * 
-	 * @Route("pdf/{id}", name="_pdf")
-	 */
-	public function InvoicePdf(Reservation $reservation)
+     * Genrate invoice in PDF
+     */
+    #[Route(path: 'pdf/{id}', name: '_pdf')]
+    public function InvoicePdf(Reservation $reservation)
 	{
 		$projectRoot = $this->getParameter('kernel.project_dir');
 		//Get reservation serial

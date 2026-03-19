@@ -49,13 +49,13 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * Configure option
-     *
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    #[Route(path: '/configure/{id}', name: '_option')]
-    public function configure(Stays $stays, SessionInterface $session, Request $request,
+	 * Configure option
+	 *
+	 * @route("/configure/{id}", name="_option")
+	 *
+	 * @IsGranted("ROLE_USER")
+	 */
+	public function configure(Stays $stays, SessionInterface $session, Request $request,
 							  $id, ReservationMergeService $seservationMergeService) 
 	{
 		// get session
@@ -81,13 +81,13 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * congigure travelers
-     *
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    #[Route(path: '/configure/configureTravelers/{id}', name: '_traveler')]
-    public Function configureTravelers(Request $request, SessionInterface $session, $id)
+	 * congigure travelers
+	 *
+	 * @route("/configure/configureTravelers/{id}", name="_traveler")
+	 *
+	 * @IsGranted("ROLE_USER")
+	 */
+	public Function configureTravelers(Request $request, SessionInterface $session, $id)
 	{
 		if ($session->get('reservation') == null) {
 			return $this->redirectToRoute('reservation_list');
@@ -113,13 +113,13 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * show configuration travel and calcul coast
-     *
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    #[Route(path: '/summary', name: '_summary')]
-    public function summary(SessionInterface $session) 
+	 * show configuration travel and calcul coast
+	 *
+	 * @route("/summary", name="_summary")
+	 *
+	 * @IsGranted("ROLE_USER")
+	 */
+	public function summary(SessionInterface $session) 
 	{
 		if ($session->get('reservation') == null) {
 			return $this->redirectToRoute('reservation_list');
@@ -162,13 +162,13 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * Valid for pay travel
-     *
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    #[Route(path: '/validate/', name: '_validate')]
-    public function validate(SessionInterface $session, MakeSerialService $service,
+	 * Valid for pay travel
+	 *
+	 * @route("/validate/", name="_validate")
+	 *
+	 * @IsGranted("ROLE_USER")
+	 */
+	public function validate(SessionInterface $session, MakeSerialService $service,
 							 ReservationMergeService $seservationMergeService, StockManagementService $stockManagementService)
 	{
 		if ($session->get('reservation') == null) {
@@ -216,13 +216,13 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * reservations list
-     *
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    #[Route(path: '/list/', name: '_list')]
-    public function reservationsList()
+	 * reservations list
+	 *
+	 * @route("/list/", name= "_list")
+	 *
+	 * @IsGranted("ROLE_USER")
+	 */
+	public function reservationsList()
 	{
 		$user = $this->getUser();
 		$reservation = $user->getReservations();
@@ -235,13 +235,13 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * remove travel in session
-     *
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    #[Route(path: '/remove/', name: '_remove')]
-    public function remove(SessionInterface $session)
+	 * remove travel in session
+	 *
+	 * @route("/remove/", name= "_remove")
+	 *
+	 * @IsGranted("ROLE_USER")
+	 */
+	public function remove(SessionInterface $session)
 	{
 		$session->set('reservation', null);
 

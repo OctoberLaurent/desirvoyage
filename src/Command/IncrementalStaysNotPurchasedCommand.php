@@ -27,7 +27,7 @@ class IncrementalStaysNotPurchasedCommand extends Command
         $this->setDescription('Add stays not purshased');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 

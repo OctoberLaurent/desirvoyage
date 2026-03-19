@@ -11,17 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-/**
- * @Route("/", name="travel")
- */
+#[Route(path: '/', name: 'travel')]
 class TravelController extends AbstractController
 {
 	/**
-	 * HomePage
-	 * 
-	 * @Route("", name="_home")
-	 */
-	public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
+     * HomePage
+     */
+    #[Route(path: '', name: '_home')]
+    public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory)
 	{
 		// return 3 firsts categories
 		$categories = $categoriesReposotory->findBy([], [], 3);
@@ -48,11 +45,10 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * show all travels or travels in one category
-	 * 
-	 * @Route("/travels/{page}", name="_list")
-	 */
-	public function travels(TravelRepository $travelRepository, Request $request, $page = 1)
+     * show all travels or travels in one category
+     */
+    #[Route(path: '/travels/{page}', name: '_list')]
+    public function travels(TravelRepository $travelRepository, Request $request, $page = 1)
 	{
 		// get id category in get
 		$category = $request->query->get('category');
@@ -81,11 +77,10 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * Show One travel
-	 * 
-	 * @Route("/travel/{slug}", name="_show")
-	 */
-	public function showOne(Travel $travel)
+     * Show One travel
+     */
+    #[Route(path: '/travel/{slug}', name: '_show')]
+    public function showOne(Travel $travel)
 	{
 		return $this->render('travel/showone.html.twig', [
 			'travel' => $travel
@@ -93,11 +88,10 @@ class TravelController extends AbstractController
 	}
 
 	/**
-	 * Show all categories
-	 * 
-	 * @Route("/categories/", name="_categorie_list")
-	 */
-	public function showAllCategorie(CategoriesRepository $repo)
+     * Show all categories
+     */
+    #[Route(path: '/categories/', name: '_categorie_list')]
+    public function showAllCategorie(CategoriesRepository $repo)
 	{
 		// retrieve all categories
 		$categories = $repo->findAll();
@@ -107,10 +101,8 @@ class TravelController extends AbstractController
 		]);
 	}
 
-	/**
-	 * @Route("/terms/", name="_terms")
-	 */
-	public function showTerms()
+	#[Route(path: '/terms/', name: '_terms')]
+    public function showTerms()
 	{
 		return $this->render('travel/terms.html.twig');
 	}

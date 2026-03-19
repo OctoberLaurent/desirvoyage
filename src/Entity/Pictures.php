@@ -4,31 +4,21 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\PicturesRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\PicturesRepository::class)]
 class Pictures
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=80, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 80, nullable: true)]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $url;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="pictures", cascade={"persist"})
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Travel::class, inversedBy: 'pictures', cascade: ['persist'])]
     private $travel;
 
     public function getId(): ?int

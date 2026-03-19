@@ -7,7 +7,7 @@ use App\Entity\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class UserFixtures extends Fixture
@@ -15,7 +15,7 @@ class UserFixtures extends Fixture
 
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
         
         $this->passwordEncoder = $encoder;
@@ -41,7 +41,7 @@ class UserFixtures extends Fixture
         $user->setEnabled(true);
         $user->setRoles([$roleTab[$i]]);
         $user->setEmail($mailTab[$i]);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, "123456"));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, "123456"));
         $user->setToken(sha1($faker->userName));
         $user->setAddress($faker->streetAddress);
         $user->setCity($faker->city);

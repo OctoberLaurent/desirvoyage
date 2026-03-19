@@ -7,49 +7,33 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\OptionsRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\OptionsRepository::class)]
 class Options
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=60)
-     * @Assert\Length(min=5, max=60, minMessage="Your title must be at least 5 characters long", maxMessage="Your title must not exceed 60 characters")
-     */
+    #[ORM\Column(type: 'string', length: 60)]
+    #[Assert\Length(min: 5, max: 60, minMessage: 'Your title must be at least 5 characters long', maxMessage: 'Your title must not exceed 60 characters')]
     private $name;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\Length(min=10, max=400, minMessage="Your description must be at least 400 characters long", maxMessage="Your description must not exceed 1800 characters")
-     */
+    #[ORM\Column(type: 'text')]
+    #[Assert\Length(min: 10, max: 400, minMessage: 'Your description must be at least 400 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=60)
-     * @Assert\Length(min=3, max=40, minMessage="This field must be have 3 characters long", maxMessage="This field must not exceed 40 characters long")
-     */
+    #[ORM\Column(type: 'string', length: 60)]
+    #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 40 characters long')]
     private $type;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Travel", mappedBy="options", cascade={"persist"})
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Travel::class, mappedBy: 'options', cascade: ['persist'])]
     private $travels;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $price;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="options")
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Reservation::class, mappedBy: 'options')]
     private $reservations;
 
     public function __construct()

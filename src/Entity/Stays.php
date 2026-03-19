@@ -15,84 +15,61 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\StaysRepository")
- * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
  *     itemOperations={"get"},
  *     collectionOperations={"get"},
  * )
  */
+#[ORM\Entity(repositoryClass: \App\Repository\StaysRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Stays
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Groups({"read"})
-     * 
-     */
+    #[ORM\Column(type: 'datetime')]
+    #[Groups(['read'])]
     private $starDate;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan(propertyPath="starDate", message="La date de départ doit être plus éloignée que la date d'arrivée !")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\GreaterThan(propertyPath: 'starDate', message: "La date de départ doit être plus éloignée que la date d'arrivée !")]
+    #[Groups(['read'])]
     private $endDate;
 
-    /**
-     * @ORM\Column(type="string", length=60)
-     * @Assert\Length(min=3, max=40, minMessage="This field must be have 3 characters long", maxMessage="This field must not exceed 60 characters long")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'string', length: 60)]
+    #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 60 characters long')]
+    #[Groups(['read'])]
     private $depature;
 
-    /**
-     * @ORM\Column(type="string", length=60)
-     * @Assert\Length(min=3, max=40, minMessage="This field must be have 3 characters long", maxMessage="This field must not exceed 60 characters long")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'string', length: 60)]
+    #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 60 characters long')]
+    #[Groups(['read'])]
     private $arrival;
 
-    /**
-     * @ORM\Column(type="float")
-     * @Assert\Type(type="float")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'float')]
+    #[Assert\Type(type: 'float')]
+    #[Groups(['read'])]
     private $price;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="stays", cascade={"persist"})
-     * @Groups({"read"})
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Travel::class, inversedBy: 'stays', cascade: ['persist'])]
+    #[Groups(['read'])]
     private $travel;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Reservation", mappedBy="stays")
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Reservation::class, mappedBy: 'stays')]
     private $reservations;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Groups({"read"})
-     */
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['read'])]
     private $stock;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
     private $serial;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\GreaterThan("today")
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Assert\GreaterThan('today')]
     private $createdDate;
 
     public function __construct()
@@ -235,9 +212,7 @@ class Stays
         return $this->serial;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
     public function setSerial(): self
     {
         
@@ -253,9 +228,7 @@ class Stays
         return $this->createdDate;
     }
     
-    /**
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
     public function setCreatedDate(): self
     {
         $this->createdDate = new \DateTime();

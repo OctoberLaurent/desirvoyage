@@ -6,62 +6,40 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ReservationRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\ReservationRepository::class)]
 class Reservation
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=20, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 20, unique: true)]
     private $serial;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $price;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reservations", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $User;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="reservation", cascade={"persist","remove"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Traveler::class, mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private $travelers;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Options", inversedBy="reservations", cascade={"persist"})
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Options::class, inversedBy: 'reservations', cascade: ['persist'])]
     private $options;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Stays", inversedBy="reservations", cascade={"persist"})
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Stays::class, inversedBy: 'reservations', cascade: ['persist'])]
     private $stays;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $createdDate;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $updateAt;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: \App\Entity\Payment::class, cascade: ['persist', 'remove'])]
     private $payment;
 
 

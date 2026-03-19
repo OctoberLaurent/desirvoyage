@@ -23,11 +23,10 @@ class ContactController extends AbstractController
 	}
 
 	/**
-	 * Contact form
-	 * 
-	 * @Route("/contact", name="contact")
-	 */
-	public function contact(Request $request, MailerService $mailerService)
+     * Contact form
+     */
+    #[Route(path: '/contact', name: 'contact')]
+    public function contact(Request $request, MailerService $mailerService)
 	{
 		//form the contact us
 		$contact = new Contact();

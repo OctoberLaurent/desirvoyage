@@ -4,36 +4,24 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\PaymentRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\PaymentRepository::class)]
 class Payment
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $payAt;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $amount;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $paymentId;
 
-    /**
-     * @ORM\Column(type="string", length=40, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 40, nullable: true)]
     private $type;
 
     public function getId(): ?int

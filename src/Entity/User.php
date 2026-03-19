@@ -6,119 +6,76 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity("email")
- */
-class User implements UserInterface
+#[ORM\Entity(repositoryClass: \App\Repository\UserRepository::class)]
+#[UniqueEntity('email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
-     */
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private $roles = [];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string", length=255)
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=80)
-     * @Assert\Length(
-     *     min=3,
-     *     max=80,
-     *     minMessage="Your firstname must be at least {{ limit }} characters long.",
-     *     maxMessage="Your firstname cannot be longer than {{ limit }} characters."
-     * )
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', length: 80)]
+    #[Assert\Length(min: 3, max: 80, minMessage: 'Your firstname must be at least {{ limit }} characters long.', maxMessage: 'Your firstname cannot be longer than {{ limit }} characters.')]
+    #[Assert\NotBlank]
     private $firstname;
 
-    /**
-     * @ORM\Column(type="string", length=80)
-     * @Assert\Length(
-     *     min=3,
-     *     max=80,
-     *     minMessage="Your lastname must be at least {{ limit }} characters long.",
-     *     maxMessage="Your lastname cannot be longer than {{ limit }} characters."
-     * )
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', length: 80)]
+    #[Assert\Length(min: 3, max: 80, minMessage: 'Your lastname must be at least {{ limit }} characters long.', maxMessage: 'Your lastname cannot be longer than {{ limit }} characters.')]
+    #[Assert\NotBlank]
     private $lastname;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $enabled = false;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $token;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $tokenExpire;
 
-    /**
-     * @ORM\Column(type="string", length=90)
-     */
+    #[ORM\Column(type: 'string', length: 90)]
     private $address;
 
-    /**
-     * @ORM\Column(type="string", length=80, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 80, nullable: true)]
     private $additionalAddress;
 
-    /**
-     * @ORM\Column(type="string", length=80)
-     */
+    #[ORM\Column(type: 'string', length: 80)]
     private $city;
 
-    /**
-     * @ORM\Column(type="string", length=80)
-     */
+    #[ORM\Column(type: 'string', length: 80)]
     private $country;
 
-    /**
-     * @ORM\Column(type="string", length=20)
-     * @Assert\Length(min = 9, max = 10, minMessage = "min_length", maxMessage = "max_length")
-     */
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\Length(min: 9, max: 10, minMessage: 'min_length', maxMessage: 'max_length')]
     private $phone;
 
-    /**
-     * @ORM\Column(type="string", length=20)
-     * @Assert\Length(min = 5, max = 5, minMessage = "min_length", maxMessage = "max_length")
-     */
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\Length(min: 5, max: 5, minMessage: 'min_length', maxMessage: 'max_length')]
     private $postalCode;
 
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\LessThan("-13 years")
-     */
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\LessThan('-13 years')]
     private $birthday;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="User")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Reservation::class, mappedBy: 'User')]
     private $reservations;
 
     public function __construct()
@@ -149,6 +106,16 @@ class User implements UserInterface
      * @see UserInterface
      */
     public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
@@ -198,7 +165,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

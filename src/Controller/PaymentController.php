@@ -13,10 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- *
- * @Route("/payment", name="payment")
- */
+#[Route(path: '/payment', name: 'payment')]
 class PaymentController extends AbstractController
 {
 
@@ -32,14 +29,14 @@ class PaymentController extends AbstractController
 	}
 
 	/**
-	 * 
-	 * Create a payment with stripe
-	 * 
-	 * @Route("/{id}", name="_create")
-	 * 
-	 * @IsGranted("ROLE_USER")
-	 */
-	public function index(Reservation $reservation)
+     *
+     * Create a payment with stripe
+     *
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    #[Route(path: '/{id}', name: '_create')]
+    public function index(Reservation $reservation)
 	{
 		$user = $this->getUser();
 		$userReservation = $reservation->getUser();
@@ -66,15 +63,14 @@ class PaymentController extends AbstractController
 	}
 
 	/**
-	 * Validates or refuses payment 
-	 * 
-	 * @Route("/verification/{id}", name="_charge")
-	 * 
-	 * @IsGranted("ROLE_USER")
-	 *
-	 * @param Request $request
-	 */
-	public function charge(Request $request, Reservation $reservation, MailerService $mailerService)
+     * Validates or refuses payment
+     *
+     *
+     * @IsGranted("ROLE_USER")
+     * @param Request $request
+     */
+    #[Route(path: '/verification/{id}', name: '_charge')]
+    public function charge(Request $request, Reservation $reservation, MailerService $mailerService)
 	{
 		$user = $this->getUser();
 		$amount = $reservation->getPrice();
