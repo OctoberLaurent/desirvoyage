@@ -1,8 +1,8 @@
 <?php
 namespace App\Service;
 
-use Swift_Mailer;
-use Swift_Message;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use App\Entity\User;
 use App\Entity\Contact;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +13,7 @@ class MailerService{
     private $urlGenerator;
     private $mailer;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, Swift_Mailer $mailer)
+    public function __construct(UrlGeneratorInterface $urlGenerator, MailerInterface $mailer)
     {
         $this->urlGenerator = $urlGenerator;
         $this->mailer = $mailer;
@@ -45,12 +45,12 @@ class MailerService{
         $this->send( $user->getEmail(), $text);
     }
     private function send( $email, $text ){
-        $message = new Swift_Message();
-        $message->setFrom( 'no-reply@desirvoyage.com' );
-        $message->setTo( $email );
-        $message->setBody( $text );
+        $message = (new Email())
+            ->from('no-reply@desirvoyage.com')
+            ->to($email)
+            ->text($text);
 
-        $this->mailer->send( $message );
+        $this->mailer->send($message);
     }
     
     public function sendContactMessage($email)

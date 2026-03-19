@@ -10,7 +10,7 @@ use App\Entity\Options;
 use App\Entity\Formality;
 use App\Entity\Categories;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class TravelFixtures extends Fixture
 {
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
         $categoriesTab = ["Promo","Canarie", "Gréce", "Thaïlande", "Caraïbes", "Tunisie", 

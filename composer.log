@@ -1,0 +1,32 @@
+The "ocramius/package-versions" plugin was skipped because it requires a Plugin API version ("^1.0.0") that does not match your Composer installation ("2.9.0"). You may need to run composer update with the "--no-plugins" option.
+The "symfony/flex" plugin was skipped because it requires a Plugin API version ("^1.0") that does not match your Composer installation ("2.9.0"). You may need to run composer update with the "--no-plugins" option.
+Loading composer repositories with package information
+Updating dependencies
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires api-platform/api-pack * -> satisfiable by api-platform/api-pack[v1.0.0, ..., v1.4.0].
+    - Root composer.json requires symfony/validator 5.4.* -> satisfiable by symfony/validator[v5.4.43, ..., v5.4.48].
+    - api-platform/api-pack[v1.0.0, ..., v1.2.2] require php ^7.0 -> your php version (8.2.26) does not satisfy that requirement.
+    - api-platform/api-pack v1.3.0 requires api-platform/core * -> satisfiable by api-platform/core[v3.4.17, v4.0.22, ..., v4.3.0].
+    - api-platform/api-pack v1.4.0 requires symfony/security-bundle * -> satisfiable by symfony/security-bundle[v5.4.20, ..., v5.4.45].
+    - api-platform/core[v3.4.17, v4.0.22, ..., v4.1.18] require symfony/web-link ^6.4 || ^7.1 -> found symfony/web-link[v6.4.0, ..., v6.4.32, v7.1.0, ..., v7.4.4] but it conflicts with your root composer.json require (5.4.*).
+    - api-platform/core[v4.1.19, ..., v4.2.3] require symfony/validator ^6.4 || ^7.1 -> found symfony/validator[v6.4.0, ..., v6.4.35, v7.1.0, ..., v7.4.7] but it conflicts with your root composer.json require (5.4.*).
+    - api-platform/core[v4.1.27, ..., v4.2.6] require symfony/validator ^6.4.11 || ^7.1 -> found symfony/validator[v6.4.11, ..., v6.4.35, v7.1.0, ..., v7.4.7] but it conflicts with your root composer.json require (5.4.*).
+    - api-platform/core[v4.2.7, ..., v4.3.0] require symfony/validator ^6.4.11 || ^7.1 || ^8.0 -> found symfony/validator[v6.4.11, ..., v6.4.35, v7.1.0, ..., v7.4.7, v8.0.0, ..., v8.0.7] but it conflicts with your root composer.json require (5.4.*).
+    - symfony/security-bundle[v5.4.20, ..., v5.4.29] require symfony/security-http ^5.4.20|~6.0.20|~6.1.12|^6.2.6 -> satisfiable by symfony/security-http[v5.4.47, v6.4.15, ..., v6.4.34].
+    - symfony/security-core[v7.0.0, ..., v7.4.4] conflict with symfony/validator <6.4.
+    - symfony/security-http v5.4.47 requires symfony/security-core ^5.4.19|~6.0.19|~6.1.11|^6.2.5 -> satisfiable by symfony/security-core[v5.4.19, ..., v5.4.48, v6.0.19, ..., v6.4.31].
+    - symfony/security-http[v6.4.15, ..., v6.4.34] require symfony/security-core ^6.4|^7.0 -> satisfiable by symfony/security-core[v6.4.0, ..., v6.4.31, v7.0.0, ..., v7.4.4].
+    - Conclusion: don't install symfony/security-core v5.4.30 (conflict analysis result)
+    - Conclusion: don't install symfony/security-core v6.3.7 (conflict analysis result)
+    - Conclusion: don't install symfony/security-core v6.3.12 (conflict analysis result)
+    - Conclusion: don't install symfony/security-core v6.4.0 (conflict analysis result)
+    - Conclusion: don't install symfony/security-core v6.4.31 (conflict analysis result)
+    - Conclusion: don't install symfony/security-core[v5.4.48] | install one of symfony/security-core[v6.3.7, v6.3.12, v6.4.0, v6.4.31] (conflict analysis result)
+    - Conclusion: don't install symfony/security-bundle v5.4.41 (conflict analysis result)
+    - Conclusion: don't install symfony/security-bundle v5.4.45 (conflict analysis result)
+    - Conclusion: install symfony/security-core v5.2.11 (conflict analysis result)
+    - Only one of these can be installed: symfony/security-core[v2.6.13, ..., v2.7.51, v3.4.49, v4.4.24, ..., v4.4.48, v5.2.9, ..., v5.4.48, v6.0.0, ..., v6.4.31, v7.0.0, ..., v7.4.4, v8.0.0, v8.0.3, v8.0.4], symfony/security[v2.7.51, v3.4.49]. symfony/security replaces symfony/security-core and thus cannot coexist with it.
+
+Use the option --with-all-dependencies (-W) to allow upgrades, downgrades and removals for packages currently locked to specific versions.
