@@ -61,7 +61,7 @@ class RegisterType extends AbstractType
                     ])
                 ]
             ])
-            /* adresse */
+            /* address */
             ->add('address', TextType::class, [
                 'label' => 'adresse',
                 "attr" => [
@@ -73,7 +73,7 @@ class RegisterType extends AbstractType
                     ])
                 ]
             ])
-            /* complément d'adresse */
+            /* address complement */
             ->add('additionalAddress', TextType::class, [
                 'required' => false,
                 'label' => "complément d'adresse",
@@ -82,7 +82,7 @@ class RegisterType extends AbstractType
                     
                 ],
             ])
-            /* code postale */ 
+            /* postal code */ 
             ->add('postalCode', NumberType::class, [
                 "attr" => [
                     'class' => 'postalcode autocomplete',
@@ -96,7 +96,7 @@ class RegisterType extends AbstractType
                     ])
                 ]
             ])
-            /* ville */
+            /* city */
             ->add('city', TextType::class, [
                 'label' => 'ville',
                 "attr" => [
@@ -122,7 +122,7 @@ class RegisterType extends AbstractType
                     ])
                 ]
             ])
-            /* fixe */
+            /* phone */
             ->add('phone', TextType::class, [
                 "label" => "telephone",
                 "attr" => [
@@ -150,7 +150,7 @@ class RegisterType extends AbstractType
                         ])
                     ]
             ])
-            /* Mot de passe */
+            /* Password */
             ->add('password', RepeatedType::class, [
                     'label' => false,
                     'type' => PasswordType::class,
@@ -184,13 +184,13 @@ class RegisterType extends AbstractType
                     ],
                     'invalid_message' => "Les mots de passe doivent etre identiques.",
             ])
-            /* Accepte les conditions d'utilisation */
+            /* Accept terms of use */
             ->add('agreeTerms', CheckboxType::class, [
                     'label' => false,
                     "attr" => [
                         "class" => "filled-in",
                     ],
-                    'mapped' => false, // ce champ n'est pas dans l'entité User
+                    'mapped' => false, // this field is not in the User entity
             ]);         
         ;
     }

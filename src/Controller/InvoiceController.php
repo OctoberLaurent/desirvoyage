@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 

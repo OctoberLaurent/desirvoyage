@@ -13,7 +13,7 @@ use App\Repository\OptionsRepository;
 use App\Service\StockManagementService;
 use App\Service\ReservationMergeService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -35,7 +35,7 @@ class ReservationController extends AbstractController
 		$id = $request->query->get('stayid');
 		// find stay by id
 		$stay = $stayRepository->find($id);
-		// create a new objetc travel
+		// create a new travel object
 		$reservation = new Reservation();
 		// add stay in reservation
 		$reservation->addStay($stay);
@@ -81,7 +81,7 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * congigure travelers
+     * configure travelers
      *
      *
      * @IsGranted("ROLE_USER")
@@ -113,7 +113,7 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * show configuration travel and calcul coast
+     * show configuration travel and calculate cost
      *
      *
      * @IsGranted("ROLE_USER")
@@ -162,7 +162,7 @@ class ReservationController extends AbstractController
 	}
 
 	/**
-     * Valid for pay travel
+     * Validate for travel payment
      *
      *
      * @IsGranted("ROLE_USER")
@@ -202,7 +202,7 @@ class ReservationController extends AbstractController
 		}
 
 		$entityManager = $this->getDoctrine()->getManager();
-		// mannage persist in service
+		// manage persist in service
 		$merged = $seservationMergeService->reservationMerge($reservation);
 
 		$entityManager->persist($merged);

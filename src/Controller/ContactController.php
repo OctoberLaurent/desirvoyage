@@ -8,7 +8,7 @@ use App\Form\ContactType;
 use App\Service\MailerService;
 use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactController extends AbstractController

@@ -1,0 +1,66 @@
+Symfony\Component\DependencyInjection\Exception\EnvNotFoundException {#409
+  #message: "Environment variable not found: "CORS_ALLOW_ORIGIN"."
+  #code: 0
+  #file: "./vendor/symfony/dependency-injection/EnvVarProcessor.php"
+  #line: 221
+  -previous: Symfony\Component\DependencyInjection\Exception\EnvNotFoundException {#135
+    #message: "Environment variable not found: "CORS_ALLOW_ORIGIN"."
+    #code: 0
+    #file: "./vendor/symfony/dependency-injection/EnvVarProcessor.php"
+    #line: 221
+    trace: {
+      ./vendor/symfony/dependency-injection/EnvVarProcessor.php:221 { …}
+      ./vendor/symfony/dependency-injection/Container.php:378 { …}
+      ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:2891 {
+        ContainerTxJQuRp\App_KernelDevDebugContainer->getDynamicParameter(string $name)
+        › 'allow_origin' => [
+        ›     0 => $container->getEnv('CORS_ALLOW_ORIGIN'),
+        › ],
+        arguments: {
+          $name: "CORS_ALLOW_ORIGIN"
+        }
+      }
+      ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:2798 { …}
+      ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:2063 { …}
+      ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:937 { …}
+      ./vendor/symfony/event-dispatcher/EventDispatcher.php:221 { …}
+      ./vendor/symfony/event-dispatcher/EventDispatcher.php:70 { …}
+      ./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:256 { …}
+      ./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:120 { …}
+      ./vendor/symfony/http-kernel/HttpKernel.php:159 { …}
+      ./vendor/symfony/http-kernel/HttpKernel.php:76 { …}
+      ./vendor/symfony/http-kernel/Kernel.php:193 { …}
+      ./test_admin.php:11 { …}
+    }
+  }
+  trace: {
+    ./vendor/symfony/dependency-injection/EnvVarProcessor.php:221 { …}
+    ./vendor/symfony/dependency-injection/Container.php:378 { …}
+    ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:2891 {
+      ContainerTxJQuRp\App_KernelDevDebugContainer->getDynamicParameter(string $name)
+      › 'allow_origin' => [
+      ›     0 => $container->getEnv('CORS_ALLOW_ORIGIN'),
+      › ],
+      arguments: {
+        $name: "CORS_ALLOW_ORIGIN"
+      }
+    }
+    ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:2798 { …}
+    ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:2063 { …}
+    ./var/cache/dev/ContainerTxJQuRp/App_KernelDevDebugContainer.php:937 { …}
+    ./vendor/symfony/event-dispatcher/EventDispatcher.php:146 { …}
+    ./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:260 { …}
+    ./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:120 { …}
+    ./vendor/symfony/http-kernel/HttpKernel.php:159 { …}
+    ./vendor/symfony/http-kernel/HttpKernel.php:76 { …}
+    ./vendor/symfony/http-kernel/EventListener/ErrorListener.php:99 { …}
+    ./vendor/symfony/event-dispatcher/Debug/WrappedListener.php:115 { …}
+    ./vendor/symfony/event-dispatcher/EventDispatcher.php:206 { …}
+    ./vendor/symfony/event-dispatcher/EventDispatcher.php:56 { …}
+    ./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:126 { …}
+    ./vendor/symfony/http-kernel/HttpKernel.php:241 { …}
+    ./vendor/symfony/http-kernel/HttpKernel.php:91 { …}
+    ./vendor/symfony/http-kernel/Kernel.php:193 { …}
+    ./test_admin.php:11 { …}
+  }
+}

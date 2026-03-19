@@ -57,7 +57,7 @@ class EditUserType extends AbstractType
                     ])
                 ]
             ])
-            /* adresse */
+            /* address */
             ->add('address', TextType::class, [
                 'label' => 'adresse',
                 "attr" => [
@@ -69,7 +69,7 @@ class EditUserType extends AbstractType
                     ])
                 ]
             ])
-            /* complément d'adresse */
+            /* address complement */
             ->add('additionalAddress', TextType::class, [
                 'required' => false,
                 'label' => "complément d'adresse",
@@ -78,7 +78,7 @@ class EditUserType extends AbstractType
                     
                 ],
             ])
-            /* code postale */ 
+            /* postal code */ 
             ->add('postalCode', NumberType::class, [
                 "attr" => [
                     'class' => 'postalcode autocomplete',
@@ -92,7 +92,7 @@ class EditUserType extends AbstractType
                     ])
                 ]
             ])
-            /* ville */
+            /* city */
             ->add('city', TextType::class, [
                 'label' => 'ville',
                 "attr" => [
@@ -117,7 +117,7 @@ class EditUserType extends AbstractType
                     ])
                 ]
             ])
-            /* fixe */
+            /* phone */
             ->add('phone', TextType::class, [
                 "label" => "telephone",
                 "attr" => [

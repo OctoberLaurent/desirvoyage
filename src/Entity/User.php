@@ -255,7 +255,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setAdditionalAddress(?string $additionalAddress): self
     {
-        //? pour setadditionaladress sinon null
+        //? for setAdditionalAddress, otherwise null
         $this->additionalAddress = $additionalAddress;
 
         return $this;

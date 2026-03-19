@@ -28,7 +28,7 @@ class MailerService{
 
         $this->send( $user->getEmail(), $text );
     }
-    // fonction pour envoyer un mail de rehinitialisation de mot de passe
+    // function to send a password reset email
     public function sendResetPassword( User $user)
     {
         $url = $this->urlGenerator->generate('reset_password', array(

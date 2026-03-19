@@ -730,10 +730,10 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.26"
 
-"@materializecss/materialize@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@materializecss/materialize/-/materialize-2.3.2.tgz#6319a7fbb9e283409c2ae8d407794fada03c3c1b"
-  integrity sha512-0LF6uK+grJh+fUiW6mpR2ovKL2T4kZLWiSD4jL9IbLmit1YRRyz3+x7cJ8QWMsIPC9r05oIsoiP+8OjZjeH5GQ==
+"@materializecss/materialize@~1.2.0":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@materializecss/materialize/-/materialize-1.2.2.tgz#3308e76806a8f6d14b7838656fbf24e0bf3496c8"
+  integrity sha512-+zp/myqWFywj/F64byUM+H3iiuDmVjKBHZ0lj3b07QiaLVaNoUBCcsS0nkdwB9YsebzFpZLWeASPkmolu3yA+Q==
 
 "@parcel/watcher-android-arm64@2.5.6":
   version "2.5.6"
@@ -4108,6 +4108,11 @@ normalize-url@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
+
+normalize.css@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
+  integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
 npm-run-path@^2.0.0:
   version "2.0.2"

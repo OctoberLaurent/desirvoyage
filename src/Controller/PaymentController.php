@@ -9,7 +9,7 @@ use App\Entity\Payment;
 use App\Entity\Reservation;
 use App\Service\MailerService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -90,7 +90,7 @@ class PaymentController extends AbstractController
 			return $this->redirectToRoute('reservation_list');
 		}
 
-		// Create a new paiemement if valided.
+		// Create a new payment if validated.
 		$payment = new Payment();
 		$payment->setPayAt(new \DateTime());
 		$payment->setType('Stripe');
