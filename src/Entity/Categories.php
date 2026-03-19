@@ -94,7 +94,10 @@ class Categories
     */
     public function getPictureName(): ?string
     {
-        $picture = explode( "/" , $this->url );
+        $picture = explode( "/" , (string)$this->url );
+        if (count($picture) < 2) {
+            return $this->url;
+        }
         $secondToLast = (array_key_last($picture)-1);
         $str = $picture[$secondToLast].'/'.end($picture);
         return $str;
@@ -133,7 +136,7 @@ class Categories
 
     public function __toString()
     {
-        return $this->title;
+        return (string) $this->title;
     }
 
     public function getUrl(): ?string

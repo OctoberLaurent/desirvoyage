@@ -28,14 +28,14 @@ class TravelFixtures extends Fixture
         
         // CATEGORIES
         $j=0;
-        foreach( $categoriesTab as $category ){
-        $category = new Categories();
-        $category->setTitle($category);
-        $category->setUrl($imagesTab[$j]);
-        //$category->addTravel($travel);
-        
-        $manager->persist($category);
-        $j++;
+        foreach( $categoriesTab as $categoryTitle ){
+            $category = new Categories();
+            $category->setTitle($categoryTitle);
+            $category->setUrl($imagesTab[$j]);
+            //$category->addTravel($travel);
+            
+            $manager->persist($category);
+            $j++;
         }
 
         for($i=0; $i < 10;$i++){
@@ -64,6 +64,7 @@ class TravelFixtures extends Fixture
             $stay->setEndDate($edate);
             $stay->setArrival($faker->city);
             $stay->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 700, $max = 8000));
+            $stay->setStock(mt_rand(10, 100));
            
             $travel-> addStay($stay);
             
@@ -74,6 +75,7 @@ class TravelFixtures extends Fixture
             $option->setName($faker->sentence($nbWords = 3, $variableNbWords = true));
             $option->setDescription($faker->sentence($nbWords = 3, $variableNbWords = true));
             $option->setType($faker->sentence($nbWords = 3, $variableNbWords = true));
+            $option->setPrice($faker->randomFloat(2, 10, 100));
 
             $travel->addOptions($option);
 

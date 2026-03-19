@@ -24,17 +24,16 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $faker = \Faker\Factory::create('fr_FR');
         // datas
         $firstNameTab = ["Laurent","user" ];
         $lastNameTab = ["Laurent","user" ];
-        $roleTab = ["ROLE_ADMIN", "ROLE_UER"];
+        $roleTab = ["ROLE_ADMIN", "ROLE_USER"];
         $mailTab = ["laurent@lepl.at", "user@user.fr"];
 
-        $datetime=new Datetime;
-        for($i=0; $i < 3;$i++){
+        $datetime=new \Datetime;
+        for($i=0; $i < count($firstNameTab); $i++){
 
-        $person = file_get_contents('https://randomuser.me/api/?nat=fr');
-        $person = json_decode($person);
         $user = new User();
 
         $user->setFirstname($firstNameTab[$i]);
@@ -43,13 +42,12 @@ class UserFixtures extends Fixture
         $user->setRoles([$roleTab[$i]]);
         $user->setEmail($mailTab[$i]);
         $user->setPassword($this->passwordEncoder->encodePassword($user, "123456"));
-        $user->setToken($person->results[0]->login->sha1);
-        $user->setAddress($person->results[0]->location->street->number);
-        $user->setAddress($person->results[0]->location->street->name);
-        $user->setCity($person->results[0]->location->city);
-        $user->setCountry($person->results[0]->location->country);
-        $user->setPostalCode($person->results[0]->location->postcode);
-        $user->setPhone($person->results[0]->cell);
+        $user->setToken(sha1($faker->userName));
+        $user->setAddress($faker->streetAddress);
+        $user->setCity($faker->city);
+        $user->setCountry("France");
+        $user->setPostalCode($faker->postcode);
+        $user->setPhone($faker->phoneNumber);
         $user->setBirthday($datetime);
 
         $manager->persist($user);
