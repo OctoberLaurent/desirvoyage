@@ -19,8 +19,8 @@
     },
     "dependencies": {
         "@ciar4n/izmir": "^1.0.0",
+        "@materializecss/materialize": "^2.3.2",
         "jquery": "^3.4.1",
-        "materialize-css": "^1.0.0",
         "popper.js": "^1.16.0"
     }
 }
