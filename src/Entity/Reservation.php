@@ -22,7 +22,7 @@ class Reservation
 
     #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'reservations', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    private $User;
+    private $user;
 
     #[ORM\OneToMany(targetEntity: \App\Entity\Traveler::class, mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private $travelers;
@@ -81,12 +81,12 @@ class Reservation
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): self
+    public function setUser(?User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
@@ -101,7 +101,7 @@ class Reservation
 
     public function setTravelers( Collection $travelers )
     {
-        $this->travlers = new ArrayCollection();
+        $this->travelers = new ArrayCollection();
         foreach( $travelers as $traveler ){
             $this->addTraveler( $traveler );
         }
