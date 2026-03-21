@@ -107,5 +107,32 @@
         </div>
     </div>
 {% endblock %}
-    {% block body %}{% endblock %}
-    {% block javascripts %}{{ parent() }}{{ encore_entry_script_tags('carousel') }}{% endblock %}
+    {% block body %}
+    {% include "./partials/_demo_modal.html.twig" %}
+    {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('carousel') }}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    var now = new Date().getTime();
+                    var lastSeen = localStorage.getItem('demoModalSeenTime');
+                    var hours24 = 24 * 60 * 60 * 1000;
+                    
+                    if (!lastSeen || (now - lastSeen) > hours24) {
+                        var elem = document.getElementById('demo-modal');
+                        if (typeof $ !== 'undefined') {
+                            $(elem).modal();
+                            $(elem).modal('open');
+                            localStorage.setItem('demoModalSeenTime', now);
+                        } else if (typeof M !== 'undefined') {
+                            var instance = M.Modal.init(elem);
+                            instance.open();
+                            localStorage.setItem('demoModalSeenTime', now);
+                        }
+                    }
+                }, 500);
+            });
+        </script>
+    {% endblock %}
