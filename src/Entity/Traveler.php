@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\TravelerRepository::class)]
-class Traveler
+final class Traveler
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +25,7 @@ class Traveler
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private $email;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Reservation::class, inversedBy: 'travelers', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Reservation::class, inversedBy: 'travelers', cascade: ['persist'])]
     private $reservation;
 
     #[ORM\Column(type: 'datetime')]
@@ -35,6 +35,11 @@ class Traveler
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
     }
 
     public function getLastname(): ?string
@@ -73,18 +78,6 @@ class Traveler
         return $this;
     }
 
-    public function getReservation(): ?Reservation
-    {
-        return $this->reservation;
-    }
-
-    public function setReservation(?Reservation $reservation): self
-    {
-        $this->reservation = $reservation;
-
-        return $this;
-    }
-
     public function getBirthday(): ?\DateTimeInterface
     {
         return $this->birthday;
@@ -97,4 +90,10 @@ class Traveler
         return $this;
     }
 
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+
+        return $this;
+    }
 }

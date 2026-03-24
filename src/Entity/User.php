@@ -5,10 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\UserRepository::class)]
 #[UniqueEntity('email')]
@@ -75,7 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\LessThan('-13 years')]
     private $birthday;
 
-    #[ORM\OneToMany(targetEntity: \App\Entity\Reservation::class, mappedBy: 'User')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
     private $reservations;
 
     public function __construct()
@@ -105,24 +105,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
+    #[\Override]
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email ?? 'anonymous';
     }
 
     /**
      * @see UserInterface
      */
+    #[\Override]
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -142,9 +134,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
+    #[\Override]
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -157,23 +150,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
-     * @see UserInterface
-     */
+    #[\Override]
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getFullname(): ?string
-    {
-        return $this->firstname.' '.$this->lastname;
     }
 
     public function getFirstname(): ?string
@@ -198,6 +179,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return trim($this->firstname.' '.$this->lastname);
     }
 
     public function getEnabled(): ?bool
@@ -236,9 +222,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAddress(): ?string
+    public function getAdditionalAddress(): ?string
     {
-        return $this->address;
+        return $this->additionalAddress;
+    }
+
+    public function setAdditionalAddress(?string $additionalAddress): self
+    {
+        $this->additionalAddress = $additionalAddress;
+
+        return $this;
     }
 
     public function setAddress(string $address): self
@@ -248,34 +241,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAdditionalAddress(): ?string
-    {
-        return $this->additionalAddress;
-    }
-
-    public function setAdditionalAddress(?string $additionalAddress): self
-    {
-        //? for setAdditionalAddress, otherwise null
-        $this->additionalAddress = $additionalAddress;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
     public function setCity(string $city): self
     {
         $this->city = $city;
 
         return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
     }
 
     public function setCountry(string $country): self
@@ -285,21 +255,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
         return $this;
-    }
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postalCode;
     }
 
     public function setPostalCode(string $postalCode): self
@@ -309,11 +269,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
-    {
-        return $this->birthday;
-    }
-
     public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
@@ -321,35 +276,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Reservation[]
-     */
     public function getReservations(): Collection
     {
         return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): self
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations[] = $reservation;
-            $reservation->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): self
-    {
-        if ($this->reservations->contains($reservation)) {
-            $this->reservations->removeElement($reservation);
-            // set the owning side to null (unless already changed)
-            if ($reservation->getUser() === $this) {
-                $reservation->setUser(null);
-            }
-        }
-
-        return $this;
     }
 
     public function __toString()

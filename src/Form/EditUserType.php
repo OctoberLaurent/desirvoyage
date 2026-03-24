@@ -4,140 +4,138 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EditUserType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            /* lastname */ 
+            /* lastname */
             ->add('lastname', TextType::class, [
-                    "label" => "Nom",
-                    "attr" => [
-                        'class' => "form-control",
-                    ],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => "Saisir votre nom",
-                        ])
-                    ]
-            ])
-            /* firstname */ 
-            ->add('firstname', TextType::class, [
-                    "label" => "Prénom",
-                    "attr" => [
-                        'class' => "form-control",
+                'label' => 'Nom',
+                'attr' => [
+                    'class' => 'form-control',
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir votre prénom",
-                    ])
-                ]
+                        'message' => 'Saisir votre nom',
+                    ]),
+                ],
             ])
-            /* birthday */ 
+            /* firstname */
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisir votre prénom',
+                    ]),
+                ],
+            ])
+            /* birthday */
             ->add('birthday', BirthdayType::class, [
-                "label" => "date de naissance",
-                "widget" =>'single_text',
-                "attr" => [
-                    'class' => "form-control",
+                'label' => 'date de naissance',
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'form-control',
                     'format' => 'yyyy-MM-dd',
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir votre date de naissance",
-                    ])
-                ]
+                        'message' => 'Saisir votre date de naissance',
+                    ]),
+                ],
             ])
             /* address */
             ->add('address', TextType::class, [
                 'label' => 'adresse',
-                "attr" => [
-                    'class' => "adresse autocomplete",
+                'attr' => [
+                    'class' => 'adresse autocomplete',
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir votre adresse",
-                    ])
-                ]
+                        'message' => 'Saisir votre adresse',
+                    ]),
+                ],
             ])
             /* address complement */
             ->add('additionalAddress', TextType::class, [
                 'required' => false,
                 'label' => "complément d'adresse",
-                "attr" => [
-                    'class' => "form-control",
-                    
+                'attr' => [
+                    'class' => 'form-control',
                 ],
             ])
-            /* postal code */ 
+            /* postal code */
             ->add('postalCode', NumberType::class, [
-                "attr" => [
+                'attr' => [
                     'class' => 'postalcode autocomplete',
                 ],
                 'label_attr' => [
-                    'class' => 'active'
+                    'class' => 'active',
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir votre code postale",
-                    ])
-                ]
+                        'message' => 'Saisir votre code postale',
+                    ]),
+                ],
             ])
             /* city */
             ->add('city', TextType::class, [
                 'label' => 'ville',
-                "attr" => [
-                    
-                    
+                'attr' => [
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir votre ville",
-                    ])
-                ]
+                        'message' => 'Saisir votre ville',
+                    ]),
+                ],
             ])
             /* country */
             ->add('country', CountryType::class, [
-                "label" => "pays",
-                "attr" => [
-                    'class'=> "form-control",
+                'label' => 'pays',
+                'attr' => [
+                    'class' => 'form-control',
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir le pays",
-                    ])
-                ]
+                        'message' => 'Saisir le pays',
+                    ]),
+                ],
             ])
             /* phone */
             ->add('phone', TextType::class, [
-                "label" => "telephone",
-                "attr" => [
-                    'class'=> "form-control",
-                ]
+                'label' => 'telephone',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             /* email */
             ->add('email', EmailType::class, [
-                    "label" => "Email",
-                    "attr" => [
-                        "class" => "form-control",
-                    ],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => "Saisir votre email",
-                        ])
-                    ]
-            ]);   
+                'label' => 'Email',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisir votre email',
+                    ]),
+                ],
+            ]);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

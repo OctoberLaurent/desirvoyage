@@ -3,15 +3,15 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\CategoriesRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-class Categories
+#[HasLifecycleCallbacks]
+final class Categories
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,7 +25,7 @@ class Categories
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
-    #[ORM\OneToMany(targetEntity: \App\Entity\Travel::class, mappedBy: 'categories', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'categories', cascade: ['persist'])]
     private $travel;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -36,33 +36,17 @@ class Categories
         $this->travel = new ArrayCollection();
     }
 
-     /**
-     * return a slug !
-     *
-     * @return void
-     */
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function initializeSlug() {
-            $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->title);
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function computeSlug(): void
     {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify((string) $this->title);
     }
 
     public function getSlug(): ?string
@@ -77,23 +61,22 @@ class Categories
         return $this;
     }
 
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
     /*
     * returns the path to the file
     */
-    public function getPictureName(): ?string
-    {
-        $picture = explode( "/" , (string)$this->url );
-        if (count($picture) < 2) {
-            return $this->url;
-        }
-        $secondToLast = (array_key_last($picture)-1);
-        $str = $picture[$secondToLast].'/'.end($picture);
-        return $str;
-    }
 
-    /**
-     * @return Collection|Travel[]
-     */
     public function getTravel(): Collection
     {
         return $this->travel;
@@ -109,19 +92,6 @@ class Categories
         return $this;
     }
 
-    public function removeTravel(Travel $travel): self
-    {
-        if ($this->travel->contains($travel)) {
-            $this->travel->removeElement($travel);
-            // set the owning side to null (unless already changed)
-            if ($travel->getCategories() === $this) {
-                $travel->setCategories(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function __toString()
     {
         return (string) $this->title;
@@ -130,6 +100,15 @@ class Categories
     public function getUrl(): ?string
     {
         return $this->url;
+    }
+
+    public function getPicturename(): ?string
+    {
+        if (null === $this->url) {
+            return null;
+        }
+
+        return '/data2/'.basename($this->url);
     }
 
     public function setUrl(?string $url): self

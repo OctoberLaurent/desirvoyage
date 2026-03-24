@@ -20,17 +20,17 @@ class Reservation
     #[ORM\Column(type: 'float')]
     private $price;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reservations', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\OneToMany(targetEntity: \App\Entity\Traveler::class, mappedBy: 'reservation', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Traveler::class, mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private $travelers;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Options::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'reservations', cascade: ['persist'])]
     private $options;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Stays::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Stays::class, inversedBy: 'reservations', cascade: ['persist'])]
     private $stays;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -39,9 +39,8 @@ class Reservation
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updateAt;
 
-    #[ORM\OneToOne(targetEntity: \App\Entity\Payment::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Payment::class, cascade: ['persist', 'remove'])]
     private $payment;
-
 
     public function __construct()
     {
@@ -91,19 +90,16 @@ class Reservation
         return $this;
     }
 
-    /**
-     * @return Collection|Traveler[]
-     */
     public function getTravelers(): Collection
     {
         return $this->travelers;
     }
 
-    public function setTravelers( Collection $travelers )
+    public function setTravelers(Collection $travelers): static
     {
         $this->travelers = new ArrayCollection();
-        foreach( $travelers as $traveler ){
-            $this->addTraveler( $traveler );
+        foreach ($travelers as $traveler) {
+            $this->addTraveler($traveler);
         }
 
         return $this;
@@ -119,33 +115,18 @@ class Reservation
         return $this;
     }
 
-    public function removeTraveler(Traveler $traveler): self
-    {
-        if ($this->travelers->contains($traveler)) {
-            $this->travelers->removeElement($traveler);
-            // set the owning side to null (unless already changed)
-            if ($traveler->getReservation() === $this) {
-                $traveler->setReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Options[]
-     */
     public function getOptions(): Collection
     {
         return $this->options;
     }
 
-    public function setOptions( Collection $options )
+    public function setOptions(Collection $options): static
     {
         $this->options = new ArrayCollection();
-        foreach( $options as $option ){
-            $this->addOption( $option );
+        foreach ($options as $option) {
+            $this->addOption($option);
         }
+
         return $this;
     }
 
@@ -153,7 +134,7 @@ class Reservation
     {
         if (!$this->options->contains($option)) {
             $this->options[] = $option;
-            $option->setReservation($this);
+            $option->addReservation($this);
         }
 
         return $this;
@@ -161,28 +142,22 @@ class Reservation
 
     public function removeOption(Options $option): self
     {
-        if ($this->options->contains($option)) {
-            $this->options->removeElement($option);
-            if ($option->getReservations() === $this) {
-                $option->setReservation(null);
-            }
+        if ($this->options->removeElement($option)) {
+            $option->removeReservation($this);
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection|Stays[]
-     */
     public function getStays(): Collection
     {
         return $this->stays;
     }
 
-    public function setStays( Collection $stays )
+    public function setStays(Collection $stays): static
     {
-        foreach( $stays as $stay ){
-            $this->addStay( $stay );
+        foreach ($stays as $stay) {
+            $this->addStay($stay);
         }
 
         return $this;
@@ -192,7 +167,7 @@ class Reservation
     {
         if (!$this->stays->contains($stay)) {
             $this->stays[] = $stay;
-            $stay->setReservation($this);
+            $stay->addReservation($this);
         }
 
         return $this;
@@ -200,11 +175,8 @@ class Reservation
 
     public function removeStay(Stays $stay): self
     {
-        if ($this->stays->contains($stay)) {
-            $this->stays->removeElement($stay);
-            if ($stay->getReservations() === $this) {
-                $stay->setReservation(null);
-            }
+        if ($this->stays->removeElement($stay)) {
+            $stay->removeReservation($this);
         }
 
         return $this;
@@ -220,11 +192,6 @@ class Reservation
         $this->createdDate = $createdDate;
 
         return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeInterface
-    {
-        return $this->updateAt;
     }
 
     public function setUpdateAt(?\DateTimeInterface $updateAt): self
@@ -245,5 +212,4 @@ class Reservation
 
         return $this;
     }
-
 }

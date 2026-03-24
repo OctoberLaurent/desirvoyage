@@ -12,15 +12,17 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200129084054 extends AbstractMigration
 {
-    public function getDescription() : string
+    #[\Override]
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    #[\Override]
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE travel_options (travel_id INT NOT NULL, options_id INT NOT NULL, INDEX IDX_11764D96ECAB15B3 (travel_id), INDEX IDX_11764D963ADB05F1 (options_id), PRIMARY KEY(travel_id, options_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE travel_options ADD CONSTRAINT FK_11764D96ECAB15B3 FOREIGN KEY (travel_id) REFERENCES travel (id) ON DELETE CASCADE');
@@ -30,10 +32,11 @@ final class Version20200129084054 extends AbstractMigration
         $this->addSql('ALTER TABLE options DROP travel_id');
     }
 
-    public function down(Schema $schema) : void
+    #[\Override]
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP TABLE travel_options');
         $this->addSql('ALTER TABLE options ADD travel_id INT DEFAULT NULL');

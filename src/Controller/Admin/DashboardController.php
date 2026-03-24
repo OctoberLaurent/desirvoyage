@@ -2,30 +2,31 @@
 
 namespace App\Controller\Admin;
 
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-
-
-use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin_dashboard')]
-class DashboardController extends AbstractDashboardController
+final class DashboardController extends AbstractDashboardController
 {
+    #[\Override]
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(\EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator::class);
+
         return $this->redirect($adminUrlGenerator->setDashboard(self::class)->setController(TravelCrudController::class)->generateUrl());
     }
 
+    #[\Override]
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
             ->setTitle('Désirvoyage - Administration');
     }
 
+    #[\Override]
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToRoute('Retour au site', 'fa fa-arrow-left', 'index');

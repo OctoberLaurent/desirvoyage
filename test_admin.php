@@ -1,7 +1,7 @@
 <?php
+
 require __DIR__.'/vendor/autoload.php';
 use App\Kernel;
-use Symfony\Component\HttpFoundation\Request;
 
 $_SERVER['APP_ENV'] = 'dev';
 $_SERVER['APP_DEBUG'] = true;

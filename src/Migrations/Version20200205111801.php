@@ -12,15 +12,17 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20200205111801 extends AbstractMigration
 {
-    public function getDescription() : string
+    #[\Override]
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    #[\Override]
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE traveler (id INT AUTO_INCREMENT NOT NULL, reservation_id INT DEFAULT NULL, lastname VARCHAR(80) NOT NULL, firstname VARCHAR(80) NOT NULL, email VARCHAR(50) NOT NULL, birthday DATETIME NOT NULL, INDEX IDX_6841F216B83297E7 (reservation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE reservation (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, serial VARCHAR(20) NOT NULL, price DOUBLE PRECISION NOT NULL, INDEX IDX_42C84955A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -34,10 +36,11 @@ final class Version20200205111801 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_E2E919E7B83297E7 ON stays (reservation_id)');
     }
 
-    public function down(Schema $schema) : void
+    #[\Override]
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE traveler DROP FOREIGN KEY FK_6841F216B83297E7');
         $this->addSql('ALTER TABLE stays DROP FOREIGN KEY FK_E2E919E7B83297E7');

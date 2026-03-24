@@ -5,116 +5,103 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\EditUserType;
 use App\Form\RegisterType;
-use App\Service\UserService;
 use App\Service\MailerService;
+use App\Service\UserService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class UserController extends AbstractController
 {
-	private $encoder;
-	private $userService;
-	private $mailer;
-	private $urlGenerator;
+    private $encoder;
+    private $userService;
+    private $mailer;
 
-	public function __construct(UserPasswordHasherInterface $encoder, MailerService $mailer, UserService $userService, UrlGeneratorInterface $urlGenerator)
-	{
-		$this->encoder = $encoder;
-		$this->mailer = $mailer;
-		$this->userService = $userService;
-		$this->urlGenerator = $urlGenerator;
-	}
+    public function __construct(UserPasswordHasherInterface $encoder, MailerService $mailer, UserService $userService)
+    {
+        $this->encoder = $encoder;
+        $this->mailer = $mailer;
+        $this->userService = $userService;
+    }
 
-	#[Route(path: '/register', name: 'register')]
-    public function register(Request $request): Response
-	{
-		if ($this->getUser()) {
+    #[Route(path: '/register', name: 'register')]
+    public function register(Request $request, \Doctrine\ORM\EntityManagerInterface $em): Response
+    {
+        if (null !== $this->getUser()) {
+            return $this->redirectToRoute('travel_home');
+        }
 
-			return $this->redirectToRoute('travel_home');
+        $user = new User();
+        $form = $this->createForm(RegisterType::class, $user);
 
-		}
+        $form->handleRequest($request);
 
-		$user = new User();
-		$form = $this->createForm(RegisterType::class, $user);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $this->encoder->hashPassword($user, $user->getPassword());
+            $user->setPassword($password);
+            $user->setRoles(['ROLE_USER']);
 
-		$form->handleRequest($request);
+            $this->userService->generateToken($user);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$password = $this->encoder->hashPassword($user, $user->getPassword());
-			$user->setPassword($password);
-			$user->setRoles(["ROLE_USER"]);
+            $em->persist($user);
+            $em->flush();
 
-			$this->userService->generateToken($user);
+            $this->mailer->sendActivationMail($user);
 
+            $this->addFlash('green accent-3', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter');
 
-			$em = $this->getDoctrine()->getManager();
+            return $this->redirectToRoute('login');
+        }
 
-			$em->persist($user);
-			$em->flush();
+        return $this->render('user/register.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
-			$this->mailer->sendActivationMail($user);
-
-			$this->addFlash('green accent-3', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter');
-			return $this->redirectToRoute('login');
-		}
-		return $this->render('user/register.html.twig', array(
-			'form' => $form->createView(),
-		));
-	}
-
-	/**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     #[Route(path: '/profil/edit/', name: 'user_edit')]
-    public function edit(Request $request): Response
-	{
-		$user = $this->getUser();
+    public function edit(Request $request, \Doctrine\ORM\EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
 
-		$form = $this->createForm(EditUserType::class, $user);
+        $form = $this->createForm(EditUserType::class, $user);
 
-		$form->handleRequest($request);
+        $form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($user);
+            $em->flush();
 
-			$em = $this->getDoctrine()->getManager();
+            $this->addFlash('blue darken-1', 'Les données de votre compte ont bien été modifiées');
 
-			$em->persist($user);
-			$em->flush();
+            return $this->redirectToRoute('user_dashboard');
+        }
 
-			$this->addFlash('blue darken-1', 'Les données de votre compte ont bien été modifiées');
-			return $this->redirectToRoute('user_dashboard');
-		}
-		return $this->render('user/edituser.html.twig', array(
-			'form' => $form->createView(),
-		));
-	}
+        return $this->render('user/edituser.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
-	#[Route(path: '/api/address', name: 'api-address', methods: ['GET'])]
-    public function api(HttpClientInterface $httpClient, Request $request)
-	{
-		$response = $httpClient->request('GET', "https://api-adresse.data.gouv.fr/search/", array(
-			'query' => array(
-				'q' => $request->query->get('q'),
-			)
-		));
-		return new Response($response->getContent());
-	}
+    #[Route(path: '/api/address', name: 'api-address', methods: ['GET'])]
+    public function api(HttpClientInterface $httpClient, Request $request): Response
+    {
+        $response = $httpClient->request('GET', 'https://api-adresse.data.gouv.fr/search/', [
+            'query' => [
+                'q' => $request->query->get('q'),
+            ],
+        ]);
 
+        return new Response($response->getContent());
+    }
 
-	/**
-     * @IsGranted("ROLE_USER")
-     */
+    #[IsGranted('ROLE_USER')]
     #[Route(path: '/profil/dashboard', name: 'user_dashboard', methods: ['GET', 'POST'])]
-    public function dashboard()
-	{
-		return $this->render("user/dashboard.html.twig");
-	}
+    public function dashboard(): Response
+    {
+        return $this->render('user/dashboard.html.twig');
+    }
 }
-

@@ -2,56 +2,59 @@
 
 namespace App\Service;
 
-
-
+use App\Entity\Options;
 use App\Entity\Reservation;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Stays;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 
-class ReservationMergeService
+final class ReservationMergeService
 {
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $em){
-        $this->entityManager = $em;
+    public function __construct(private readonly EntityManagerInterface $entityManager)
+    {
     }
 
     /**
-     * Reconstructs travelers attributes
-     *
-     * @param $reservation
-     * @return void
+     * Reconstructs travelers attributes.
      */
-    public function reservationMerge($reservation) : Reservation
+    public function reservationMerge(Reservation $reservation): Reservation
     {
-        $merged = $this->entityManager->merge($reservation);
-        $merged->setTravelers( $reservation->getTravelers() );
-        $merged->setOptions( $reservation->getOptions() );
-        
+        // If the reservation has an ID, reload it from DB to ensure it's managed
+        if (null !== $reservation->getId()) {
+            $merged = $this->entityManager->find(Reservation::class, $reservation->getId()) ?? $reservation;
+        } else {
+            $merged = $reservation;
+        }
+
+        $merged->setTravelers($reservation->getTravelers());
+        $merged->setOptions($reservation->getOptions());
+
         $stays = $reservation->getStays();
         $mstays = new ArrayCollection();
-        foreach( $stays as $stay ){
-            $mstays[] = $this->entityManager->merge( $stay );
+        foreach ($stays as $stay) {
+            $managedStay = null !== $stay->getId()
+                ? ($this->entityManager->find(Stays::class, $stay->getId()) ?? $stay)
+                : $stay;
+            $mstays[] = $managedStay;
         }
-        $merged->setStays( $mstays );
+        $merged->setStays($mstays);
 
         return $merged;
     }
 
     /**
-     * Reconstructs option attributes
-     *
-     * @param $reservation
-     * @return void
+     * Reconstructs option attributes.
      */
-    public function reservationOptionsMerge($reservation) : void
+    public function reservationOptionsMerge(Reservation $reservation): void
     {
         $options = $reservation->getOptions();
         $moptions = new ArrayCollection();
-        foreach( $options as $option ){
-            $moptions[] = $this->entityManager->merge( $option );
+        foreach ($options as $option) {
+            $managedOption = null !== $option->getId()
+                ? ($this->entityManager->find(Options::class, $option->getId()) ?? $option)
+                : $option;
+            $moptions[] = $managedOption;
         }
-        $reservation->setOptions( $moptions );
+        $reservation->setOptions($moptions);
     }
-
 }

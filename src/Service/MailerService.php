@@ -1,50 +1,51 @@
 <?php
+
 namespace App\Service;
 
+use App\Entity\User;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use App\Entity\User;
-use App\Entity\Contact;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class MailerService{
-    private $urlGenerator;
-    private $mailer;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator, MailerInterface $mailer)
-    {
-        $this->urlGenerator = $urlGenerator;
-        $this->mailer = $mailer;
+final class MailerService
+{
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly MailerInterface $mailer,
+    ) {
     }
-    public function sendActivationMail(User $user)
+
+    public function sendActivationMail(User $user): void
     {
-        $url = $this->urlGenerator->generate( 'user_activate', array(
+        $url = $this->urlGenerator->generate('user_activate', [
             'token' => $user->getToken(),
-        ), UrlGenerator::ABSOLUTE_URL);
+        ], UrlGenerator::ABSOLUTE_URL);
 
-        $text = 'Bonjour, veuillez activer votre compte : ' . $url;
+        $text = 'Bonjour, veuillez activer votre compte : '.$url;
 
-        $this->send( $user->getEmail(), $text );
+        $this->send($user->getEmail(), $text);
     }
+
     // function to send a password reset email
-    public function sendResetPassword( User $user)
+    public function sendResetPassword(User $user): void
     {
-        $url = $this->urlGenerator->generate('reset_password', array(
+        $url = $this->urlGenerator->generate('reset_password', [
             'token' => $user->getToken(),
-        ), UrlGenerator::ABSOLUTE_URL);
+        ], UrlGenerator::ABSOLUTE_URL);
 
-        $text = "Bienvenue sur Désirvoyage!!!,
+        $text = 'Bienvenue sur Désirvoyage!!!,
         Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien ci dessous
         ou copier/coller dans votre navigateur internet.
-        ". $url ."
+        '.$url.'
         ---------------
-        Ceci est un mail automatique, Merci de ne pas y répondre.";
-        
-        $this->send( $user->getEmail(), $text);
+        Ceci est un mail automatique, Merci de ne pas y répondre.';
+
+        $this->send($user->getEmail(), $text);
     }
-    private function send( $email, $text ){
+
+    private function send(?string $email, string $text): void
+    {
         $message = (new Email())
             ->from('no-reply@desirvoyage.com')
             ->to($email)
@@ -52,8 +53,8 @@ class MailerService{
 
         $this->mailer->send($message);
     }
-    
-    public function sendContactMessage($email)
+
+    public function sendContactMessage(string $email): void
     {
         $text = "
                 Bonjour,
@@ -61,20 +62,19 @@ class MailerService{
                 Cordialement,
                 l'équipe de Désirvoyage";
 
-        $this->send( $email, $text);
+        $this->send($email, $text);
     }
 
-    public function sendConfirmedPaimenent($email)
+    public function sendConfirmedPaimenent(?string $email): void
     {
-        $text = "
+        $text = '
                 Bonjour,
-                Votre voyage a bien été réservé, vous pouvez retrouver le détail 
+                Votre voyage a bien été réservé, vous pouvez retrouver le détail
                 de votre voyage ainsi que votre facture dans votre espace,
                 nous vous remercions pour votre achat et nous restons à votre disposition pour tout information.
                 DésirVoyage.
-                ";
+                ';
 
-        $this->send( $email, $text);
+        $this->send($email, $text);
     }
- 
 }

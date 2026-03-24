@@ -33,6 +33,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->entityManager = $entityManager;
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
@@ -45,9 +46,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
                 if (!$user) {
                     throw new CustomUserMessageAuthenticationException('Le mail ou mot de passe est incorrect.');
                 }
-                if ($user->getEnabled() === false) {
+                if (false === $user->getEnabled()) {
                     throw new CustomUserMessageAuthenticationException('Le compte n\'est pas activé.');
                 }
+
                 return $user;
             }),
             new PasswordCredentials($request->request->get('password', '')),
@@ -57,23 +59,26 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+        if (($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) !== null) {
             return new RedirectResponse($targetPath);
         }
 
-        if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
+        if (in_array('ROLE_ADMIN', $token->getRoleNames(), true)) {
             return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
         }
 
-        if ($targetPath = $request->request->get('_target_path')) {
+        $targetPath = $request->request->get('_target_path');
+        if (is_string($targetPath) && '' !== $targetPath) {
             return new RedirectResponse($targetPath);
         }
 
         return new RedirectResponse($this->urlGenerator->generate('travel_home'));
     }
 
+    #[\Override]
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

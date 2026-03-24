@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\ContactRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-class Contact
+#[HasLifecycleCallbacks]
+final class Contact
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -39,9 +39,9 @@ class Contact
         return $this->id;
     }
 
-    public function getLastname(): ?string
+    public function getEmail(): ?string
     {
-        return $this->lastname;
+        return $this->email;
     }
 
     public function setLastname(string $lastname): self
@@ -51,21 +51,11 @@ class Contact
         return $this;
     }
 
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
         return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
     }
 
     public function setEmail(string $email): self
@@ -75,21 +65,11 @@ class Contact
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
     public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
-    }
-
-    public function getSendDate(): ?\DateTimeInterface
-    {
-        return $this->SendDate;
     }
 
     public function setSendDate(\DateTimeInterface $SendDate): self

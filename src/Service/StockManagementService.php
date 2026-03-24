@@ -4,23 +4,19 @@ namespace App\Service;
 
 use App\Repository\StaysRepository;
 
-class StockManagementService
+final class StockManagementService
 {
-    private $stayRepo;
-
-    public function __construct(StaysRepository $stayRepo){
-
-        $this->stayRepo  = $stayRepo;
+    public function __construct(private readonly StaysRepository $stayRepo)
+    {
     }
 
-    public function decrementStock($reservation){
-
+    public function decrementStock($reservation): int
+    {
         $realStock = $this->stayRepo->findStockByid($reservation->getStays()[0]->getId());
         $stay = $reservation->getStays()[0];
-        $nbtravelers =  count($reservation->getTravelers());
+        $nbtravelers = count($reservation->getTravelers());
         $stay->setStock($realStock - $nbtravelers);
 
         return $realStock;
-
     }
 }

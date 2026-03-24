@@ -19,7 +19,7 @@ class OptionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Options::class);
     }
 
-    public function findOptions($travel)
+    public function findOptions($travel): \Doctrine\ORM\QueryBuilder
     {
         return $this->createQueryBuilder('o')
             ->where(':travel MEMBER OF o.travels')

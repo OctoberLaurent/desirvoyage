@@ -4,15 +4,15 @@ namespace App\Form;
 
 use App\Entity\Options;
 use App\Entity\Reservation;
-
 use App\Repository\OptionsRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReservationOptionType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $entity = $builder->getData();
@@ -20,7 +20,7 @@ class ReservationOptionType extends AbstractType
 
         $builder->add('options', EntityType::class, [
             'attr' => [
-                'class' => 'check'
+                'class' => 'check',
             ],
             'expanded' => true,
             'multiple' => true,
@@ -32,6 +32,7 @@ class ReservationOptionType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

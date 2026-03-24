@@ -2,44 +2,44 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
-use Faker\Factory;
+use App\Entity\Categories;
+use App\Entity\Formality;
+use App\Entity\Options;
 use App\Entity\Stays;
 use App\Entity\Travel;
-use App\Entity\Options;
-use App\Entity\Formality;
-use App\Entity\Categories;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use Faker\Factory;
 
 class TravelFixtures extends Fixture
 {
-
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-        $categoriesTab = ["Promo","Canarie", "Gréce", "Thaïlande", "Caraïbes", "Tunisie", 
-        "Espagne", "Mexique", "Portugal"];
-        $imagesTab=["default.png","default.png","default.png","default.png","default.png",
-        "default.png","default.png","default.png","default.png"];
-        
+        /** @var array<string, string> $categoriesData */
+        $categoriesData = [
+            'Promo' => 'default.png',
+            'Canarie' => 'default.png',
+            'Gréce' => 'default.png',
+            'Thaïlande' => 'default.png',
+            'Caraïbes' => 'default.png',
+            'Tunisie' => 'default.png',
+            'Espagne' => 'default.png',
+            'Mexique' => 'default.png',
+            'Portugal' => 'default.png',
+        ];
+
         // CATEGORIES
-        $j=0;
-        foreach( $categoriesTab as $categoryTitle ){
+        foreach ($categoriesData as $categoryTitle => $imageUrl) {
             $category = new Categories();
             $category->setTitle($categoryTitle);
-            $category->setUrl($imagesTab[$j]);
-            //$category->addTravel($travel);
-            
+            $category->setUrl($imageUrl);
+
             $manager->persist($category);
-            $j++;
         }
 
-        for($i=0; $i < 10;$i++){
-            
+        for ($i = 0; $i < 10; ++$i) {
             // TRAVELS
             $travel = new Travel();
             $travel->setName($faker->sentence($nbWords = 3, $variableNbWords = true));
@@ -50,7 +50,7 @@ class TravelFixtures extends Fixture
             $category = new Categories();
             $category->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true));
             $category->addTravel($travel);
-            
+
             $manager->persist($category);
 
             // STAYS
@@ -65,12 +65,12 @@ class TravelFixtures extends Fixture
             $stay->setArrival($faker->city);
             $stay->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 700, $max = 8000));
             $stay->setStock(mt_rand(10, 100));
-           
-            $travel-> addStay($stay);
-            
+
+            $travel->addStay($stay);
+
             $manager->persist($stay);
-            
-            //OPTIONS
+
+            // OPTIONS
             $option = new Options();
             $option->setName($faker->sentence($nbWords = 3, $variableNbWords = true));
             $option->setDescription($faker->sentence($nbWords = 3, $variableNbWords = true));
@@ -83,15 +83,15 @@ class TravelFixtures extends Fixture
 
             // FORMALITY
             $formality = new Formality();
-            $formality->setDestination($faker->countryCode );
+            $formality->setDestination($faker->countryCode);
             $formality->setDescription($faker->sentence($nbWords = 3, $variableNbWords = true));
             $travel->addFormality($formality);
 
-            //PICTURES
+            // PICTURES
 
             $manager->persist($travel);
         }
-        
+
         $manager->flush();
     }
 }

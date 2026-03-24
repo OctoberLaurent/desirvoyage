@@ -2,57 +2,51 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\User;
-
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-
 class UserFixtures extends Fixture
 {
-
     private $passwordEncoder;
 
     public function __construct(UserPasswordHasherInterface $encoder)
     {
-        
         $this->passwordEncoder = $encoder;
-
     }
 
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
-        // datas
-        $firstNameTab = ["Laurent","user" ];
-        $lastNameTab = ["Laurent","user" ];
-        $roleTab = ["ROLE_ADMIN", "ROLE_USER"];
-        $mailTab = ["laurent@lepl.at", "user@user.fr"];
 
-        $datetime=new \Datetime;
-        for($i=0; $i < count($firstNameTab); $i++){
+        /** @var array<array{firstname: string, lastname: string, role: string, email: string}> $usersData */
+        $usersData = [
+            ['firstname' => 'Laurent', 'lastname' => 'Laurent', 'role' => 'ROLE_ADMIN', 'email' => 'laurent@lepl.at'],
+            ['firstname' => 'user', 'lastname' => 'user', 'role' => 'ROLE_USER', 'email' => 'user@user.fr'],
+        ];
 
-        $user = new User();
+        $datetime = new \DateTime();
+        foreach ($usersData as $userData) {
+            $user = new User();
+            $user->setFirstname($userData['firstname']);
+            $user->setLastname($userData['lastname']);
+            $user->setEnabled(true);
+            $user->setRoles([$userData['role']]);
+            $user->setEmail($userData['email']);
+            $user->setPassword($this->passwordEncoder->hashPassword($user, '123456'));
+            $user->setToken(sha1($faker->userName));
+            $user->setAddress($faker->streetAddress);
+            $user->setCity($faker->city);
+            $user->setCountry('France');
+            $user->setPostalCode($faker->postcode);
+            $user->setPhone($faker->phoneNumber);
+            $user->setBirthday($datetime);
 
-        $user->setFirstname($firstNameTab[$i]);
-        $user->setLastname($lastNameTab[$i]);
-        $user->setEnabled(true);
-        $user->setRoles([$roleTab[$i]]);
-        $user->setEmail($mailTab[$i]);
-        $user->setPassword($this->passwordEncoder->hashPassword($user, "123456"));
-        $user->setToken(sha1($faker->userName));
-        $user->setAddress($faker->streetAddress);
-        $user->setCity($faker->city);
-        $user->setCountry("France");
-        $user->setPostalCode($faker->postcode);
-        $user->setPhone($faker->phoneNumber);
-        $user->setBirthday($datetime);
-
-        $manager->persist($user);
+            $manager->persist($user);
         }
-        
+
         $manager->flush();
     }
 }

@@ -4,71 +4,72 @@ namespace App\Form;
 
 use App\Entity\Traveler;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TravelerType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            /* lastname*/ 
+            /* lastname */
             ->add('lastname', TextType::class, [
-                "attr" => [
+                'attr' => [
                     // "class" => "col s6",
                 ],
-                "label" => 'Votre nom',
+                'label' => 'Votre nom',
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Saisir votre nom",
+                        'message' => 'Saisir votre nom',
                     ]),
-                ]
-            ]) 
-             /* firstname*/ 
-             ->add('firstname', TextType::class, [
-                "attr" => [
-                    // "class" => "col s6" 
                 ],
-                "label" => 'Votre prénom',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Saisir votre prenom",
-                    ])
-                ]
-            ]) 
-            /* email */ 
+            ])
+             /* firstname */
+             ->add('firstname', TextType::class, [
+                 'attr' => [
+                     // "class" => "col s6"
+                 ],
+                 'label' => 'Votre prénom',
+                 'constraints' => [
+                     new NotBlank([
+                         'message' => 'Saisir votre prenom',
+                     ]),
+                 ],
+             ])
+            /* email */
             ->add('email', EmailType::class, [
-                "attr" => [
+                'attr' => [
                     // "class" => "col s6"
                 ],
                 'constraints' => [
-
                     new NotBlank([
-                        'message' => "Saisir votre email",
-                    ])
-                ]
-            ])
-            /* birthday */ 
-            ->add('birthday', BirthdayType::class, [
-                "attr" => [
-                // "class" => "col s6" 
+                        'message' => 'Saisir votre email',
+                    ]),
                 ],
-                "label" => 'Votre date de naissance',
-                "widget" =>'single_text',
-               
+            ])
+            /* birthday */
+            ->add('birthday', BirthdayType::class, [
+                'attr' => [
+                    // "class" => "col s6"
+                ],
+                'label' => 'Votre date de naissance',
+                'widget' => 'single_text',
+
                 'constraints' => [
-                  new NotBlank([
-                        'message' => "Saisir votre date de naissance",
-                    ])
-                ]
+                    new NotBlank([
+                        'message' => 'Saisir votre date de naissance',
+                    ]),
+                ],
             ])
         ;
     }
+
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Repository\PicturesRepository::class)]
-class Pictures
+final class Pictures
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class Pictures
     #[ORM\Column(type: 'string', length: 255)]
     private $url;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Travel::class, inversedBy: 'pictures', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Travel::class, inversedBy: 'pictures', cascade: ['persist'])]
     private $travel;
 
     public function getId(): ?int
@@ -44,14 +44,15 @@ class Pictures
     }
 
     /*
-    * returns the path to the file
-    */
-    public function getPictureName(): ?string
+     * returns the web path to the file
+     */
+    public function getPicturename(): ?string
     {
-        $picture = explode( "/" , $this->url );
-        $secondToLast = (array_key_last($picture)-1);
-        $str = '/'.$picture[$secondToLast].'/'.end($picture);
-        return $str;
+        if (null === $this->url) {
+            return null;
+        }
+
+        return '/data2/'.basename($this->url);
     }
 
     public function setUrl(string $url): self
@@ -73,7 +74,7 @@ class Pictures
         return $this;
     }
 
-        public function __toString()
+    public function __toString()
     {
         return $this->name;
     }

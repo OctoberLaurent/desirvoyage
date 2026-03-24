@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="4"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src" />
+        <ignoreFiles>
+            <directory name="vendor" />
+            <directory name="var" />
+            <!-- Legacy migrations use removed Doctrine DBAL methods (getName()) -->
+            <directory name="src/Migrations" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <!--
+            Symfony false positives:
+            - Classes are used via the DI container, routing, event listeners, etc.
+            - Entity methods are used via Forms, Twig templates, Doctrine, and EasyAdmin
+            - Controller params may be injected by Symfony but not directly referenced
+            - Repository template params are managed by Symfony/Doctrine internally
+        -->
+        <UnusedClass errorLevel="suppress" />
+        <PossiblyUnusedMethod errorLevel="suppress" />
+        <PossiblyUnusedParam errorLevel="suppress" />
+        <UnusedParam errorLevel="suppress" />
+        <MissingTemplateParam errorLevel="suppress" />
+        <LessSpecificImplementedReturnType errorLevel="suppress" />
+        <!--
+            Doctrine entity properties are read via Forms, Twig, EasyAdmin, and the
+            ORM itself - Psalm cannot trace these usages without a dedicated plugin.
+        -->
+        <UnusedProperty errorLevel="suppress" />
+        <!-- Psalm cannot trace all dynamic return paths in Symfony entities -->
+        <InvalidReturnStatement errorLevel="suppress" />
+        <InvalidReturnType errorLevel="suppress" />
+
+        <!--
+            Symfony Validator constraints support both string and array options
+            in their constructors: e.g. new Regex(['pattern' => '...'])
+            Psalm cannot infer this without the Symfony plugin.
+        -->
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <directory name="src/Form" />
+                <!-- Stripe SDK stubs don't match runtime array shapes -->
+                <file name="src/Controller/PaymentController.php" />
+            </errorLevel>
+        </InvalidArgument>
+    </issueHandlers>
+</psalm>

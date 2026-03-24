@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,7 +21,7 @@ class Formality
     #[Assert\Length(min: 3, max: 1800, minMessage: 'Your description must be at least 10 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
     private $description;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Travel::class, mappedBy: 'formality', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'formality', cascade: ['persist'])]
     private $travels;
 
     public function __construct()
@@ -47,42 +46,9 @@ class Formality
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Travel[]
-     */
-    public function getTravels(): Collection
-    {
-        return $this->travels;
-    }
-
-    public function addTravel(Travel $travel): self
-    {
-        if (!$this->travels->contains($travel)) {
-            $this->travels[] = $travel;
-            $travel->addFormality($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTravel(Travel $travel): self
-    {
-        if ($this->travels->contains($travel)) {
-            $this->travels->removeElement($travel);
-            $travel->removeFormality($this);
-        }
 
         return $this;
     }

@@ -29,21 +29,11 @@ class Payment
         return $this->id;
     }
 
-    public function getPayAt(): ?\DateTimeInterface
-    {
-        return $this->payAt;
-    }
-
     public function setPayAt(?\DateTimeInterface $payAt): self
     {
         $this->payAt = $payAt;
 
         return $this;
-    }
-
-    public function getAmount(): ?float
-    {
-        return $this->amount;
     }
 
     public function setAmount(?float $amount): self
@@ -53,21 +43,11 @@ class Payment
         return $this;
     }
 
-    public function getPaymentId(): ?string
-    {
-        return $this->paymentId;
-    }
-
     public function setPaymentId(?string $paymentId): self
     {
         $this->paymentId = $paymentId;
 
         return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
     }
 
     public function setType(?string $type): self
@@ -76,5 +56,4 @@ class Payment
 
         return $this;
     }
-
 }

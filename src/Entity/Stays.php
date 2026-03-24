@@ -2,17 +2,12 @@
 
 namespace App\Entity;
 
-use DateTime;
-use Exception;
-use Doctrine\ORM\Mapping as ORM;
-use App\Service\MakeSerialService;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -22,8 +17,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 #[ORM\Entity(repositoryClass: \App\Repository\StaysRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-class Stays
+#[HasLifecycleCallbacks]
+final class Stays
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -54,11 +49,11 @@ class Stays
     #[Groups(['read'])]
     private $price;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Travel::class, inversedBy: 'stays', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Travel::class, inversedBy: 'stays', cascade: ['persist'])]
     #[Groups(['read'])]
     private $travel;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Reservation::class, mappedBy: 'stays')]
+    #[ORM\ManyToMany(targetEntity: Reservation::class, mappedBy: 'stays')]
     private $reservations;
 
     #[ORM\Column(type: 'integer')]
@@ -76,7 +71,6 @@ class Stays
     {
         $this->reservations = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -160,14 +154,6 @@ class Stays
         return $this->depature;
     }
 
-    /**
-     * @return Collection|Reservation[]
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
     public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservations->contains($reservation)) {
@@ -178,17 +164,9 @@ class Stays
         return $this;
     }
 
-    public function setReservation(?Reservation $reservation): self
-    {
-        $this->reservation = $reservation;
-
-        return $this;
-    }
-
     public function removeReservation(Reservation $reservation): self
     {
-        if ($this->reservations->contains($reservation)) {
-            $this->reservations->removeElement($reservation);
+        if ($this->reservations->removeElement($reservation)) {
             $reservation->removeStay($this);
         }
 
@@ -215,19 +193,11 @@ class Stays
     #[ORM\PrePersist]
     public function setSerial(): self
     {
-        
-            $this->serial = $this->serialEasy();
-       
-      
-        
+        $this->serial = $this->serialEasy();
+
         return $this;
     }
 
-    public function getCreatedDate(): ?\DateTimeInterface
-    {
-        return $this->createdDate;
-    }
-    
     #[ORM\PrePersist]
     public function setCreatedDate(): self
     {
@@ -235,10 +205,9 @@ class Stays
 
         return $this;
     }
-    public function serialEasy(){
-        for($i=0;$i<20;$i++){
-            $serial = uniqid();
-        }
-        return $serial;
+
+    public function serialEasy(): string
+    {
+        return uniqid();
     }
 }

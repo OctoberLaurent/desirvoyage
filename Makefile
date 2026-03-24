@@ -86,3 +86,18 @@ db-import: ## Importer le fichier bdd.sql
 	@echo "$(GREEN)Importation de la base de données...$(RESET)"
 	@docker exec -i db mysql -u root -proot dock < bdd.sql
 	@echo "$(GREEN)Base de données importée.$(RESET)"
+
+.PHONY: cs-fix
+cs-fix: ## Lancer PHP CS Fixer pour corriger le code
+	@echo "$(GREEN)Lancement de PHP CS Fixer...$(RESET)"
+	@docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix
+
+.PHONY: phpstan
+phpstan: ## Lancer PHPStan pour l'analyse statique
+	@echo "$(GREEN)Lancement de PHPStan...$(RESET)"
+	@docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse --memory-limit=1G
+
+.PHONY: psalm
+psalm: ## Lancer Psalm pour l'analyse statique
+	@echo "$(GREEN)Lancement de Psalm...$(RESET)"
+	@docker exec -it $(PHP_CONTAINER) vendor/bin/psalm

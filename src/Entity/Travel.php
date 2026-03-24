@@ -3,17 +3,15 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\TravelRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[HasLifecycleCallbacks]
 class Travel
 {
     #[ORM\Id]
@@ -40,19 +38,19 @@ class Travel
     #[Groups(['read'])]
     private $descriptions;
 
-    #[ORM\OneToMany(targetEntity: \App\Entity\Pictures::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Pictures::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
     private $pictures;
 
-    #[ORM\OneToMany(targetEntity: \App\Entity\Stays::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Stays::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
     private $stays;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Categories::class, inversedBy: 'travel')]
+    #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'travel')]
     private $categories;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Formality::class, inversedBy: 'travels', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Formality::class, inversedBy: 'travels', cascade: ['persist'])]
     private $formality;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Options::class, inversedBy: 'travels', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'travels', cascade: ['persist'])]
     private $options;
 
     public function __construct()
@@ -63,22 +61,29 @@ class Travel
         $this->formality = new ArrayCollection();
     }
 
-     /**
-     * return a slug !
-     *
-     *
-     * @return void
-     */
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function initializeSlug() {
-            $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->name);
-    }
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function computeSlug(): void
+    {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify((string) $this->name);
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -105,18 +110,6 @@ class Travel
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
     public function getDescriptions(): ?string
     {
         return $this->descriptions;
@@ -129,9 +122,6 @@ class Travel
         return $this;
     }
 
-    /**
-     * @return Collection|Pictures[]
-     */
     public function getPictures(): Collection
     {
         return $this->pictures;
@@ -147,22 +137,6 @@ class Travel
         return $this;
     }
 
-    public function removePicture(Pictures $picture): self
-    {
-        if ($this->pictures->contains($picture)) {
-            $this->pictures->removeElement($picture);
-            // set the owning side to null (unless already changed)
-            if ($picture->getTravel() === $this) {
-                $picture->setTravel(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Stays[]
-     */
     public function getStays(): Collection
     {
         return $this->stays;
@@ -173,19 +147,6 @@ class Travel
         if (!$this->stays->contains($stay)) {
             $this->stays[] = $stay;
             $stay->setTravel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStay(Stays $stay): self
-    {
-        if ($this->stays->contains($stay)) {
-            $this->stays->removeElement($stay);
-            // set the owning side to null (unless already changed)
-            if ($stay->getTravel() === $this) {
-                $stay->setTravel(null);
-            }
         }
 
         return $this;
@@ -203,12 +164,19 @@ class Travel
         return $this;
     }
 
-    /**
-     * @return Collection|Formality[]
-     */
     public function getFormality(): Collection
     {
         return $this->formality;
+    }
+
+    public function getMinPrice(): float
+    {
+        $prices = $this->stays->map(fn (Stays $stay) => $stay->getPrice())->toArray();
+        if ([] === $prices) {
+            return 0.0;
+        }
+
+        return min($prices);
     }
 
     public function addFormality(Formality $formality): self
@@ -229,9 +197,6 @@ class Travel
         return $this;
     }
 
-    /**
-     * @return Collection|Options[]
-     */
     public function getOptions(): Collection
     {
         return $this->options;
@@ -258,25 +223,5 @@ class Travel
     public function __toString()
     {
         return $this->name;
-    }
-    
-    /**
-     * Get min price for a travel
-     *
-     * @return float|null
-     */
-    public function getMinPrice(): ?float
-    {
-        $minprice = null;
-
-        foreach ($this->stays as $stay){
-
-            ($minprice == null)? $minprice = $stay->getPrice() : null;
-
-            ($stay->getPrice() < $minprice)? $minprice = $stay->getPrice() : null ;
-             
-        };
-
-        return $minprice;
     }
 }

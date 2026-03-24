@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,13 +26,13 @@ class Options
     #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 40 characters long')]
     private $type;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Travel::class, mappedBy: 'options', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'options', cascade: ['persist'])]
     private $travels;
 
     #[ORM\Column(type: 'float')]
     private $price;
 
-    #[ORM\ManyToMany(targetEntity: \App\Entity\Reservation::class, mappedBy: 'options')]
+    #[ORM\ManyToMany(targetEntity: Reservation::class, mappedBy: 'options')]
     private $reservations;
 
     public function __construct()
@@ -83,35 +82,9 @@ class Options
         return $this;
     }
 
-    ###
-       /**
-     * @return Collection|Travel[]
-     */
-    public function getTravels(): Collection
-    {
-        return $this->travels;
-    }
+    // ##
 
-    public function addTravel(Travel $travel): self
-    {
-        if (!$this->travels->contains($travel)) {
-            $this->travels[] = $travel;
-            $travel->addOptions($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTravel(Travel $travel): self
-    {
-        if ($this->travels->contains($travel)) {
-            $this->travels->removeElement($travel);
-            $travel->removeOptions($this);
-        }
-
-        return $this;
-    }
-    ###
+    // ##
 
     public function __toString()
     {
@@ -130,14 +103,6 @@ class Options
         return $this;
     }
 
-    /**
-     * @return Collection|Reservation[]
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
     public function addReservation(Reservation $reservation): self
     {
         if (!$this->reservations->contains($reservation)) {
@@ -148,17 +113,9 @@ class Options
         return $this;
     }
 
-    public function setReservation(?Reservation $reservation): self
-    {
-        $this->reservation = $reservation;
-
-        return $this;
-    }
-
     public function removeReservation(Reservation $reservation): self
     {
-        if ($this->reservations->contains($reservation)) {
-            $this->reservations->removeElement($reservation);
+        if ($this->reservations->removeElement($reservation)) {
             $reservation->removeOption($this);
         }
 

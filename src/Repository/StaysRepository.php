@@ -6,12 +6,6 @@ use App\Entity\Stays;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Stays|null find($id, $lockMode = null, $lockVersion = null)
- * @method Stays|null findOneBy(array $criteria, array $orderBy = null)
- * @method Stays[]    findAll()
- * @method Stays[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class StaysRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,11 +13,7 @@ class StaysRepository extends ServiceEntityRepository
         parent::__construct($registry, Stays::class);
     }
 
-    /**
-     * @return Stays[] Returns an array of Stays objects
-     *
-     */
-    public function findStockByid($idStay)
+    public function findStockByid(int $idStay): int
     {
         $stock = $this->createQueryBuilder('s')
             ->andWhere('s.id = :id')
@@ -32,14 +22,7 @@ class StaysRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-        return $stock[0]->getStock();
-    }
 
-    public function findAllStock()
-    {
-            return $this->createQueryBuilder('s')
-            ->select('SUM(s.stock)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        return $stock[0]->getStock();
     }
 }

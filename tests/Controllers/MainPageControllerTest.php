@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * test Main page
+ * test Main page.
  */
 class MainPageControllerTest extends WebTestCase
 {
@@ -15,6 +15,6 @@ class MainPageControllerTest extends WebTestCase
 
         $client->request('GET', '/');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }
