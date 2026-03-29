@@ -31,12 +31,17 @@ final class ReservationController extends AbstractController
         $id = $request->query->get('stayid');
         // find stay by id
         $stay = $stayRepository->find($id);
+
+        if (null === $stay) {
+            $this->addFlash('red darken-4', 'Ce séjour est introuvable ou n\'existe plus.');
+
+            return $this->redirectToRoute('travel_home');
+        }
+
         // create a new travel object
         $reservation = new Reservation();
         // add stay in reservation
-        if (null !== $stay) {
-            $reservation->addStay($stay);
-        }
+        $reservation->addStay($stay);
         /** @var \App\Entity\User|null $user */
         $user = $this->getUser();
         $reservation->setUser($user);
