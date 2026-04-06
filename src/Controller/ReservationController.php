@@ -58,14 +58,41 @@ final class ReservationController extends AbstractController
      */
     #[Route(path: '/configure/{id}', name: '_option')]
     public function configure(Stays $stays, SessionInterface $session, Request $request,
-        $id, ReservationMergeService $seservationMergeService): \Symfony\Component\HttpFoundation\Response
+        $id, ReservationMergeService $seservationMergeService, OptionsRepository $optionRepository): \Symfony\Component\HttpFoundation\Response
     {
         // get session
         $reservation = $session->get('reservation');
 
+        // Check if reservation exists in session — if not, initialize it from the stay
+        if (null === $reservation) {
+            $reservation = new Reservation();
+            $reservation->addStay($stays);
+            /** @var \App\Entity\User|null $user */
+            $user = $this->getUser();
+            $reservation->setUser($user);
+            $session->set('reservation', $reservation);
+        } else {
+            // Replace detached stays with the managed entity from ParamConverter
+            // to avoid lazy-loading issues on serialized entities
+            foreach ($reservation->getStays() as $oldStay) {
+                $reservation->removeStay($oldStay);
+            }
+            $reservation->addStay($stays);
+        }
+
         $seservationMergeService->reservationOptionsMerge($reservation);
+
+        // Get travel ID for form options
+        $travelId = null;
+        $travel = $stays->getTravel();
+        if (null !== $travel) {
+            $travelId = $travel->getId();
+        }
+
         // insert $reservation in form
-        $form = $this->createForm(ReservationOptionType::class, $reservation);
+        $form = $this->createForm(ReservationOptionType::class, $reservation, [
+            'travel_id' => $travelId,
+        ]);
         // retrieve request
         $form->handleRequest($request);
 
@@ -75,10 +102,18 @@ final class ReservationController extends AbstractController
             return $this->redirectToRoute('reservation_traveler', ['id' => $id]);
         }
 
+        // Get travel options for display in template
+        $travelOptions = [];
+        $travel = $stays->getTravel();
+        if (null !== $travel) {
+            $travelOptions = $optionRepository->findOptions($travel->getId())->getQuery()->getResult();
+        }
+
         return $this->render('reservation/configureOption.html.twig', [
             'stays' => $stays,
             'form' => $form->createView(),
             'reservation' => $reservation,
+            'travelOptions' => $travelOptions,
         ]);
     }
 
@@ -124,7 +159,7 @@ final class ReservationController extends AbstractController
         $nbtravelers = count($reservation->getTravelers());
         // if there is no registered traveler
         if ($nbtravelers < 1) {
-            $id = $reservation->getStays()[0]->getId();
+            $id = $reservation->getStays()->first()->getId();
 
             $this->addFlash(
                 'orange',
@@ -135,7 +170,7 @@ final class ReservationController extends AbstractController
         }
 
         // get price stays for 1 traveler
-        $stayPrice = $reservation->getStays()[0]->getPrice();
+        $stayPrice = $reservation->getStays()->first()->getPrice();
         // get price for all options
         $options = $reservation->getOptions();
         $optionsPrice = 0;

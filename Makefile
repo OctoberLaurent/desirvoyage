@@ -5,7 +5,7 @@
 DOCKER_DIR        = docker-symfony
 DOCKER_COMPOSE    = docker compose -f $(DOCKER_DIR)/docker-compose.yml
 PHP_CONTAINER     = php-fpm
-CONSOLE           = docker exec -it $(PHP_CONTAINER) php bin/console
+CONSOLE           = docker exec -it $(PHP_CONTAINER) php -d memory_limit=512M bin/console
 
 # --- Styling ---
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -58,6 +58,8 @@ logs: ## Afficher les logs des containers
 
 .PHONY: cc
 cc: ## Vider le cache de l'application
+	@echo "$(GREEN)Vérification des containers...$(RESET)"
+	@$(DOCKER_COMPOSE) up -d --no-recreate
 	@echo "$(GREEN)Nettoyage du cache...$(RESET)"
 	@$(CONSOLE) cache:clear
 
@@ -90,14 +92,25 @@ db-import: ## Importer le fichier bdd.sql
 .PHONY: cs-fix
 cs-fix: ## Lancer PHP CS Fixer pour corriger le code
 	@echo "$(GREEN)Lancement de PHP CS Fixer...$(RESET)"
-	@docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix
+	@docker exec $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix
 
 .PHONY: phpstan
 phpstan: ## Lancer PHPStan pour l'analyse statique
 	@echo "$(GREEN)Lancement de PHPStan...$(RESET)"
-	@docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse --memory-limit=1G
+	@docker exec $(PHP_CONTAINER) vendor/bin/phpstan analyse --memory-limit=1G
 
 .PHONY: psalm
 psalm: ## Lancer Psalm pour l'analyse statique
 	@echo "$(GREEN)Lancement de Psalm...$(RESET)"
-	@docker exec -it $(PHP_CONTAINER) vendor/bin/psalm
+	@docker exec $(PHP_CONTAINER) vendor/bin/psalm
+
+.PHONY: cypress-headless
+cypress-headless: ## Lancer les tests E2E Cypress (headless, sans VNC)
+	@echo "$(GREEN)Lancement des tests Cypress en mode invisible...$(RESET)"
+	@$(DOCKER_COMPOSE) run --rm cypress
+
+.PHONY: cypress-local
+cypress-local: ## Ouvrir Cypress nativement sur votre machine (Sans VNC)
+	@echo "$(GREEN)Ouverture de l'interface Cypress native...$(RESET)"
+	@npx cypress open
+

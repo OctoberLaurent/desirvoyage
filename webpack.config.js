@@ -58,7 +58,9 @@ Encore
     })
 
     // enables Sass/SCSS support
-    .enableSassLoader()
+    .enableSassLoader((sassLoaderOptions) => {
+        sassLoaderOptions.api = 'modern-compiler';
+    })
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 
@@ -72,6 +74,6 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
     //.addEntry('admin', './assets/js/admin.js')
-;
+    ;
 
 module.exports = Encore.getWebpackConfig();

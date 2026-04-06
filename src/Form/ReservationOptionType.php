@@ -13,10 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ReservationOptionType extends AbstractType
 {
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $entity = $builder->getData();
-        $travel = $entity->getStays()[0]->getTravel();
+        $travelId = $options['travel_id'];
+
+        if (null === $travelId) {
+            return;
+        }
 
         $builder->add('options', EntityType::class, [
             'attr' => [
@@ -26,8 +29,8 @@ class ReservationOptionType extends AbstractType
             'multiple' => true,
             'label' => false,
             'class' => Options::class,
-            'query_builder' => function (OptionsRepository $repo) use ($travel) {
-                return $repo->findOptions($travel);
+            'query_builder' => function (OptionsRepository $repo) use ($travelId) {
+                return $repo->findOptions($travelId);
             }, 'choice_label' => 'name',
         ]);
     }
@@ -37,6 +40,7 @@ class ReservationOptionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Reservation::class,
+            'travel_id' => null,
         ]);
     }
 }

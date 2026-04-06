@@ -12,8 +12,8 @@ final class StockManagementService
 
     public function decrementStock($reservation): int
     {
-        $realStock = $this->stayRepo->findStockByid($reservation->getStays()[0]->getId());
-        $stay = $reservation->getStays()[0];
+        $realStock = $this->stayRepo->findStockByid($reservation->getStays()->first()->getId());
+        $stay = $reservation->getStays()->first();
         $nbtravelers = count($reservation->getTravelers());
         $stay->setStock($realStock - $nbtravelers);
 

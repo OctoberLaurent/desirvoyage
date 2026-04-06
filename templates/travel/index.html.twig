@@ -53,7 +53,7 @@
                             {% if category.url %}
                                 <img src="{{ category.picturename }}" alt="{{ category.title }}"/>
                             {% else %}
-                                <img src="/data/default.png"/>
+                                <img src="/data2/default.png"/>
                             {% endif %}
                         </div>
                         <div class="card_title title-white">
@@ -82,7 +82,7 @@
                         <div class="front" alt="{{ travel.pictures.get(0).name }}"
                              style="background-image: url({{ travel.pictures.get(0).picturename }})">
                             {% else %}
-                            <div class="front" style="background-image: url(/data/default.png)">
+                            <div class="front" style="background-image: url(/data2/default.png)">
                                 {% endif %}
                                 <h1 class="center-align">{{ travel.name }}</h1>
                             </div>

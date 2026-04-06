@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "symfony-ai-mate": {
+      "command": "docker",
+      "args": [
+        "compose",
+        "-f",
+        "/Users/laurentleplat/Web/desirvoyage/docker-symfony/docker-compose.yml",
+        "exec",
+        "-T",
+        "php",
+        "vendor/bin/mate",
+        "serve",
+        "--force-keep-alive"
+      ]
+    }
+  }
+}

@@ -1,13 +1,18 @@
 {
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^5.12.0",
-        "@fortawesome/fontawesome-svg-core": "^1.2.26",
-        "@symfony/webpack-encore": "^0.28.2",
-        "core-js": "^3.0.0",
-        "regenerator-runtime": "^0.13.2",
+        "@babel/core": "^7.24.0",
+        "@babel/preset-env": "^7.24.0",
+        "@fortawesome/fontawesome-free": "^6.5.1",
+        "@fortawesome/fontawesome-svg-core": "^6.5.1",
+        "@symfony/webpack-encore": "^6.0.0",
+        "core-js": "^3.36.0",
+        "cypress": "^15.13.0",
+        "regenerator-runtime": "^0.14.1",
         "sass": "^1.98.0",
-        "sass-loader": "^7.3.1",
-        "webpack-notifier": "^1.6.0"
+        "sass-loader": "^14.1.1",
+        "webpack": "^5.90.0",
+        "webpack-cli": "^6.0.0",
+        "webpack-notifier": "^1.15.0"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -15,7 +20,9 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run"
     },
     "dependencies": {
         "@ciar4n/izmir": "^1.0.0",

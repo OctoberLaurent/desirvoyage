@@ -1,7 +1,5 @@
-version: '3.7'
-
 volumes:
-   mysqldata: ~
+    mysqldata: ~
 
 services:
     db:
@@ -25,7 +23,7 @@ services:
         volumes:
             - ../:/var/www/symfony
             - ./logs/symfony:/var/www/symfony/var/log:cached
-           
+
         depends_on:
             - db
         networks:
@@ -53,6 +51,33 @@ services:
         volumes:
             - ./logs/nginx:/var/log/nginx:cached
             - ../:/var/www/symfony:cached
+    cypress:
+        container_name: cypress
+        image: cypress/included:13.17.0
+        shm_size: 2gb
+        ipc: host
+        cap_add:
+            - SYS_ADMIN
+            - IPC_LOCK
+        security_opt:
+            - seccomp:unconfined
+        environment:
+            - CYPRESS_BASE_URL=http://nginx
+            - QT_X11_NO_MITSHM=1
+            - _X11_NO_MITSHM=1
+            - DISABLE_DEV_SHM_USAGE=1
+            - ELECTRON_EXTRA_LAUNCH_ARGS=--no-sandbox --disable-dev-shm-usage --disable-gpu --disable-software-rasterizer
+        working_dir: /e2e
+        volumes:
+            - ../cypress:/e2e/cypress
+            - ../cypress.config.js:/e2e/cypress.config.js
+            - ../package.json:/e2e/package.json
+            - ../cypress/screenshots:/e2e/cypress/screenshots
+            - ../cypress/videos:/e2e/cypress/videos
+        depends_on:
+            - nginx
+        networks:
+            - php
 networks:
     db:
     php:

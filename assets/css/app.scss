@@ -379,12 +379,10 @@ hr.pink {
       border: none;
     } 
 }
-.quantity{
-  display: block;
-  padding: 4px;
-  float: left;
-  right: -120px;
-  position: relative;
+.stock-legend-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px;
 }
 .exemple{
   float: left;

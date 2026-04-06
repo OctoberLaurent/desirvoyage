@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Options;
 use App\Entity\Reservation;
 use App\Entity\Stays;
+use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -27,7 +28,22 @@ final class ReservationMergeService
         }
 
         $merged->setTravelers($reservation->getTravelers());
-        $merged->setOptions($reservation->getOptions());
+
+        $user = $reservation->getUser();
+        if (null !== $user && null !== $user->getId()) {
+            $managedUser = $this->entityManager->find(User::class, $user->getId());
+            $merged->setUser($managedUser);
+        }
+        // Use managed options instead of detached entities from the session to avoid "null association mapping" errors
+        $options = $reservation->getOptions();
+        $moptions = new ArrayCollection();
+        foreach ($options as $option) {
+            $managedOption = null !== $option->getId()
+                ? ($this->entityManager->find(Options::class, $option->getId()) ?? $option)
+                : $option;
+            $moptions[] = $managedOption;
+        }
+        $merged->setOptions($moptions);
 
         $stays = $reservation->getStays();
         $mstays = new ArrayCollection();

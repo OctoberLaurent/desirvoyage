@@ -51,6 +51,9 @@ class Travel
     private $formality;
 
     #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'travels', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'travel_options')]
+    #[ORM\JoinColumn(name: 'travel_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'options_id', referencedColumnName: 'id')]
     private $options;
 
     public function __construct()
@@ -206,6 +209,7 @@ class Travel
     {
         if (!$this->options->contains($options)) {
             $this->options[] = $options;
+            $options->addTravel($this);
         }
 
         return $this;
@@ -215,6 +219,7 @@ class Travel
     {
         if ($this->options->contains($options)) {
             $this->options->removeElement($options);
+            $options->removeTravel($this);
         }
 
         return $this;

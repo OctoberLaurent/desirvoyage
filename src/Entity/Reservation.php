@@ -156,6 +156,7 @@ class Reservation
 
     public function setStays(Collection $stays): static
     {
+        $this->stays = new ArrayCollection();
         foreach ($stays as $stay) {
             $this->addStay($stay);
         }

@@ -22,9 +22,9 @@ class CategoriesCrudController extends AbstractCrudController
         return [
             TextField::new('title', 'Titre'),
             ImageField::new('url', 'Image')
-                ->setUploadDir('public/data/')
+                ->setUploadDir('public/data2/')
                 ->setUploadedFileNamePattern('[uuid].[extension]')
-                ->setBasePath('data/'),
+                ->setBasePath('data2/'),
             AssociationField::new('travel', 'Voyages'),
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,28 +13,34 @@ class Options
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[Assert\Length(min: 5, max: 60, minMessage: 'Your title must be at least 5 characters long', maxMessage: 'Your title must not exceed 60 characters')]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'text')]
-    #[Assert\Length(min: 10, max: 400, minMessage: 'Your description must be at least 400 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
-    private $description;
+    #[Assert\Length(min: 10, max: 400, minMessage: 'Your description must be at least 10 characters long', maxMessage: 'Your description must not exceed 400 characters')]
+    private string $description;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 40 characters long')]
-    private $type;
+    private string $type;
 
+    /**
+     * @var Collection<int, Travel>
+     */
     #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'options', cascade: ['persist'])]
-    private $travels;
+    private Collection $travels;
 
     #[ORM\Column(type: 'float')]
-    private $price;
+    private float $price;
 
+    /**
+     * @var Collection<int, Reservation>
+     */
     #[ORM\ManyToMany(targetEntity: Reservation::class, mappedBy: 'options')]
-    private $reservations;
+    private Collection $reservations;
 
     public function __construct()
     {
@@ -82,15 +89,6 @@ class Options
         return $this;
     }
 
-    // ##
-
-    // ##
-
-    public function __toString()
-    {
-        return $this->name;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;
@@ -101,6 +99,41 @@ class Options
         $this->price = $price;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Travel>
+     */
+    public function getTravels(): Collection
+    {
+        return $this->travels;
+    }
+
+    public function addTravel(Travel $travel): self
+    {
+        if (!$this->travels->contains($travel)) {
+            $this->travels[] = $travel;
+            $travel->addOptions($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTravel(Travel $travel): self
+    {
+        if ($this->travels->removeElement($travel)) {
+            $travel->removeOptions($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
     }
 
     public function addReservation(Reservation $reservation): self
@@ -120,5 +153,10 @@ class Options
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

@@ -19,7 +19,7 @@ class PictureType extends AbstractType
                 'attr' => ['class' => 'center'],
                 'label' => 'Image name'])
             ->add('url', FileUploadType::class, [
-                'upload_dir' => 'public/data/',
+                'upload_dir' => 'public/data2/',
                 'upload_filename' => '[uuid].[extension]',
             ])
         ;
