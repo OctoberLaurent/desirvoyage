@@ -49,7 +49,7 @@ final class UserController extends AbstractController
 
             $this->mailer->sendActivationMail($user);
 
-            $this->addFlash('green accent-3', 'Votre compte à bien été créé, activez le pour pouvoir vous connecter');
+            $this->addFlash('green accent-3', 'Votre compte a bien été créé. Vous devez l\'activer pour pouvoir vous connecter.');
 
             return $this->redirectToRoute('login');
         }
