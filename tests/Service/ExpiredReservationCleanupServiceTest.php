@@ -5,7 +5,7 @@ namespace App\Tests\Service;
 use App\Entity\Reservation;
 use App\Entity\Stays;
 use App\Entity\Traveler;
-use App\Repository\ReservationRepository;
+use App\Repository\ReservationRepositoryInterface;
 use App\Service\ExpiredReservationCleanupService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +21,7 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
 
         $expired = $this->buildReservation($stay, 2, new \DateTime('-20 minutes'));
 
-        $repo = $this->createMock(ReservationRepository::class);
+        $repo = $this->createMock(ReservationRepositoryInterface::class);
         $repo->method('findUnpaid')->willReturn([$expired]);
 
         $em = $this->createMock(EntityManagerInterface::class);
@@ -43,7 +43,7 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
 
         $recent = $this->buildReservation($stay, 1, new \DateTime('-5 minutes'));
 
-        $repo = $this->createMock(ReservationRepository::class);
+        $repo = $this->createMock(ReservationRepositoryInterface::class);
         $repo->method('findUnpaid')->willReturn([$recent]);
 
         $em = $this->createMock(EntityManagerInterface::class);

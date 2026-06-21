@@ -5,7 +5,7 @@ namespace App\Tests\Service;
 use App\Entity\Reservation;
 use App\Entity\Stays;
 use App\Entity\Traveler;
-use App\Repository\StaysRepository;
+use App\Repository\StaysRepositoryInterface;
 use App\Service\StockManagementService;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ final class StockManagementServiceTest extends TestCase
         }
         $reservation->setTravelers($travelers);
 
-        $repo = $this->createMock(StaysRepository::class);
+        $repo = $this->createMock(StaysRepositoryInterface::class);
         $repo->expects(self::once())
             ->method('findStockById')
             ->willReturn(10);
@@ -40,7 +40,7 @@ final class StockManagementServiceTest extends TestCase
     public function testDecrementStockReturnsZeroWhenNoStay(): void
     {
         $reservation = new Reservation();
-        $repo = $this->createMock(StaysRepository::class);
+        $repo = $this->createMock(StaysRepositoryInterface::class);
         $repo->expects(self::never())->method('findStockById');
 
         self::assertSame(0, (new StockManagementService($repo))->decrementStock($reservation));

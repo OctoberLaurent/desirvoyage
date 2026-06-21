@@ -4,11 +4,11 @@ namespace App\Service;
 
 use App\Entity\Reservation;
 use App\Entity\Stays;
-use App\Repository\StaysRepository;
+use App\Repository\StaysRepositoryInterface;
 
 final class StockManagementService
 {
-    public function __construct(private readonly StaysRepository $stayRepo)
+    public function __construct(private readonly StaysRepositoryInterface $stayRepo)
     {
     }
 

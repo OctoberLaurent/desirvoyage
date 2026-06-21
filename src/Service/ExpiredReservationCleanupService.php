@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\Reservation;
 use App\Entity\Stays;
-use App\Repository\ReservationRepository;
+use App\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -19,7 +19,7 @@ final class ExpiredReservationCleanupService
     public const int DEFAULT_EXPIRATION_MINUTES = 15;
 
     public function __construct(
-        private readonly ReservationRepository $reservationRepository,
+        private readonly ReservationRepositoryInterface $reservationRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }

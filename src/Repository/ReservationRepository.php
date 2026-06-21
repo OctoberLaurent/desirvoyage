@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Reservation> */
-class ReservationRepository extends ServiceEntityRepository
+class ReservationRepository extends ServiceEntityRepository implements ReservationRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
