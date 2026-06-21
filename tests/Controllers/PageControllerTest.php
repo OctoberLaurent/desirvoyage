@@ -22,6 +22,13 @@ class PageControllerTest extends WebTestCase
         ]);
     }
 
+    #[\Override]
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        static::ensureKernelShutdown();
+    }
+
     /**
      * Test secured page.
      */

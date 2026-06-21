@@ -9,6 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class LoginPageControllerTest extends WebTestCase
 {
+    #[\Override]
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        static::ensureKernelShutdown();
+    }
+
     public function testLoginPage(): void
     {
         $client = static::createClient();
