@@ -6,6 +6,8 @@ DOCKER_DIR        = docker-symfony
 DOCKER_COMPOSE    = docker compose -f $(DOCKER_DIR)/docker-compose.yml
 PHP_CONTAINER     = php-fpm
 CONSOLE           = docker exec $(PHP_CONTAINER) php -d memory_limit=512M bin/console
+TEST_DB_URL       = mysql://root:root@db:3306/dock_test?serverVersion=mariadb-10.5.15
+TEST_EXEC         = docker exec -e APP_ENV=test -e DATABASE_URL='$(TEST_DB_URL)' $(PHP_CONTAINER)
 
 # --- Styling ---
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -120,7 +122,21 @@ qa: ## Lancer l'analyse statique (PHPStan) + le fixer de style + les tests
 	@docker exec $(PHP_CONTAINER) vendor/bin/phpstan analyse --memory-limit=1G
 	@echo "$(GREEN)PHP CS Fixer (vérification)...$(RESET)"
 	@docker exec $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix --dry-run
-	@echo "$(GREEN)PHPUnit...$(RESET)"
-	@docker exec $(PHP_CONTAINER) vendor/bin/phpunit
+	@echo "$(GREEN)PHPUnit (env test, DB dock_test)...$(RESET)"
+	@$(TEST_EXEC) vendor/bin/phpunit
 	@echo "$(CYAN)QA OK ✅$(RESET)"
+
+.PHONY: test-db
+test-db: ## Préparer la base de données de test (dock_test : create + migrate + fixtures)
+	@echo "$(GREEN)Création de la base dock_test...$(RESET)"
+	@docker exec db mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS dock_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>/dev/null
+	@echo "$(GREEN)Migration du schéma de test...$(RESET)"
+	@$(TEST_EXEC) php bin/console doctrine:migrations:migrate --no-interaction
+	@echo "$(GREEN)Chargement des fixtures de test...$(RESET)"
+	@$(TEST_EXEC) php bin/console doctrine:fixtures:load --no-interaction
+	@echo "$(CYAN)Base de test prête ✅$(RESET)"
+
+.PHONY: test
+test: ## Lancer les tests PHPUnit (env test, DB dock_test)
+	@$(TEST_EXEC) vendor/bin/phpunit
 
