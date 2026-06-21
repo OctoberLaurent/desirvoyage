@@ -84,7 +84,7 @@ class SecurityController extends AbstractController
                     'Votre compte a été activé');
             } else {
                 // add message if date is expired
-                $url = $this->urlGenerator->generate('user_resendactivatetoken', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $url = $this->urlGenerator->generate('user_resend_activation_token', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
                 $this->addFlash(
                     'red',
@@ -99,8 +99,8 @@ class SecurityController extends AbstractController
     /**
      * Send activate token.
      */
-    #[Route(path: 'user/resendactivatetoken/{id}', name: 'user_resendactivatetoken')]
-    public function resendactivatetoken(User $user, EntityManagerInterface $em): RedirectResponse
+    #[Route(path: 'user/resendactivatetoken/{id}', name: 'user_resend_activation_token')]
+    public function resendActivationToken(User $user, EntityManagerInterface $em): RedirectResponse
     {
         if (true !== $user->getEnabled()) {
             // generate token and expire date

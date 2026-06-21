@@ -6,6 +6,8 @@ use App\Entity\Reservation;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -17,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class InvoiceController extends AbstractController
 {
     #[Route(path: '/{id}', name: '_html')]
-    public function InvoiceHtml(Reservation $reservation): \Symfony\Component\HttpFoundation\Response
+    public function invoiceHtml(Reservation $reservation): Response
     {
         $projectRoot = $this->getParameter('kernel.project_dir');
 
@@ -32,39 +34,46 @@ final class InvoiceController extends AbstractController
      * Genrate invoice in PDF.
      */
     #[Route(path: 'pdf/{id}', name: '_pdf')]
-    public function InvoicePdf(Reservation $reservation): void
+    public function invoicePdf(Reservation $reservation): Response
     {
         $projectRoot = $this->getParameter('kernel.project_dir');
         // Get reservation serial
         $serial = $reservation->getSerial();
-        // Configure Dompdf according to your needs
-        $pdfOptions = new Options();
-        $pdfOptions->setIsRemoteEnabled(true);
 
-        $pdfOptions->set('defaultFont', 'Arial');
+        $response = new StreamedResponse(function () use ($projectRoot, $reservation, $serial): void {
+            // Configure Dompdf according to your needs
+            $pdfOptions = new Options();
+            $pdfOptions->setIsRemoteEnabled(true);
 
-        // Instantiate Dompdf with our options
-        $dompdf = new Dompdf($pdfOptions);
-        $dompdf->setOptions($pdfOptions);
-        // Retrieve the HTML generated in our twig file
-        $html = $this->renderView('invoice/index.html.twig', [
-            'reservation' => $reservation,
-            'root' => $projectRoot,
-            'document' => 'pdf',
-        ]);
+            $pdfOptions->set('defaultFont', 'Arial');
 
-        // Load HTML to Dompdf
-        $dompdf->loadHtml($html);
+            // Instantiate Dompdf with our options
+            $dompdf = new Dompdf($pdfOptions);
+            $dompdf->setOptions($pdfOptions);
+            // Retrieve the HTML generated in our twig file
+            $html = $this->renderView('invoice/index.html.twig', [
+                'reservation' => $reservation,
+                'root' => $projectRoot,
+                'document' => 'pdf',
+            ]);
 
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-        $dompdf->setPaper('A4', 'portrait');
+            // Load HTML to Dompdf
+            $dompdf->loadHtml($html);
 
-        // Render the HTML as PDF
-        $dompdf->render();
+            // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+            $dompdf->setPaper('A4', 'portrait');
 
-        // Output the generated PDF to Browser (inline view)
-        $dompdf->stream('Invoice '.$serial.'.pdf', [
-            'Attachment' => false,
-        ]);
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser (inline view)
+            $dompdf->stream('Invoice '.$serial.'.pdf', [
+                'Attachment' => false,
+            ]);
+        });
+
+        $response->headers->set('Content-Type', 'application/pdf');
+
+        return $response;
     }
 }

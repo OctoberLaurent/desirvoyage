@@ -68,7 +68,7 @@ final class MailerService
         $this->send($email, $text);
     }
 
-    public function sendConfirmedPaimenent(?string $email): void
+    public function sendConfirmedPayment(?string $email): void
     {
         $text = '
                 Bonjour,

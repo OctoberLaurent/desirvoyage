@@ -5,17 +5,19 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Service\MailerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ContactController extends AbstractController
+final class ContactController extends AbstractController
 {
     /**
      * Contact form.
      */
     #[Route(path: '/contact', name: 'contact')]
-    public function contact(Request $request, MailerService $mailerService, \Doctrine\ORM\EntityManagerInterface $em): \Symfony\Component\HttpFoundation\Response
+    public function contact(Request $request, MailerService $mailerService, EntityManagerInterface $em): Response
     {
         // form the contact us
         $contact = new Contact();
