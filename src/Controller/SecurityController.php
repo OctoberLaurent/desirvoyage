@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -22,7 +21,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly UserPasswordHasherInterface $encoder,
         private readonly MailerService $mailer,
         private readonly UserService $userService,
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -166,7 +164,7 @@ class SecurityController extends AbstractController
             if (null !== $tokenExpire && $tokenExpire < new \DateTime()) {
                 $this->addFlash('alert', 'Votre token a expiré.');
             } else {
-                $user->setPassword($this->encoder->hashPassword($user, $myPassword->getPassword() ?? ''));
+                $this->userService->setPassword($user, $myPassword->getPassword() ?? '');
                 $this->userService->resetToken($user);
                 $entityManager->flush();
 
@@ -197,7 +195,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $newPassword = $form->get('password')->getData();
 
-            $user->setPassword($this->encoder->hashPassword($user, is_string($newPassword) ? $newPassword : ''));
+            $this->userService->setPassword($user, is_string($newPassword) ? $newPassword : '');
 
             $em->flush();
 

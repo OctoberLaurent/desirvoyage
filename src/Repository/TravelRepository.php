@@ -16,6 +16,28 @@ class TravelRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array<int, Travel>
+     */
+    public function findRandom(int $limit): array
+    {
+        $travels = $this->findAll();
+        if ([] === $travels) {
+            return [];
+        }
+
+        $limit = min($limit, count($travels));
+        $keys = array_rand($travels, $limit);
+        $keys = is_array($keys) ? $keys : [$keys];
+
+        $random = [];
+        foreach ($keys as $key) {
+            $random[] = $travels[$key];
+        }
+
+        return $random;
+    }
+
+    /**
      * @param array<string, mixed> $search
      *
      * @return array<int, Travel>

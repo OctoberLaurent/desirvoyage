@@ -8,10 +8,10 @@ use App\Form\ReservationOptionType;
 use App\Form\TravelersType;
 use App\Repository\OptionsRepository;
 use App\Repository\StaysRepository;
-use App\Service\MakeSerialService;
+use App\Service\NotEnoughStockException;
 use App\Service\ReservationMergeService;
-use App\Service\StockManagementService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ReservationPricingService;
+use App\Service\ReservationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -150,7 +150,7 @@ final class ReservationController extends AbstractController
      * show configuration travel and calculate cost.
      */
     #[Route(path: '/summary', name: '_summary')]
-    public function summary(SessionInterface $session): Response
+    public function summary(SessionInterface $session, ReservationPricingService $pricingService): Response
     {
         $reservation = $this->getReservationFromSession($session);
         if (null === $reservation) {
@@ -171,24 +171,12 @@ final class ReservationController extends AbstractController
             return $this->redirectToRoute('reservation_traveler', ['id' => $id]);
         }
 
-        // get price stays for 1 traveler
-        $firstStay = $reservation->getStays()->first();
-        $stayPrice = $firstStay instanceof Stays ? $firstStay->getPrice() : 0.0;
-        // get price for all options
-        $options = $reservation->getOptions();
-        $optionsPrice = 0.0;
-        foreach ($options as $option) {
-            $optionsPrice += $option->getPrice();
-        }
-        // set total price
-        $totalPriceOptions = $optionsPrice * $nbtravelers;
-        $totalPrice = ($stayPrice + $optionsPrice) * $nbtravelers;
-        $reservation->setPrice($totalPrice);
+        $price = $pricingService->applyPrice($reservation);
 
         return $this->render('reservation/summary.html.twig', [
             'reservation' => $reservation,
-            'totalPrice' => $totalPrice,
-            'totalPriceOptions' => $totalPriceOptions,
+            'totalPrice' => $price['total'],
+            'totalPriceOptions' => $price['options'],
         ]);
     }
 
@@ -196,39 +184,20 @@ final class ReservationController extends AbstractController
      * Validate for travel payment.
      */
     #[Route(path: '/validate/', name: '_validate')]
-    public function validate(SessionInterface $session, MakeSerialService $service, ReservationMergeService $reservationMergeService, StockManagementService $stockManagementService, EntityManagerInterface $entityManager): RedirectResponse
+    public function validate(SessionInterface $session, ReservationService $reservationService): RedirectResponse
     {
         $reservation = $this->getReservationFromSession($session);
         if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
 
-        // make serial and date
-        if (null === $reservation->getCreatedDate()) {
-            $reservation->setSerial($service->makeSerial());
-            $reservation->setCreatedDate(new \DateTime('now'));
-            // stock management
-            $realStock = $stockManagementService->decrementStock($reservation);
+        try {
+            $merged = $reservationService->validate($reservation);
+        } catch (NotEnoughStockException $e) {
+            $this->addFlash('red darken-4', $e->getMessage());
 
-            // if stays is not in stock
-            if (count($reservation->getTravelers()) > $realStock) {
-                $this->addFlash(
-                    'red darken-4',
-                    'Il ne reste pas suffisamment de place, merci de choisir un autre voyage ou une autre période'
-                );
-
-                return $this->redirectToRoute('travel_list');
-            }
-        } else {
-            $reservation->setUpdateAt(new \DateTime('now'));
+            return $this->redirectToRoute('travel_list');
         }
-
-        // manage persist in service
-        $merged = $reservationMergeService->reservationMerge($reservation);
-
-        $entityManager->persist($merged);
-
-        $entityManager->flush();
 
         $id = $merged->getId();
         $session->clear();

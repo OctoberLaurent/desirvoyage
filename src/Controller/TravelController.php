@@ -18,28 +18,11 @@ final class TravelController extends AbstractController
      * HomePage.
      */
     #[Route(path: '', name: '_home')]
-    public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory): Response
+    public function index(CategoriesRepository $categoriesRepository, TravelRepository $travelRepository): Response
     {
-        // return 3 firsts categories
-        $categories = $categoriesReposotory->findBy([], [], 3);
-
-        // initializes the random travels
-        $random_travels = [];
-
-        // Get all travels
-        $travels = $travelReposotory->findAll();
-
-        // generate random key
-        $keys = array_rand($travels, 6);
-
-        // Creating a Random Object Array
-        foreach ($keys as $key) {
-            $random_travels[] = $travels[$key];
-        }
-
         return $this->render('travel/index.html.twig', [
-            'categories' => $categories,
-            'travels' => $random_travels,
+            'categories' => $categoriesRepository->findBy([], [], 3),
+            'travels' => $travelRepository->findRandom(6),
         ]);
     }
 
