@@ -1,0 +1,12 @@
+{
+  "lastname": "Dupont",
+  "firstname": "Jean",
+  "birthday": "1990-06-15",
+  "address": "12 Rue de la Paix",
+  "postalCode": "75001",
+  "city": "Paris",
+  "country": "FR",
+  "phone": "0612345678",
+  "email": "test-cypress@example.com",
+  "password": "Testpass1!"
+}

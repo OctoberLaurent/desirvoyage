@@ -5,63 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42452794-c5f0-47df-bb14-781b93841008" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.agents/skills/mate-ai/SKILL.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.ai/mcp/mcp.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mcp.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/reassign_images.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/packages/http_discovery.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress/e2e/home.cy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress/e2e/login.cy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress/fixtures/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress/support/e2e.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress_en.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cypress_fr.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/mate-skill-guide.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/config.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/extensions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/src/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/src/ReservationSummaryTool.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/src/TravelRecommendationTool.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mate/src/TravelSearchTool.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mcp.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wf3-project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wf3-project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/reference.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/reference.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-symfony/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-symfony/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-symfony/nginx/symfony.conf" beforeDir="false" afterPath="$PROJECT_DIR$/docker-symfony/nginx/symfony.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-symfony/php-fpm/symfony.ini" beforeDir="false" afterPath="$PROJECT_DIR$/docker-symfony/php-fpm/symfony.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/CategoriesCrudController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/CategoriesCrudController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ReservationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ReservationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Options.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Options.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Reservation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Reservation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Travel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Travel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PictureType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PictureType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ReservationOptionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ReservationOptionType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/OptionsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/OptionsRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/ReservationMergeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ReservationMergeService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/StockManagementService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/StockManagementService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/reservation/configureOption.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/reservation/configureOption.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/reservation/configureTravelers.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/reservation/configureTravelers.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/reservation/summary.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/reservation/summary.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/travel/allcategories.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/travel/allcategories.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/travel/alltravels.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/travel/alltravels.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/travel/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/travel/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/travel/showone.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/travel/showone.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translations/messages.fr.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/translations/messages.fr.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cypress.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cypress/support/e2e.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/support/e2e.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cypress_en.md" beforeDir="false" afterPath="$PROJECT_DIR$/cypress_en.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cypress_fr.md" beforeDir="false" afterPath="$PROJECT_DIR$/cypress_fr.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +27,7 @@
     <execution />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1262" />
+    <option name="cachedIndexableFilesCount" value="1272" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileEditorManager">
@@ -494,6 +443,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
@@ -523,7 +473,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-a98d8de5180a-a9a4ea3ee0f4-com.jetbrains.php.sharedIndexes-PS-261.22158.283" />
+        <option value="bundled-php-predefined-a98d8de5180a-1e2042f4e5e5-com.jetbrains.php.sharedIndexes-PS-262.6653.37" />
       </set>
     </attachedChunks>
   </component>
@@ -545,6 +495,13 @@
       <workItem from="1775375962652" duration="915000" />
       <workItem from="1775383207983" duration="683000" />
       <workItem from="1775390003555" duration="592000" />
+      <workItem from="1775498427241" duration="2134000" />
+      <workItem from="1775500614403" duration="6000" />
+      <workItem from="1775500627546" duration="2272000" />
+      <workItem from="1775589638358" duration="655000" />
+      <workItem from="1775674371464" duration="129000" />
+      <workItem from="1775674517322" duration="8000" />
+      <workItem from="1782060696769" duration="632000" />
     </task>
     <servers />
   </component>
@@ -579,6 +536,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/templates/user/dashboard.html.twig">
