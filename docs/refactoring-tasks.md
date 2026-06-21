@@ -18,18 +18,18 @@ Fichier : `src/Command/IncrementalStaysNotPurchasedCommand.php`
 - [ ] **SOLID** : constructeur non promu, props non `readonly`. Passer en promoted readonly ctor. Rendre la classe `final`.
 - [ ] **Extraction** : sortir la logique métier (détection des réservations expirées + remontée de stock) dans un service `ExpiredReservationCleanupService` ; la commande ne fait que l'orchestration console.
 
-### Tâche P0-2 — Sécuriser & refactorer `PaymentController`
+### Tâche P0-2 — Sécuriser & refactorer `PaymentController` ✅
 Fichier : `src/Controller/PaymentController.php`
-- [ ] **SÉCURITÉ critique** : la clé privée Stripe est passée au template Twig (`'privateKey' => $this->privateKey`) → retirer immédiatement du render. Ne jamais exposer la clé secrète côté client.
-- [ ] **Anti-pattern** : `$_ENV['STRIPE_PUBLIC_KEY']` / `$_ENV['STRIPE_PRIVATE_KEY']` lus en dur → injecter via `ParameterBag` (paramètres `stripe.public_key` / `stripe.secret_key` dans `config/services.yaml` + `config/packages/`).
-- [ ] **Refactor** : extraire la logique de charge Stripe dans un service `PaymentGatewayInterface` + `StripePaymentGateway` (Adapter, skill §2 Adapter). Le contrôleur ne fait que l'orchestration HTTP.
-- [ ] Créer un `PaymentService` qui orchestre : créer `Payment`, lier à `Reservation`, envoyer mail via `MailerService`. Transaction dans le service, pas dans le contrôleur.
-- [ ] Rendre la classe `final`, promoted readonly ctor.
-- [ ] `catch (\Exception $e)` trop large → attraper `ApiErrorException` (Stripe) ou une exception domaine `PaymentFailedException`.
-- [ ] Typage : `index(Reservation $reservation)` retourne `\Symfony\Component\HttpFoundation\Response` via FQCN → importer `Response`.
+- [x] **SÉCURITÉ critique** : la clé privée Stripe est passée au template Twig → retirée du render (déjà fait à l'étape PHPStan).
+- [x] **Anti-pattern** : `$_ENV['STRIPE_PUBLIC_KEY']` / `$_ENV['STRIPE_PRIVATE_KEY']` lus en dur → paramètres `stripe.public_key`/`stripe.secret_key` (env) + bind.
+- [x] **Refactor** : logique de charge Stripe extraite dans `PaymentGatewayInterface` + `StripePaymentGateway` (Adapter, skill §2).
+- [x] Création d'un `PaymentService` qui orchestre : créer `Payment`, lier à `Reservation`, envoyer mail via `MailerService`. Transaction dans le service.
+- [x] Classe `final`, promoted readonly ctor (clé publique injectée).
+- [x] `catch (\Exception $e)` trop large → `PaymentFailedException` (exception domaine).
+- [x] Typage : retours `Response`/`RedirectResponse` importés.
 
-### Tâche P3-1 (déplacée ici car bloquante) — Régénérer les migrations Doctrine
-- [ ] Les 21 migrations 2020 cassent (`MariaDB1052Platform::getName()` supprimé). Supprimer `src/Migrations/Version*.php` et générer une migration baseline unique depuis le schéma courant : `bin/console doctrine:migrations:diff` puis renommer en `Version_init`. Permet à `make migrate` de fonctionner sur un env neuf.
+### Tâche P3-1 (déplacée ici car bloquante) — Régénérer les migrations Doctrine ✅
+- [x] Les 21 migrations 2020 cassent (`MariaDB1052Platform::getName()` supprimé). Supprimé `src/Migrations/Version*.php` et généré une migration baseline unique (`Version20260621092107`) via `doctrine:migrations:dump-schema`, marquée comme appliquée. `make migrate` fonctionne désormais ("Already at latest version").
 
 ---
 
