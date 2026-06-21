@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,17 +13,18 @@ class Formality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 60)]
-    private $destination;
+    private string $destination;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\Length(min: 3, max: 1800, minMessage: 'Your description must be at least 10 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
-    private $description;
+    private ?string $description = null;
 
+    /** @var Collection<int, Travel> */
     #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'formality', cascade: ['persist'])]
-    private $travels;
+    private Collection $travels;
 
     public function __construct()
     {
@@ -34,7 +36,7 @@ class Formality
         return $this->id;
     }
 
-    public function getDestination(): ?string
+    public function getDestination(): string
     {
         return $this->destination;
     }
@@ -53,7 +55,12 @@ class Formality
         return $this;
     }
 
-    public function __toString()
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function __toString(): string
     {
         return $this->destination;
     }

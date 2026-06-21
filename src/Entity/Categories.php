@@ -16,20 +16,21 @@ final class Categories
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 4, max: 30, minMessage: 'Your title must be at least 4 characters long', maxMessage: 'Your title must not exceed 30 characters')]
-    private $title;
+    private string $title;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
+    private string $slug;
 
+    /** @var Collection<int, Travel> */
     #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'categories', cascade: ['persist'])]
-    private $travel;
+    private Collection $travel;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $url;
+    private ?string $url = null;
 
     public function __construct()
     {
@@ -46,10 +47,10 @@ final class Categories
     public function computeSlug(): void
     {
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify((string) $this->title);
+        $this->slug = $slugify->slugify($this->title);
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -61,7 +62,7 @@ final class Categories
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -77,6 +78,9 @@ final class Categories
     * returns the path to the file
     */
 
+    /**
+     * @return Collection<int, Travel>
+     */
     public function getTravel(): Collection
     {
         return $this->travel;
@@ -92,9 +96,9 @@ final class Categories
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return (string) $this->title;
+        return $this->title;
     }
 
     public function getUrl(): ?string

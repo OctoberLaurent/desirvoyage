@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Reservation> */
 class ReservationCrudController extends AbstractCrudController
 {
     #[\Override]

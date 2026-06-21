@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class MainPageControllerTest extends WebTestCase
 {
-    public function testMainPost()
+    public function testMainPost(): void
     {
         $client = static::createClient();
 

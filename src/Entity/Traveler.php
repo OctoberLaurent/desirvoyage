@@ -11,26 +11,26 @@ final class Traveler
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 3, max: 80, minMessage: 'Your lastname must be at least {{ limit }} characters long.', maxMessage: 'Your lastname cannot be longer than {{ limit }} characters.')]
-    private $lastname;
+    private string $lastname;
 
     #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 3, max: 80, minMessage: 'Your firstname must be at least {{ limit }} characters long.', maxMessage: 'Your firstname cannot be longer than {{ limit }} characters.')]
-    private $firstname;
+    private string $firstname;
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
-    private $email;
+    private string $email;
 
     #[ORM\ManyToOne(targetEntity: Reservation::class, inversedBy: 'travelers', cascade: ['persist'])]
-    private $reservation;
+    private ?Reservation $reservation = null;
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\LessThan('-13 years')]
-    private $birthday;
+    private \DateTimeInterface $birthday;
 
     public function getId(): ?int
     {
@@ -42,7 +42,7 @@ final class Traveler
         return $this->reservation;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
@@ -54,7 +54,7 @@ final class Traveler
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -66,7 +66,7 @@ final class Traveler
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -78,7 +78,7 @@ final class Traveler
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getBirthday(): \DateTimeInterface
     {
         return $this->birthday;
     }

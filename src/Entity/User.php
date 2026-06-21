@@ -17,66 +17,68 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
-    private $email;
+    private string $email;
 
+    /** @var list<string> */
     #[ORM\Column(type: 'json')]
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column(type: 'string', length: 255)]
-    private $password;
+    private string $password;
 
     #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 3, max: 80, minMessage: 'Your firstname must be at least {{ limit }} characters long.', maxMessage: 'Your firstname cannot be longer than {{ limit }} characters.')]
     #[Assert\NotBlank]
-    private $firstname;
+    private string $firstname;
 
     #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 3, max: 80, minMessage: 'Your lastname must be at least {{ limit }} characters long.', maxMessage: 'Your lastname cannot be longer than {{ limit }} characters.')]
     #[Assert\NotBlank]
-    private $lastname;
+    private string $lastname;
 
     #[ORM\Column(type: 'boolean')]
-    private $enabled = false;
+    private bool $enabled = false;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $token;
+    private ?string $token = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $tokenExpire;
+    private ?\DateTimeInterface $tokenExpire = null;
 
     #[ORM\Column(type: 'string', length: 90)]
-    private $address;
+    private string $address;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    private $additionalAddress;
+    private ?string $additionalAddress = null;
 
     #[ORM\Column(type: 'string', length: 80)]
-    private $city;
+    private string $city;
 
     #[ORM\Column(type: 'string', length: 80)]
-    private $country;
+    private string $country;
 
     #[ORM\Column(type: 'string', length: 20)]
     #[Assert\Length(min: 9, max: 10, minMessage: 'min_length', maxMessage: 'max_length')]
-    private $phone;
+    private string $phone;
 
     #[ORM\Column(type: 'string', length: 20)]
     #[Assert\Length(min: 5, max: 5, minMessage: 'min_length', maxMessage: 'max_length')]
-    private $postalCode;
+    private string $postalCode;
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\LessThan('-13 years')]
-    private $birthday;
+    private \DateTimeInterface $birthday;
 
+    /** @var Collection<int, Reservation> */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
-    private $reservations;
+    private Collection $reservations;
 
     public function __construct()
     {
@@ -88,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -108,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        return $this->email ?? 'anonymous';
+        return '' !== $this->email ? $this->email : 'anonymous';
     }
 
     /**
@@ -124,6 +126,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param list<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -157,7 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -169,7 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
@@ -276,37 +281,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Reservation>
+     */
     public function getReservations(): Collection
     {
         return $this->reservations;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getBirthday(): \DateTimeInterface
     {
         return $this->birthday;
     }
 
-    public function getAddress(): ?string
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function getCountry(): ?string
+    public function getCountry(): string
     {
         return $this->country;
     }
 
-    public function getPhone(): ?string
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
-    public function getPostalCode(): ?string
+    public function getPostalCode(): string
     {
         return $this->postalCode;
     }

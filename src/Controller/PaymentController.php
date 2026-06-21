@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Payment;
 use App\Entity\Reservation;
 use App\Service\MailerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -16,20 +19,22 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 class PaymentController extends AbstractController
 {
-    private $publicKey;
-    private $privateKey;
+    private string $publicKey;
+    private string $privateKey;
 
     public function __construct()
     {
-        $this->publicKey = $_ENV['STRIPE_PUBLIC_KEY'];
-        $this->privateKey = $_ENV['STRIPE_PRIVATE_KEY'];
+        $publicKey = $_ENV['STRIPE_PUBLIC_KEY'] ?? '';
+        $this->publicKey = is_string($publicKey) ? $publicKey : '';
+        $privateKey = $_ENV['STRIPE_PRIVATE_KEY'] ?? '';
+        $this->privateKey = is_string($privateKey) ? $privateKey : '';
     }
 
     /**
      * Create a payment with stripe.
      */
     #[Route(path: '/{id}', name: '_create')]
-    public function index(Reservation $reservation): \Symfony\Component\HttpFoundation\Response
+    public function index(Reservation $reservation): Response
     {
         $user = $this->getUser();
         $userReservation = $reservation->getUser();
@@ -47,7 +52,6 @@ class PaymentController extends AbstractController
 
         return $this->render('payment/index.html.twig', [
             'publicKey' => $this->publicKey,
-            'privateKey' => $this->privateKey,
             'amount' => $amount,
             'reservation' => $reservation,
         ]);
@@ -57,7 +61,7 @@ class PaymentController extends AbstractController
      * Validates or refuses payment.
      */
     #[Route(path: '/verification/{id}', name: '_charge')]
-    public function charge(Request $request, Reservation $reservation, MailerService $mailerService, \Doctrine\ORM\EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function charge(Request $request, Reservation $reservation, MailerService $mailerService, EntityManagerInterface $em): RedirectResponse
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -65,7 +69,7 @@ class PaymentController extends AbstractController
         Stripe::setApiKey($this->privateKey);
         try {
             $charge = Charge::create([
-                'amount' => (int) round((float) $amount * 100.0),
+                'amount' => (int) round($amount * 100.0),
                 'currency' => 'eur',
                 'description' => 'commande '.$reservation->getSerial(),
                 'source' => (string) $request->request->get('stripeToken'),

@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/** @extends \Symfony\Component\Form\AbstractType<Reservation> */
 class ReservationOptionType extends AbstractType
 {
     #[\Override]
@@ -17,7 +18,7 @@ class ReservationOptionType extends AbstractType
     {
         $travelId = $options['travel_id'];
 
-        if (null === $travelId) {
+        if (!is_int($travelId)) {
             return;
         }
 
@@ -36,7 +37,7 @@ class ReservationOptionType extends AbstractType
     }
 
     #[\Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Reservation::class,

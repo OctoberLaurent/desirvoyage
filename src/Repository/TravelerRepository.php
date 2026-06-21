@@ -6,12 +6,7 @@ use App\Entity\Traveler;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Traveler|null find($id, $lockMode = null, $lockVersion = null)
- * @method Traveler|null findOneBy(array $criteria, array $orderBy = null)
- * @method Traveler[]    findAll()
- * @method Traveler[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Traveler> */
 class TravelerRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

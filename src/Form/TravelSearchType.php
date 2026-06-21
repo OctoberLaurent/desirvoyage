@@ -12,10 +12,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/** @extends \Symfony\Component\Form\AbstractType<mixed> */
 class TravelSearchType extends AbstractType
 {
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         \Locale::setDefault('fr');
         $builder
@@ -41,7 +42,7 @@ class TravelSearchType extends AbstractType
              ->add('country', EntityType::class, [
                  'required' => false,
                  'class' => Formality::class,
-                 'choice_label' => function ($formality) {
+                 'choice_label' => function (Formality $formality): string {
                      return Countries::getName($formality->getDestination());
                  },
              ])
@@ -68,7 +69,7 @@ class TravelSearchType extends AbstractType
     }
 
     #[\Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             // Configure your form options here

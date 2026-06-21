@@ -2,18 +2,18 @@
 
 namespace App\Tests\Controller;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class PageControllerTest extends WebTestCase
 {
-    private $client;
+    private KernelBrowser $client;
 
     /**
      * SetUp Authenticate.
      */
+    #[\Override]
     public function setUp(): void
     {
         $this->client = static::createClient([], [
@@ -23,30 +23,10 @@ class PageControllerTest extends WebTestCase
     }
 
     /**
-     * Simulate login and stock session.
-     */
-    private function logIn()
-    {
-        $session = $this->client->getContainer()->get('session');
-
-        $firewallName = 'main';
-        $user = new \App\Entity\User();
-        $user->setEmail('user@user.fr');
-        $user->setRoles(['ROLE_USER']);
-        $token = new UsernamePasswordToken($user, $firewallName, $user->getRoles());
-        $session->set('_security_'.$firewallName, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
-    }
-
-    /**
      * Test secured page.
      */
-    public function testSecuredPageadmin()
+    public function testSecuredPageadmin(): void
     {
-        $this->logIn();
         $this->client->request('GET', '/reservation/list');
         self::assertSame(301, $this->client->getResponse()->getStatusCode());
     }
@@ -54,9 +34,8 @@ class PageControllerTest extends WebTestCase
     /**
      * Test secured page.
      */
-    public function testSecuredPageGift()
+    public function testSecuredPageGift(): void
     {
-        $this->logIn();
         $this->client->request('GET', '/profil/dashboard');
         self::assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }

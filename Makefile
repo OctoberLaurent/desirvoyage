@@ -5,7 +5,7 @@
 DOCKER_DIR        = docker-symfony
 DOCKER_COMPOSE    = docker compose -f $(DOCKER_DIR)/docker-compose.yml
 PHP_CONTAINER     = php-fpm
-CONSOLE           = docker exec -it $(PHP_CONTAINER) php -d memory_limit=512M bin/console
+CONSOLE           = docker exec $(PHP_CONTAINER) php -d memory_limit=512M bin/console
 
 # --- Styling ---
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -29,7 +29,7 @@ start: ## Démarrer les containers Docker
 	@$(DOCKER_COMPOSE) up -d
 	@echo "$(CYAN)--------------------------------------------------$(RESET)"
 	@echo "$(WHITE)Application : $(GREEN)http://localhost:8888$(RESET)"
-	@echo "$(WHITE)PhpMyAdmin  : $(GREEN)http://localhost:8080$(RESET)"
+	@echo "$(WHITE)PhpMyAdmin  : $(GREEN)http://localhost:8081$(RESET)"
 	@echo "$(CYAN)--------------------------------------------------$(RESET)"
 
 .PHONY: stop
@@ -86,7 +86,7 @@ fixtures: ## Charger les fixtures de base de données
 .PHONY: db-import
 db-import: ## Importer le fichier bdd.sql
 	@echo "$(GREEN)Importation de la base de données...$(RESET)"
-	@docker exec -i db mysql -u root -proot dock < bdd.sql
+	@docker exec -i db mysql --force -u root -proot dock < bdd.sql
 	@echo "$(GREEN)Base de données importée.$(RESET)"
 
 .PHONY: cs-fix
@@ -105,12 +105,22 @@ psalm: ## Lancer Psalm pour l'analyse statique
 	@docker exec $(PHP_CONTAINER) vendor/bin/psalm
 
 .PHONY: cypress-headless
-cypress-headless: ## Lancer les tests E2E Cypress (headless, sans VNC)
+cypress-headless: ## Lancer les tests E2E Cypress en mode headless (Docker)
 	@echo "$(GREEN)Lancement des tests Cypress en mode invisible...$(RESET)"
 	@$(DOCKER_COMPOSE) run --rm cypress
 
 .PHONY: cypress-local
-cypress-local: ## Ouvrir Cypress nativement sur votre machine (Sans VNC)
+cypress-local: ## Ouvrir l'interface Cypress nativement sur votre machine
 	@echo "$(GREEN)Ouverture de l'interface Cypress native...$(RESET)"
 	@npx cypress open
+
+.PHONY: qa
+qa: ## Lancer l'analyse statique (PHPStan) + le fixer de style + les tests
+	@echo "$(GREEN)PHPStan (level 10)...$(RESET)"
+	@docker exec $(PHP_CONTAINER) vendor/bin/phpstan analyse --memory-limit=1G
+	@echo "$(GREEN)PHP CS Fixer (vérification)...$(RESET)"
+	@docker exec $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix --dry-run
+	@echo "$(GREEN)PHPUnit...$(RESET)"
+	@docker exec $(PHP_CONTAINER) vendor/bin/phpunit
+	@echo "$(CYAN)QA OK ✅$(RESET)"
 

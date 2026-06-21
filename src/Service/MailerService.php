@@ -46,6 +46,9 @@ final class MailerService
 
     private function send(?string $email, string $text): void
     {
+        if (null === $email || '' === $email) {
+            return;
+        }
         $message = (new Email())
             ->from('no-reply@desirvoyage.com')
             ->to($email)

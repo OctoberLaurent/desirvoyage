@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Options> */
 class OptionsCrudController extends AbstractCrudController
 {
     #[\Override]

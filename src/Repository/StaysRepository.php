@@ -6,6 +6,7 @@ use App\Entity\Stays;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Stays> */
 class StaysRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -13,16 +14,15 @@ class StaysRepository extends ServiceEntityRepository
         parent::__construct($registry, Stays::class);
     }
 
-    public function findStockByid(int $idStay): int
+    public function findStockById(int $idStay): int
     {
-        $stock = $this->createQueryBuilder('s')
+        $stay = $this->createQueryBuilder('s')
             ->andWhere('s.id = :id')
             ->setParameter('id', $idStay)
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getOneOrNullResult();
 
-        return $stock[0]->getStock();
+        return $stay instanceof Stays ? $stay->getStock() : 0;
     }
 }

@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Categories> */
 class CategoriesCrudController extends AbstractCrudController
 {
     #[\Override]

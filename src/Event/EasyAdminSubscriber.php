@@ -6,10 +6,10 @@ use App\Entity\Travel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class EasyAdminSubscriber implements EventSubscriberInterface
+final class EasyAdminSubscriber implements EventSubscriberInterface
 {
     #[\Override]
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'easy_admin.pre_persist' => ['onPreUpdate'],
@@ -17,9 +17,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return void
+     * @param GenericEvent<Travel> $event
      */
-    public function onPreUpdate(GenericEvent $event)
+    public function onPreUpdate(GenericEvent $event): void
     {
         $entity = $event->getSubject();
         if (!$entity instanceof Travel) {
@@ -27,17 +27,17 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
 
         // Persist pictures
-        foreach ($event->getSubject()->getPictures() as $pict) {
+        foreach ($entity->getPictures() as $pict) {
             $entity->addPicture($pict);
         }
 
         // Persist stay
-        foreach ($event->getSubject()->getStays() as $stay) {
+        foreach ($entity->getStays() as $stay) {
             $entity->addStay($stay);
         }
 
         // Persist option
-        foreach ($event->getSubject()->getOptions() as $option) {
+        foreach ($entity->getOptions() as $option) {
             $entity->addOptions($option);
         }
 

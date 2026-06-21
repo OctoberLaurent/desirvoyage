@@ -1,5 +1,5 @@
 parameters:
-    level: 5
+    level: 10
     paths:
         - src
         - tests
@@ -7,3 +7,5 @@ parameters:
         - var
         - vendor
         - src/Migrations
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml

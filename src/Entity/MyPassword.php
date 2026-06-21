@@ -4,7 +4,7 @@ namespace App\Entity;
 
 class MyPassword
 {
-    private $password;
+    private ?string $password = null;
 
     public function getPassword(): ?string
     {

@@ -17,44 +17,48 @@ class Travel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 5, max: 30, minMessage: 'Your title must be at least 5 characters long', maxMessage: 'Your title must not exceed 30 characters')]
     #[Groups(['read'])]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 5, max: 50, minMessage: 'Your subtitle must be at least 5 characters long', maxMessage: 'Your subtitle must not exceed 50 characters')]
     #[Groups(['read'])]
-    private $subtitle;
+    private string $subtitle;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
+    private string $slug;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\NotBlank(message: 'this field must not be empty')]
     #[Assert\Length(min: 10, max: 1800, minMessage: 'Your description must be at least 10 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
     #[Groups(['read'])]
-    private $descriptions;
+    private ?string $descriptions = null;
 
+    /** @var Collection<int, Pictures> */
     #[ORM\OneToMany(targetEntity: Pictures::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
-    private $pictures;
+    private Collection $pictures;
 
+    /** @var Collection<int, Stays> */
     #[ORM\OneToMany(targetEntity: Stays::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
-    private $stays;
+    private Collection $stays;
 
     #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'travel')]
-    private $categories;
+    private ?Categories $categories = null;
 
+    /** @var Collection<int, Formality> */
     #[ORM\ManyToMany(targetEntity: Formality::class, inversedBy: 'travels', cascade: ['persist'])]
-    private $formality;
+    private Collection $formality;
 
+    /** @var Collection<int, Options> */
     #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'travels', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'travel_options')]
     #[ORM\JoinColumn(name: 'travel_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'options_id', referencedColumnName: 'id')]
-    private $options;
+    private Collection $options;
 
     public function __construct()
     {
@@ -74,10 +78,10 @@ class Travel
     public function computeSlug(): void
     {
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify((string) $this->name);
+        $this->slug = $slugify->slugify($this->name);
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -89,7 +93,7 @@ class Travel
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -101,7 +105,7 @@ class Travel
         return $this;
     }
 
-    public function getSubtitle(): ?string
+    public function getSubtitle(): string
     {
         return $this->subtitle;
     }
@@ -125,6 +129,9 @@ class Travel
         return $this;
     }
 
+    /**
+     * @return Collection<int, Pictures>
+     */
     public function getPictures(): Collection
     {
         return $this->pictures;
@@ -140,6 +147,9 @@ class Travel
         return $this;
     }
 
+    /**
+     * @return Collection<int, Stays>
+     */
     public function getStays(): Collection
     {
         return $this->stays;
@@ -167,6 +177,9 @@ class Travel
         return $this;
     }
 
+    /**
+     * @return Collection<int, Formality>
+     */
     public function getFormality(): Collection
     {
         return $this->formality;
@@ -200,6 +213,9 @@ class Travel
         return $this;
     }
 
+    /**
+     * @return Collection<int, Options>
+     */
     public function getOptions(): Collection
     {
         return $this->options;
@@ -225,7 +241,7 @@ class Travel
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }

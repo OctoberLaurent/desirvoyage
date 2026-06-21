@@ -10,16 +10,16 @@ final class Pictures
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    private $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $url;
+    private string $url;
 
     #[ORM\ManyToOne(targetEntity: Travel::class, inversedBy: 'pictures', cascade: ['persist'])]
-    private $travel;
+    private ?Travel $travel = null;
 
     public function getId(): ?int
     {
@@ -38,7 +38,7 @@ final class Pictures
         return $this;
     }
 
-    public function getUrl(): ?string
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -46,12 +46,8 @@ final class Pictures
     /*
      * returns the web path to the file
      */
-    public function getPicturename(): ?string
+    public function getPicturename(): string
     {
-        if (null === $this->url) {
-            return null;
-        }
-
         return '/data2/'.basename($this->url);
     }
 
@@ -74,8 +70,8 @@ final class Pictures
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 }

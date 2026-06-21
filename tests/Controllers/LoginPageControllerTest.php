@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class LoginPageControllerTest extends WebTestCase
 {
-    public function testLoginPage()
+    public function testLoginPage(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
@@ -20,6 +20,5 @@ class LoginPageControllerTest extends WebTestCase
         $client->submit($form);
         self::assertResponseRedirects('/');
         $client->followRedirect();
-        // $this->assertSelectorExists('.card');
     }
 }

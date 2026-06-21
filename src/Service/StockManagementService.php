@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Reservation;
+use App\Entity\Stays;
 use App\Repository\StaysRepository;
 
 final class StockManagementService
@@ -10,10 +12,13 @@ final class StockManagementService
     {
     }
 
-    public function decrementStock($reservation): int
+    public function decrementStock(Reservation $reservation): int
     {
-        $realStock = $this->stayRepo->findStockByid($reservation->getStays()->first()->getId());
         $stay = $reservation->getStays()->first();
+        if (!$stay instanceof Stays) {
+            return 0;
+        }
+        $realStock = $this->stayRepo->findStockById($stay->getId() ?? 0);
         $nbtravelers = count($reservation->getTravelers());
         $stay->setStock($realStock - $nbtravelers);
 

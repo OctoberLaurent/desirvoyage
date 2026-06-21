@@ -24,37 +24,34 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'login';
 
-    private $urlGenerator;
-    private $entityManager;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager)
-    {
-        $this->urlGenerator = $urlGenerator;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EntityManagerInterface $entityManager,
+    ) {
     }
 
     #[\Override]
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
+        $email = (string) $request->request->get('email', '');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(
-            new UserBadge($email, function ($userIdentifier) {
+            new UserBadge($email, function (string $userIdentifier): User {
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $userIdentifier]);
-                if (!$user) {
+                if (null === $user) {
                     throw new CustomUserMessageAuthenticationException('Le mail ou mot de passe est incorrect.');
                 }
                 if (false === $user->getEnabled()) {
-                    throw new CustomUserMessageAuthenticationException('Le compte n\'est pas activé.');
+                    throw new CustomUserMessageAuthenticationException("Le compte n'est pas activé.");
                 }
 
                 return $user;
             }),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials((string) $request->request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $request->request->getString('_csrf_token')),
             ]
         );
     }

@@ -6,12 +6,7 @@ use App\Entity\Formality;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Formality|null find($id, $lockMode = null, $lockVersion = null)
- * @method Formality|null findOneBy(array $criteria, array $orderBy = null)
- * @method Formality[]    findAll()
- * @method Formality[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Formality> */
 class FormalityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

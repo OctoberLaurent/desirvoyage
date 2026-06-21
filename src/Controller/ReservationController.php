@@ -11,8 +11,11 @@ use App\Repository\StaysRepository;
 use App\Service\MakeSerialService;
 use App\Service\ReservationMergeService;
 use App\Service\StockManagementService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -25,7 +28,7 @@ final class ReservationController extends AbstractController
      * Start configure travel.
      */
     #[Route(path: '', name: '_index')]
-    public function index(Request $request, SessionInterface $session, StaysRepository $stayRepository, OptionsRepository $optionRepository): \Symfony\Component\HttpFoundation\Response
+    public function index(Request $request, SessionInterface $session, StaysRepository $stayRepository): Response
     {
         // retrieve travel by get method
         $id = $request->query->get('stayid');
@@ -42,7 +45,7 @@ final class ReservationController extends AbstractController
         $reservation = new Reservation();
         // add stay in reservation
         $reservation->addStay($stay);
-        /** @var \App\Entity\User|null $user */
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $reservation->setUser($user);
         // create a new session and add reservation
@@ -57,17 +60,16 @@ final class ReservationController extends AbstractController
      * Configure option.
      */
     #[Route(path: '/configure/{id}', name: '_option')]
-    public function configure(Stays $stays, SessionInterface $session, Request $request,
-        $id, ReservationMergeService $seservationMergeService, OptionsRepository $optionRepository): \Symfony\Component\HttpFoundation\Response
+    public function configure(Stays $stays, SessionInterface $session, Request $request, int $id, ReservationMergeService $reservationMergeService, OptionsRepository $optionRepository): Response
     {
         // get session
-        $reservation = $session->get('reservation');
+        $reservation = $this->getReservationFromSession($session);
 
         // Check if reservation exists in session — if not, initialize it from the stay
         if (null === $reservation) {
             $reservation = new Reservation();
             $reservation->addStay($stays);
-            /** @var \App\Entity\User|null $user */
+            /** @var \App\Entity\User $user */
             $user = $this->getUser();
             $reservation->setUser($user);
             $session->set('reservation', $reservation);
@@ -80,7 +82,7 @@ final class ReservationController extends AbstractController
             $reservation->addStay($stays);
         }
 
-        $seservationMergeService->reservationOptionsMerge($reservation);
+        $reservationMergeService->reservationOptionsMerge($reservation);
 
         // Get travel ID for form options
         $travelId = null;
@@ -106,7 +108,7 @@ final class ReservationController extends AbstractController
         $travelOptions = [];
         $travel = $stays->getTravel();
         if (null !== $travel) {
-            $travelOptions = $optionRepository->findOptions($travel->getId())->getQuery()->getResult();
+            $travelOptions = $optionRepository->findOptions($travel->getId() ?? 0)->getQuery()->getResult();
         }
 
         return $this->render('reservation/configureOption.html.twig', [
@@ -121,13 +123,12 @@ final class ReservationController extends AbstractController
      * configure travelers.
      */
     #[Route(path: '/configure/configureTravelers/{id}', name: '_traveler')]
-    public function configureTravelers(Request $request, SessionInterface $session, $id): \Symfony\Component\HttpFoundation\Response
+    public function configureTravelers(Request $request, SessionInterface $session, int $id): Response
     {
-        if (null === $session->get('reservation')) {
+        $reservation = $this->getReservationFromSession($session);
+        if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
-        // get session
-        $reservation = $session->get('reservation');
         // insert $reservation in form
         $form = $this->createForm(TravelersType::class, $reservation);
         // retrieve request
@@ -149,31 +150,33 @@ final class ReservationController extends AbstractController
      * show configuration travel and calculate cost.
      */
     #[Route(path: '/summary', name: '_summary')]
-    public function summary(SessionInterface $session): \Symfony\Component\HttpFoundation\Response
+    public function summary(SessionInterface $session): Response
     {
-        if (null === $session->get('reservation')) {
+        $reservation = $this->getReservationFromSession($session);
+        if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
-        $reservation = $session->get('reservation');
         // get numbers of travelers
         $nbtravelers = count($reservation->getTravelers());
         // if there is no registered traveler
         if ($nbtravelers < 1) {
-            $id = $reservation->getStays()->first()->getId();
+            $firstStay = $reservation->getStays()->first();
+            $id = $firstStay instanceof Stays ? $firstStay->getId() : 0;
 
             $this->addFlash(
                 'orange',
-                'OUPS ! Il n\'y a personne d\'enregistré sur ce voyoyage'
+                'OUPS ! Il n\'y a personne d\'enregistré sur ce voyage'
             );
 
             return $this->redirectToRoute('reservation_traveler', ['id' => $id]);
         }
 
         // get price stays for 1 traveler
-        $stayPrice = $reservation->getStays()->first()->getPrice();
+        $firstStay = $reservation->getStays()->first();
+        $stayPrice = $firstStay instanceof Stays ? $firstStay->getPrice() : 0.0;
         // get price for all options
         $options = $reservation->getOptions();
-        $optionsPrice = 0;
+        $optionsPrice = 0.0;
         foreach ($options as $option) {
             $optionsPrice += $option->getPrice();
         }
@@ -193,19 +196,17 @@ final class ReservationController extends AbstractController
      * Validate for travel payment.
      */
     #[Route(path: '/validate/', name: '_validate')]
-    public function validate(SessionInterface $session, MakeSerialService $service,
-        ReservationMergeService $seservationMergeService, StockManagementService $stockManagementService, \Doctrine\ORM\EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function validate(SessionInterface $session, MakeSerialService $service, ReservationMergeService $reservationMergeService, StockManagementService $stockManagementService, EntityManagerInterface $entityManager): RedirectResponse
     {
-        if (null === $session->get('reservation')) {
+        $reservation = $this->getReservationFromSession($session);
+        if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
-        // reservation in session
-        $reservation = $session->get('reservation');
 
         // make serial and date
-        if (null === $reservation->getSerial()) {
+        if (null === $reservation->getCreatedDate()) {
             $reservation->setSerial($service->makeSerial());
-            $reservation->setCreateddate(new \DateTime('now'));
+            $reservation->setCreatedDate(new \DateTime('now'));
             // stock management
             $realStock = $stockManagementService->decrementStock($reservation);
 
@@ -213,8 +214,7 @@ final class ReservationController extends AbstractController
             if (count($reservation->getTravelers()) > $realStock) {
                 $this->addFlash(
                     'red darken-4',
-                    'Il ne reste pas suffisamment de place 
-                merci de choisir un autre voyage ou une autre période '
+                    'Il ne reste pas suffisamment de place, merci de choisir un autre voyage ou une autre période'
                 );
 
                 return $this->redirectToRoute('travel_list');
@@ -224,7 +224,7 @@ final class ReservationController extends AbstractController
         }
 
         // manage persist in service
-        $merged = $seservationMergeService->reservationMerge($reservation);
+        $merged = $reservationMergeService->reservationMerge($reservation);
 
         $entityManager->persist($merged);
 
@@ -241,7 +241,7 @@ final class ReservationController extends AbstractController
      * reservations list.
      */
     #[Route(path: '/list/', name: '_list')]
-    public function reservationsList(): \Symfony\Component\HttpFoundation\Response
+    public function reservationsList(): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -257,12 +257,19 @@ final class ReservationController extends AbstractController
      * remove travel in session.
      */
     #[Route(path: '/remove/', name: '_remove')]
-    public function remove(SessionInterface $session): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function remove(SessionInterface $session): RedirectResponse
     {
         $session->set('reservation', null);
 
         $this->addFlash('red darken-4', 'Vous avez annulé votre voyage');
 
         return $this->redirectToRoute('travel_home');
+    }
+
+    private function getReservationFromSession(SessionInterface $session): ?Reservation
+    {
+        $reservation = $session->get('reservation');
+
+        return $reservation instanceof Reservation ? $reservation : null;
     }
 }

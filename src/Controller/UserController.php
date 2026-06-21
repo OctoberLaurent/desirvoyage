@@ -7,6 +7,7 @@ use App\Form\EditUserType;
 use App\Form\RegisterType;
 use App\Service\MailerService;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,21 +16,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
-    private $encoder;
-    private $userService;
-    private $mailer;
-
-    public function __construct(UserPasswordHasherInterface $encoder, MailerService $mailer, UserService $userService)
-    {
-        $this->encoder = $encoder;
-        $this->mailer = $mailer;
-        $this->userService = $userService;
+    public function __construct(
+        private readonly UserPasswordHasherInterface $encoder,
+        private readonly MailerService $mailer,
+        private readonly UserService $userService,
+    ) {
     }
 
     #[Route(path: '/register', name: 'register')]
-    public function register(Request $request, \Doctrine\ORM\EntityManagerInterface $em): Response
+    public function register(Request $request, EntityManagerInterface $em): Response
     {
         if (null !== $this->getUser()) {
             return $this->redirectToRoute('travel_home');
@@ -64,8 +61,9 @@ class UserController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/profil/edit/', name: 'user_edit')]
-    public function edit(Request $request, \Doctrine\ORM\EntityManagerInterface $em): Response
+    public function edit(Request $request, EntityManagerInterface $em): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
 
         $form = $this->createForm(EditUserType::class, $user);

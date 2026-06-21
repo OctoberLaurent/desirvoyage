@@ -28,7 +28,7 @@ class ContactController extends AbstractController
             $em->persist($contact);
             $em->flush();
             // email for contact us
-            $mailerService->sendContactMessage((string) $contact->getEmail());
+            $mailerService->sendContactMessage($contact->getEmail());
             // homepage message after the user ask information
             $this->addFlash('green accent-3', 'Votre demande a bien été enregistré, Il sera traité dans les plus bref délais');
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -23,49 +24,50 @@ final class Stays
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'datetime')]
     #[Groups(['read'])]
-    private $starDate;
+    private \DateTimeInterface $starDate;
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\GreaterThan(propertyPath: 'starDate', message: "La date de départ doit être plus éloignée que la date d'arrivée !")]
     #[Groups(['read'])]
-    private $endDate;
+    private \DateTimeInterface $endDate;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 60 characters long')]
     #[Groups(['read'])]
-    private $depature;
+    private string $depature;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 60 characters long')]
     #[Groups(['read'])]
-    private $arrival;
+    private string $arrival;
 
     #[ORM\Column(type: 'float')]
     #[Assert\Type(type: 'float')]
     #[Groups(['read'])]
-    private $price;
+    private float $price;
 
     #[ORM\ManyToOne(targetEntity: Travel::class, inversedBy: 'stays', cascade: ['persist'])]
     #[Groups(['read'])]
-    private $travel;
+    private ?Travel $travel = null;
 
+    /** @var Collection<int, Reservation> */
     #[ORM\ManyToMany(targetEntity: Reservation::class, mappedBy: 'stays')]
-    private $reservations;
+    private Collection $reservations;
 
     #[ORM\Column(type: 'integer')]
     #[Groups(['read'])]
-    private $stock;
+    private int $stock;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
-    private $serial;
+    private ?string $serial = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Assert\GreaterThan('today')]
-    private $createdDate;
+    private ?\DateTimeInterface $createdDate = null;
 
     public function __construct()
     {
@@ -77,7 +79,7 @@ final class Stays
         return $this->id;
     }
 
-    public function getStarDate(): ?\DateTimeInterface
+    public function getStarDate(): \DateTimeInterface
     {
         return $this->starDate;
     }
@@ -89,7 +91,7 @@ final class Stays
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): \DateTimeInterface
     {
         return $this->endDate;
     }
@@ -101,7 +103,7 @@ final class Stays
         return $this;
     }
 
-    public function getDepature(): ?string
+    public function getDepature(): string
     {
         return $this->depature;
     }
@@ -113,7 +115,7 @@ final class Stays
         return $this;
     }
 
-    public function getArrival(): ?string
+    public function getArrival(): string
     {
         return $this->arrival;
     }
@@ -125,7 +127,7 @@ final class Stays
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): float
     {
         return $this->price;
     }
@@ -149,7 +151,7 @@ final class Stays
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->depature;
     }
@@ -173,7 +175,7 @@ final class Stays
         return $this;
     }
 
-    public function getStock(): ?int
+    public function getStock(): int
     {
         return $this->stock;
     }

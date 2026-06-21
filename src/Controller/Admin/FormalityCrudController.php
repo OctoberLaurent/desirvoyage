@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Formality> */
 class FormalityCrudController extends AbstractCrudController
 {
     #[\Override]

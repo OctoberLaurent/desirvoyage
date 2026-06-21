@@ -30,12 +30,13 @@ final class ReservationMergeService
         $merged->setTravelers($reservation->getTravelers());
 
         $user = $reservation->getUser();
-        if (null !== $user && null !== $user->getId()) {
-            $managedUser = $this->entityManager->find(User::class, $user->getId());
+        $managedUser = $this->entityManager->find(User::class, $user->getId());
+        if (null !== $managedUser) {
             $merged->setUser($managedUser);
         }
         // Use managed options instead of detached entities from the session to avoid "null association mapping" errors
         $options = $reservation->getOptions();
+        /** @var ArrayCollection<int, Options> $moptions */
         $moptions = new ArrayCollection();
         foreach ($options as $option) {
             $managedOption = null !== $option->getId()
@@ -46,6 +47,7 @@ final class ReservationMergeService
         $merged->setOptions($moptions);
 
         $stays = $reservation->getStays();
+        /** @var ArrayCollection<int, Stays> $mstays */
         $mstays = new ArrayCollection();
         foreach ($stays as $stay) {
             $managedStay = null !== $stay->getId()
@@ -64,6 +66,7 @@ final class ReservationMergeService
     public function reservationOptionsMerge(Reservation $reservation): void
     {
         $options = $reservation->getOptions();
+        /** @var ArrayCollection<int, Options> $moptions */
         $moptions = new ArrayCollection();
         foreach ($options as $option) {
             $managedOption = null !== $option->getId()

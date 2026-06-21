@@ -8,6 +8,7 @@ use App\Repository\CategoriesRepository;
 use App\Repository\TravelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/', name: 'travel')]
@@ -17,7 +18,7 @@ final class TravelController extends AbstractController
      * HomePage.
      */
     #[Route(path: '', name: '_home')]
-    public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory): \Symfony\Component\HttpFoundation\Response
+    public function index(CategoriesRepository $categoriesReposotory, TravelRepository $travelReposotory): Response
     {
         // return 3 firsts categories
         $categories = $categoriesReposotory->findBy([], [], 3);
@@ -46,7 +47,7 @@ final class TravelController extends AbstractController
      * show all travels or travels in one category.
      */
     #[Route(path: '/travels/{page}', name: '_list')]
-    public function travels(TravelRepository $travelRepository, Request $request, $page = 1): \Symfony\Component\HttpFoundation\Response
+    public function travels(TravelRepository $travelRepository, Request $request, int $page = 1): Response
     {
         // get id category in get
         $category = $request->query->get('category');
@@ -56,7 +57,13 @@ final class TravelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $travels = $travelRepository->findTravelsByNameAndPrice($form->getData());
+            $data = $form->getData();
+            if (is_array($data)) {
+                /** @var array<string, mixed> $data */
+                $travels = $travelRepository->findTravelsByNameAndPrice($data);
+            } else {
+                $travels = [];
+            }
         } elseif (null !== $category) {
             $travels = $travelRepository->findBy(
                 ['categories' => $category]
@@ -76,7 +83,7 @@ final class TravelController extends AbstractController
      * Show One travel.
      */
     #[Route(path: '/travel/{slug}', name: '_show')]
-    public function showOne(Travel $travel): \Symfony\Component\HttpFoundation\Response
+    public function showOne(Travel $travel): Response
     {
         return $this->render('travel/showone.html.twig', [
             'travel' => $travel,
@@ -87,7 +94,7 @@ final class TravelController extends AbstractController
      * Show all categories.
      */
     #[Route(path: '/categories/', name: '_categorie_list')]
-    public function showAllCategorie(CategoriesRepository $repo): \Symfony\Component\HttpFoundation\Response
+    public function showAllCategorie(CategoriesRepository $repo): Response
     {
         // retrieve all categories
         $categories = $repo->findAll();
@@ -98,7 +105,7 @@ final class TravelController extends AbstractController
     }
 
     #[Route(path: '/terms/', name: '_terms')]
-    public function showTerms(): \Symfony\Component\HttpFoundation\Response
+    public function showTerms(): Response
     {
         return $this->render('travel/terms.html.twig');
     }

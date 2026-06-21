@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<User> */
 class UserCrudController extends AbstractCrudController
 {
     #[\Override]

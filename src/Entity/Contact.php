@@ -13,33 +13,33 @@ final class Contact
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 3, max: 80, minMessage: 'Your lastname must be at least {{ limit }} characters long.', maxMessage: 'Your lastname cannot be longer than {{ limit }} characters.')]
-    private $lastname;
+    private string $lastname;
 
     #[ORM\Column(type: 'string', length: 80)]
     #[Assert\Length(min: 3, max: 80, minMessage: 'Your firstname must be at least {{ limit }} characters long.', maxMessage: 'Your firstname cannot be longer than {{ limit }} characters.')]
-    private $firstname;
+    private string $firstname;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
-    private $email;
+    private string $email;
 
     #[ORM\Column(type: 'text')]
     #[Assert\Length(min: 10, max: 1800, minMessage: 'Your description must be at least 10 characters long', maxMessage: 'Your description must not exceed 1800 characters')]
-    private $description;
+    private string $description;
 
     #[ORM\Column(type: 'datetime')]
-    private $SendDate;
+    private \DateTimeInterface $sendDate;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -72,30 +72,30 @@ final class Contact
         return $this;
     }
 
-    public function setSendDate(\DateTimeInterface $SendDate): self
+    public function setSendDate(\DateTimeInterface $sendDate): self
     {
-        $this->SendDate = $SendDate;
+        $this->sendDate = $sendDate;
 
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getSendDate(): ?\DateTimeInterface
+    public function getSendDate(): \DateTimeInterface
     {
-        return $this->SendDate;
+        return $this->sendDate;
     }
 }

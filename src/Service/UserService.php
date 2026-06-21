@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 
-class UserService
+final class UserService
 {
     public function generateToken(User $user): void
     {

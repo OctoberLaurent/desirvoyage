@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Formality;
 use App\Entity\Travel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Travel> */
 class TravelRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -13,12 +15,19 @@ class TravelRepository extends ServiceEntityRepository
         parent::__construct($registry, Travel::class);
     }
 
-    public function findTravelsByNameAndPrice($search)
+    /**
+     * @param array<string, mixed> $search
+     *
+     * @return array<int, Travel>
+     */
+    public function findTravelsByNameAndPrice(array $search): array
     {
         $qb = $this->createQueryBuilder('t');
         $qb->innerJoin('t.stays', 's')
            ->innerJoin('t.formality', 'f');
-        if ($search['startdate'] && $search['enddate']) {
+        $startdate = $search['startdate'] ?? null;
+        $enddate = $search['enddate'] ?? null;
+        if (null !== $startdate && null !== $enddate) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->andX(
@@ -27,16 +36,18 @@ class TravelRepository extends ServiceEntityRepository
                     )
                 )
             )
-            ->setParameter('startdate', $search['startdate'])
-            ->setParameter('enddate', $search['enddate']);
+            ->setParameter('startdate', $startdate)
+            ->setParameter('enddate', $enddate);
         }
 
-        if ($search['country']) {
+        $country = $search['country'] ?? null;
+        if ($country instanceof Formality) {
             $qb->andWhere($qb->expr()->eq('f.destination', ':country'))
-             ->setParameter('country', $search['country']->getDestination());
+             ->setParameter('country', $country->getDestination());
         }
 
-        if ($search['search']) {
+        $term = $search['search'] ?? null;
+        if (is_string($term) && '' !== $term) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->like('s.arrival', ':search'),
@@ -44,14 +55,18 @@ class TravelRepository extends ServiceEntityRepository
                     $qb->expr()->eq('f.destination', ':search'),
                 )
             )
-            ->setParameter('search', '%'.$search['search'].'%');
+            ->setParameter('search', '%'.$term.'%');
         }
 
-        if ($search['maxprice']) {
+        $maxprice = $search['maxprice'] ?? null;
+        if (is_numeric($maxprice)) {
             $qb->andWhere($qb->expr()->lt('s.price', ':price'))
-             ->setParameter('price', floatval($search['maxprice']));
+             ->setParameter('price', (float) $maxprice);
         }
 
-        return $qb->getQuery()->getResult();
+        /** @var array<int, Travel> $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
     }
 }

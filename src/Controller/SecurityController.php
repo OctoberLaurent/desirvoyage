@@ -6,30 +6,27 @@ use App\Entity\MyPassword;
 use App\Entity\User;
 use App\Form\MyPasswordType;
 use App\Form\RenewPasswordType;
+use App\Repository\UserRepository;
 use App\Service\MailerService;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    private $encoder;
-    private $userService;
-    private $mailer;
-    private $urlGenerator;
-
-    public function __construct(UserPasswordHasherInterface $encoder, MailerService $mailer, UserService $userService, UrlGeneratorInterface $urlGenerator)
-    {
-        $this->encoder = $encoder;
-        $this->mailer = $mailer;
-        $this->userService = $userService;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(
+        private readonly UserPasswordHasherInterface $encoder,
+        private readonly MailerService $mailer,
+        private readonly UserService $userService,
+        private readonly UrlGeneratorInterface $urlGenerator,
+    ) {
     }
 
     /**
@@ -64,16 +61,18 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'logout')]
     public function logout(): void
     {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
     /**
      * Activate account.
      */
     #[Route(path: '/user/activate/{token}', name: 'user_activate')]
-    public function activate($token, User $user, \Doctrine\ORM\EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function activate(string $token, User $user, EntityManagerInterface $em): RedirectResponse
     {
-        if (!$user->getEnabled()) {
-            if ($user->getTokenExpire() > new \DateTime()) {
+        if (true !== $user->getEnabled()) {
+            $tokenExpire = $user->getTokenExpire();
+            if (null !== $tokenExpire && $tokenExpire > new \DateTime()) {
                 // set enable true and token null if valid condition
                 $user->setEnabled(true);
                 $this->userService->resetToken($user);
@@ -85,7 +84,7 @@ class SecurityController extends AbstractController
                     'Votre compte a été activé');
             } else {
                 // add message if date is expired
-                $url = $this->urlGenerator->generate('user_resendactivatetoken', ['id' => $user->getId()], UrlGenerator::ABSOLUTE_URL);
+                $url = $this->urlGenerator->generate('user_resendactivatetoken', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
                 $this->addFlash(
                     'red',
@@ -99,13 +98,11 @@ class SecurityController extends AbstractController
 
     /**
      * Send activate token.
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|null
      */
     #[Route(path: 'user/resendactivatetoken/{id}', name: 'user_resendactivatetoken')]
-    public function resendactivatetoken(User $user, \Doctrine\ORM\EntityManagerInterface $em)
+    public function resendactivatetoken(User $user, EntityManagerInterface $em): RedirectResponse
     {
-        if (!$user->getEnabled()) {
+        if (true !== $user->getEnabled()) {
             // generate token and expire date
             $this->userService->generateToken($user);
             $em->flush();
@@ -115,9 +112,6 @@ class SecurityController extends AbstractController
             $this->addFlash(
                 'blue',
                 'Un lien d\'activation vous a été envoyé');
-
-            // redirect to login route
-            return $this->redirectToRoute('login');
         }
 
         return $this->redirectToRoute('login');
@@ -125,16 +119,14 @@ class SecurityController extends AbstractController
 
     /**
      * Allows to initiate the forgotten password method.
-     *
-     * @return Response
      */
     #[Route(path: '/mot-de-passe-oublie', name: 'forgotten_password')]
-    public function forgetPassword(Request $request, \Doctrine\ORM\EntityManagerInterface $entityManager)
+    public function forgetPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('POST')) {
-            $email = $request->request->get('email');
+            $email = (string) $request->request->get('email', '');
 
-            $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+            $user = $userRepository->findOneBy(['email' => $email]);
 
             if (null !== $user) {
                 $this->userService->generateToken($user);
@@ -155,9 +147,9 @@ class SecurityController extends AbstractController
      * Allows you to the reset password.
      */
     #[Route(path: '/reset_password/{token}', name: 'reset_password')]
-    public function resetPassword(string $token, Request $request, \Doctrine\ORM\EntityManagerInterface $entityManager): Response
+    public function resetPassword(string $token, Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        $user = $entityManager->getRepository(User::class)->findOneBy(['token' => $token]);
+        $user = $userRepository->findOneBy(['token' => $token]);
 
         if (null === $user) {
             // To redirect to the 404
@@ -170,10 +162,11 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($user->getTokenExpire() < new \DateTime()) {
+            $tokenExpire = $user->getTokenExpire();
+            if (null !== $tokenExpire && $tokenExpire < new \DateTime()) {
                 $this->addFlash('alert', 'Votre token a expiré.');
             } else {
-                $user->setPassword($this->encoder->hashPassword($user, $myPassword->getPassword()));
+                $user->setPassword($this->encoder->hashPassword($user, $myPassword->getPassword() ?? ''));
                 $this->userService->resetToken($user);
                 $entityManager->flush();
 
@@ -192,7 +185,7 @@ class SecurityController extends AbstractController
      * Allows you to change your password.
      */
     #[Route(path: '/newpassword', name: 'new_password', methods: ['GET', 'POST'])]
-    public function newPassword(Request $request, \Doctrine\ORM\EntityManagerInterface $em): Response
+    public function newPassword(Request $request, EntityManagerInterface $em): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -204,7 +197,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $newPassword = $form->get('password')->getData();
 
-            $user->setPassword($this->encoder->hashPassword($user, $newPassword));
+            $user->setPassword($this->encoder->hashPassword($user, is_string($newPassword) ? $newPassword : ''));
 
             $em->flush();
 
