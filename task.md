@@ -41,10 +41,10 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 - [~] **P1-4** Entités : Value Objects + invariants + renommage
   - [x] typage natif de toutes les propriétés (79 → 0 non typées)
   - [x] génériques Doctrine `Collection<int, X>` · getters non-nullable cohérents
-  - [ ] Value Object `Money` pour `Reservation.price`
-  - [ ] Value Object `Email` pour `User.email` / `Contact.email`
-  - [ ] Invariants `Reservation::markAsPaid()` / `markAsCancelled()` (au lieu de `setPayment()` externe)
-  - [ ] entités `final` où possible + constructeurs avec params requis
+  - [x] invariant `Reservation::markAsPaid()` (garde anti double-paiement) — `PaymentService` l'utilise au lieu de `setPayment()` externe · test unitaire `ReservationTest`
+  - [ ] Value Object `Money` pour `Reservation.price` — **différé** (risque élevé : migration schéma float→int + conversion données + màj tous les templates Twig qui affichent `price`/`amount`)
+  - [ ] Value Object `Email` pour `User.email` / `Contact.email` — **différé** (touche UserInterface::getUserIdentifier, UniqueEntity, templates)
+  - [ ] entités `final` — **non applicable** : Doctrine génère des proxies qui étendent l'entité (lazy loading) → `final` casserait le lazy loading des associations
   - [ ] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` (gros impact : ORM croisé, repos, controllers, forms, templates, EasyAdmin, migration) — **commit isolé, risqué**
 - [~] **P1-5** DTOs pour les formulaires
   - [x] `ContactType` sur `ContactDto` (DTO au lieu de l'entité)

@@ -39,7 +39,7 @@ final class PaymentService
         );
 
         $payment = $this->createPayment($charged);
-        $reservation->setPayment($payment);
+        $reservation->markAsPaid($payment);
 
         $this->entityManager->persist($payment);
         $this->entityManager->persist($reservation);

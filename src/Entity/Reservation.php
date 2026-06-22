@@ -239,4 +239,18 @@ class Reservation
 
         return $this;
     }
+
+    /**
+     * Marque la réservation comme payée en lui rattachant le paiement. Invariant
+     * métier (skill §3 Entity rules, §2 State) : une réservation déjà payée ne
+     * peut pas être payée à nouveau. Préférer cette méthode à setPayment() depuis
+     * l'extérieur.
+     */
+    public function markAsPaid(Payment $payment): void
+    {
+        if (null !== $this->payment) {
+            throw new \DomainException('La réservation est déjà payée.');
+        }
+        $this->payment = $payment;
+    }
 }
