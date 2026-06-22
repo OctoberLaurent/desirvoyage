@@ -4,7 +4,7 @@ Suivi en temps réel de l'état des tâches. Source de vérité = le code (pas l
 
 Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
-**État global : `make qa` vert** (PHPStan level 10 = 0 erreur, PHP-CS-Fixer = 0, PHPUnit 16 tests / 50 assertions, app HTTP 200, dev DB `dock` intacte).
+**État global : `make qa` vert** (PHPStan level 10 = 0 erreur, PHP-CS-Fixer = 0, PHPUnit **23 tests / 66 assertions**, Cypress **11/11**, app HTTP 200, dev DB `dock` intacte).
 
 ---
 
@@ -119,13 +119,17 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 9. `dd9161c` P3-1 migration baseline
 10. `8d37397` P3-2 PHPStan level 10 (447→0)
 
-## Suite recommandée
+## Suite recommandée (restant = risqué / faible valeur)
 
-1. **P1-4a** Value Objects (`Money`, `Email`) + invariants `Reservation` (risque modéré)
-2. **P1-4b** renommage entités au pluriel (commit isolé, risqué, backup DB)
-3. P1-5 (DTOs Register/EditUser) + P1-6 reste (Slugify injection, ReservationMerge DRY)
-4. P3-3 Rector + P2-3 tests fonctionnels étendus
-5. P4-1 reste (commentaires) + P4-2 reste (instanceof UserRepository, ArrayCollection factoriser)
+Restant principalement:
+1. **P1-4b renommage entités au pluriel** (Categories→Category, Options→Option, Pictures→Picture, Stays→Stay) — **risque élevé** : touche ORM croisé, repos, controllers, forms, templates, EasyAdmin + migration de renommage. Commit isolé, backup DB, vérif Cypress après.
+2. **P1-4 VO Money/Email** — **risque élevé** : migration schéma (float→int) + conversion données + màj tous les templates Twig.
+3. **P3-3 Rector** — risque moyen (auto-rewrite, churn à revoir). Configurer sets PHP 8.4 + Symfony, lancer + review.
+4. **P1-5 EditUserType DTO** — non couvert par tests (profil edit) ; à faire avec un test Cypress/PHPUnit ajouté.
+5. **P1-3 reste** (interfaces pour repos injectés dans contrôleurs) — trade-off : nécessite de redéclarer find/findBy/findAll dans l'interface.
+6. **P4-1 reste** — uniformisation commentaires EN/FR (cosmétique).
+
+Décision : les 1 et 2 sont les plus conformes au skill mais les plus risqués ("ne rien casser"). À valider explicitement avant de lancer.
 
 ## Notes / risques connus
 
