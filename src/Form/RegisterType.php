@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Dto\RegisterDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
-/** @extends \Symfony\Component\Form\AbstractType<User> */
+/** @extends \Symfony\Component\Form\AbstractType<RegisterDto> */
 class RegisterType extends AbstractType
 {
     #[\Override]
@@ -197,7 +197,7 @@ class RegisterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => RegisterDto::class,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\RegisterDto;
 use App\Entity\User;
 use App\Form\EditUserType;
 use App\Form\RegisterType;
@@ -11,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -19,7 +19,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 final class UserController extends AbstractController
 {
     public function __construct(
-        private readonly UserPasswordHasherInterface $encoder,
         private readonly MailerService $mailer,
         private readonly UserService $userService,
     ) {
@@ -32,17 +31,13 @@ final class UserController extends AbstractController
             return $this->redirectToRoute('travel_home');
         }
 
-        $user = new User();
-        $form = $this->createForm(RegisterType::class, $user);
-
+        $form = $this->createForm(RegisterType::class, new RegisterDto());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->encoder->hashPassword($user, $user->getPassword());
-            $user->setPassword($password);
-            $user->setRoles(['ROLE_USER']);
-
-            $this->userService->generateToken($user);
+            /** @var RegisterDto $dto */
+            $dto = $form->getData();
+            $user = $this->instantiateUser($dto);
 
             $em->persist($user);
             $em->flush();
@@ -57,6 +52,26 @@ final class UserController extends AbstractController
         return $this->render('user/register.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    private function instantiateUser(RegisterDto $dto): User
+    {
+        $user = new User();
+        $user->setLastname($dto->lastname ?? '');
+        $user->setFirstname($dto->firstname ?? '');
+        $user->setBirthday($dto->birthday ?? new \DateTime());
+        $user->setAddress($dto->address ?? '');
+        $user->setAdditionalAddress($dto->additionalAddress);
+        $user->setPostalCode($dto->postalCode ?? '');
+        $user->setCity($dto->city ?? '');
+        $user->setCountry($dto->country ?? '');
+        $user->setPhone($dto->phone ?? '');
+        $user->setEmail($dto->email ?? '');
+        $this->userService->setPassword($user, $dto->password ?? '');
+        $user->setRoles(['ROLE_USER']);
+        $this->userService->generateToken($user);
+
+        return $user;
     }
 
     #[IsGranted('ROLE_USER')]

@@ -48,9 +48,10 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [ ] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` (gros impact : ORM croisé, repos, controllers, forms, templates, EasyAdmin, migration) — **commit isolé, risqué**
 - [~] **P1-5** DTOs pour les formulaires
   - [x] `ContactType` sur `ContactDto` (DTO au lieu de l'entité)
-  - [ ] `RegisterType` sur DTO
-  - [ ] `EditUserType` sur DTO
+  - [x] `RegisterType` sur `RegisterDto` + mapping DTO→User dans le contrôleur (hash via `UserService`, encoder retiré du `UserController`) — validé par Cypress register 6/6
+  - [ ] `EditUserType` sur DTO (profil edit)
   - [ ] API JSON : `#[MapRequestPayload]` + DTOs (si endpoints JSON prévus)
+  - [note] DTOs mutables à propriétés publiques (pas `readonly`) : Symfony Form ne peut pas écrire dans une propriété `readonly` sans factory `empty_data` verbeuse. La séparation du concept de l'entité est l'objectif (skill §8), l'immutabilité est secondaire.
 - [x] **P1-6** Nettoyer les services
   - [x] `MakeSerialService` : `final` + `random_int()` (au lieu de `rand()`)
   - [x] `UserService` : `final` + `setPassword()` centralisé
