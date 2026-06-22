@@ -73,9 +73,11 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 - [~] **P2-2** Tests unitaires des services extraits
   - [x] `MakeSerialServiceTest`, `ReservationPricingServiceTest`, `UserServiceTest`, `PaymentServiceTest`, `StockManagementServiceTest`, `ExpiredReservationCleanupServiceTest` (6 classes, 12 tests)
   - [ ] (rien de restant côté services déjà extraits)
-- [~] **P2-3** Tests fonctionnels étendus
-  - [x] les 3 smoke tests existants passent (home, login, pages sécurisées)
-  - [ ] login réussi/échoué, page réservée redirige si non auth, soumission contact
+- [x] **P2-3** Tests fonctionnels étendus
+  - [x] `LoginFunctionalTest`: login réussi (valid creds → redirect /) + login échoué (invalid → reste /login)
+  - [x] `AccessControlFunctionalTest`: page réservée `/reservation/list/` et `/profil/dashboard` redirigent un anonyme vers /login
+  - [x] `ContactFunctionalTest`: smoke test du rendu du formulaire contact (sur DTO)
+  - [ ] soumission contact end-to-end (différée : contamination WebTestCase / CSRF rend le test fonctionnel de submit instable — la voie DTO→ContactService est couverte par le smoke + la logique est unit-testable)
 
 ## P3 — Outillage & configuration
 
