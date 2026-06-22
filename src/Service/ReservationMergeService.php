@@ -7,6 +7,7 @@ use App\Entity\Reservation;
 use App\Entity\Stays;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class ReservationMergeService
@@ -16,11 +17,12 @@ final class ReservationMergeService
     }
 
     /**
-     * Reconstructs travelers attributes.
+     * Reconstruit une réservation avec des entités managées (au lieu des entités
+     * détachées issues de la session) pour éviter les erreurs d'association null.
      */
     public function reservationMerge(Reservation $reservation): Reservation
     {
-        // If the reservation has an ID, reload it from DB to ensure it's managed
+        // Si la réservation a un id, on la recharge depuis la DB pour qu'elle soit managée
         if (null !== $reservation->getId()) {
             $merged = $this->entityManager->find(Reservation::class, $reservation->getId()) ?? $reservation;
         } else {
@@ -34,46 +36,52 @@ final class ReservationMergeService
         if (null !== $managedUser) {
             $merged->setUser($managedUser);
         }
-        // Use managed options instead of detached entities from the session to avoid "null association mapping" errors
-        $options = $reservation->getOptions();
-        /** @var ArrayCollection<int, Options> $moptions */
-        $moptions = new ArrayCollection();
-        foreach ($options as $option) {
-            $managedOption = null !== $option->getId()
-                ? ($this->entityManager->find(Options::class, $option->getId()) ?? $option)
-                : $option;
-            $moptions[] = $managedOption;
-        }
-        $merged->setOptions($moptions);
 
-        $stays = $reservation->getStays();
-        /** @var ArrayCollection<int, Stays> $mstays */
-        $mstays = new ArrayCollection();
-        foreach ($stays as $stay) {
-            $managedStay = null !== $stay->getId()
-                ? ($this->entityManager->find(Stays::class, $stay->getId()) ?? $stay)
-                : $stay;
-            $mstays[] = $managedStay;
-        }
-        $merged->setStays($mstays);
+        $merged->setOptions($this->managedOptions($reservation->getOptions()));
+        $merged->setStays($this->managedStays($reservation->getStays()));
 
         return $merged;
     }
 
     /**
-     * Reconstructs option attributes.
+     * Reconstruit uniquement les options managées d'une réservation (session).
      */
     public function reservationOptionsMerge(Reservation $reservation): void
     {
-        $options = $reservation->getOptions();
-        /** @var ArrayCollection<int, Options> $moptions */
-        $moptions = new ArrayCollection();
+        $reservation->setOptions($this->managedOptions($reservation->getOptions()));
+    }
+
+    /**
+     * @param Collection<int, Options> $options
+     *
+     * @return ArrayCollection<int, Options>
+     */
+    private function managedOptions(Collection $options): ArrayCollection
+    {
+        /** @var ArrayCollection<int, Options> $managed */
+        $managed = new ArrayCollection();
         foreach ($options as $option) {
-            $managedOption = null !== $option->getId()
-                ? ($this->entityManager->find(Options::class, $option->getId()) ?? $option)
-                : $option;
-            $moptions[] = $managedOption;
+            $id = $option->getId();
+            $managed[] = null !== $id ? ($this->entityManager->find(Options::class, $id) ?? $option) : $option;
         }
-        $reservation->setOptions($moptions);
+
+        return $managed;
+    }
+
+    /**
+     * @param Collection<int, Stays> $stays
+     *
+     * @return ArrayCollection<int, Stays>
+     */
+    private function managedStays(Collection $stays): ArrayCollection
+    {
+        /** @var ArrayCollection<int, Stays> $managed */
+        $managed = new ArrayCollection();
+        foreach ($stays as $stay) {
+            $id = $stay->getId();
+            $managed[] = null !== $id ? ($this->entityManager->find(Stays::class, $id) ?? $stay) : $stay;
+        }
+
+        return $managed;
     }
 }

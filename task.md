@@ -51,12 +51,12 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [ ] `RegisterType` sur DTO
   - [ ] `EditUserType` sur DTO
   - [ ] API JSON : `#[MapRequestPayload]` + DTOs (si endpoints JSON prévus)
-- [~] **P1-6** Nettoyer les services
+- [x] **P1-6** Nettoyer les services
   - [x] `MakeSerialService` : `final` + `random_int()` (au lieu de `rand()`)
   - [x] `UserService` : `final` + `setPassword()` centralisé
   - [x] `StockManagementService` : param `Reservation` typé
-  - [ ] `SlugifyService` : `new Slugify()` → injection (aussi dans `Categories::computeSlug` / `Travel::computeSlug` — lifecycle callbacks, friction DI)
-  - [ ] `ReservationMergeService` : factoriser la boucle « reload managed entity » (DRY)
+  - [x] `SlugifyService` : supprimé (dead code, 0 référence) — les entités gardent `new Slugify()` dans les lifecycle callbacks (Doctrine ne permet pas l'injection dans les callbacks ; utilitaire sans état, acceptable)
+  - [x] `ReservationMergeService` : boucles « reload managed entity » factorisées en 2 helpers typés `managedOptions()` / `managedStays()` (DRY)
 - [x] **P1-7** `EasyAdminSubscriber` — supprimé (événement `easy_admin.pre_persist` jamais dispatché par EasyAdmin v5 ; `CollectionField` gère la persistance)
 
 ## P2 — Tests
@@ -98,8 +98,8 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 - [~] **P4-2** Anti-patterns résiduels
   - [x] `EasyAdminSubscriber` supprimé (plus de `instanceof` dedans)
   - [x] `rand()` → `random_int()` (MakeSerialService)
-  - [ ] `instanceof` dans `UserRepository::upgradePassword` → polymorphisme
-  - [ ] `new ArrayCollection()` dans `ReservationMergeService` : factoriser
+  - [~] `instanceof` dans `UserRepository::upgradePassword` → **gardé** : c'est le pattern officiel Symfony pour `PasswordUpgraderInterface` (reçoit un `PasswordAuthenticatedUserInterface` quelconque, doit vérifier le type concret). Justifié, pas un anti-pattern.
+  - [x] `new ArrayCollection()` dans `ReservationMergeService` : factorisé en helpers typés (DRY)
 
 ---
 
