@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Dto\EditUserDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-/** @extends \Symfony\Component\Form\AbstractType<User> */
+/** @extends \Symfony\Component\Form\AbstractType<EditUserDto> */
 class EditUserType extends AbstractType
 {
     #[\Override]
@@ -140,7 +140,7 @@ class EditUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => EditUserDto::class,
         ]);
     }
 }

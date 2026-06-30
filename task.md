@@ -4,7 +4,7 @@ Suivi en temps réel de l'état des tâches. Source de vérité = le code (pas l
 
 Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
-**État global : `make qa` vert** (PHPStan level 10 = 0 erreur, PHP-CS-Fixer = 0, PHPUnit **23 tests / 66 assertions**, Cypress **11/11**, app HTTP 200, dev DB `dock` intacte).
+**État global : `make qa` vert** (PHPStan level 10 = 0 erreur, PHP-CS-Fixer = 0, PHPUnit **25 tests / 73 assertions**, Cypress **11/11**, app HTTP 200, dev DB `dock` intacte).
 
 ---
 
@@ -45,11 +45,11 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [ ] Value Object `Email` pour `User.email` / `Contact.email` — **différé** (touche UserInterface::getUserIdentifier, UniqueEntity, templates)
   - [ ] entités `final` — **non applicable** : Doctrine génère des proxies qui étendent l'entité (lazy loading) → `final` casserait le lazy loading des associations
   - [ ] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` (gros impact : ORM croisé, repos, controllers, forms, templates, EasyAdmin, migration) — **commit isolé, risqué**
-- [~] **P1-5** DTOs pour les formulaires
+- [x] **P1-5** DTOs pour les formulaires
   - [x] `ContactType` sur `ContactDto` (DTO au lieu de l'entité)
   - [x] `RegisterType` sur `RegisterDto` + mapping DTO→User dans le contrôleur (hash via `UserService`, encoder retiré du `UserController`) — validé par Cypress register 6/6
-  - [ ] `EditUserType` sur DTO (profil edit)
-  - [ ] API JSON : `#[MapRequestPayload]` + DTOs (si endpoints JSON prévus)
+  - [x] `EditUserType` sur `EditUserDto` (pré-rempli via `EditUserDto::fromUser()`, re-mappé sur l'entité au submit) — validé par `EditUserFunctionalTest` (2 tests : rendu + submit→dashboard)
+  - [ ] API JSON : `#[MapRequestPayload]` + DTOs (si endpoints JSON prévus — aucun endpoint JSON actuellement)
   - [note] DTOs mutables à propriétés publiques (pas `readonly`) : Symfony Form ne peut pas écrire dans une propriété `readonly` sans factory `empty_data` verbeuse. La séparation du concept de l'entité est l'objectif (skill §8), l'immutabilité est secondaire.
 - [x] **P1-6** Nettoyer les services
   - [x] `MakeSerialService` : `final` + `random_int()` (au lieu de `rand()`)
@@ -133,7 +133,7 @@ Restant principalement:
 1. **P1-4b renommage entités au pluriel** (Categories→Category, Options→Option, Pictures→Picture, Stays→Stay) — **risque élevé** : touche ORM croisé, repos, controllers, forms, templates, EasyAdmin + migration de renommage. Commit isolé, backup DB, vérif Cypress après.
 2. **P1-4 VO Money/Email** — **risque élevé** : migration schéma (float→int) + conversion données + màj tous les templates Twig.
 3. **P3-3 Rector** — risque moyen (auto-rewrite, churn à revoir). Configurer sets PHP 8.4 + Symfony, lancer + review.
-4. **P1-5 EditUserType DTO** — non couvert par tests (profil edit) ; à faire avec un test Cypress/PHPUnit ajouté.
+4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. **P1-3 reste** (interfaces pour repos injectés dans contrôleurs) — trade-off : nécessite de redéclarer find/findBy/findAll dans l'interface.
 6. **P4-1 reste** — uniformisation commentaires EN/FR (cosmétique).
 

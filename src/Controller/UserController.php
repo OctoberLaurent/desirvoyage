@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\EditUserDto;
 use App\Dto\RegisterDto;
 use App\Entity\User;
 use App\Form\EditUserType;
@@ -74,6 +75,22 @@ final class UserController extends AbstractController
         return $user;
     }
 
+    private function applyDtoToUser(EditUserDto $dto, User $user): void
+    {
+        $user->setLastname($dto->lastname ?? '');
+        $user->setFirstname($dto->firstname ?? '');
+        if (null !== $dto->birthday) {
+            $user->setBirthday($dto->birthday);
+        }
+        $user->setAddress($dto->address ?? '');
+        $user->setAdditionalAddress($dto->additionalAddress);
+        $user->setPostalCode($dto->postalCode ?? '');
+        $user->setCity($dto->city ?? '');
+        $user->setCountry($dto->country ?? '');
+        $user->setPhone($dto->phone ?? '');
+        $user->setEmail($dto->email ?? '');
+    }
+
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/profil/edit/', name: 'user_edit')]
     public function edit(Request $request, EntityManagerInterface $em): Response
@@ -81,11 +98,14 @@ final class UserController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $form = $this->createForm(EditUserType::class, $user);
-
+        $form = $this->createForm(EditUserType::class, EditUserDto::fromUser($user));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var EditUserDto $dto */
+            $dto = $form->getData();
+            $this->applyDtoToUser($dto, $user);
+
             $em->persist($user);
             $em->flush();
 
