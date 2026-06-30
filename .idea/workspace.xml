@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42452794-c5f0-47df-bb14-781b93841008" name="Default Changelist" comment="">
+    <list default="true" id="42452794-c5f0-47df-bb14-781b93841008" name="Default Changelist" comment="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress/support/e2e.js" beforeDir="false" afterPath="$PROJECT_DIR$/cypress/support/e2e.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress_en.md" beforeDir="false" afterPath="$PROJECT_DIR$/cypress_en.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cypress_fr.md" beforeDir="false" afterPath="$PROJECT_DIR$/cypress_fr.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -501,8 +496,17 @@
       <workItem from="1775589638358" duration="655000" />
       <workItem from="1775674371464" duration="129000" />
       <workItem from="1775674517322" duration="8000" />
-      <workItem from="1782060696769" duration="632000" />
+      <workItem from="1782060696769" duration="4476000" />
     </task>
+    <task id="LOCAL-00001" summary="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests.">
+      <option name="closed" value="true" />
+      <created>1782061685915</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1782061685915</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -537,8 +541,20 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/templates/user/dashboard.html.twig">

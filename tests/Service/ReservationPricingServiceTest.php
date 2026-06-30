@@ -2,9 +2,9 @@
 
 namespace App\Tests\Service;
 
-use App\Entity\Options;
+use App\Entity\Option;
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 use App\Entity\Traveler;
 use App\Service\ReservationPricingService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,10 +14,10 @@ final class ReservationPricingServiceTest extends TestCase
 {
     public function testPriceIsStayPlusOptionsMultipliedByTravelers(): void
     {
-        $stay = new Stays();
+        $stay = new Stay();
         $stay->setPrice(700.0);
 
-        $option = new Options();
+        $option = new Option();
         $option->setPrice(100.0);
 
         $reservation = $this->buildReservation($stay, [$option], 3);
@@ -32,7 +32,7 @@ final class ReservationPricingServiceTest extends TestCase
 
     public function testPriceWithNoOption(): void
     {
-        $stay = new Stays();
+        $stay = new Stay();
         $stay->setPrice(500.0);
 
         $reservation = $this->buildReservation($stay, [], 2);
@@ -44,9 +44,9 @@ final class ReservationPricingServiceTest extends TestCase
     }
 
     /**
-     * @param list<Options> $options
+     * @param list<Option> $options
      */
-    private function buildReservation(Stays $stay, array $options, int $travelersCount): Reservation
+    private function buildReservation(Stay $stay, array $options, int $travelersCount): Reservation
     {
         $reservation = new Reservation();
         $reservation->addStay($stay);

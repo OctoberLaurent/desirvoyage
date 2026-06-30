@@ -38,23 +38,23 @@ class Travel implements \Stringable
     #[Groups(['read'])]
     private ?string $descriptions = null;
 
-    /** @var Collection<int, Pictures> */
-    #[ORM\OneToMany(targetEntity: Pictures::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
+    /** @var Collection<int, Picture> */
+    #[ORM\OneToMany(targetEntity: Picture::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
     private Collection $pictures;
 
-    /** @var Collection<int, Stays> */
-    #[ORM\OneToMany(targetEntity: Stays::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
+    /** @var Collection<int, Stay> */
+    #[ORM\OneToMany(targetEntity: Stay::class, mappedBy: 'travel', cascade: ['persist', 'remove'])]
     private Collection $stays;
 
-    #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'travel')]
-    private ?Categories $categories = null;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'travel')]
+    private ?Category $categories = null;
 
     /** @var Collection<int, Formality> */
     #[ORM\ManyToMany(targetEntity: Formality::class, inversedBy: 'travels', cascade: ['persist'])]
     private Collection $formality;
 
-    /** @var Collection<int, Options> */
-    #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'travels', cascade: ['persist'])]
+    /** @var Collection<int, Option> */
+    #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'travels', cascade: ['persist'])]
     #[ORM\JoinTable(name: 'travel_options')]
     #[ORM\JoinColumn(name: 'travel_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'options_id', referencedColumnName: 'id')]
@@ -130,14 +130,14 @@ class Travel implements \Stringable
     }
 
     /**
-     * @return Collection<int, Pictures>
+     * @return Collection<int, Picture>
      */
     public function getPictures(): Collection
     {
         return $this->pictures;
     }
 
-    public function addPicture(Pictures $picture): self
+    public function addPicture(Picture $picture): self
     {
         if (!$this->pictures->contains($picture)) {
             $this->pictures[] = $picture;
@@ -148,14 +148,14 @@ class Travel implements \Stringable
     }
 
     /**
-     * @return Collection<int, Stays>
+     * @return Collection<int, Stay>
      */
     public function getStays(): Collection
     {
         return $this->stays;
     }
 
-    public function addStay(Stays $stay): self
+    public function addStay(Stay $stay): self
     {
         if (!$this->stays->contains($stay)) {
             $this->stays[] = $stay;
@@ -165,12 +165,12 @@ class Travel implements \Stringable
         return $this;
     }
 
-    public function getCategories(): ?Categories
+    public function getCategories(): ?Category
     {
         return $this->categories;
     }
 
-    public function setCategories(?Categories $categories): self
+    public function setCategories(?Category $categories): self
     {
         $this->categories = $categories;
 
@@ -187,7 +187,7 @@ class Travel implements \Stringable
 
     public function getMinPrice(): float
     {
-        $prices = $this->stays->map(fn (Stays $stay) => $stay->getPrice())->toArray();
+        $prices = $this->stays->map(fn (Stay $stay) => $stay->getPrice())->toArray();
         if ([] === $prices) {
             return 0.0;
         }
@@ -214,14 +214,14 @@ class Travel implements \Stringable
     }
 
     /**
-     * @return Collection<int, Options>
+     * @return Collection<int, Option>
      */
     public function getOptions(): Collection
     {
         return $this->options;
     }
 
-    public function addOptions(Options $options): self
+    public function addOptions(Option $options): self
     {
         if (!$this->options->contains($options)) {
             $this->options[] = $options;
@@ -231,7 +231,7 @@ class Travel implements \Stringable
         return $this;
     }
 
-    public function removeOptions(Options $options): self
+    public function removeOptions(Option $options): self
     {
         if ($this->options->contains($options)) {
             $this->options->removeElement($options);

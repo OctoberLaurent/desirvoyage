@@ -28,12 +28,18 @@ class Reservation
     #[ORM\OneToMany(targetEntity: Traveler::class, mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private Collection $travelers;
 
-    /** @var Collection<int, Options> */
-    #[ORM\ManyToMany(targetEntity: Options::class, inversedBy: 'reservations', cascade: ['persist'])]
+    /** @var Collection<int, Option> */
+    #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'reservation_options')]
+    #[ORM\JoinColumn(name: 'reservation_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'options_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $options;
 
-    /** @var Collection<int, Stays> */
-    #[ORM\ManyToMany(targetEntity: Stays::class, inversedBy: 'reservations', cascade: ['persist'])]
+    /** @var Collection<int, Stay> */
+    #[ORM\ManyToMany(targetEntity: Stay::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'reservation_stays')]
+    #[ORM\JoinColumn(name: 'reservation_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'stays_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Collection $stays;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -125,7 +131,7 @@ class Reservation
     }
 
     /**
-     * @return Collection<int, Options>
+     * @return Collection<int, Option>
      */
     public function getOptions(): Collection
     {
@@ -133,7 +139,7 @@ class Reservation
     }
 
     /**
-     * @param Collection<int, Options> $options
+     * @param Collection<int, Option> $options
      */
     public function setOptions(Collection $options): static
     {
@@ -145,7 +151,7 @@ class Reservation
         return $this;
     }
 
-    public function addOption(Options $option): self
+    public function addOption(Option $option): self
     {
         if (!$this->options->contains($option)) {
             $this->options[] = $option;
@@ -155,7 +161,7 @@ class Reservation
         return $this;
     }
 
-    public function removeOption(Options $option): self
+    public function removeOption(Option $option): self
     {
         if ($this->options->removeElement($option)) {
             $option->removeReservation($this);
@@ -165,7 +171,7 @@ class Reservation
     }
 
     /**
-     * @return Collection<int, Stays>
+     * @return Collection<int, Stay>
      */
     public function getStays(): Collection
     {
@@ -173,7 +179,7 @@ class Reservation
     }
 
     /**
-     * @param Collection<int, Stays> $stays
+     * @param Collection<int, Stay> $stays
      */
     public function setStays(Collection $stays): static
     {
@@ -185,7 +191,7 @@ class Reservation
         return $this;
     }
 
-    public function addStay(Stays $stay): self
+    public function addStay(Stay $stay): self
     {
         if (!$this->stays->contains($stay)) {
             $this->stays[] = $stay;
@@ -195,7 +201,7 @@ class Reservation
         return $this;
     }
 
-    public function removeStay(Stays $stay): self
+    public function removeStay(Stay $stay): self
     {
         if ($this->stays->removeElement($stay)) {
             $stay->removeReservation($this);

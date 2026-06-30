@@ -2,16 +2,16 @@
 
 namespace App\Repository;
 
-use App\Entity\Options;
+use App\Entity\Option;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Options> */
-class OptionsRepository extends ServiceEntityRepository
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Option> */
+class OptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Options::class);
+        parent::__construct($registry, Option::class);
     }
 
     public function findOptions(int $travelId): \Doctrine\ORM\QueryBuilder
@@ -26,7 +26,7 @@ class OptionsRepository extends ServiceEntityRepository
     // SELECT * FROM `travel_options` WHERE travel_id = 253
 
     /*
-    public function findOneBySomeField($value): ?Options
+    public function findOneBySomeField($value): ?Option
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.exampleField = :val')

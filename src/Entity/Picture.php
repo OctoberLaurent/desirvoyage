@@ -4,8 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: \App\Repository\PicturesRepository::class)]
-final class Pictures implements \Stringable
+#[ORM\Entity(repositoryClass: \App\Repository\PictureRepository::class)]
+#[ORM\Table(name: 'pictures')]
+final class Picture implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

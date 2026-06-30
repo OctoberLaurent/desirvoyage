@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\Options;
+use App\Entity\Option;
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -52,34 +52,34 @@ final readonly class ReservationMergeService
     }
 
     /**
-     * @param Collection<int, Options> $options
+     * @param Collection<int, Option> $options
      *
-     * @return ArrayCollection<int, Options>
+     * @return ArrayCollection<int, Option>
      */
     private function managedOptions(Collection $options): ArrayCollection
     {
-        /** @var ArrayCollection<int, Options> $managed */
+        /** @var ArrayCollection<int, Option> $managed */
         $managed = new ArrayCollection();
         foreach ($options as $option) {
             $id = $option->getId();
-            $managed[] = null !== $id ? ($this->entityManager->find(Options::class, $id) ?? $option) : $option;
+            $managed[] = null !== $id ? ($this->entityManager->find(Option::class, $id) ?? $option) : $option;
         }
 
         return $managed;
     }
 
     /**
-     * @param Collection<int, Stays> $stays
+     * @param Collection<int, Stay> $stays
      *
-     * @return ArrayCollection<int, Stays>
+     * @return ArrayCollection<int, Stay>
      */
     private function managedStays(Collection $stays): ArrayCollection
     {
-        /** @var ArrayCollection<int, Stays> $managed */
+        /** @var ArrayCollection<int, Stay> $managed */
         $managed = new ArrayCollection();
         foreach ($stays as $stay) {
             $id = $stay->getId();
-            $managed[] = null !== $id ? ($this->entityManager->find(Stays::class, $id) ?? $stay) : $stay;
+            $managed[] = null !== $id ? ($this->entityManager->find(Stay::class, $id) ?? $stay) : $stay;
         }
 
         return $managed;

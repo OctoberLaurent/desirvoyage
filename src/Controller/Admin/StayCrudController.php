@@ -2,20 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Stays;
+use App\Entity\Stay;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Stays> */
-class StaysCrudController extends AbstractCrudController
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Stay> */
+class StayCrudController extends AbstractCrudController
 {
     #[\Override]
     public static function getEntityFqcn(): string
     {
-        return Stays::class;
+        return Stay::class;
     }
 
     #[\Override]

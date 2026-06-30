@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Stays;
+use App\Entity\Stay;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Stays> */
+/** @extends \Symfony\Component\Form\AbstractType<Stay> */
 class StayType extends AbstractType
 {
     #[\Override]
@@ -35,7 +35,7 @@ class StayType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Stays::class,
+            'data_class' => Stay::class,
         ]);
     }
 }

@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: \App\Repository\CategoriesRepository::class)]
+#[ORM\Entity(repositoryClass: \App\Repository\CategoryRepository::class)]
+#[ORM\Table(name: 'categories')]
 #[HasLifecycleCallbacks]
-final class Categories implements \Stringable
+final class Category implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

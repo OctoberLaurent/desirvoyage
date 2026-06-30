@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 use App\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -44,7 +44,7 @@ final readonly class ExpiredReservationCleanupService
 
             if ($elapsedMinutes > $expirationMinutes) {
                 $stay = $reservation->getStays()->first();
-                if (!$stay instanceof Stays) {
+                if (!$stay instanceof Stay) {
                     continue;
                 }
                 $nbTravelers = $this->releaseSeats($stay, $reservation);
@@ -67,7 +67,7 @@ final readonly class ExpiredReservationCleanupService
      *
      * @return int nombre de sièges libérés
      */
-    private function releaseSeats(Stays $stay, Reservation $reservation): int
+    private function releaseSeats(Stay $stay, Reservation $reservation): int
     {
         $nbTravelers = count($reservation->getTravelers());
         $stay->setStock($stay->getStock() + $nbTravelers);

@@ -33,10 +33,10 @@ final class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
 
         yield MenuItem::linkTo(TravelCrudController::class, 'Travels', 'fa fa-plane');
-        yield MenuItem::linkTo(CategoriesCrudController::class, 'Categories', 'fa fa-folder-open');
+        yield MenuItem::linkTo(CategoryCrudController::class, 'Category', 'fa fa-folder-open');
         yield MenuItem::linkTo(FormalityCrudController::class, 'formality', 'fa fa-globe');
-        yield MenuItem::linkTo(StaysCrudController::class, 'Stays', 'fa fa-calendar-alt');
-        yield MenuItem::linkTo(OptionsCrudController::class, 'Options', 'fa fa-sun');
+        yield MenuItem::linkTo(StayCrudController::class, 'Stay', 'fa fa-calendar-alt');
+        yield MenuItem::linkTo(OptionCrudController::class, 'Option', 'fa fa-sun');
         yield MenuItem::linkTo(UserCrudController::class, 'Users', 'fa fa-user');
         yield MenuItem::linkTo(ReservationCrudController::class, 'Reservation', 'fa fa-list');
         yield MenuItem::linkTo(ContactCrudController::class, 'Contact', 'fa fa-envelope');

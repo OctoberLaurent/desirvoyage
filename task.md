@@ -44,7 +44,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [ ] Value Object `Money` pour `Reservation.price` — **différé** (risque élevé : migration schéma float→int + conversion données + màj tous les templates Twig qui affichent `price`/`amount`)
   - [ ] Value Object `Email` pour `User.email` / `Contact.email` — **différé** (touche UserInterface::getUserIdentifier, UniqueEntity, templates)
   - [ ] entités `final` — **non applicable** : Doctrine génère des proxies qui étendent l'entité (lazy loading) → `final` casserait le lazy loading des associations
-  - [ ] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` (gros impact : ORM croisé, repos, controllers, forms, templates, EasyAdmin, migration) — **commit isolé, risqué**
+  - [x] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` ✅ — classes PHP + repositories (`CategoryRepository` etc.) + `StayRepositoryInterface` + CRUD controllers renommés. **Schéma DB inchangé** via `#[ORM\Table(name: 'plural')]` sur les 4 entités + `#[ORM\JoinTable/JoinColumn/InverseJoinColumn]` explicites (avec `onDelete: CASCADE`) sur les 2 ManyToMany de Reservation pour garder les tables/colonnes/FK `reservation_options`/`reservation_stays`. **Aucune migration, aucune conversion de données**. Validé par PHPStan (0) + `make qa` (25/73) + Cypress (11/11) + `doctrine:schema:validate` (in sync).
 - [x] **P1-5** DTOs pour les formulaires
   - [x] `ContactType` sur `ContactDto` (DTO au lieu de l'entité)
   - [x] `RegisterType` sur `RegisterDto` + mapping DTO→User dans le contrôleur (hash via `UserService`, encoder retiré du `UserController`) — validé par Cypress register 6/6
@@ -130,7 +130,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 ## Suite recommandée (restant = risqué / faible valeur)
 
 Restant principalement:
-1. **P1-4b renommage entités au pluriel** (Categories→Category, Options→Option, Pictures→Picture, Stays→Stay) — **risque élevé** : touche ORM croisé, repos, controllers, forms, templates, EasyAdmin + migration de renommage. Commit isolé, backup DB, vérif Cypress après.
+1. ~~P1-4b renommage entités au pluriel~~ ✅ fait (schéma inchangé via #[ORM\Table] + JoinTable explicites)
 2. **P1-4 VO Money/Email** — **risque élevé** : migration schéma (float→int) + conversion données + màj tous les templates Twig.
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)

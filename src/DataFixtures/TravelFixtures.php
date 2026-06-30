@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use App\Entity\Formality;
-use App\Entity\Options;
-use App\Entity\Stays;
+use App\Entity\Option;
+use App\Entity\Stay;
 use App\Entity\Travel;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -32,7 +32,7 @@ class TravelFixtures extends Fixture
 
         // CATEGORIES
         foreach ($categoriesData as $categoryTitle => $imageUrl) {
-            $category = new Categories();
+            $category = new Category();
             $category->setTitle($categoryTitle);
             $category->setUrl($imageUrl);
 
@@ -47,14 +47,14 @@ class TravelFixtures extends Fixture
             $travel->setDescriptions($faker->sentence($nbWords = 3, $variableNbWords = true));
 
             // CATEGORIES
-            $category = new Categories();
+            $category = new Category();
             $category->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true));
             $category->addTravel($travel);
 
             $manager->persist($category);
 
             // STAYS
-            $stay = new Stays();
+            $stay = new Stay();
             $sdate = $faker->dateTimeBetween($startDate = '+30 days', $endDate = '+365 days', $timezone = null);
             $edate = clone $sdate;
             $nb_jours = mt_rand(5, 30);
@@ -71,7 +71,7 @@ class TravelFixtures extends Fixture
             $manager->persist($stay);
 
             // OPTIONS
-            $option = new Options();
+            $option = new Option();
             $option->setName($faker->sentence($nbWords = 3, $variableNbWords = true));
             $option->setDescription($faker->sentence($nbWords = 3, $variableNbWords = true));
             $option->setType($faker->sentence($nbWords = 3, $variableNbWords = true));

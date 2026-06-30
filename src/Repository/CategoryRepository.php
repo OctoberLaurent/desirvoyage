@@ -2,20 +2,20 @@
 
 namespace App\Repository;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Categories> */
-class CategoriesRepository extends ServiceEntityRepository
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Category> */
+class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Categories::class);
+        parent::__construct($registry, Category::class);
     }
 
     // /**
-    //  * @return Categories[] Returns an array of Categories objects
+    //  * @return Category[] Returns an array of Category objects
     //  */
     /*
     public function findByExampleField($value)
@@ -32,7 +32,7 @@ class CategoriesRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Categories
+    public function findOneBySomeField($value): ?Category
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

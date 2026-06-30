@@ -2,16 +2,16 @@
 
 namespace App\Repository;
 
-use App\Entity\Stays;
+use App\Entity\Stay;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Stays> */
-class StaysRepository extends ServiceEntityRepository implements StaysRepositoryInterface
+/** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Stay> */
+class StayRepository extends ServiceEntityRepository implements StaysRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Stays::class);
+        parent::__construct($registry, Stay::class);
     }
 
     public function findStockById(int $idStay): int
@@ -23,6 +23,6 @@ class StaysRepository extends ServiceEntityRepository implements StaysRepository
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $stay instanceof Stays ? $stay->getStock() : 0;
+        return $stay instanceof Stay ? $stay->getStock() : 0;
     }
 }

@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 use App\Form\ReservationOptionType;
 use App\Form\TravelersType;
-use App\Repository\OptionsRepository;
-use App\Repository\StaysRepository;
+use App\Repository\OptionRepository;
+use App\Repository\StayRepository;
 use App\Service\NotEnoughStockException;
 use App\Service\ReservationMergeService;
 use App\Service\ReservationPricingService;
@@ -28,7 +28,7 @@ final class ReservationController extends AbstractController
      * Start configure travel.
      */
     #[Route(path: '', name: '_index')]
-    public function index(Request $request, SessionInterface $session, StaysRepository $stayRepository): Response
+    public function index(Request $request, SessionInterface $session, StayRepository $stayRepository): Response
     {
         // retrieve travel by get method
         $id = $request->query->get('stayid');
@@ -60,7 +60,7 @@ final class ReservationController extends AbstractController
      * Configure option.
      */
     #[Route(path: '/configure/{id}', name: '_option')]
-    public function configure(Stays $stays, SessionInterface $session, Request $request, int $id, ReservationMergeService $reservationMergeService, OptionsRepository $optionRepository): Response
+    public function configure(Stay $stays, SessionInterface $session, Request $request, int $id, ReservationMergeService $reservationMergeService, OptionRepository $optionRepository): Response
     {
         // get session
         $reservation = $this->getReservationFromSession($session);
@@ -161,7 +161,7 @@ final class ReservationController extends AbstractController
         // if there is no registered traveler
         if ($nbtravelers < 1) {
             $firstStay = $reservation->getStays()->first();
-            $id = $firstStay instanceof Stays ? $firstStay->getId() : 0;
+            $id = $firstStay instanceof Stay ? $firstStay->getId() : 0;
 
             $this->addFlash(
                 'orange',

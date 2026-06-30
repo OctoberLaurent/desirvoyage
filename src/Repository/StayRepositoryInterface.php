@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 /**
- * Port de persistance des {@see \App\Entity\Stays} (skill §3 Repository rules).
+ * Port de persistance des {@see \App\Entity\Stay} (skill §3 Repository rules).
  */
 interface StaysRepositoryInterface
 {

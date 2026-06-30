@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 
 /**
  * Calcule le prix d'une réservation : (prix séjour + somme options) × nombre
@@ -21,7 +21,7 @@ final class ReservationPricingService
         $nbTravelers = $reservation->getTravelers()->count();
 
         $firstStay = $reservation->getStays()->first();
-        $stayPrice = $firstStay instanceof Stays ? $firstStay->getPrice() : 0.0;
+        $stayPrice = $firstStay instanceof Stay ? $firstStay->getPrice() : 0.0;
 
         $optionsPrice = 0.0;
         foreach ($reservation->getOptions() as $option) {

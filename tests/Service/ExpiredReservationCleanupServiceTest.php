@@ -3,7 +3,7 @@
 namespace App\Tests\Service;
 
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 use App\Entity\Traveler;
 use App\Repository\ReservationRepositoryInterface;
 use App\Service\ExpiredReservationCleanupService;
@@ -15,7 +15,7 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
 {
     public function testExpiredReservationIsCancelledAndStockReleased(): void
     {
-        $stay = new Stays();
+        $stay = new Stay();
         $stay->setStock(10);
         $stay->setPrice(500.0);
 
@@ -38,7 +38,7 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
 
     public function testRecentReservationIsKept(): void
     {
-        $stay = new Stays();
+        $stay = new Stay();
         $stay->setStock(10);
 
         $recent = $this->buildReservation($stay, 1, new \DateTime('-5 minutes'));
@@ -56,7 +56,7 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
         self::assertSame(10, $stay->getStock()); // unchanged
     }
 
-    private function buildReservation(Stays $stay, int $travelersCount, \DateTime $createdDate): Reservation
+    private function buildReservation(Stay $stay, int $travelersCount, \DateTime $createdDate): Reservation
     {
         $reservation = new Reservation();
         $reservation->addStay($stay);

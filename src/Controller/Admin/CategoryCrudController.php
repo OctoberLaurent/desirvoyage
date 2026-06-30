@@ -2,19 +2,19 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Categories> */
-class CategoriesCrudController extends AbstractCrudController
+/** @extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController<Category> */
+class CategoryCrudController extends AbstractCrudController
 {
     #[\Override]
     public static function getEntityFqcn(): string
     {
-        return Categories::class;
+        return Category::class;
     }
 
     #[\Override]

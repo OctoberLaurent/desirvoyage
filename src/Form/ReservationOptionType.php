@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Options;
+use App\Entity\Option;
 use App\Entity\Reservation;
-use App\Repository\OptionsRepository;
+use App\Repository\OptionRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,8 +29,8 @@ class ReservationOptionType extends AbstractType
             'expanded' => true,
             'multiple' => true,
             'label' => false,
-            'class' => Options::class,
-            'query_builder' => fn (OptionsRepository $repo) => $repo->findOptions($travelId), 'choice_label' => 'name',
+            'class' => Option::class,
+            'query_builder' => fn (OptionRepository $repo) => $repo->findOptions($travelId), 'choice_label' => 'name',
         ]);
     }
 

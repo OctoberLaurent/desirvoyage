@@ -37,7 +37,7 @@ services:
 
     # Ports de persistance vers les implémentations Doctrine (skill §1 DIP, §3 Repository)
     App\Repository\ReservationRepositoryInterface: '@App\Repository\ReservationRepository'
-    App\Repository\StaysRepositoryInterface: '@App\Repository\StaysRepository'
+    App\Repository\StaysRepositoryInterface: '@App\Repository\StayRepository'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Pictures;
+use App\Entity\Picture;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Pictures> */
+/** @extends \Symfony\Component\Form\AbstractType<Picture> */
 class PictureType extends AbstractType
 {
     #[\Override]
@@ -30,7 +30,7 @@ class PictureType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Pictures::class,
+            'data_class' => Picture::class,
         ]);
     }
 }

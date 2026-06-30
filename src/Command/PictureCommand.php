@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Repository\CategoriesRepository;
-use App\Repository\PicturesRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\PictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -16,8 +16,8 @@ use Symfony\Component\Filesystem\Path;
 final class PictureCommand extends Command
 {
     public function __construct(
-        private readonly PicturesRepository $picturesRepository,
-        private readonly CategoriesRepository $categoriesRepository,
+        private readonly PictureRepository $picturesRepository,
+        private readonly CategoryRepository $categoriesRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly string $projectDir,
     ) {

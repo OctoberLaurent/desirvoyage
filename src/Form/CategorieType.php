@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Categories;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Categories> */
+/** @extends \Symfony\Component\Form\AbstractType<Category> */
 class CategorieType extends AbstractType
 {
     #[\Override]
@@ -23,7 +23,7 @@ class CategorieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Categories::class,
+            'data_class' => Category::class,
         ]);
     }
 }

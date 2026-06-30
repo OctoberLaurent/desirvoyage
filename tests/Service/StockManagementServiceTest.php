@@ -3,7 +3,7 @@
 namespace App\Tests\Service;
 
 use App\Entity\Reservation;
-use App\Entity\Stays;
+use App\Entity\Stay;
 use App\Entity\Traveler;
 use App\Repository\StaysRepositoryInterface;
 use App\Service\StockManagementService;
@@ -14,7 +14,7 @@ final class StockManagementServiceTest extends TestCase
 {
     public function testDecrementStockSetsStayStockAndReturnsRealStock(): void
     {
-        $stay = new Stays();
+        $stay = new Stay();
         $stay->setStock(10);
         $stay->setPrice(500.0);
 
