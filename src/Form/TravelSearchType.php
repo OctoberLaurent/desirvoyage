@@ -42,9 +42,7 @@ class TravelSearchType extends AbstractType
              ->add('country', EntityType::class, [
                  'required' => false,
                  'class' => Formality::class,
-                 'choice_label' => function (Formality $formality): string {
-                     return Countries::getName($formality->getDestination());
-                 },
+                 'choice_label' => fn (Formality $formality): string => Countries::getName($formality->getDestination()),
              ])
 
              ->add('startdate', DateType::class, [

@@ -12,13 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
  *
  * Lève {@see NotEnoughStockException} si le stock est insuffisant.
  */
-final class ReservationService
+final readonly class ReservationService
 {
     public function __construct(
-        private readonly MakeSerialService $serialService,
-        private readonly StockManagementService $stockManagementService,
-        private readonly ReservationMergeService $mergeService,
-        private readonly EntityManagerInterface $entityManager,
+        private MakeSerialService $serialService,
+        private StockManagementService $stockManagementService,
+        private ReservationMergeService $mergeService,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 

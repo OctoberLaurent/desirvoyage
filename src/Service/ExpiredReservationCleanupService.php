@@ -13,14 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
  *
  * La durée d'expiration est configurable (défaut 15 minutes).
  */
-final class ExpiredReservationCleanupService
+final readonly class ExpiredReservationCleanupService
 {
     /** Durée d'expiration en minutes. */
     public const int DEFAULT_EXPIRATION_MINUTES = 15;
 
     public function __construct(
-        private readonly ReservationRepositoryInterface $reservationRepository,
-        private readonly EntityManagerInterface $entityManager,
+        private ReservationRepositoryInterface $reservationRepository,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 

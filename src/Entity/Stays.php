@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ORM\Entity(repositoryClass: \App\Repository\StaysRepository::class)]
 #[HasLifecycleCallbacks]
-final class Stays
+final class Stays implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -54,7 +54,7 @@ final class PaymentController extends AbstractController
 
         try {
             $paymentService->process($reservation, $stripeToken);
-        } catch (PaymentFailedException $e) {
+        } catch (PaymentFailedException) {
             $this->addFlash('red', 'Le paiement a été refusé vous pouver effectuer une nouvelle tentative.');
 
             return $this->redirectToRoute('reservation_list');

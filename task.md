@@ -81,7 +81,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
 - [x] **P3-2** PHPStan level 10 (447 → 0 ; strict + Symfony + Doctrine + PHPUnit activés)
 - [x] **P3-5** `make qa` + `make test` + `make test-db`
-- [ ] **P3-3** Rector — `rector.phar` vide (0 byte) ; configurer sets PHP 8.4 + Symfony, lancer `vendor/bin/rector process src` et reviewer
+- [x] **P3-3** Rector — config PHP 8.4 + sets attributs Symfony/Doctrine appliquée sur `src` (22 fichiers modernisés : `readonly class` sur les services sans état, first-class callables `[$this, 'm']` → `$this->m(...)`, `catch (X $e)` → `catch (X)` quand $e inutilisé). Validé par `make qa` + Cypress (rien cassé). `rector.phar` vide laissé (binaire `vendor/bin/rector` utilisé).
 - [x] **P3-4** `services.yaml` — excl `Tests` (stale) retiré ; paramètres Stripe + alias `PaymentGatewayInterface` + alias repositories interfaces déclarés
   - [ ] déclarer `cocur/slugify` comme service (lié à P1-6)
 
@@ -132,7 +132,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 Restant principalement:
 1. **P1-4b renommage entités au pluriel** (Categories→Category, Options→Option, Pictures→Picture, Stays→Stay) — **risque élevé** : touche ORM croisé, repos, controllers, forms, templates, EasyAdmin + migration de renommage. Commit isolé, backup DB, vérif Cypress après.
 2. **P1-4 VO Money/Email** — **risque élevé** : migration schéma (float→int) + conversion données + màj tous les templates Twig.
-3. **P3-3 Rector** — risque moyen (auto-rewrite, churn à revoir). Configurer sets PHP 8.4 + Symfony, lancer + review.
+3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. **P1-3 reste** (interfaces pour repos injectés dans contrôleurs) — trade-off : nécessite de redéclarer find/findBy/findAll dans l'interface.
 6. **P4-1 reste** — uniformisation commentaires EN/FR (cosmétique).

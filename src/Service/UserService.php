@@ -9,9 +9,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  * Gère les jetons d'activation/réinitialisation et le hashage du mot de passe
  * d'un {@see User} (skill §3 Service — logique extraite du contrôleur de sécurité).
  */
-final class UserService
+final readonly class UserService
 {
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
     }
 

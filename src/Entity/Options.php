@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\OptionsRepository::class)]
-class Options
+class Options implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

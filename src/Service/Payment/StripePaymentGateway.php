@@ -11,7 +11,7 @@ use Stripe\Stripe;
  * La clé secrète est injectée (jamais exposée côté client), la clé publique reste
  * gérée par le contrôleur pour le rendu du formulaire.
  */
-final class StripePaymentGateway implements PaymentGatewayInterface
+final readonly class StripePaymentGateway implements PaymentGatewayInterface
 {
     public function __construct(string $secretKey)
     {

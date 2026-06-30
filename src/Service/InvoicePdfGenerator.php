@@ -11,11 +11,11 @@ use Twig\Environment;
  * Génère le PDF d'une facture (skill §3 Service — séparation de la génération
  * HTML (Twig) et du rendu PDF (Dompdf), hors du contrôleur).
  */
-final class InvoicePdfGenerator
+final readonly class InvoicePdfGenerator
 {
     public function __construct(
-        private readonly Environment $twig,
-        private readonly string $projectDir,
+        private Environment $twig,
+        private string $projectDir,
     ) {
     }
 

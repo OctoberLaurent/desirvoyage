@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\TravelRepository::class)]
 #[HasLifecycleCallbacks]
-class Travel
+class Travel implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

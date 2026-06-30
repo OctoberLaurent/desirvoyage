@@ -8,4 +8,9 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__.'/src',
     ])
-    ->withAttributesSets(symfony: true, doctrine: true, phpunit: false);
+    ->withPhpSets(php84: true)
+    ->withAttributesSets(symfony: true, doctrine: true, phpunit: false)
+    ->withSkip([
+        // Les migrations sont auto-générées et exclues de l'analyse
+        __DIR__.'/src/Migrations',
+    ]);

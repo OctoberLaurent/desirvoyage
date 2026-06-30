@@ -6,9 +6,9 @@ use App\Entity\Reservation;
 use App\Entity\Stays;
 use App\Repository\StaysRepositoryInterface;
 
-final class StockManagementService
+final readonly class StockManagementService
 {
-    public function __construct(private readonly StaysRepositoryInterface $stayRepo)
+    public function __construct(private StaysRepositoryInterface $stayRepo)
     {
     }
 

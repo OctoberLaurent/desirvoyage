@@ -8,11 +8,11 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class MailerService
+final readonly class MailerService
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly MailerInterface $mailer,
+        private UrlGeneratorInterface $urlGenerator,
+        private MailerInterface $mailer,
     ) {
     }
 
@@ -49,7 +49,7 @@ final class MailerService
         if (null === $email || '' === $email) {
             return;
         }
-        $message = (new Email())
+        $message = new Email()
             ->from('no-reply@desirvoyage.com')
             ->to($email)
             ->text($text);

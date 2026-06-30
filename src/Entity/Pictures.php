@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Repository\PicturesRepository::class)]
-final class Pictures
+final class Pictures implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

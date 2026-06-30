@@ -14,12 +14,12 @@ use Doctrine\ORM\EntityManagerInterface;
  * débite via le gateway, crée l'entité Payment, lie la réservation, persiste
  * et notifie l'utilisateur (skill §3 Service, §8 Doctrine « transaction dans le service »).
  */
-final class PaymentService
+final readonly class PaymentService
 {
     public function __construct(
-        private readonly PaymentGatewayInterface $gateway,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MailerService $mailer,
+        private PaymentGatewayInterface $gateway,
+        private EntityManagerInterface $entityManager,
+        private MailerService $mailer,
     ) {
     }
 

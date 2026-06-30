@@ -30,9 +30,7 @@ class ReservationOptionType extends AbstractType
             'multiple' => true,
             'label' => false,
             'class' => Options::class,
-            'query_builder' => function (OptionsRepository $repo) use ($travelId) {
-                return $repo->findOptions($travelId);
-            }, 'choice_label' => 'name',
+            'query_builder' => fn (OptionsRepository $repo) => $repo->findOptions($travelId), 'choice_label' => 'name',
         ]);
     }
 

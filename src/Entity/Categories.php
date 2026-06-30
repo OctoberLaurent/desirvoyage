@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: \App\Repository\CategoriesRepository::class)]
 #[HasLifecycleCallbacks]
-final class Categories
+final class Categories implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

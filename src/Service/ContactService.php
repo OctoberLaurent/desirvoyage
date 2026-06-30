@@ -11,11 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
  * la persiste, puis notifie l'utilisateur par mail (skill §3 Service — le
  * contrôleur ne fait que l'orchestration HTTP).
  */
-final class ContactService
+final readonly class ContactService
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MailerService $mailer,
+        private EntityManagerInterface $entityManager,
+        private MailerService $mailer,
     ) {
     }
 

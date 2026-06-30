@@ -11,7 +11,7 @@ class SortByFieldExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sortByField', [$this, 'sortByField']),
+            new TwigFilter('sortByField', $this->sortByField(...)),
         ];
     }
 
