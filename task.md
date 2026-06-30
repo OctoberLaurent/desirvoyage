@@ -131,7 +131,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
 Restant principalement:
 1. ~~P1-4b renommage entités au pluriel~~ ✅ fait (schéma inchangé via #[ORM\Table] + JoinTable explicites)
-2. **P1-4 VO Money/Email** — **risque élevé** : migration schéma (float→int) + conversion données + màj tous les templates Twig.
+2. **P1-4 VO Money/Email** — **différé (risque élevé)** : migration schéma (float→int pour `amount` + colonne `currency`) + conversion des données `reservation.price` + màj de **tous les templates Twig** qui affichent `price`/`amount` (home, travels, summary, invoice, payment — risque d'afficher des centimes comme euros si un template oublié). À faire en commit dédié avec backup DB + audit complet des templates.
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. **P1-3 reste** (interfaces pour repos injectés dans contrôleurs) — trade-off : nécessite de redéclarer find/findBy/findAll dans l'interface.
