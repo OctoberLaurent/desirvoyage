@@ -6,7 +6,7 @@ use App\Entity\MyPassword;
 use App\Entity\User;
 use App\Form\MyPasswordType;
 use App\Form\RenewPasswordType;
-use App\Repository\UserRepository;
+use App\Repository\UserRepositoryInterface;
 use App\Service\MailerService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -119,7 +119,7 @@ class SecurityController extends AbstractController
      * Allows to initiate the forgotten password method.
      */
     #[Route(path: '/mot-de-passe-oublie', name: 'forgotten_password')]
-    public function forgetPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function forgetPassword(Request $request, UserRepositoryInterface $userRepository, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('POST')) {
             $email = (string) $request->request->get('email', '');
@@ -145,7 +145,7 @@ class SecurityController extends AbstractController
      * Allows you to the reset password.
      */
     #[Route(path: '/reset_password/{token}', name: 'reset_password')]
-    public function resetPassword(string $token, Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function resetPassword(string $token, Request $request, UserRepositoryInterface $userRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->findOneBy(['token' => $token]);
 

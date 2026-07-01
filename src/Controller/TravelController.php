@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Travel;
 use App\Form\TravelSearchType;
-use App\Repository\CategoryRepository;
-use App\Repository\TravelRepository;
+use App\Repository\CategoryRepositoryInterface;
+use App\Repository\TravelRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ final class TravelController extends AbstractController
      * HomePage.
      */
     #[Route(path: '', name: '_home')]
-    public function index(CategoryRepository $categoriesRepository, TravelRepository $travelRepository): Response
+    public function index(CategoryRepositoryInterface $categoriesRepository, TravelRepositoryInterface $travelRepository): Response
     {
         return $this->render('travel/index.html.twig', [
             'categories' => $categoriesRepository->findBy([], [], 3),
@@ -30,7 +30,7 @@ final class TravelController extends AbstractController
      * show all travels or travels in one category.
      */
     #[Route(path: '/travels/{page}', name: '_list')]
-    public function travels(TravelRepository $travelRepository, Request $request, int $page = 1): Response
+    public function travels(TravelRepositoryInterface $travelRepository, Request $request, int $page = 1): Response
     {
         // get id category in get
         $category = $request->query->get('category');
@@ -77,7 +77,7 @@ final class TravelController extends AbstractController
      * Show all categories.
      */
     #[Route(path: '/categories/', name: '_categorie_list')]
-    public function showAllCategorie(CategoryRepository $repo): Response
+    public function showAllCategorie(CategoryRepositoryInterface $repo): Response
     {
         // retrieve all categories
         $categories = $repo->findAll();

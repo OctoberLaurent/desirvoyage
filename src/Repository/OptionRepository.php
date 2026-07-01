@@ -7,7 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Option> */
-class OptionRepository extends ServiceEntityRepository
+class OptionRepository extends ServiceEntityRepository implements OptionRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

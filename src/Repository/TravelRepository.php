@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Travel> */
-class TravelRepository extends ServiceEntityRepository
+class TravelRepository extends ServiceEntityRepository implements TravelRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -33,10 +33,11 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [x] promoted readonly constructors
   - [x] FQCN retirés (`Contact`, `Invoice`)
   - [x] `InvoicePdf` → `Response` (`StreamedResponse`/`Response`)
-- [~] **P1-3** Interfaces de repositories (skill §3)
-  - [x] `ReservationRepositoryInterface` + `StaysRepositoryInterface` (créées, implémentées, aliasées dans `services.yaml`)
-  - [x] Swap DI : `ExpiredReservationCleanupService`, `StockManagementService` dépendent des interfaces ; mocks basculés sur les interfaces
-  - [ ] étendre aux repositories injectés dans les contrôleurs (`Travel`, `Options`, `Categories`, `User`) — friction : nécessite de redéclarer `find/findBy/findAll` dans l'interface (à évaluer)
+- [x] **P1-3** Interfaces de repositories (skill §3) — **tous les repositories injectés ont maintenant une interface**
+  - [x] `ReservationRepositoryInterface` + `StayRepositoryInterface` (services)
+  - [x] `TravelRepositoryInterface`, `OptionRepositoryInterface`, `CategoryRepositoryInterface`, `UserRepositoryInterface` (contrôleurs) — étendent `Doctrine\Persistence\ObjectRepository` (exposent find/findBy/findAll/findOneBy) + méthodes custom
+  - [x] Swap DI : services + contrôleurs dépendent des interfaces ; alias services.yaml interface→impl ; mocks de tests basculés sur les interfaces
+  - [x] bug latent du renommage corrigé : `StayRepositoryInterface` (classe restée plurielle dans fichier singulier) → singulier partout
 - [~] **P1-4** Entités : Value Objects + invariants + renommage
   - [x] typage natif de toutes les propriétés (79 → 0 non typées)
   - [x] génériques Doctrine `Collection<int, X>` · getters non-nullable cohérents
@@ -134,7 +135,7 @@ Restant principalement:
 2. **P1-4 VO Money/Email** — **différé (bloqueur technique identifié)** : `price` est utilisé dans **~20 expressions Twig avec arithmétique** sur 3 entités (Reservation, Stay, Option) — ex. `nbtravelers * reservation.stays.0.price`, `reservation.price *100/(100+20)` (calcul de TVA dans la facture). Un VO `Money` casserait l'echo Twig + l'arithmétique (Money n'est pas multipliable en Twig) → nécessite de **déplacer tous les calculs de prix des templates vers les services** + une extension Twig pour le rendu. C'est une refonte template conséquente, incompatible avec un passage sûr « sans casser ». À faire en focus dédié avec audit visuel des templates (home, travels, summary, invoice, payment). `Email` VO similaire (touche UserInterface::getUserIdentifier, UniqueEntity, templates).
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
-5. **P1-3 reste** (interfaces pour repos injectés dans contrôleurs) — trade-off : nécessite de redéclarer find/findBy/findAll dans l'interface.
+5. ~~P1-3 reste~~ ✅ fait (interfaces pour tous les repos injectés : Travel, Option, Category, User)
 6. **P4-1 reste** — uniformisation commentaires EN/FR (cosmétique).
 
 Décision : les 1 et 2 sont les plus conformes au skill mais les plus risqués ("ne rien casser"). À valider explicitement avant de lancer.

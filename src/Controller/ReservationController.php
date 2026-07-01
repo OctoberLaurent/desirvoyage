@@ -6,7 +6,7 @@ use App\Entity\Reservation;
 use App\Entity\Stay;
 use App\Form\ReservationOptionType;
 use App\Form\TravelersType;
-use App\Repository\OptionRepository;
+use App\Repository\OptionRepositoryInterface;
 use App\Repository\StayRepository;
 use App\Service\NotEnoughStockException;
 use App\Service\ReservationMergeService;
@@ -60,7 +60,7 @@ final class ReservationController extends AbstractController
      * Configure option.
      */
     #[Route(path: '/configure/{id}', name: '_option')]
-    public function configure(Stay $stays, SessionInterface $session, Request $request, int $id, ReservationMergeService $reservationMergeService, OptionRepository $optionRepository): Response
+    public function configure(Stay $stays, SessionInterface $session, Request $request, int $id, ReservationMergeService $reservationMergeService, OptionRepositoryInterface $optionRepository): Response
     {
         // get session
         $reservation = $this->getReservationFromSession($session);
