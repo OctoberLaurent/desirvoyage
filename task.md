@@ -70,7 +70,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [ ] éliminer les 4 « risky: did not remove its own exception handlers » (cosmétique, WebTestCase+PHPUnit 13)
   - [ ] `bootstrap` phpunit → `tests/bootstrap.php` (actuellement `config/bootstrap.php`)
 - [x] **P2-2** Tests unitaires des services extraits
-  - [x] `MakeSerialServiceTest`, `ReservationPricingServiceTest`, `UserServiceTest`, `PaymentServiceTest`, `StockManagementServiceTest`, `ExpiredReservationCleanupServiceTest` (6 classes, 12 tests)
+  - [x] `MakeSerialServiceTest`, `ReservationPricingServiceTest`, `UserServiceTest`, `PaymentServiceTest`, `StockManagementServiceTest`, `ExpiredReservationCleanupServiceTest`, `ContactServiceTest` (7 classes, 13 tests)
 - [x] **P2-3** Tests fonctionnels étendus
   - [x] `LoginFunctionalTest`: login réussi (valid creds → redirect /) + login échoué (invalid → reste /login)
   - [x] `AccessControlFunctionalTest`: page réservée `/reservation/list/` et `/profil/dashboard` redirigent un anonyme vers /login
@@ -131,7 +131,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
 Restant principalement:
 1. ~~P1-4b renommage entités au pluriel~~ ✅ fait (schéma inchangé via #[ORM\Table] + JoinTable explicites)
-2. **P1-4 VO Money/Email** — **différé (risque élevé)** : migration schéma (float→int pour `amount` + colonne `currency`) + conversion des données `reservation.price` + màj de **tous les templates Twig** qui affichent `price`/`amount` (home, travels, summary, invoice, payment — risque d'afficher des centimes comme euros si un template oublié). À faire en commit dédié avec backup DB + audit complet des templates.
+2. **P1-4 VO Money/Email** — **différé (bloqueur technique identifié)** : `price` est utilisé dans **~20 expressions Twig avec arithmétique** sur 3 entités (Reservation, Stay, Option) — ex. `nbtravelers * reservation.stays.0.price`, `reservation.price *100/(100+20)` (calcul de TVA dans la facture). Un VO `Money` casserait l'echo Twig + l'arithmétique (Money n'est pas multipliable en Twig) → nécessite de **déplacer tous les calculs de prix des templates vers les services** + une extension Twig pour le rendu. C'est une refonte template conséquente, incompatible avec un passage sûr « sans casser ». À faire en focus dédié avec audit visuel des templates (home, travels, summary, invoice, payment). `Email` VO similaire (touche UserInterface::getUserIdentifier, UniqueEntity, templates).
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. **P1-3 reste** (interfaces pour repos injectés dans contrôleurs) — trade-off : nécessite de redéclarer find/findBy/findAll dans l'interface.
