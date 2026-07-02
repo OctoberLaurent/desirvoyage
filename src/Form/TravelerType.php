@@ -2,70 +2,36 @@
 
 namespace App\Form;
 
-use App\Entity\Traveler;
+use App\Dto\TravelerDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-/** @extends \Symfony\Component\Form\AbstractType<Traveler> */
-class TravelerType extends AbstractType
+/**
+ * @extends \Symfony\Component\Form\AbstractType<TravelerDto>
+ *
+ * Bind le DTO {@see TravelerDto} (skill §8) : la validation (NotBlank/Length/
+ * Email/LessThan) vit sur le DTO, plus sur le champ de formulaire ni sur l'entité.
+ */
+final class TravelerType extends AbstractType
 {
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            /* lastname */
             ->add('lastname', TextType::class, [
-                'attr' => [
-                    // "class" => "col s6",
-                ],
                 'label' => 'Votre nom',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Saisir votre nom',
-                    ]),
-                ],
             ])
-             /* firstname */
-             ->add('firstname', TextType::class, [
-                 'attr' => [
-                     // "class" => "col s6"
-                 ],
-                 'label' => 'Votre prénom',
-                 'constraints' => [
-                     new NotBlank([
-                         'message' => 'Saisir votre prenom',
-                     ]),
-                 ],
-             ])
-            /* email */
-            ->add('email', EmailType::class, [
-                'attr' => [
-                    // "class" => "col s6"
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Saisir votre email',
-                    ]),
-                ],
+            ->add('firstname', TextType::class, [
+                'label' => 'Votre prénom',
             ])
-            /* birthday */
+            ->add('email', EmailType::class)
             ->add('birthday', BirthdayType::class, [
-                'attr' => [
-                    // "class" => "col s6"
-                ],
                 'label' => 'Votre date de naissance',
                 'widget' => 'single_text',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Saisir votre date de naissance',
-                    ]),
-                ],
             ])
         ;
     }
@@ -74,7 +40,7 @@ class TravelerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Traveler::class,
+            'data_class' => TravelerDto::class,
         ]);
     }
 }

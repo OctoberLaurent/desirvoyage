@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Reservation;
+use App\Dto\TravelersDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Reservation> */
+/** @extends \Symfony\Component\Form\AbstractType<TravelersDto> */
 class TravelersType extends AbstractType
 {
     #[\Override]
@@ -35,7 +35,7 @@ class TravelersType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,
+            'data_class' => TravelersDto::class,
         ]);
     }
 }

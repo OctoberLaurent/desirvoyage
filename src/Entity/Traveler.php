@@ -72,9 +72,9 @@ final class Traveler
         return new Email($this->email);
     }
 
-    public function setEmail(Email|string $email): self
+    public function setEmail(Email $email): self
     {
-        $this->email = is_string($email) ? $email : $email->value();
+        $this->email = $email->value();
 
         return $this;
     }

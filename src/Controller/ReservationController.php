@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\TravelersDto;
 use App\Entity\Reservation;
 use App\Entity\Stay;
 use App\Form\ReservationOptionType;
@@ -130,12 +131,13 @@ final class ReservationController extends AbstractController
         if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
-        // insert $reservation in form
-        $form = $this->createForm(TravelersType::class, $reservation);
-        // retrieve request
+        // Le formulaire bind un DTO (skill §8), pas l'entité Reservation.
+        $dto = TravelersDto::fromReservation($reservation);
+        $form = $this->createForm(TravelersType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setTravelers($dto->toTravelers());
             $session->set('reservation', $reservation);
 
             return $this->redirectToRoute('reservation_summary');
