@@ -81,6 +81,8 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [x] `LoginFunctionalTest`: login réussi (valid creds → redirect /) + login échoué (invalid → reste /login)
   - [x] `AccessControlFunctionalTest`: page réservée `/reservation/list/` et `/profil/dashboard` redirigent un anonyme vers /login
   - [x] `ContactFunctionalTest`: smoke test du rendu du formulaire contact (sur DTO)
+  - [x] `ReservationFunctionalTest`: flux complet non testé `index → configure options → configureTravelers → summary` (5 tests). Couvre le chemin critique multi-étapes (session) + valide le VO Email sur Traveler bout-en-bout (submit voyageurs écrit une string via `setEmail(Email|string)` ; summary affiche `traveler.email` via `getEmail(): Email → __toString`). **Filet de sécurité pour la future refonte TravelerDto (skill §8).**
+  - [x] **Bug préexistant découvert et corrigé** : `summary` 500 (`Travel::$name` proxy Doctrine détaché après désérialisation session) → ajout de `ReservationController::refreshStays()` qui recharge les stays en entités managées (même pattern que `configure`). `StayRepositoryInterface` étend désormais `ObjectRepository` (expose `find()`).
   - [ ] soumission contact end-to-end (différée : contamination WebTestCase / CSRF rend le test fonctionnel de submit instable — la voie DTO→ContactService est couverte par le smoke + la logique est unit-testable)
 
 ## P3 — Outillage & configuration

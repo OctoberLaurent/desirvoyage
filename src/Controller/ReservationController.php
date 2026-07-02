@@ -7,11 +7,12 @@ use App\Entity\Stay;
 use App\Form\ReservationOptionType;
 use App\Form\TravelersType;
 use App\Repository\OptionRepositoryInterface;
-use App\Repository\StayRepository;
+use App\Repository\StayRepositoryInterface;
 use App\Service\NotEnoughStockException;
 use App\Service\ReservationMergeService;
 use App\Service\ReservationPricingService;
 use App\Service\ReservationService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ final class ReservationController extends AbstractController
      * Start configure travel.
      */
     #[Route(path: '', name: '_index')]
-    public function index(Request $request, SessionInterface $session, StayRepository $stayRepository): Response
+    public function index(Request $request, SessionInterface $session, StayRepositoryInterface $stayRepository): Response
     {
         // retrieve travel by get method
         $id = $request->query->get('stayid');
@@ -150,12 +151,16 @@ final class ReservationController extends AbstractController
      * show configuration travel and calculate cost.
      */
     #[Route(path: '/summary', name: '_summary')]
-    public function summary(SessionInterface $session, ReservationPricingService $pricingService): Response
+    public function summary(SessionInterface $session, ReservationPricingService $pricingService, StayRepositoryInterface $stayRepository): Response
     {
         $reservation = $this->getReservationFromSession($session);
         if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
+        // Re-attache des stays managés : la réservation en session porte des entités
+        // détachées dont le proxy Travel ne peut lazy-loader après désérialisation
+        // (sinon {{ stay.travel.name }} lève « must not be accessed before init »).
+        $this->refreshStays($reservation, $stayRepository);
         // get numbers of travelers
         $nbtravelers = count($reservation->getTravelers());
         // if there is no registered traveler
@@ -240,5 +245,31 @@ final class ReservationController extends AbstractController
         $reservation = $session->get('reservation');
 
         return $reservation instanceof Reservation ? $reservation : null;
+    }
+
+    /**
+     * Remplace les stays de la réservation en session par leurs versions managées
+     * (chargées fraîchement depuis la DB), afin que les proxies Travel puissent
+     * lazy-loader lors du rendu (la session sérialise des entités détachées).
+     */
+    private function refreshStays(Reservation $reservation, StayRepositoryInterface $stayRepository): void
+    {
+        $ids = [];
+        foreach ($reservation->getStays() as $stay) {
+            $id = $stay->getId();
+            if (null !== $id) {
+                $ids[] = $id;
+            }
+        }
+
+        $refreshed = new ArrayCollection();
+        foreach ($ids as $id) {
+            $managed = $stayRepository->find($id);
+            if (null !== $managed) {
+                $refreshed->add($managed);
+            }
+        }
+
+        $reservation->setStays($refreshed);
     }
 }
