@@ -21,11 +21,11 @@ final class ReservationPricingService
         $nbTravelers = $reservation->getTravelers()->count();
 
         $firstStay = $reservation->getStays()->first();
-        $stayPrice = $firstStay instanceof Stay ? $firstStay->getPrice() : 0.0;
+        $stayPrice = $firstStay instanceof Stay ? $firstStay->getPrice()->amount() : 0.0;
 
         $optionsPrice = 0.0;
         foreach ($reservation->getOptions() as $option) {
-            $optionsPrice += $option->getPrice();
+            $optionsPrice += $option->getPrice()->amount();
         }
 
         $totalPriceOptions = $optionsPrice * $nbTravelers;

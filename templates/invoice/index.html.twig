@@ -402,14 +402,14 @@
                         </td>
                         <td class="qty">{{ nbtravelers }}</td>
                         <td class="unit">{{ reservation.stays.0.price }} €</td>
-                        <td class="total">{{ nbtravelers * reservation.stays.0.price }} €</td>
+                        <td class="total">{{ reservation.stays.0.price.multiply(nbtravelers) }} €</td>
                     </tr>
                     {% for option in reservation.options %}
                         <tr>
                             <td class="desc"><h3>{{ option.name }}</h3>{{ option.description | raw }}</td>
                             <td class="qty">{{ nbtravelers }}</td>
                             <td class="unit">{{ option.price }} €</td>
-                            <td class="total">{{ nbtravelers*option.price }} €</td>
+                            <td class="total">{{ option.price.multiply(nbtravelers) }} €</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -417,9 +417,7 @@
                 <div class="no-break">
                     <table class="grand-total">
                         <tbody>
-                        {# Prix HT + TVA = Prix TTC
-                        Prix TTC / (1 + taux de TVA) = Prix HT #}
-                        {% set ht = (reservation.price *100/(100+20)) %}
+                        {# Prix HT + TVA = Prix TTC (HT et TVA pré-calculés par le contrôleur). #}
                         <tr>
                             <td class="desc"></td>
                             <td class="qty"></td>
@@ -430,7 +428,7 @@
                             <td class="desc"></td>
                             <td class="qty"></td>
                             <td class="unit">TVA 20%:</td>
-                            <td class="total">{{ (reservation.price - ht) | number_format(2) }} €</td>
+                            <td class="total">{{ tva | number_format(2) }} €</td>
                         </tr>
                         <tr>
                             <td class="desc"></td>

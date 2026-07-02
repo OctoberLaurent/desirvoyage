@@ -187,12 +187,13 @@ class Travel implements \Stringable
 
     public function getMinPrice(): float
     {
-        $prices = $this->stays->map(fn (Stay $stay) => $stay->getPrice())->toArray();
-        if ([] === $prices) {
-            return 0.0;
+        $min = null;
+        foreach ($this->stays as $stay) {
+            $amount = $stay->getPrice()->amount();
+            $min = null === $min ? $amount : min($min, $amount);
         }
 
-        return min($prices);
+        return $min ?? 0.0;
     }
 
     public function addFormality(Formality $formality): self

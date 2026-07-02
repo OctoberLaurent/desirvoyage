@@ -42,7 +42,13 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [x] typage natif de toutes les propriétés (79 → 0 non typées)
   - [x] génériques Doctrine `Collection<int, X>` · getters non-nullable cohérents
   - [x] invariant `Reservation::markAsPaid()` (garde anti double-paiement) — `PaymentService` l'utilise au lieu de `setPayment()` externe · test unitaire `ReservationTest`
-  - [ ] Value Object `Money` pour `Reservation.price` — **différé** (risque élevé : migration schéma float→int + conversion données + màj tous les templates Twig qui affichent `price`/`amount`)
+  - [x] Value Object `Money` pour `Reservation.price` / `Stay.price` / `Option.price` — **fait** (skill §3)
+    - VO `App\ValueObject\Money` (readonly, amount float + currency, methods `amount()`/`multiply()`/`divide()`/`add()`/`equals()`/`__toString` = `(string) amount` → affichage Twig identique au float natif).
+    - **Aucune migration** : propriété persistée `float` inchangée (colonne Doctrine float), `schema:validate` in sync. Les setters sont `setPrice(Money|float)` (union) car Stay/Option/Reservation sont édités via EasyAdmin qui écrit un float ; les getters renvoient `Money`. Le domaine (services) utilise `->amount()`.
+    - `Travel::getMinPrice()` reste `float` (valeur calculée, pas un prix stocké) — préserve `| number_format` et la sérialisation API.
+    - **Arithmétique Twig déplacée** : invoice HT/TVA pré-calculés par le contrôleur (`ht`, `tva` passés au template) ; lignes stay/option → `price.multiply(nbtravelers)` (méthode VO) au lieu de `nbtravelers * price`. Summary : ligne option idem. Echoes `{{ x.price }}` inchangés (Money __toString).
+    - Services : `ReservationPricingService` et `PaymentService` extraient `->amount()`.
+    - **Filet de sécurité** : `InvoiceFunctionalTest` (prix exacts TTC/HT/TVA) + `ReservationFunctionalTest` (rendu summary) ont tenu lors de la refonte. `make qa` vert, Cypress 11/11, schema in sync, app 200.
   - [x] Value Object `Email` pour `User.email` / `Contact.email` — **fait** (skill §3)
     - VO `App\ValueObject\Email` (readonly, invariant format RFC garanti à la construction via `filter_var`, `__toString`, `equals` insensible à la casse)
     - Entités : propriété persistée `string $email` **inchangée** (colonne VARCHAR, `schema:validate` reste in sync, `#[UniqueEntity]`/`#[Assert\Email]` préservés) ; `getEmail(): Email` renvoie le VO ; `setEmail(Email)` accepte le VO et stocke la string. `UniqueEntityValidator` lit la **propriété** (pas le getter) → le rejet duplicate reste fonctionnel (vérifié Cypress register).
@@ -142,7 +148,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 Restant principalement:
 1. ~~P1-4b renommage entités au pluriel~~ ✅ fait (schéma inchangé via #[ORM\Table] + JoinTable explicites)
 2. ~~P1-4 VO Email~~ ✅ fait (User + Contact strict ; Traveler via setter union). Reste: refonte DTO §8 de TravelerType (nécessite un test fonctionnel du flux reservation d'abord).
-3. **P1-4 VO Money** — **différé (bloqueur technique)** : `price` utilisé dans ~20 expressions Twig avec arithmétique (3 entités), dont un calcul de TVA dans la facture. Un VO `Money` casserait l'echo + l'arithmétique Twig → nécessite de déplacer les calculs des templates vers les services + extension Twig de rendu. Refonte conséquente, différée.
+3. ~~P1-4 VO Money~~ ✅ fait (VO Money sur Reservation/Stay/Option, schéma inchangé, arithmétique Twig déplacée, filets invoice+summary).
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. ~~P1-3 reste~~ ✅ fait (interfaces pour tous les repos injectés : Travel, Option, Category, User)

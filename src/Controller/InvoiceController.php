@@ -19,10 +19,17 @@ final class InvoiceController extends AbstractController
     #[Route(path: '/{id}', name: '_html')]
     public function invoiceHtml(Reservation $reservation): Response
     {
+        // HT/TVA pré-calculés (le VO Money n'est pas arithmétisable en Twig).
+        $ttc = $reservation->getPrice()->amount();
+        $ht = $ttc * 100 / 120;
+        $tva = $ttc - $ht;
+
         return $this->render('invoice/index.html.twig', [
             'reservation' => $reservation,
             'root' => $this->getParameter('kernel.project_dir'),
             'document' => 'html',
+            'ht' => $ht,
+            'tva' => $tva,
         ]);
     }
 

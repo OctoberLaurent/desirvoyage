@@ -27,7 +27,7 @@ final class ReservationPricingServiceTest extends TestCase
         // total = (700 + 100) × 3 = 2400 ; options = 100 × 3 = 300
         self::assertSame(2400.0, $result['total']);
         self::assertSame(300.0, $result['options']);
-        self::assertSame(2400.0, $reservation->getPrice());
+        self::assertSame(2400.0, $reservation->getPrice()->amount());
     }
 
     public function testPriceWithNoOption(): void

@@ -30,7 +30,7 @@ final readonly class PaymentService
      */
     public function process(Reservation $reservation, string $stripeToken): Payment
     {
-        $amountCents = (int) round($reservation->getPrice() * 100.0);
+        $amountCents = (int) round($reservation->getPrice()->amount() * 100.0);
         $charged = $this->gateway->charge(
             $amountCents,
             'eur',

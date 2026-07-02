@@ -129,7 +129,7 @@
 								{{ loop.index }}</td>
 							<td>{{ option.name }}</td>
 							<td width="40%">{{ option.description | raw }}</td>
-							<td>{{ option.price * ( nbtravelers) }}
+							<td>{{ option.price.multiply(nbtravelers) }}
 								€</td>
 						</tr>
 					{% endfor %}

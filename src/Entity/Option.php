@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\ValueObject\Money;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -90,14 +91,14 @@ class Option implements \Stringable
         return $this;
     }
 
-    public function getPrice(): float
+    public function getPrice(): Money
     {
-        return $this->price;
+        return new Money($this->price);
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(Money|float $price): self
     {
-        $this->price = $price;
+        $this->price = $price instanceof Money ? $price->amount() : $price;
 
         return $this;
     }
