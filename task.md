@@ -104,7 +104,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [x] `InvoiceHtml/InvoicePdf → invoiceHtml/invoicePdf` (camelCase)
   - [x] flash « voyoyage → voyage »
   - [x] `PictureCommand` chemin MAMP en dur → `$projectDir` injecté
-  - [ ] commentaires EN/FR mélangés → uniformiser (FR)
+  - [x] commentaires : **rescopé sur le vrai item skill §9** (« No comment that explains bad code — code should explain itself »). Retrait des commentaires de bruit qui redisent le code trivialement (ex. `// get session`, `// retrieve request`, `// insert $reservation in form`) et d'un commentaire **trompeur** (`// create a new travel object` qui créait en fait une Reservation). Commentaires « pourquoi » conservés (refreshStays, detached stays). L'uniformisation EN→FR n'est **pas** une exigence du skill — abandonnée (churn sans valeur).
 - [~] **P4-2** Anti-patterns résiduels
   - [x] `EasyAdminSubscriber` supprimé (plus de `instanceof` dedans)
   - [x] `rand()` → `random_int()` (MakeSerialService)
@@ -145,7 +145,7 @@ Restant principalement:
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. ~~P1-3 reste~~ ✅ fait (interfaces pour tous les repos injectés : Travel, Option, Category, User)
-6. **P4-1 reste** — uniformisation commentaires EN/FR (cosmétique).
+6. ~~P4-1 reste~~ ✅ fait (rescopé sur skill §9 : retrait des commentaires de bruit/misleading).
 
 Décision : les 1 et 2 sont les plus conformes au skill mais les plus risqués ("ne rien casser"). À valider explicitement avant de lancer.
 

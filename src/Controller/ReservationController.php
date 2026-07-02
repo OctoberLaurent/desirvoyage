@@ -32,9 +32,7 @@ final class ReservationController extends AbstractController
     #[Route(path: '', name: '_index')]
     public function index(Request $request, SessionInterface $session, StayRepositoryInterface $stayRepository): Response
     {
-        // retrieve travel by get method
         $id = $request->query->get('stayid');
-        // find stay by id
         $stay = $stayRepository->find($id);
 
         if (null === $stay) {
@@ -43,14 +41,11 @@ final class ReservationController extends AbstractController
             return $this->redirectToRoute('travel_home');
         }
 
-        // create a new travel object
         $reservation = new Reservation();
-        // add stay in reservation
         $reservation->addStay($stay);
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $reservation->setUser($user);
-        // create a new session and add reservation
         $session->set('reservation', $reservation);
 
         return $this->render('reservation/index.html.twig', [
@@ -64,10 +59,8 @@ final class ReservationController extends AbstractController
     #[Route(path: '/configure/{id}', name: '_option')]
     public function configure(Stay $stays, SessionInterface $session, Request $request, int $id, ReservationMergeService $reservationMergeService, OptionRepositoryInterface $optionRepository): Response
     {
-        // get session
         $reservation = $this->getReservationFromSession($session);
 
-        // Check if reservation exists in session — if not, initialize it from the stay
         if (null === $reservation) {
             $reservation = new Reservation();
             $reservation->addStay($stays);
@@ -93,11 +86,9 @@ final class ReservationController extends AbstractController
             $travelId = $travel->getId();
         }
 
-        // insert $reservation in form
         $form = $this->createForm(ReservationOptionType::class, $reservation, [
             'travel_id' => $travelId,
         ]);
-        // retrieve request
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -163,9 +154,7 @@ final class ReservationController extends AbstractController
         // détachées dont le proxy Travel ne peut lazy-loader après désérialisation
         // (sinon {{ stay.travel.name }} lève « must not be accessed before init »).
         $this->refreshStays($reservation, $stayRepository);
-        // get numbers of travelers
         $nbtravelers = count($reservation->getTravelers());
-        // if there is no registered traveler
         if ($nbtravelers < 1) {
             $firstStay = $reservation->getStays()->first();
             $id = $firstStay instanceof Stay ? $firstStay->getId() : 0;

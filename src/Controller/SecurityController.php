@@ -39,9 +39,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('user_dashboard');
         }
 
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         if (null !== $error) {
@@ -71,17 +69,13 @@ class SecurityController extends AbstractController
         if (true !== $user->getEnabled()) {
             $tokenExpire = $user->getTokenExpire();
             if (null !== $tokenExpire && $tokenExpire > new \DateTime()) {
-                // set enable true and token null if valid condition
                 $user->setEnabled(true);
                 $this->userService->resetToken($user);
-                // database entry
                 $em->flush();
-                // add message if account is activate
                 $this->addFlash(
                     'blue',
                     'Votre compte a été activé');
             } else {
-                // add message if date is expired
                 $url = $this->urlGenerator->generate('user_resend_activation_token', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
                 $this->addFlash(

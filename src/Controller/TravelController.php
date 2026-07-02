@@ -32,7 +32,6 @@ final class TravelController extends AbstractController
     #[Route(path: '/travels/{page}', name: '_list')]
     public function travels(TravelRepositoryInterface $travelRepository, Request $request, int $page = 1): Response
     {
-        // get id category in get
         $category = $request->query->get('category');
 
         $form = $this->createForm(TravelSearchType::class, null);
@@ -79,7 +78,6 @@ final class TravelController extends AbstractController
     #[Route(path: '/categories/', name: '_categorie_list')]
     public function showAllCategorie(CategoryRepositoryInterface $repo): Response
     {
-        // retrieve all categories
         $categories = $repo->findAll();
 
         return $this->render('travel/allcategories.html.twig', [
