@@ -47,7 +47,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
     - VO `App\ValueObject\Email` (readonly, invariant format RFC garanti à la construction via `filter_var`, `__toString`, `equals` insensible à la casse)
     - Entités : propriété persistée `string $email` **inchangée** (colonne VARCHAR, `schema:validate` reste in sync, `#[UniqueEntity]`/`#[Assert\Email]` préservés) ; `getEmail(): Email` renvoie le VO ; `setEmail(Email)` accepte le VO et stocke la string. `UniqueEntityValidator` lit la **propriété** (pas le getter) → le rejet duplicate reste fonctionnel (vérifié Cypress register).
     - Call-sites : construction `new Email(...)` (UserController, ContactService, UserFixtures, tests) ; conversion `->value()` aux frontières string (EditUserDto::fromUser, MailerService, PaymentService, ContactService).
-    - `Traveler.email` **différé** : `TravelerType` binde directement l'entité (`data_class: Traveler::class`) → un VO casserait le binding formulaire (nécessite un `TravelerDto` d'abord).
+    - `Traveler.email` **fait (approche sûre)** : `getEmail(): Email` + `setEmail(Email|string)` (union). `TravelerType` binde directement l'entité (violation skill §8 non encore corrigée) → le formulaire écrit une string validée par `#[Assert\Email]`/`#[NotBlank]` ; le domaine peut écrire un VO. Propriété persistée `string` inchangée (schéma + flux session multi-étapes préservés). Testé par `TravelerTest` (string + VO). La refonte DTO complète (§8) est différée : le flux `configureTravelers` est multi-étapes (session) et non couvert par un test fonctionnel — à faire après avoir ajouté un test fonctionnel au flux reservation.
     - Testé : `EmailTest` (4 tests : format valide/invalid, empty, equals).
   - [ ] entités `final` — **non applicable** : Doctrine génère des proxies qui étendent l'entité (lazy loading) → `final` casserait le lazy loading des associations
   - [x] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` ✅ — classes PHP + repositories (`CategoryRepository` etc.) + `StayRepositoryInterface` + CRUD controllers renommés. **Schéma DB inchangé** via `#[ORM\Table(name: 'plural')]` sur les 4 entités + `#[ORM\JoinTable/JoinColumn/InverseJoinColumn]` explicites (avec `onDelete: CASCADE`) sur les 2 ManyToMany de Reservation pour garder les tables/colonnes/FK `reservation_options`/`reservation_stays`. **Aucune migration, aucune conversion de données**. Validé par PHPStan (0) + `make qa` (25/73) + Cypress (11/11) + `doctrine:schema:validate` (in sync).
@@ -137,7 +137,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
 Restant principalement:
 1. ~~P1-4b renommage entités au pluriel~~ ✅ fait (schéma inchangé via #[ORM\Table] + JoinTable explicites)
-2. ~~P1-4 VO Email~~ ✅ fait (User + Contact ; Traveler différé — formulaire binde l'entité directement).
+2. ~~P1-4 VO Email~~ ✅ fait (User + Contact strict ; Traveler via setter union). Reste: refonte DTO §8 de TravelerType (nécessite un test fonctionnel du flux reservation d'abord).
 3. **P1-4 VO Money** — **différé (bloqueur technique)** : `price` utilisé dans ~20 expressions Twig avec arithmétique (3 entités), dont un calcul de TVA dans la facture. Un VO `Money` casserait l'echo + l'arithmétique Twig → nécessite de déplacer les calculs des templates vers les services + extension Twig de rendu. Refonte conséquente, différée.
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)

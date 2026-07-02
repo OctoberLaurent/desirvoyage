@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\ValueObject\Email;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -66,14 +67,14 @@ final class Traveler
         return $this;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
-        return $this->email;
+        return new Email($this->email);
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(Email|string $email): self
     {
-        $this->email = $email;
+        $this->email = is_string($email) ? $email : $email->value();
 
         return $this;
     }
