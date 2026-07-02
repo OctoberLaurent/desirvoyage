@@ -8,6 +8,7 @@ use App\Service\MailerService;
 use App\Service\Payment\ChargedPayment;
 use App\Service\Payment\PaymentGatewayInterface;
 use App\Service\PaymentService;
+use App\ValueObject\Email as EmailAddress;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\MailerInterface;
@@ -53,7 +54,7 @@ final class PaymentServiceTest extends TestCase
         $reservation->setSerial('ABC-123-456');
 
         $user = new User();
-        $user->setEmail('user@example.com');
+        $user->setEmail(new EmailAddress('user@example.com'));
         $user->setPassword('x');
         $reservation->setUser($user);
 

@@ -24,7 +24,7 @@ final readonly class MailerService
 
         $text = 'Bonjour, veuillez activer votre compte : '.$url;
 
-        $this->send($user->getEmail(), $text);
+        $this->send($user->getEmail()->value(), $text);
     }
 
     // function to send a password reset email
@@ -41,7 +41,7 @@ final readonly class MailerService
         ---------------
         Ceci est un mail automatique, Merci de ne pas y répondre.';
 
-        $this->send($user->getEmail(), $text);
+        $this->send($user->getEmail()->value(), $text);
     }
 
     private function send(?string $email, string $text): void

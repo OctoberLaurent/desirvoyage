@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\ValueObject\Email;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -90,14 +91,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
-        return $this->email;
+        return new Email($this->email);
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(Email $email): self
     {
-        $this->email = $email;
+        $this->email = $email->value();
 
         return $this;
     }

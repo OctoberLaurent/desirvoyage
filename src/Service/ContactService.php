@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\ContactDto;
 use App\Entity\Contact;
+use App\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -24,14 +25,14 @@ final readonly class ContactService
         $contact = new Contact();
         $contact->setLastname($dto->lastname ?? '');
         $contact->setFirstname($dto->firstname ?? '');
-        $contact->setEmail($dto->email ?? '');
+        $contact->setEmail(new Email($dto->email ?? ''));
         $contact->setDescription($dto->description ?? '');
         $contact->setSendDate(new \DateTime());
 
         $this->entityManager->persist($contact);
         $this->entityManager->flush();
 
-        $this->mailer->sendContactMessage($contact->getEmail());
+        $this->mailer->sendContactMessage($contact->getEmail()->value());
 
         return $contact;
     }

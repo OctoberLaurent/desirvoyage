@@ -9,6 +9,7 @@ use App\Form\EditUserType;
 use App\Form\RegisterType;
 use App\Service\MailerService;
 use App\Service\UserService;
+use App\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +68,7 @@ final class UserController extends AbstractController
         $user->setCity($dto->city ?? '');
         $user->setCountry($dto->country ?? '');
         $user->setPhone($dto->phone ?? '');
-        $user->setEmail($dto->email ?? '');
+        $user->setEmail(new Email($dto->email ?? ''));
         $this->userService->setPassword($user, $dto->password ?? '');
         $user->setRoles(['ROLE_USER']);
         $this->userService->generateToken($user);
@@ -88,7 +89,7 @@ final class UserController extends AbstractController
         $user->setCity($dto->city ?? '');
         $user->setCountry($dto->country ?? '');
         $user->setPhone($dto->phone ?? '');
-        $user->setEmail($dto->email ?? '');
+        $user->setEmail(new Email($dto->email ?? ''));
     }
 
     #[IsGranted('ROLE_USER')]

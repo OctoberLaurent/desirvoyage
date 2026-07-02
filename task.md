@@ -43,7 +43,12 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [x] génériques Doctrine `Collection<int, X>` · getters non-nullable cohérents
   - [x] invariant `Reservation::markAsPaid()` (garde anti double-paiement) — `PaymentService` l'utilise au lieu de `setPayment()` externe · test unitaire `ReservationTest`
   - [ ] Value Object `Money` pour `Reservation.price` — **différé** (risque élevé : migration schéma float→int + conversion données + màj tous les templates Twig qui affichent `price`/`amount`)
-  - [ ] Value Object `Email` pour `User.email` / `Contact.email` — **différé** (touche UserInterface::getUserIdentifier, UniqueEntity, templates)
+  - [x] Value Object `Email` pour `User.email` / `Contact.email` — **fait** (skill §3)
+    - VO `App\ValueObject\Email` (readonly, invariant format RFC garanti à la construction via `filter_var`, `__toString`, `equals` insensible à la casse)
+    - Entités : propriété persistée `string $email` **inchangée** (colonne VARCHAR, `schema:validate` reste in sync, `#[UniqueEntity]`/`#[Assert\Email]` préservés) ; `getEmail(): Email` renvoie le VO ; `setEmail(Email)` accepte le VO et stocke la string. `UniqueEntityValidator` lit la **propriété** (pas le getter) → le rejet duplicate reste fonctionnel (vérifié Cypress register).
+    - Call-sites : construction `new Email(...)` (UserController, ContactService, UserFixtures, tests) ; conversion `->value()` aux frontières string (EditUserDto::fromUser, MailerService, PaymentService, ContactService).
+    - `Traveler.email` **différé** : `TravelerType` binde directement l'entité (`data_class: Traveler::class`) → un VO casserait le binding formulaire (nécessite un `TravelerDto` d'abord).
+    - Testé : `EmailTest` (4 tests : format valide/invalid, empty, equals).
   - [ ] entités `final` — **non applicable** : Doctrine génère des proxies qui étendent l'entité (lazy loading) → `final` casserait le lazy loading des associations
   - [x] **renommage des entités au pluriel** : `Categories→Category`, `Options→Option`, `Pictures→Picture`, `Stays→Stay` ✅ — classes PHP + repositories (`CategoryRepository` etc.) + `StayRepositoryInterface` + CRUD controllers renommés. **Schéma DB inchangé** via `#[ORM\Table(name: 'plural')]` sur les 4 entités + `#[ORM\JoinTable/JoinColumn/InverseJoinColumn]` explicites (avec `onDelete: CASCADE`) sur les 2 ManyToMany de Reservation pour garder les tables/colonnes/FK `reservation_options`/`reservation_stays`. **Aucune migration, aucune conversion de données**. Validé par PHPStan (0) + `make qa` (25/73) + Cypress (11/11) + `doctrine:schema:validate` (in sync).
 - [x] **P1-5** DTOs pour les formulaires
@@ -71,7 +76,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [ ] éliminer les 4 « risky: did not remove its own exception handlers » (cosmétique, WebTestCase+PHPUnit 13)
   - [ ] `bootstrap` phpunit → `tests/bootstrap.php` (actuellement `config/bootstrap.php`)
 - [x] **P2-2** Tests unitaires des services extraits
-  - [x] `MakeSerialServiceTest`, `ReservationPricingServiceTest`, `UserServiceTest`, `PaymentServiceTest`, `StockManagementServiceTest`, `ExpiredReservationCleanupServiceTest`, `ContactServiceTest` (7 classes, 13 tests)
+  - [x] `MakeSerialServiceTest`, `ReservationPricingServiceTest`, `UserServiceTest`, `PaymentServiceTest`, `StockManagementServiceTest`, `ExpiredReservationCleanupServiceTest`, `ContactServiceTest`, `EmailTest` (8 classes, 17 tests)
 - [x] **P2-3** Tests fonctionnels étendus
   - [x] `LoginFunctionalTest`: login réussi (valid creds → redirect /) + login échoué (invalid → reste /login)
   - [x] `AccessControlFunctionalTest`: page réservée `/reservation/list/` et `/profil/dashboard` redirigent un anonyme vers /login
@@ -132,7 +137,8 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
 
 Restant principalement:
 1. ~~P1-4b renommage entités au pluriel~~ ✅ fait (schéma inchangé via #[ORM\Table] + JoinTable explicites)
-2. **P1-4 VO Money/Email** — **différé (bloqueur technique identifié)** : `price` est utilisé dans **~20 expressions Twig avec arithmétique** sur 3 entités (Reservation, Stay, Option) — ex. `nbtravelers * reservation.stays.0.price`, `reservation.price *100/(100+20)` (calcul de TVA dans la facture). Un VO `Money` casserait l'echo Twig + l'arithmétique (Money n'est pas multipliable en Twig) → nécessite de **déplacer tous les calculs de prix des templates vers les services** + une extension Twig pour le rendu. C'est une refonte template conséquente, incompatible avec un passage sûr « sans casser ». À faire en focus dédié avec audit visuel des templates (home, travels, summary, invoice, payment). `Email` VO similaire (touche UserInterface::getUserIdentifier, UniqueEntity, templates).
+2. ~~P1-4 VO Email~~ ✅ fait (User + Contact ; Traveler différé — formulaire binde l'entité directement).
+3. **P1-4 VO Money** — **différé (bloqueur technique)** : `price` utilisé dans ~20 expressions Twig avec arithmétique (3 entités), dont un calcul de TVA dans la facture. Un VO `Money` casserait l'echo + l'arithmétique Twig → nécessite de déplacer les calculs des templates vers les services + extension Twig de rendu. Refonte conséquente, différée.
 3. ~~P3-3 Rector~~ ✅ fait (22 fichiers modernisés, validé suite)
 4. ~~P1-5 EditUserType DTO~~ ✅ fait (EditUserDto + EditUserFunctionalTest)
 5. ~~P1-3 reste~~ ✅ fait (interfaces pour tous les repos injectés : Travel, Option, Category, User)

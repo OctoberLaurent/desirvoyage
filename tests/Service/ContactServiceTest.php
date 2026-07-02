@@ -40,6 +40,6 @@ final class ContactServiceTest extends TestCase
 
         self::assertSame('Doe', $contact->getLastname());
         self::assertSame('Jane', $contact->getFirstname());
-        self::assertSame('jane@example.com', $contact->getEmail());
+        self::assertSame('jane@example.com', $contact->getEmail()->value());
     }
 }

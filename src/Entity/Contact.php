@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\ValueObject\Email;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -39,9 +40,9 @@ final class Contact
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
-        return $this->email;
+        return new Email($this->email);
     }
 
     public function setLastname(string $lastname): self
@@ -58,9 +59,9 @@ final class Contact
         return $this;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(Email $email): self
     {
-        $this->email = $email;
+        $this->email = $email->value();
 
         return $this;
     }

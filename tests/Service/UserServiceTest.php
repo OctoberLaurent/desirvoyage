@@ -4,6 +4,7 @@ namespace App\Tests\Service;
 
 use App\Entity\User;
 use App\Service\UserService;
+use App\ValueObject\Email;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -53,7 +54,7 @@ final class UserServiceTest extends TestCase
     {
         $user = new User();
         // Champs obligatoires pour pouvoir hasher/toString sans fatal
-        $user->setEmail('user@example.com');
+        $user->setEmail(new Email('user@example.com'));
         $user->setPassword('current');
 
         return $user;

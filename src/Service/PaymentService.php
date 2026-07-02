@@ -46,7 +46,7 @@ final readonly class PaymentService
         $this->entityManager->flush();
 
         $user = $reservation->getUser();
-        $this->mailer->sendConfirmedPayment($user->getEmail());
+        $this->mailer->sendConfirmedPayment($user->getEmail()->value());
 
         return $payment;
     }

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\ValueObject\Email;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -31,7 +32,7 @@ final class UserFixtures extends Fixture
             $user->setLastname($userData['lastname']);
             $user->setEnabled(true);
             $user->setRoles([$userData['role']]);
-            $user->setEmail($userData['email']);
+            $user->setEmail(new Email($userData['email']));
             $user->setPassword($this->passwordEncoder->hashPassword($user, '123456'));
             $user->setToken(sha1($faker->userName));
             $user->setAddress($faker->streetAddress);

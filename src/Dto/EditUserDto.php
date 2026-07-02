@@ -35,7 +35,7 @@ class EditUserDto
         $dto->city = $user->getCity();
         $dto->country = $user->getCountry();
         $dto->phone = $user->getPhone();
-        $dto->email = $user->getEmail();
+        $dto->email = $user->getEmail()->value();
 
         return $dto;
     }

@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42452794-c5f0-47df-bb14-781b93841008" name="Default Changelist" comment="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="42452794-c5f0-47df-bb14-781b93841008" name="Default Changelist" comment="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +20,7 @@
     <execution />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1272" />
+    <option name="cachedIndexableFilesCount" value="1277" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileEditorManager">
@@ -160,6 +158,65 @@
       </McpServerConfigurationProperties>
     </commands>
     <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.2004961021363254" />
+      <entry key="MS500" value="2.6631155204278665" />
+      <entry key="S2" value="4.130532844320364" />
+      <entry key="S5" value="5.060753706481648" />
+      <entry key="S10" value="7.256965301947963" />
+      <entry key="S30" value="14.826152468398659" />
+      <entry key="S60" value="19.593043390994147" />
+      <entry key="M2" value="22.88372596877359" />
+      <entry key="M5" value="25.241295239789284" />
+      <entry key="M10" value="26.100727924691007" />
+      <entry key="M15" value="26.395963310756485" />
+      <entry key="M30" value="26.69569679266346" />
+      <entry key="H1" value="26.848800942316146" />
+      <entry key="H2" value="27.010919355238592" />
+      <entry key="H4" value="27.622874487414666" />
+      <entry key="D1" value="30.56244961340691" />
+      <entry key="W1" value="31.76394066324165" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.1438808873600057" />
+      <entry key="MS500" value="2.6385219356487646" />
+      <entry key="S2" value="4.12106893209303" />
+      <entry key="S5" value="5.055952689980346" />
+      <entry key="S10" value="7.253201575128712" />
+      <entry key="S30" value="14.823273936150981" />
+      <entry key="S60" value="19.591081539518925" />
+      <entry key="M2" value="22.88256304107599" />
+      <entry key="M5" value="25.240777645744203" />
+      <entry key="M10" value="26.100459547787707" />
+      <entry key="M15" value="26.395782196956148" />
+      <entry key="M30" value="26.69560512057895" />
+      <entry key="H1" value="26.8487547683578" />
+      <entry key="H2" value="27.01089462768409" />
+      <entry key="H4" value="27.622856864027472" />
+      <entry key="D1" value="30.562442246258296" />
+      <entry key="W1" value="31.76393935057019" />
+    </decayedShown>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.2.4/bin/php">
     <include_path>
@@ -468,7 +525,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-a98d8de5180a-1e2042f4e5e5-com.jetbrains.php.sharedIndexes-PS-262.6653.37" />
+        <option value="bundled-php-predefined-a98d8de5180a-6bbb74dbab74-com.jetbrains.php.sharedIndexes-PS-261.25134.104" />
       </set>
     </attachedChunks>
   </component>
@@ -497,6 +554,7 @@
       <workItem from="1775674371464" duration="129000" />
       <workItem from="1775674517322" duration="8000" />
       <workItem from="1782060696769" duration="4476000" />
+      <workItem from="1782885568085" duration="2614000" />
     </task>
     <task id="LOCAL-00001" summary="**test(cypress): add fixture data + config updates + headless mode doc cleanup**&#10;&#10;- Added `cypress/fixtures/user.json` to store static test data.&#10;- Updated `cypress.config.js` with `allowCypressEnv: false`.&#10;- Simplified Cypress documentation in both French and English:&#10;    - Removed sections on VNC-based graphical mode.&#10;    - Reorganized steps for headless and native GUI execution.&#10;- Updated `cypress/support/e2e.js` to ignore specific uncaught exceptions from Materialize autocomplete during tests.">
       <option name="closed" value="true" />
