@@ -102,4 +102,22 @@ final class InvoiceFunctionalTest extends WebTestCase
         $expectedTva = number_format(self::PRICE_TTC - (self::PRICE_TTC * 100 / 120), 2, '.', ',');
         self::assertStringContainsString($expectedTva, $content, 'La TVA (number_format) doit s\'afficher.');
     }
+
+    /**
+     * La route PDF (/invoicepdf/{id}) rend le MÊME template via InvoicePdfGenerator
+     * (Dompdf) — sans passer de vars contrôleur. Le template doit donc calculer
+     * ht/tva lui-même (VO Money via .amount()) pour ne pas lever « Variable ht does not exist ».
+     */
+    public function testInvoicePdfGeneratesPdf(): void
+    {
+        $id = $this->createInvoiceReservation();
+
+        $this->client->request('GET', '/invoicepdf/'.$id);
+
+        self::assertResponseIsSuccessful();
+        self::assertSame('application/pdf', $this->client->getResponse()->headers->get('Content-Type'));
+        // Content-Disposition inline avec un nom de fichier .pdf
+        self::assertStringContainsString('inline; filename=', (string) $this->client->getResponse()->headers->get('Content-Disposition'));
+        self::assertStringContainsString('.pdf', (string) $this->client->getResponse()->headers->get('Content-Disposition'));
+    }
 }
