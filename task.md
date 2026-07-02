@@ -83,6 +83,7 @@ Légende : `[x]` fait · `[~]` partiellement · `[ ]` à faire.
   - [x] `AccessControlFunctionalTest`: page réservée `/reservation/list/` et `/profil/dashboard` redirigent un anonyme vers /login
   - [x] `ContactFunctionalTest`: smoke test du rendu du formulaire contact (sur DTO)
   - [x] `ReservationFunctionalTest`: flux complet `index → configure options → configureTravelers → summary` (5 tests). Couvre le chemin critique multi-étapes (session) + valide le VO Email sur Traveler bout-en-bout. **Filet de sécurité pour la refonte TravelerDto (skill §8).**
+  - [x] `InvoiceFunctionalTest`: rendu de la facture (page high-stakes non testée) avec assertions de prix exactes (TTC, HT `number_format`, TVA). Crée une réservation complète (stay+travel, option, 2 travelers, price=1200) dans dock_test. **Filet de sécurité pour la future introduction du VO Money** (la facture affiche des prix via arithmétique Twig : HT=price*100/120, lignes nbtravelers*price, number_format).
   - [x] **Bug préexistant découvert et corrigé** : `summary` 500 (`Travel::$name` proxy Doctrine détaché après désérialisation session) → ajout de `ReservationController::refreshStays()` qui recharge les stays en entités managées (même pattern que `configure`). `StayRepositoryInterface` étend désormais `ObjectRepository` (expose `find()`).
   - [ ] soumission contact end-to-end (différée : contamination WebTestCase / CSRF rend le test fonctionnel de submit instable — la voie DTO→ContactService est couverte par le smoke + la logique est unit-testable)
 
