@@ -41,7 +41,7 @@
         "symfony/yaml": "7.4.*",
         "twig/extra-bundle": "*",
         "twig/intl-extra": "*",
-        "twig/twig": "*",
+        "twig/twig": "^3.27",
         "vich/uploader-bundle": "*"
     },
     "require-dev": {
