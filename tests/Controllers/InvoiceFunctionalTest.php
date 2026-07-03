@@ -113,6 +113,7 @@ final class InvoiceFunctionalTest extends WebTestCase
         $id = $this->createInvoiceReservation();
 
         $this->client->request('GET', '/invoicepdf/'.$id);
+        file_put_contents('/var/www/symfony/var/invoice_after.pdf', $this->client->getInternalResponse()->getContent());
 
         self::assertResponseIsSuccessful();
         self::assertSame('application/pdf', $this->client->getResponse()->headers->get('Content-Type'));

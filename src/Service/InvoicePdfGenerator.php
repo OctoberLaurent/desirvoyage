@@ -27,6 +27,8 @@ final readonly class InvoicePdfGenerator
         $pdfOptions = new Options();
         $pdfOptions->setIsRemoteEnabled(true);
         $pdfOptions->set('defaultFont', 'Arial');
+        // Autorise Dompdf à charger les fichiers locaux (logo, images) sous le projet.
+        $pdfOptions->set('chroot', $this->projectDir);
 
         $dompdf = new Dompdf($pdfOptions);
         $dompdf->setOptions($pdfOptions);
