@@ -1,0 +1,14 @@
+<?php
+
+namespace Symfony\Component\Form;
+
+/**
+ * Symfony Form associates each form type with its data object. PHPStan already
+ * exposes that generic relationship; this companion Psalm stub keeps both
+ * analysers aligned without suppressing form-type diagnostics.
+ *
+ * @template TData
+ */
+abstract class AbstractType
+{
+}
