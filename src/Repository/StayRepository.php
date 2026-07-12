@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Stay;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\LockMode;
 use Doctrine\Persistence\ManagerRegistry;
 
 /** @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<Stay> */
@@ -14,6 +15,7 @@ class StayRepository extends ServiceEntityRepository implements StayRepositoryIn
         parent::__construct($registry, Stay::class);
     }
 
+    #[\Override]
     public function findStockById(int $idStay): int
     {
         $stay = $this->createQueryBuilder('s')
@@ -24,5 +26,11 @@ class StayRepository extends ServiceEntityRepository implements StayRepositoryIn
             ->getOneOrNullResult();
 
         return $stay instanceof Stay ? $stay->getStock() : 0;
+    }
+
+    #[\Override]
+    public function findForUpdate(int $idStay): ?Stay
+    {
+        return $this->getEntityManager()->find(Stay::class, $idStay, LockMode::PESSIMISTIC_WRITE);
     }
 }

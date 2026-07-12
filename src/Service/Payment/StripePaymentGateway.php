@@ -18,22 +18,24 @@ final readonly class StripePaymentGateway implements PaymentGatewayInterface
         Stripe::setApiKey($secretKey);
     }
 
-    public function charge(int $amountCents, string $currency, string $description, string $source): ChargedPayment
+    #[\Override]
+    public function charge(int $amountCents, string $currency, string $description, string $source, string $idempotencyKey): ChargedPayment
     {
         try {
-            $charge = Charge::create([
-                'amount' => $amountCents,
-                'currency' => $currency,
-                'description' => $description,
-                'source' => $source,
-            ]);
+            $charge = Charge::create(
+                [
+                    'amount' => $amountCents,
+                    'currency' => $currency,
+                    'description' => $description,
+                    'source' => $source,
+                ],
+                ['idempotency_key' => $idempotencyKey],
+            );
         } catch (ApiErrorException $e) {
             throw PaymentFailedException::fromReason($e->getMessage());
         }
 
-        /** @var string $id */
         $id = $charge->id;
-        /** @var int $amount */
         $amount = $charge->amount;
 
         return new ChargedPayment($id, $amount);

@@ -13,6 +13,7 @@
           <div class="error"></div>
             <a href="" class="reset"></a>
             <input type="hidden" class="token" name="stripeToken">
+            <input type="hidden" name="_token" value="{{ csrf_token('payment-' ~ reservation.id) }}">
           <button type="submit" data-tid="elements_examples.form.pay_button">Payer {{ amount }} €</button>
         </form>
     </div>

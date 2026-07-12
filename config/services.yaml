@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     stripe.public_key: '%env(default::STRIPE_PUBLIC_KEY)%'
-    stripe.secret_key: '%env(default::STRIPE_PRIVATE_KEY)%'
+    stripe.secret_key: '%env(default::STRIPE_SECRET_KEY)%'
 
 services:
     # default configuration for services in *this* file

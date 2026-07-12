@@ -12,16 +12,32 @@ final readonly class StockManagementService
     {
     }
 
-    public function decrementStock(Reservation $reservation): int
+    public function reserveStock(Reservation $reservation): void
     {
         $stay = $reservation->getStays()->first();
         if (!$stay instanceof Stay) {
-            return 0;
+            throw new \DomainException('La réservation doit contenir un séjour.');
         }
-        $realStock = $this->stayRepo->findStockById($stay->getId() ?? 0);
-        $nbtravelers = count($reservation->getTravelers());
-        $stay->setStock($realStock - $nbtravelers);
 
-        return $realStock;
+        $stayId = $stay->getId();
+        if (null === $stayId) {
+            throw new \DomainException('Le séjour doit être persisté avant de réserver son stock.');
+        }
+
+        $lockedStay = $this->stayRepo->findForUpdate($stayId);
+        if (!$lockedStay instanceof Stay) {
+            throw new \DomainException('Le séjour demandé est introuvable.');
+        }
+
+        $travelerCount = $reservation->getTravelers()->count();
+        if ($travelerCount < 1) {
+            throw new \DomainException('La réservation doit contenir au moins un voyageur.');
+        }
+        if ($travelerCount > $lockedStay->getStock()) {
+            throw NotEnoughStockException::create();
+        }
+
+        $lockedStay->setStock($lockedStay->getStock() - $travelerCount);
+        $reservation->setStays(new \Doctrine\Common\Collections\ArrayCollection([$lockedStay]));
     }
 }

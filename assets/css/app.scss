@@ -416,6 +416,35 @@ hr.pink {
     margin: 0 10px 0 10px;
   }
 }
+
+.reservation-summary-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+
+  form {
+    display: flex;
+    margin: 0;
+  }
+
+  .btn {
+    margin: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .reservation-summary-actions {
+    align-items: stretch;
+    flex-direction: column;
+
+    form,
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
 /* homepage */
 .home{
   display: block;

@@ -62,7 +62,7 @@
 					<tr>
 						<td>{{ stay.travel.name }}</td>
 						<td>{{ stay.travel.subtitle }}</td>
-						<td>{{ stay.starDate | date("d/m/Y") }}</td>
+						<td>{{ stay.startDate | date("d/m/Y") }}</td>
 						<td>{{ stay.endDate | date("d/m/Y") }}</td>
 					</tr>
 				{% endfor %}
@@ -148,16 +148,19 @@
 			</table>
 		{% endif %}
 		<div class="pad">
-			<div class="right-align">
+			<div class="reservation-summary-actions">
 				<a class="btn waves-effect waves-light" href="{{ path('reservation_traveler', {'id': reservation.stays.first.id}) }}">{% trans %}
 					Preview
 					{% endtrans %}
 					<i class="material-icons left">keyboard_arrow_left</i>
 				</a>
-				<a class="waves-effect waves-light btn red darken-4 text-white" href="{{ path('reservation_remove') }}">{% trans %}
-					Remove
-					{% endtrans %}
-				</a>
+				<form method="post" action="{{ path('reservation_remove') }}" class="inline-form">
+					<input type="hidden" name="_token" value="{{ csrf_token('reservation-remove') }}">
+					<button class="waves-effect waves-light btn red darken-4 text-white" type="submit">{% trans %}
+						Remove
+						{% endtrans %}
+					</button>
+				</form>
 				<a class="waves-effect waves-light btn modal-trigger" href="#modal-valid">{% trans %}
 					Validate
 					{% endtrans %}
@@ -180,16 +183,14 @@
 				</h5>
 			</div>
 			<div class="modal-footer">
-				<a class="blue darken-2 waves-effect waves-light btn modal-close">{% trans %}
-					Check
-					{% endtrans %}
-					<i class="material-icons right">check</i>
-				</a>
-				<a type="submit" href="{{ path('reservation_validate') }}" class="waves-effect waves-light btn" name="action">{% trans %}
-					Pay
-					{% endtrans %}
-					<i class="material-icons right">keyboard_arrow_right</i>
-				</a>
+				<form method="post" action="{{ path('reservation_validate') }}" class="reservation-validation-form">
+					<input type="hidden" name="_token" value="{{ csrf_token('reservation-validate') }}">
+					<button type="submit" class="waves-effect waves-light btn" name="action">{% trans %}
+						Pay
+						{% endtrans %}
+						<i class="material-icons right">keyboard_arrow_right</i>
+					</button>
+				</form>
 			</div>
 		</div>
 	{% endblock %}

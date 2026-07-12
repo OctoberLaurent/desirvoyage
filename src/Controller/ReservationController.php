@@ -179,9 +179,13 @@ final class ReservationController extends AbstractController
     /**
      * Validate for travel payment.
      */
-    #[Route(path: '/validate/', name: '_validate')]
-    public function validate(SessionInterface $session, ReservationService $reservationService): RedirectResponse
+    #[Route(path: '/validate/', name: '_validate', methods: ['POST'])]
+    public function validate(Request $request, SessionInterface $session, ReservationService $reservationService): RedirectResponse
     {
+        if (!$this->isCsrfTokenValid('reservation-validate', (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
         $reservation = $this->getReservationFromSession($session);
         if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
@@ -221,9 +225,13 @@ final class ReservationController extends AbstractController
     /**
      * remove travel in session.
      */
-    #[Route(path: '/remove/', name: '_remove')]
-    public function remove(SessionInterface $session): RedirectResponse
+    #[Route(path: '/remove/', name: '_remove', methods: ['POST'])]
+    public function remove(Request $request, SessionInterface $session): RedirectResponse
     {
+        if (!$this->isCsrfTokenValid('reservation-remove', (string) $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
         $session->set('reservation', null);
 
         $this->addFlash('red darken-4', 'Vous avez annulé votre voyage');
@@ -253,6 +261,7 @@ final class ReservationController extends AbstractController
             }
         }
 
+        /** @var ArrayCollection<int, Stay> $refreshed */
         $refreshed = new ArrayCollection();
         foreach ($ids as $id) {
             $managed = $stayRepository->find($id);

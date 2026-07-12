@@ -19,4 +19,7 @@ interface StayRepositoryInterface extends ObjectRepository
      * @return int stock réel (disponible) du séjour identifié
      */
     public function findStockById(int $idStay): int;
+
+    /** Charge le séjour sous verrou d'écriture dans une transaction active. */
+    public function findForUpdate(int $idStay): ?Stay;
 }

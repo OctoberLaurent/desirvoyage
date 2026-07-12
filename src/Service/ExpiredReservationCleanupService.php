@@ -29,37 +29,31 @@ final readonly class ExpiredReservationCleanupService
      */
     public function cleanup(int $expirationMinutes = self::DEFAULT_EXPIRATION_MINUTES): array
     {
-        $notPurchased = $this->reservationRepository->findUnpaid();
-        $now = new \DateTime();
-        $cancelled = 0;
-        $seats = 0;
+        $createdBefore = new \DateTimeImmutable(sprintf('-%d minutes', $expirationMinutes));
 
-        foreach ($notPurchased as $reservation) {
-            $date = $reservation->getCreatedDate();
-            if (null === $date) {
-                continue;
-            }
+        return $this->entityManager->wrapInTransaction(function () use ($createdBefore): array {
+            $expiredReservations = $this->reservationRepository->findExpiredPending($createdBefore);
+            $cancelled = 0;
+            $seats = 0;
 
-            $elapsedMinutes = ($now->getTimestamp() - $date->getTimestamp()) / 60;
-
-            if ($elapsedMinutes > $expirationMinutes) {
+            foreach ($expiredReservations as $reservation) {
                 $stay = $reservation->getStays()->first();
                 if (!$stay instanceof Stay) {
                     continue;
                 }
+                $this->entityManager->lock($stay, \Doctrine\DBAL\LockMode::PESSIMISTIC_WRITE);
                 $nbTravelers = $this->releaseSeats($stay, $reservation);
                 $seats += $nbTravelers;
-                $this->entityManager->remove($reservation);
-                $this->entityManager->flush();
+                $reservation->expire();
                 ++$cancelled;
             }
-        }
 
-        return [
-            'cancelled' => $cancelled,
-            'seats_released' => $seats,
-            'total_unpaid' => count($notPurchased),
-        ];
+            return [
+                'cancelled' => $cancelled,
+                'seats_released' => $seats,
+                'total_unpaid' => count($expiredReservations),
+            ];
+        });
     }
 
     /**

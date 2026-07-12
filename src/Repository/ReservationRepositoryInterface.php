@@ -15,4 +15,9 @@ interface ReservationRepositoryInterface
      * @return array<int, Reservation>
      */
     public function findUnpaid(): array;
+
+    /**
+     * @return array<int, Reservation>
+     */
+    public function findExpiredPending(\DateTimeImmutable $createdBefore): array;
 }

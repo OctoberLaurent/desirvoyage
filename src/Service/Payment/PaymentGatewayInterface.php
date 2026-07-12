@@ -16,5 +16,5 @@ interface PaymentGatewayInterface
      *
      * @throws PaymentFailedException si le paiement est refusé ou technique
      */
-    public function charge(int $amountCents, string $currency, string $description, string $source): ChargedPayment;
+    public function charge(int $amountCents, string $currency, string $description, string $source, string $idempotencyKey): ChargedPayment;
 }

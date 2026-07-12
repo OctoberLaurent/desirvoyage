@@ -29,22 +29,19 @@ final readonly class ReservationService
      */
     public function validate(Reservation $reservation): Reservation
     {
-        if (null === $reservation->getCreatedDate()) {
-            $reservation->setSerial($this->serialService->makeSerial());
-            $reservation->setCreatedDate(new \DateTime('now'));
-
-            $realStock = $this->stockManagementService->decrementStock($reservation);
-            if (count($reservation->getTravelers()) > $realStock) {
-                throw NotEnoughStockException::create();
+        return $this->entityManager->wrapInTransaction(function () use ($reservation): Reservation {
+            if (null === $reservation->getCreatedDate()) {
+                $reservation->setSerial($this->serialService->makeSerial());
+                $reservation->setCreatedDate(new \DateTime());
+                $this->stockManagementService->reserveStock($reservation);
+            } else {
+                $reservation->setUpdatedAt(new \DateTime());
             }
-        } else {
-            $reservation->setUpdateAt(new \DateTime('now'));
-        }
 
-        $merged = $this->mergeService->reservationMerge($reservation);
-        $this->entityManager->persist($merged);
-        $this->entityManager->flush();
+            $merged = $this->mergeService->reservationMerge($reservation);
+            $this->entityManager->persist($merged);
 
-        return $merged;
+            return $merged;
+        });
     }
 }
