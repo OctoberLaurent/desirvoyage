@@ -2,6 +2,7 @@ FROM alpine:3.21
 
 RUN apk add --update --no-cache \
     coreutils \
+    icu-data-full \
     php84-fpm \
     php84-apcu \
     php84-ctype \

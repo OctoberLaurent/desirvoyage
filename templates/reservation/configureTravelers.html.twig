@@ -44,7 +44,11 @@
 					<td>{{ app.user.email }}</td>
 					<td>{{ app.user.birthday | date("d/m/Y") }}</td>
 					<td>
-						<button class="waves-effect waves-light btn green" id="add-user-in-traveler" {% if reservation.travelers | length > 0 %} disabled {% endif %}>
+						<button type="button" class="waves-effect waves-light btn green" id="add-user-in-traveler"
+							data-buyer-lastname="{{ app.user.lastname|e('html_attr') }}"
+							data-buyer-firstname="{{ app.user.firstname|e('html_attr') }}"
+							data-buyer-email="{{ app.user.email|e('html_attr') }}"
+							data-buyer-birthday="{{ app.user.birthday|date('Y-m-d') }}" {% if reservation.travelers | length > 0 %} disabled {% endif %}>
 							{% trans %}
 							Add me
 							{% endtrans %}

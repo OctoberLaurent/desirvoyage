@@ -1,78 +1,50 @@
-// add-collection-widget.js
 $(document).ready(function () {
-    global.counter = 0;
-    
-    $('.add-another-collection-widget').click(function (e) {
+    const $collectionHolder = $('#traveler-fields-list');
 
-        var list = $($(this).attr('data-list-selector'));
-        
-        var counter = list.data('widget-counter') || list.children().length;
-  
-        var newWidget = list.attr('data-prototype');
-
-        newWidget = newWidget.replace(/__name__/g, counter);
-        
-        newWidget += '<button type="button" class="waves-effect waves-light btn red darken-4 delete">Effacer</button>';
-        
-        global.counter = counter
-        counter++;
-       
-        list.data('widget-counter', counter);
-
-        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
-        newElem.appendTo(list);
-
-        handleDelete()
-
-    });
-
-        collectionHolder = $('ul#traveler-fields-list');
-        collectionHolder.find('li').each(function() {
-        
-        addTravelerFormDeleteLink($(this));
-    });
-
-    $('#add-user-in-traveler').click(function (e) {
-
-        
-        var civilityUser = [];
-        $('#add-traveler').click();
-        $('td').each(function( index ) {
-        civilityUser.push(($( this ).text()));
-        });
-        $('#travelers_travelers_'+global.counter+'_lastname').val(civilityUser[0]) 
-        $('#travelers_travelers_'+global.counter+'_firstname').val(civilityUser[1]) 
-        $('#travelers_travelers_'+global.counter+'_email').val(civilityUser[2]) 
-        $('#travelers_travelers_'+global.counter+'_birthday').val(formatDate(civilityUser[3]))
-        $('#add-user-in-traveler').attr("disabled", true);
-    });
-   
-
-    function handleDelete(){
-
-        var elements = document.getElementsByClassName('delete');
-        elements.forEach(element => {
-             element.addEventListener('click', function (event) {
-                    this.parentNode.remove();
-                    });
-                        });
-        
-    }
-        
     function addTravelerFormDeleteLink($travelerFormLi) {
-        var $removeFormButton = $('<button type="button" class="waves-effect waves-light btn red darken-4 delete">Effacer</button>');
+        const $removeFormButton = $('<button type="button" class="waves-effect waves-light btn red darken-4 delete">Effacer</button>');
         $travelerFormLi.append($removeFormButton);
 
-        $removeFormButton.on('click', function(e) {
-            // remove the li for the Picture form
+        $removeFormButton.on('click', function () {
             $travelerFormLi.remove();
         });
     }
 
-    function formatDate(date){
+    function addTraveler($list) {
+        const configuredCounter = Number.parseInt($list.attr('data-widget-counter'), 10);
+        const counter = Number.isNaN(configuredCounter) ? $list.children().length : configuredCounter;
+        const prototype = $list.attr('data-prototype').replace(/__name__/g, counter);
+        const $newTraveler = $($list.attr('data-widget-tags')).html(prototype);
 
-        var format = date.split(/\D/);
-        return format.reverse().join('-');
+        $newTraveler.appendTo($list);
+        $list.attr('data-widget-counter', counter + 1);
+        addTravelerFormDeleteLink($newTraveler);
+
+        return $newTraveler;
     }
-    
+
+    $collectionHolder.children('li').each(function () {
+        addTravelerFormDeleteLink($(this));
+    });
+
+    $('.add-another-collection-widget').on('click', function (event) {
+        event.preventDefault();
+        addTraveler($($(this).attr('data-list-selector')));
+    });
+
+    $('#add-user-in-traveler').on('click', function (event) {
+        event.preventDefault();
+
+        const $button = $(this);
+        if ($button.prop('disabled')) {
+            return;
+        }
+
+        const $traveler = addTraveler($collectionHolder);
+        $traveler.find('input[name$="[lastname]"]').val($button.attr('data-buyer-lastname'));
+        $traveler.find('input[name$="[firstname]"]').val($button.attr('data-buyer-firstname'));
+        $traveler.find('input[name$="[email]"]').val($button.attr('data-buyer-email'));
+        $traveler.find('input[name$="[birthday]"]').val($button.attr('data-buyer-birthday'));
+        $button.prop('disabled', true);
+    });
 });
