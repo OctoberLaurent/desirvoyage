@@ -415,7 +415,7 @@
                     <tr>
                         <td class="desc">
                             <h3>{{ reservation.stays.0.travel.name }}</h3>{{ reservation.stays.0.travel.subtitle }}
-                            {{ reservation.stays.0.starDate | date("d/m/Y") }}
+                            {{ reservation.stays.0.startDate | date("d/m/Y") }}
                             - {{ reservation.stays.0.endDate | date("d/m/Y") }}
                         </td>
                         <td class="qty">{{ nbtravelers }}</td>

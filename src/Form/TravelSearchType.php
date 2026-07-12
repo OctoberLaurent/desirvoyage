@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<mixed> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<mixed> */
 class TravelSearchType extends AbstractType
 {
     #[\Override]

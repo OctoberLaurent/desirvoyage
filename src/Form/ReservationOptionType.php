@@ -10,7 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Reservation> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<Reservation> */
 class ReservationOptionType extends AbstractType
 {
     #[\Override]

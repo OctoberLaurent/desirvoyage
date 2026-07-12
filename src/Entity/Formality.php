@@ -23,7 +23,7 @@ class Formality implements \Stringable
     private ?string $description = null;
 
     /** @var Collection<int, Travel> */
-    #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'formality', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'formalities', cascade: ['persist'])]
     private Collection $travels;
 
     public function __construct()
@@ -60,6 +60,7 @@ class Formality implements \Stringable
         return $this->description;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->destination;

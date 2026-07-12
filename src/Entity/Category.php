@@ -27,7 +27,7 @@ final class Category implements \Stringable
     private string $slug;
 
     /** @var Collection<int, Travel> */
-    #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'categories', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'category', cascade: ['persist'])]
     private Collection $travel;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -91,12 +91,13 @@ final class Category implements \Stringable
     {
         if (!$this->travel->contains($travel)) {
             $this->travel[] = $travel;
-            $travel->setCategories($this);
+            $travel->setCategory($this);
         }
 
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->title;

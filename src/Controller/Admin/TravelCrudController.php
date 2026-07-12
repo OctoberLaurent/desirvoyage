@@ -29,9 +29,9 @@ class TravelCrudController extends AbstractCrudController
             TextEditorField::new('descriptions', 'Description')->hideOnIndex(),
             CollectionField::new('pictures', 'Images')->setEntryType(PictureType::class)->hideOnIndex(),
             CollectionField::new('stays', 'Séjours')->setEntryType(StayType::class)->hideOnIndex(),
-            AssociationField::new('categories', 'Catégories'),
+            AssociationField::new('category', 'Catégorie'),
             AssociationField::new('options', 'Option')->hideOnIndex(),
-            AssociationField::new('formality', 'Formalités')->hideOnIndex(),
+            AssociationField::new('formalities', 'Formalités')->hideOnIndex(),
         ];
     }
 }

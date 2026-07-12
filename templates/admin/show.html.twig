@@ -10,15 +10,15 @@
                         {% trans %}Depature{% endtrans %}
                     </label>
                     <div class="form-control">
-                        {{ reservation.stays.0.depature }}
+                        {{ reservation.stays.0.departure }}
                     </div>
                 </div>
                 <div class="form-group field-string flex-nowrap">
                     <label class="control-label">
-                        {% trans %}starDate{% endtrans %}
+                        {% trans %}startDate{% endtrans %}
                     </label>
                     <div class="form-control ">
-                        {{ reservation.stays.0.starDate | date("d/m/Y") }}
+                        {{ reservation.stays.0.startDate | date("d/m/Y") }}
                     </div>
                 </div>
                 <div class="form-group field-string flex-nowrap">

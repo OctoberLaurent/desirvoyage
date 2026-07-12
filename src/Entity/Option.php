@@ -35,8 +35,8 @@ class Option implements \Stringable
     #[ORM\ManyToMany(targetEntity: Travel::class, mappedBy: 'options', cascade: ['persist'])]
     private Collection $travels;
 
-    #[ORM\Column(type: 'float')]
-    private float $price;
+    #[ORM\Column(type: 'integer')]
+    private int $price;
 
     /**
      * @var Collection<int, Reservation>
@@ -93,14 +93,24 @@ class Option implements \Stringable
 
     public function getPrice(): Money
     {
-        return new Money($this->price);
+        return Money::fromCents($this->price);
     }
 
-    public function setPrice(Money|float $price): self
+    public function setPrice(Money|int|float|string $price): self
     {
-        $this->price = $price instanceof Money ? $price->amount() : $price;
+        $this->price = $price instanceof Money ? $price->cents() : Money::fromEuros($price)->cents();
 
         return $this;
+    }
+
+    public function getPriceAmount(): float
+    {
+        return $this->getPrice()->amount();
+    }
+
+    public function setPriceAmount(int|float|string $price): self
+    {
+        return $this->setPrice($price);
     }
 
     /**
@@ -157,6 +167,7 @@ class Option implements \Stringable
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;

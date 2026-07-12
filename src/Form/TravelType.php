@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Travel> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<Travel> */
 class TravelType extends AbstractType
 {
     #[\Override]
@@ -18,8 +18,8 @@ class TravelType extends AbstractType
             ->add('subtitle')
             ->add('slug')
             ->add('descriptions')
-            ->add('categories')
-            ->add('formality')
+            ->add('category')
+            ->add('formalities')
         ;
     }
 

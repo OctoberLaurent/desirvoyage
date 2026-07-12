@@ -320,6 +320,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->postalCode;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->firstname;

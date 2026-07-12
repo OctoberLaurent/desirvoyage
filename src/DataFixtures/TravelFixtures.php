@@ -59,8 +59,8 @@ class TravelFixtures extends Fixture
             $edate = clone $sdate;
             $nb_jours = mt_rand(5, 30);
             $edate->modify('+'.$nb_jours.' day');
-            $stay->setStarDate($sdate);
-            $stay->setDepature($faker->city);
+            $stay->setStartDate($sdate);
+            $stay->setDeparture($faker->city);
             $stay->setEndDate($edate);
             $stay->setArrival($faker->city);
             $stay->setPrice($faker->randomFloat($nbMaxDecimals = 2, $min = 700, $max = 8000));

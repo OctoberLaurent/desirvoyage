@@ -23,7 +23,7 @@ class OptionCrudController extends AbstractCrudController
         return [
             TextField::new('name', 'Nom'),
             TextEditorField::new('description', 'Description'),
-            NumberField::new('price', 'Prix'),
+            NumberField::new('priceAmount', 'Prix'),
             TextField::new('type', 'Type'),
         ];
     }

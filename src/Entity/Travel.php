@@ -47,11 +47,12 @@ class Travel implements \Stringable
     private Collection $stays;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'travel')]
-    private ?Category $categories = null;
+    #[ORM\JoinColumn(name: 'categories_id', referencedColumnName: 'id')]
+    private ?Category $category = null;
 
     /** @var Collection<int, Formality> */
     #[ORM\ManyToMany(targetEntity: Formality::class, inversedBy: 'travels', cascade: ['persist'])]
-    private Collection $formality;
+    private Collection $formalities;
 
     /** @var Collection<int, Option> */
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'travels', cascade: ['persist'])]
@@ -65,7 +66,7 @@ class Travel implements \Stringable
         $this->pictures = new ArrayCollection();
         $this->stays = new ArrayCollection();
         $this->options = new ArrayCollection();
-        $this->formality = new ArrayCollection();
+        $this->formalities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,24 +166,43 @@ class Travel implements \Stringable
         return $this;
     }
 
-    public function getCategories(): ?Category
+    public function getCategory(): ?Category
     {
-        return $this->categories;
+        return $this->category;
     }
 
-    public function setCategories(?Category $categories): self
+    public function setCategory(?Category $category): self
     {
-        $this->categories = $categories;
+        $this->category = $category;
 
         return $this;
+    }
+
+    /** @deprecated Utiliser getCategory(). */
+    public function getCategories(): ?Category
+    {
+        return $this->getCategory();
+    }
+
+    /** @deprecated Utiliser setCategory(). */
+    public function setCategories(?Category $categories): self
+    {
+        return $this->setCategory($categories);
     }
 
     /**
      * @return Collection<int, Formality>
      */
+    public function getFormalities(): Collection
+    {
+        return $this->formalities;
+    }
+
+    /** @deprecated Utiliser getFormalities(). */
+    /** @return Collection<int, Formality> */
     public function getFormality(): Collection
     {
-        return $this->formality;
+        return $this->getFormalities();
     }
 
     public function getMinPrice(): float
@@ -198,8 +218,8 @@ class Travel implements \Stringable
 
     public function addFormality(Formality $formality): self
     {
-        if (!$this->formality->contains($formality)) {
-            $this->formality[] = $formality;
+        if (!$this->formalities->contains($formality)) {
+            $this->formalities[] = $formality;
         }
 
         return $this;
@@ -207,8 +227,8 @@ class Travel implements \Stringable
 
     public function removeFormality(Formality $formality): self
     {
-        if ($this->formality->contains($formality)) {
-            $this->formality->removeElement($formality);
+        if ($this->formalities->contains($formality)) {
+            $this->formalities->removeElement($formality);
         }
 
         return $this;
@@ -242,6 +262,7 @@ class Travel implements \Stringable
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;

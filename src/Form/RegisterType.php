@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
-/** @extends \Symfony\Component\Form\AbstractType<RegisterDto> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<RegisterDto> */
 class RegisterType extends AbstractType
 {
     #[\Override]

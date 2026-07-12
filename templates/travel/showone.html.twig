@@ -46,12 +46,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for stay in travel.stays | sortByField('starDate') %}
+                        {% for stay in travel.stays | sortByField('startDate') %}
                             <tr>
                                 {% if stay.stock > 1 %}
-                                <td>{{ stay.depature }}</td>
+                                <td>{{ stay.departure }}</td>
                                 <td>{{ stay.arrival }}</td>
-                                <td>{{ stay.starDate | date("d/m/Y") }}</td>
+                                <td>{{ stay.startDate | date("d/m/Y") }}</td>
                                 <td>{{ stay.endDate  | date("d/m/Y") }}</td>
                                 <td>{{ stay.price }} €</td>
                                 {% if stay.stock <= 10 %}

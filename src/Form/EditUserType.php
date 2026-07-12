@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-/** @extends \Symfony\Component\Form\AbstractType<EditUserDto> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<EditUserDto> */
 class EditUserType extends AbstractType
 {
     #[\Override]

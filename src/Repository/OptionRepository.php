@@ -14,6 +14,7 @@ class OptionRepository extends ServiceEntityRepository implements OptionReposito
         parent::__construct($registry, Option::class);
     }
 
+    #[\Override]
     public function findOptions(int $travelId): \Doctrine\ORM\QueryBuilder
     {
         return $this->createQueryBuilder('o')

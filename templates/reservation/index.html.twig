@@ -16,14 +16,14 @@
 					<img class="img-100 mt-1" src="/data2/default.png" alt="image par défaut">
 				{% endif %}
 				<h3 class="mt-1">
-					{{ stay.depature }}
+					{{ stay.departure }}
 					->
 					{{ stay.arrival }}
 				</h3>
 				<p>{% trans %}
 					Depature at
 					{% endtrans %}
-					<strong>{{ stay.starDate |  format_datetime('full', 'none', locale='fr') }}</strong>
+					<strong>{{ stay.startDate |  format_datetime('full', 'none', locale='fr') }}</strong>
 				</p>
 				<p>{% trans %}
 					Arrival at

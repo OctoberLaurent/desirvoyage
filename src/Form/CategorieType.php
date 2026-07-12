@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<Category> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<Category> */
 class CategorieType extends AbstractType
 {
     #[\Override]

@@ -48,7 +48,7 @@ final class TravelController extends AbstractController
             }
         } elseif (null !== $category) {
             $travels = $travelRepository->findBy(
-                ['categories' => $category]
+                ['category' => $category]
             );
         } else {
             $travels = $travelRepository->findAll();

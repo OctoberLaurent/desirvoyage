@@ -31,7 +31,7 @@ class ReservationCrudController extends AbstractCrudController
     {
         return [
             TextField::new('serial', 'Numéro de série'),
-            NumberField::new('price', 'Prix'),
+            NumberField::new('priceAmount', 'Prix'),
             DateTimeField::new('createdDate', 'Date de création'),
             AssociationField::new('user', 'Client'),
             AssociationField::new('travelers', 'Voyageurs'),

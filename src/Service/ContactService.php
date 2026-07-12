@@ -20,7 +20,7 @@ final readonly class ContactService
     ) {
     }
 
-    public function handle(ContactDto $dto): Contact
+    public function handle(ContactDto $dto): void
     {
         $contact = new Contact();
         $contact->setLastname($dto->lastname ?? '');
@@ -33,7 +33,5 @@ final readonly class ContactService
         $this->entityManager->flush();
 
         $this->mailer->sendContactMessage($contact->getEmail()->value());
-
-        return $contact;
     }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
-/** @extends \Symfony\Component\Form\AbstractType<mixed> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<mixed> */
 class RenewPasswordType extends AbstractType
 {
     #[\Override]

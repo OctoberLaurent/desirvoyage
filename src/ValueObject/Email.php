@@ -35,6 +35,7 @@ final readonly class Email implements \Stringable
         return 0 === strcasecmp($this->value, $other->value);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->value;

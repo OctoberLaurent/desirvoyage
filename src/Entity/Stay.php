@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\ValueObject\Money;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,13 +10,6 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     itemOperations={"get"},
- *     collectionOperations={"get"},
- * )
- */
 #[ORM\Entity(repositoryClass: \App\Repository\StayRepository::class)]
 #[ORM\Table(name: 'stays')]
 #[HasLifecycleCallbacks]
@@ -28,29 +20,28 @@ final class Stay implements \Stringable
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(name: 'star_date', type: 'datetime')]
     #[Groups(['read'])]
-    private \DateTimeInterface $starDate;
+    private \DateTimeInterface $startDate;
 
     #[ORM\Column(type: 'datetime')]
-    #[Assert\GreaterThan(propertyPath: 'starDate', message: "La date de départ doit être plus éloignée que la date d'arrivée !")]
+    #[Assert\GreaterThan(propertyPath: 'startDate', message: 'La date de retour doit être postérieure à la date de départ.')]
     #[Groups(['read'])]
     private \DateTimeInterface $endDate;
 
-    #[ORM\Column(type: 'string', length: 60)]
+    #[ORM\Column(name: 'depature', type: 'string', length: 60)]
     #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 60 characters long')]
     #[Groups(['read'])]
-    private string $depature;
+    private string $departure;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[Assert\Length(min: 3, max: 40, minMessage: 'This field must be have 3 characters long', maxMessage: 'This field must not exceed 60 characters long')]
     #[Groups(['read'])]
     private string $arrival;
 
-    #[ORM\Column(type: 'float')]
-    #[Assert\Type(type: 'float')]
+    #[ORM\Column(type: 'integer')]
     #[Groups(['read'])]
-    private float $price;
+    private int $price;
 
     #[ORM\ManyToOne(targetEntity: Travel::class, inversedBy: 'stays', cascade: ['persist'])]
     #[Groups(['read'])]
@@ -81,16 +72,28 @@ final class Stay implements \Stringable
         return $this->id;
     }
 
-    public function getStarDate(): \DateTimeInterface
+    public function getStartDate(): \DateTimeInterface
     {
-        return $this->starDate;
+        return $this->startDate;
     }
 
-    public function setStarDate(\DateTimeInterface $starDate): self
+    public function setStartDate(\DateTimeInterface $startDate): self
     {
-        $this->starDate = $starDate;
+        $this->startDate = $startDate;
 
         return $this;
+    }
+
+    /** @deprecated Utiliser getStartDate(). */
+    public function getStarDate(): \DateTimeInterface
+    {
+        return $this->getStartDate();
+    }
+
+    /** @deprecated Utiliser setStartDate(). */
+    public function setStarDate(\DateTimeInterface $starDate): self
+    {
+        return $this->setStartDate($starDate);
     }
 
     public function getEndDate(): \DateTimeInterface
@@ -105,16 +108,28 @@ final class Stay implements \Stringable
         return $this;
     }
 
-    public function getDepature(): string
+    public function getDeparture(): string
     {
-        return $this->depature;
+        return $this->departure;
     }
 
-    public function setDepature(string $depature): self
+    public function setDeparture(string $departure): self
     {
-        $this->depature = $depature;
+        $this->departure = $departure;
 
         return $this;
+    }
+
+    /** @deprecated Utiliser getDeparture(). */
+    public function getDepature(): string
+    {
+        return $this->getDeparture();
+    }
+
+    /** @deprecated Utiliser setDeparture(). */
+    public function setDepature(string $depature): self
+    {
+        return $this->setDeparture($depature);
     }
 
     public function getArrival(): string
@@ -131,14 +146,24 @@ final class Stay implements \Stringable
 
     public function getPrice(): Money
     {
-        return new Money($this->price);
+        return Money::fromCents($this->price);
     }
 
-    public function setPrice(Money|float $price): self
+    public function setPrice(Money|int|float|string $price): self
     {
-        $this->price = $price instanceof Money ? $price->amount() : $price;
+        $this->price = $price instanceof Money ? $price->cents() : Money::fromEuros($price)->cents();
 
         return $this;
+    }
+
+    public function getPriceAmount(): float
+    {
+        return $this->getPrice()->amount();
+    }
+
+    public function setPriceAmount(int|float|string $price): self
+    {
+        return $this->setPrice($price);
     }
 
     public function getTravel(): ?Travel
@@ -153,9 +178,10 @@ final class Stay implements \Stringable
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
-        return $this->depature;
+        return $this->departure;
     }
 
     public function addReservation(Reservation $reservation): self
@@ -195,11 +221,9 @@ final class Stay implements \Stringable
     }
 
     #[ORM\PrePersist]
-    public function setSerial(): self
+    public function initializeSerial(): void
     {
-        $this->serial = $this->serialEasy();
-
-        return $this;
+        $this->serial ??= $this->generateSerial();
     }
 
     #[ORM\PrePersist]
@@ -210,8 +234,10 @@ final class Stay implements \Stringable
         return $this;
     }
 
-    public function serialEasy(): string
+    public function generateSerial(): string
     {
-        return uniqid();
+        $raw = strtoupper(substr(bin2hex(random_bytes(6)), 0, 9));
+
+        return implode('-', str_split($raw, 3));
     }
 }

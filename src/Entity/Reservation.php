@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ReservationStatus;
 use App\ValueObject\Money;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,8 +19,8 @@ class Reservation
     #[ORM\Column(type: 'string', length: 20, unique: true)]
     private string $serial;
 
-    #[ORM\Column(type: 'float')]
-    private float $price;
+    #[ORM\Column(type: 'integer')]
+    private int $price;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reservations', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -46,11 +47,14 @@ class Reservation
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $createdDate = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updateAt = null;
+    #[ORM\Column(name: 'update_at', type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\OneToOne(targetEntity: Payment::class, cascade: ['persist', 'remove'])]
     private ?Payment $payment = null;
+
+    #[ORM\Column(type: 'string', length: 20, enumType: ReservationStatus::class, options: ['default' => 'pending'])]
+    private ReservationStatus $status = ReservationStatus::Pending;
 
     public function __construct()
     {
@@ -78,14 +82,24 @@ class Reservation
 
     public function getPrice(): Money
     {
-        return new Money($this->price);
+        return Money::fromCents($this->price);
     }
 
-    public function setPrice(Money|float $price): self
+    public function setPrice(Money|int|float|string $price): self
     {
-        $this->price = $price instanceof Money ? $price->amount() : $price;
+        $this->price = $price instanceof Money ? $price->cents() : Money::fromEuros($price)->cents();
 
         return $this;
+    }
+
+    public function getPriceAmount(): float
+    {
+        return $this->getPrice()->amount();
+    }
+
+    public function setPriceAmount(int|float|string $price): self
+    {
+        return $this->setPrice($price);
     }
 
     public function getUser(): User
@@ -218,21 +232,33 @@ class Reservation
 
     public function setCreatedDate(?\DateTimeInterface $createdDate): self
     {
-        $this->createdDate = $createdDate;
+        $this->createdDate = null === $createdDate ? null : \DateTime::createFromInterface($createdDate);
 
         return $this;
     }
 
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = null === $updatedAt ? null : \DateTime::createFromInterface($updatedAt);
+
+        return $this;
+    }
+
+    /** @deprecated Utiliser getUpdatedAt(). */
     public function getUpdateAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->getUpdatedAt();
     }
 
+    /** @deprecated Utiliser setUpdatedAt(). */
     public function setUpdateAt(?\DateTimeInterface $updateAt): self
     {
-        $this->updateAt = $updateAt;
-
-        return $this;
+        return $this->setUpdatedAt($updateAt);
     }
 
     public function getPayment(): ?Payment
@@ -255,9 +281,35 @@ class Reservation
      */
     public function markAsPaid(Payment $payment): void
     {
-        if (null !== $this->payment) {
-            throw new \DomainException('La réservation est déjà payée.');
+        if (ReservationStatus::Pending !== $this->status || null !== $this->payment) {
+            throw new \DomainException('Seule une réservation en attente peut être payée.');
         }
         $this->payment = $payment;
+        $this->status = ReservationStatus::Paid;
+    }
+
+    public function getStatus(): ReservationStatus
+    {
+        return $this->status;
+    }
+
+    public function expire(): void
+    {
+        if (ReservationStatus::Pending !== $this->status) {
+            throw new \DomainException('Seule une réservation en attente peut expirer.');
+        }
+
+        $this->status = ReservationStatus::Expired;
+    }
+
+    public function belongsTo(User $user): bool
+    {
+        if ($this->user === $user) {
+            return true;
+        }
+
+        return null !== $this->user->getId()
+            && null !== $user->getId()
+            && $this->user->getId() === $user->getId();
     }
 }

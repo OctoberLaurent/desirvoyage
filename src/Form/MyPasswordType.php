@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
-/** @extends \Symfony\Component\Form\AbstractType<MyPassword> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<MyPassword> */
 class MyPasswordType extends AbstractType
 {
     #[\Override]

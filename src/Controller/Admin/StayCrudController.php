@@ -23,12 +23,12 @@ class StayCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('travel', 'Voyage'),
-            TextField::new('depature', 'Ville de départ'),
+            TextField::new('departure', 'Ville de départ'),
             TextField::new('arrival', 'Ville d\'arrivée'),
-            DateTimeField::new('starDate', 'Date de départ'),
+            DateTimeField::new('startDate', 'Date de départ'),
             DateTimeField::new('endDate', 'Date de retour'),
             NumberField::new('stock', 'Stock'),
-            NumberField::new('price', 'Prix'),
+            NumberField::new('priceAmount', 'Prix'),
             TextField::new('serial', 'Numéro de série')->hideOnForm(),
             DateTimeField::new('createdDate', 'Date de création')->hideOnForm(),
         ];

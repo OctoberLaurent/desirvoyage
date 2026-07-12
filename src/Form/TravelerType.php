@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @extends \Symfony\Component\Form\AbstractType<TravelerDto>
+ * @phpstan-extends \Symfony\Component\Form\AbstractType<TravelerDto>
  *
  * Bind le DTO {@see TravelerDto} (skill §8) : la validation (NotBlank/Length/
  * Email/LessThan) vit sur le DTO, plus sur le champ de formulaire ni sur l'entité.

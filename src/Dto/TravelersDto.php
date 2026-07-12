@@ -40,6 +40,7 @@ final class TravelersDto
      */
     public function toTravelers(): ArrayCollection
     {
+        /** @var ArrayCollection<int, Traveler> $collection */
         $collection = new ArrayCollection();
         foreach ($this->travelers as $t) {
             $traveler = new Traveler();

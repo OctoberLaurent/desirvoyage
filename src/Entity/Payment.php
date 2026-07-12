@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\ValueObject\Money;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: \App\Repository\PaymentRepository::class)]
@@ -15,10 +16,10 @@ class Payment
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $payAt = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $amount = null;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $amount = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
     private ?string $paymentId = null;
 
     #[ORM\Column(type: 'string', length: 40, nullable: true)]
@@ -41,16 +42,20 @@ class Payment
         return $this->payAt;
     }
 
-    public function setAmount(?float $amount): self
+    public function setAmount(Money|int|float|string|null $amount): self
     {
-        $this->amount = $amount;
+        $this->amount = match (true) {
+            null === $amount => null,
+            $amount instanceof Money => $amount->cents(),
+            default => Money::fromEuros($amount)->cents(),
+        };
 
         return $this;
     }
 
-    public function getAmount(): ?float
+    public function getAmount(): ?Money
     {
-        return $this->amount;
+        return null === $this->amount ? null : Money::fromCents($this->amount);
     }
 
     public function setPaymentId(?string $paymentId): self

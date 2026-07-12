@@ -18,6 +18,7 @@ class TravelRepository extends ServiceEntityRepository implements TravelReposito
     /**
      * @return array<int, Travel>
      */
+    #[\Override]
     public function findRandom(int $limit): array
     {
         $travels = $this->findAll();
@@ -42,18 +43,19 @@ class TravelRepository extends ServiceEntityRepository implements TravelReposito
      *
      * @return array<int, Travel>
      */
+    #[\Override]
     public function findTravelsByNameAndPrice(array $search): array
     {
         $qb = $this->createQueryBuilder('t');
         $qb->innerJoin('t.stays', 's')
-           ->innerJoin('t.formality', 'f');
+           ->innerJoin('t.formalities', 'f');
         $startdate = $search['startdate'] ?? null;
         $enddate = $search['enddate'] ?? null;
         if (null !== $startdate && null !== $enddate) {
             $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->andX(
-                        $qb->expr()->gt('s.starDate', ':startdate'),
+                        $qb->expr()->gt('s.startDate', ':startdate'),
                         $qb->expr()->lt('s.endDate', ':enddate'),
                     )
                 )

@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/** @extends \Symfony\Component\Form\AbstractType<TravelersDto> */
+/** @phpstan-extends \Symfony\Component\Form\AbstractType<TravelersDto> */
 class TravelersType extends AbstractType
 {
     #[\Override]
