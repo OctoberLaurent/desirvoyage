@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Édition du profil (skill §4 — couvre la refacto EditUserType sur DTO, sinon
  * non testée). Authentification via http_basic (config test).
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class EditUserFunctionalTest extends WebTestCase
 {
     private KernelBrowser $client;
@@ -20,13 +21,6 @@ final class EditUserFunctionalTest extends WebTestCase
             'PHP_AUTH_USER' => 'user@user.fr',
             'PHP_AUTH_PW' => '123456',
         ]);
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
     }
 
     public function testProfilEditFormRenders(): void

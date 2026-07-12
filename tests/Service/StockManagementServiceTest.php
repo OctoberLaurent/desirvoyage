@@ -12,11 +12,12 @@ use PHPUnit\Framework\TestCase;
 
 final class StockManagementServiceTest extends TestCase
 {
-    public function testDecrementStockSetsStayStockAndReturnsRealStock(): void
+    public function testReserveStockUsesLockedStayAndDecrementsIt(): void
     {
         $stay = new Stay();
         $stay->setStock(10);
         $stay->setPrice(500.0);
+        $this->setEntityId($stay, 10);
 
         $reservation = new Reservation();
         $reservation->addStay($stay);
@@ -28,21 +29,49 @@ final class StockManagementServiceTest extends TestCase
 
         $repo = $this->createMock(StayRepositoryInterface::class);
         $repo->expects(self::once())
-            ->method('findStockById')
-            ->willReturn(10);
+            ->method('findForUpdate')
+            ->with(10)
+            ->willReturn($stay);
 
-        $realStock = (new StockManagementService($repo))->decrementStock($reservation);
+        (new StockManagementService($repo))->reserveStock($reservation);
 
-        self::assertSame(10, $realStock);
         self::assertSame(7, $stay->getStock()); // 10 - 3 travelers
     }
 
-    public function testDecrementStockReturnsZeroWhenNoStay(): void
+    public function testReserveStockRefusesInsufficientStockWithoutMutation(): void
+    {
+        $stay = new Stay();
+        $stay->setStock(2);
+        $this->setEntityId($stay, 10);
+
+        $reservation = new Reservation();
+        $reservation->addStay($stay);
+        $reservation->setTravelers(new ArrayCollection([new Traveler(), new Traveler(), new Traveler()]));
+
+        $repo = $this->createMock(StayRepositoryInterface::class);
+        $repo->expects(self::once())->method('findForUpdate')->with(10)->willReturn($stay);
+
+        try {
+            (new StockManagementService($repo))->reserveStock($reservation);
+            self::fail('Le stock insuffisant doit être refusé.');
+        } catch (\App\Service\NotEnoughStockException) {
+            self::assertSame(2, $stay->getStock());
+        }
+    }
+
+    public function testReserveStockRefusesReservationWithoutStay(): void
     {
         $reservation = new Reservation();
         $repo = $this->createMock(StayRepositoryInterface::class);
-        $repo->expects(self::never())->method('findStockById');
+        $repo->expects(self::never())->method('findForUpdate');
 
-        self::assertSame(0, (new StockManagementService($repo))->decrementStock($reservation));
+        $this->expectException(\DomainException::class);
+        (new StockManagementService($repo))->reserveStock($reservation);
+    }
+
+    private function setEntityId(object $entity, int $id): void
+    {
+        $property = new \ReflectionProperty($entity, 'id');
+        $property->setValue($entity, $id);
     }
 }

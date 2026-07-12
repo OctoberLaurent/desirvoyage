@@ -5,9 +5,11 @@ namespace App\Tests\Service;
 use App\Entity\Reservation;
 use App\Entity\Stay;
 use App\Entity\Traveler;
+use App\Enum\ReservationStatus;
 use App\Repository\ReservationRepositoryInterface;
 use App\Service\ExpiredReservationCleanupService;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -21,12 +23,15 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
 
         $expired = $this->buildReservation($stay, 2, new \DateTime('-20 minutes'));
 
-        $repo = $this->createMock(ReservationRepositoryInterface::class);
-        $repo->method('findUnpaid')->willReturn([$expired]);
+        $repo = self::createStub(ReservationRepositoryInterface::class);
+        $repo->method('findExpiredPending')->willReturn([$expired]);
 
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects(self::once())->method('remove')->with($expired);
-        $em->expects(self::atLeastOnce())->method('flush');
+        $em->expects(self::never())->method('remove');
+        $em->expects(self::never())->method('flush');
+        $em->expects(self::once())->method('lock')->with($stay, LockMode::PESSIMISTIC_WRITE);
+        $em->expects(self::once())->method('wrapInTransaction')
+            ->willReturnCallback(static fn (callable $callback): mixed => $callback($em));
 
         $result = (new ExpiredReservationCleanupService($repo, $em))->cleanup();
 
@@ -34,6 +39,7 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
         self::assertSame(2, $result['seats_released']);
         self::assertSame(1, $result['total_unpaid']);
         self::assertSame(12, $stay->getStock()); // 10 + 2 released
+        self::assertSame(ReservationStatus::Expired, $expired->getStatus());
     }
 
     public function testRecentReservationIsKept(): void
@@ -43,11 +49,13 @@ final class ExpiredReservationCleanupServiceTest extends TestCase
 
         $recent = $this->buildReservation($stay, 1, new \DateTime('-5 minutes'));
 
-        $repo = $this->createMock(ReservationRepositoryInterface::class);
-        $repo->method('findUnpaid')->willReturn([$recent]);
+        $repo = self::createStub(ReservationRepositoryInterface::class);
+        $repo->method('findExpiredPending')->willReturn([]);
 
         $em = $this->createMock(EntityManagerInterface::class);
         $em->expects(self::never())->method('remove');
+        $em->expects(self::once())->method('wrapInTransaction')
+            ->willReturnCallback(static fn (callable $callback): mixed => $callback($em));
 
         $result = (new ExpiredReservationCleanupService($repo, $em))->cleanup();
 

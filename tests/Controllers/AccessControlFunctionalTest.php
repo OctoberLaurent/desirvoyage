@@ -8,15 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Contrôle d'accès : les pages réservées redirigent un utilisateur anonyme vers
  * /login (skill §4).
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class AccessControlFunctionalTest extends WebTestCase
 {
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
-    }
-
     public function testReservationRedirectsAnonymousToLogin(): void
     {
         $client = static::createClient();

@@ -7,15 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Test Login Page.
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class LoginPageControllerTest extends WebTestCase
 {
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
-    }
-
     public function testLoginPage(): void
     {
         $client = static::createClient();

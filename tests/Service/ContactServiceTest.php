@@ -19,14 +19,17 @@ final class ContactServiceTest extends TestCase
 {
     public function testHandlePersistsContactAndSendsMail(): void
     {
+        $persistedContact = null;
         $em = $this->createMock(EntityManagerInterface::class);
-        $em->expects(self::once())->method('persist')->with(self::isInstanceOf(Contact::class));
+        $em->expects(self::once())->method('persist')->willReturnCallback(static function (Contact $contact) use (&$persistedContact): void {
+            $persistedContact = $contact;
+        });
         $em->expects(self::once())->method('flush');
 
         // MailerService est final : vraie instance avec MailerInterface mocké.
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send')->with(self::isInstanceOf(Email::class));
-        $mailerService = new MailerService($this->createMock(UrlGeneratorInterface::class), $mailer);
+        $mailerService = new MailerService(self::createStub(UrlGeneratorInterface::class), $mailer);
 
         $service = new ContactService($em, $mailerService);
 
@@ -36,10 +39,11 @@ final class ContactServiceTest extends TestCase
         $dto->email = 'jane@example.com';
         $dto->description = 'Une demande de test.';
 
-        $contact = $service->handle($dto);
+        $service->handle($dto);
 
-        self::assertSame('Doe', $contact->getLastname());
-        self::assertSame('Jane', $contact->getFirstname());
-        self::assertSame('jane@example.com', $contact->getEmail()->value());
+        self::assertInstanceOf(Contact::class, $persistedContact);
+        self::assertSame('Doe', $persistedContact->getLastname());
+        self::assertSame('Jane', $persistedContact->getFirstname());
+        self::assertSame('jane@example.com', $persistedContact->getEmail()->value());
     }
 }

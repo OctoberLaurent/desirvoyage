@@ -7,15 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Parcours de connexion (skill §4 — tests fonctionnels au-delà des smoke tests).
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class LoginFunctionalTest extends WebTestCase
 {
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
-    }
-
     public function testValidCredentialsLogInAndRedirectToHome(): void
     {
         $client = static::createClient();

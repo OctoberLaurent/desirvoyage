@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Ce filet de test protège la future refonte TravelerDto (skill §8) et valide
  * le VO Email sur Traveler (getEmail(): Email + setEmail(Email|string)) bout-en-bout.
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class ReservationFunctionalTest extends WebTestCase
 {
     private KernelBrowser $client;
@@ -28,13 +29,6 @@ final class ReservationFunctionalTest extends WebTestCase
             'PHP_AUTH_USER' => 'user@user.fr',
             'PHP_AUTH_PW' => '123456',
         ]);
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
     }
 
     private function stayId(): int
@@ -141,6 +135,13 @@ final class ReservationFunctionalTest extends WebTestCase
         self::assertGreaterThan(0, $tokenNode->count(), 'Le champ CSRF travelers[_token] doit être rendu.');
         $csrfToken = $tokenNode->attr('value');
 
+        $addBuyerButton = $crawler->filter('#add-user-in-traveler');
+        self::assertCount(1, $addBuyerButton);
+        self::assertSame('user', $addBuyerButton->attr('data-buyer-lastname'));
+        self::assertSame('user', $addBuyerButton->attr('data-buyer-firstname'));
+        self::assertSame('user@user.fr', $addBuyerButton->attr('data-buyer-email'));
+        self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}$/', (string) $addBuyerButton->attr('data-buyer-birthday'));
+
         // Soumission d'un voyageur via POST brut (CollectionType allow_add : les
         // entrées ne sont pas rendues dans le DOM, seul le prototype l'est).
         $this->client->request('POST', '/reservation/configure/configureTravelers/'.$id, [
@@ -163,5 +164,102 @@ final class ReservationFunctionalTest extends WebTestCase
         self::assertResponseIsSuccessful();
         // L'e-mail du voyageur est affiché (table voyageurs) via Email::__toString.
         self::assertStringContainsString('jane.doe@example.com', (string) $this->client->getResponse()->getContent());
+        self::assertCount(1, $this->client->getCrawler()->filter('.reservation-summary-actions'));
+        self::assertCount(3, $this->client->getCrawler()->filter('.reservation-summary-actions > *'));
+    }
+
+    public function testSummaryModalKeepsThePaymentActionVisible(): void
+    {
+        $id = $this->stayId();
+        $this->client->request('GET', '/reservation?stayid='.$id);
+        $this->submitOptionsForm($id);
+
+        $crawler = $this->client->request('GET', '/reservation/configure/configureTravelers/'.$id);
+        $csrfToken = $crawler->filter('input[name="travelers[_token]"]')->attr('value');
+        $this->client->request('POST', '/reservation/configure/configureTravelers/'.$id, [
+            'travelers' => [
+                'travelers' => [[
+                    'lastname' => 'Doe',
+                    'firstname' => 'Jane',
+                    'email' => 'jane.modal@example.com',
+                    'birthday' => '1990-05-15',
+                ]],
+                '_token' => $csrfToken,
+            ],
+        ]);
+
+        $crawler = $this->client->request('GET', '/reservation/summary');
+
+        self::assertResponseIsSuccessful();
+        self::assertCount(1, $crawler->filter('#modal-valid form.reservation-validation-form'));
+        self::assertCount(1, $crawler->filter('#modal-valid form.reservation-validation-form button[type="submit"]'));
+    }
+
+    public function testValidatePersistsReservationAndRedirectsToPayment(): void
+    {
+        $id = $this->stayId();
+        $this->client->request('GET', '/reservation?stayid='.$id);
+        $this->submitOptionsForm($id);
+
+        $crawler = $this->client->request('GET', '/reservation/configure/configureTravelers/'.$id);
+        $csrfToken = $crawler->filter('input[name="travelers[_token]"]')->attr('value');
+        $this->client->request('POST', '/reservation/configure/configureTravelers/'.$id, [
+            'travelers' => [
+                'travelers' => [[
+                    'lastname' => 'Doe',
+                    'firstname' => 'Jane',
+                    'email' => 'jane.validate@example.com',
+                    'birthday' => '1990-05-15',
+                ]],
+                '_token' => $csrfToken,
+            ],
+        ]);
+
+        $crawler = $this->client->request('GET', '/reservation/summary');
+        self::assertResponseIsSuccessful();
+
+        $validationToken = $crawler->filter('form[action="/reservation/validate/"] input[name="_token"]')->attr('value');
+        $this->client->request('POST', '/reservation/validate/', [
+            '_token' => $validationToken,
+        ]);
+
+        self::assertResponseRedirects();
+        $location = (string) $this->client->getResponse()->headers->get('Location');
+        self::assertMatchesRegularExpression('#^/payment/\d+$#', $location);
+    }
+
+    public function testStateChangingReservationEndpointsRejectGetRequests(): void
+    {
+        $this->client->request('GET', '/reservation/remove/');
+
+        self::assertResponseStatusCodeSame(405);
+
+        $id = $this->stayId();
+        $this->client->request('GET', '/reservation?stayid='.$id);
+        $this->submitOptionsForm($id);
+        $crawler = $this->client->request('GET', '/reservation/configure/configureTravelers/'.$id);
+        $csrfToken = $crawler->filter('input[name="travelers[_token]"]')->attr('value');
+        $this->client->request('POST', '/reservation/configure/configureTravelers/'.$id, [
+            'travelers' => [
+                'travelers' => [[
+                    'lastname' => 'Doe',
+                    'firstname' => 'Jane',
+                    'email' => 'jane.security@example.com',
+                    'birthday' => '1990-05-15',
+                ]],
+                '_token' => $csrfToken,
+            ],
+        ]);
+
+        $crawler = $this->client->request('GET', '/reservation/summary');
+        self::assertResponseIsSuccessful();
+        $validationToken = $crawler->filter('form[action="/reservation/validate/"] input[name="_token"]')->attr('value');
+        self::assertNotSame('', $validationToken);
+
+        $this->client->request('POST', '/reservation/validate/', [
+            '_token' => $validationToken,
+        ]);
+
+        self::assertResponseRedirects();
     }
 }

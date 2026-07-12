@@ -24,6 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Authentification via http_basic (config test). La réservation est créée
  * dans dock_test (stay+travel, option, 2 travelers, price=1200).
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class InvoiceFunctionalTest extends WebTestCase
 {
     private KernelBrowser $client;
@@ -39,13 +40,6 @@ final class InvoiceFunctionalTest extends WebTestCase
             'PHP_AUTH_PW' => '123456',
         ]);
         $this->em = static::getContainer()->get('doctrine')->getManager();
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
     }
 
     private function createInvoiceReservation(): int

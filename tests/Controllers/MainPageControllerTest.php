@@ -7,15 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * test Main page.
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class MainPageControllerTest extends WebTestCase
 {
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
-    }
-
     public function testMainPost(): void
     {
         $client = static::createClient();

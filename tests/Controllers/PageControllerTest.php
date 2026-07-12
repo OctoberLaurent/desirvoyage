@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class PageControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
@@ -20,13 +21,6 @@ class PageControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'user@user.fr',
             'PHP_AUTH_PW' => '123456',
         ]);
-    }
-
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
     }
 
     /**

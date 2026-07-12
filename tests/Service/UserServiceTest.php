@@ -13,7 +13,7 @@ final class UserServiceTest extends TestCase
     public function testGenerateTokenSetsTokenAndExpiryOneDayAhead(): void
     {
         $user = $this->buildUser();
-        $service = new UserService($this->createMock(UserPasswordHasherInterface::class));
+        $service = new UserService(self::createStub(UserPasswordHasherInterface::class));
 
         $service->generateToken($user);
 
@@ -27,7 +27,7 @@ final class UserServiceTest extends TestCase
     public function testResetTokenClearsTokenAndExpiry(): void
     {
         $user = $this->buildUser();
-        $service = new UserService($this->createMock(UserPasswordHasherInterface::class));
+        $service = new UserService(self::createStub(UserPasswordHasherInterface::class));
         $service->generateToken($user);
 
         $service->resetToken($user);

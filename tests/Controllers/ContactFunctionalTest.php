@@ -7,15 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Page de contact (skill §4 — smoke test du rendu du formulaire sur DTO).
  */
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class ContactFunctionalTest extends WebTestCase
 {
-    #[\Override]
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        static::ensureKernelShutdown();
-    }
-
     public function testContactPageRendersForm(): void
     {
         $client = static::createClient();
