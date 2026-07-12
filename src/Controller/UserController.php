@@ -7,27 +7,24 @@ use App\Dto\RegisterDto;
 use App\Entity\User;
 use App\Form\EditUserType;
 use App\Form\RegisterType;
-use App\Service\MailerService;
-use App\Service\UserService;
-use App\ValueObject\Email;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\AddressLookupService;
+use App\Service\UserAccountService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class UserController extends AbstractController
 {
     public function __construct(
-        private readonly MailerService $mailer,
-        private readonly UserService $userService,
+        private readonly UserAccountService $userAccountService,
     ) {
     }
 
     #[Route(path: '/register', name: 'register')]
-    public function register(Request $request, EntityManagerInterface $em): Response
+    public function register(Request $request): Response
     {
         if (null !== $this->getUser()) {
             return $this->redirectToRoute('travel_home');
@@ -39,12 +36,7 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var RegisterDto $dto */
             $dto = $form->getData();
-            $user = $this->instantiateUser($dto);
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->mailer->sendActivationMail($user);
+            $this->userAccountService->register($dto);
 
             $this->addFlash('green accent-3', 'Votre compte a bien été créé. Vous devez l\'activer pour pouvoir vous connecter.');
 
@@ -56,45 +48,9 @@ final class UserController extends AbstractController
         ]);
     }
 
-    private function instantiateUser(RegisterDto $dto): User
-    {
-        $user = new User();
-        $user->setLastname($dto->lastname ?? '');
-        $user->setFirstname($dto->firstname ?? '');
-        $user->setBirthday($dto->birthday ?? new \DateTime());
-        $user->setAddress($dto->address ?? '');
-        $user->setAdditionalAddress($dto->additionalAddress);
-        $user->setPostalCode($dto->postalCode ?? '');
-        $user->setCity($dto->city ?? '');
-        $user->setCountry($dto->country ?? '');
-        $user->setPhone($dto->phone ?? '');
-        $user->setEmail(new Email($dto->email ?? ''));
-        $this->userService->setPassword($user, $dto->password ?? '');
-        $user->setRoles(['ROLE_USER']);
-        $this->userService->generateToken($user);
-
-        return $user;
-    }
-
-    private function applyDtoToUser(EditUserDto $dto, User $user): void
-    {
-        $user->setLastname($dto->lastname ?? '');
-        $user->setFirstname($dto->firstname ?? '');
-        if (null !== $dto->birthday) {
-            $user->setBirthday($dto->birthday);
-        }
-        $user->setAddress($dto->address ?? '');
-        $user->setAdditionalAddress($dto->additionalAddress);
-        $user->setPostalCode($dto->postalCode ?? '');
-        $user->setCity($dto->city ?? '');
-        $user->setCountry($dto->country ?? '');
-        $user->setPhone($dto->phone ?? '');
-        $user->setEmail(new Email($dto->email ?? ''));
-    }
-
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/profil/edit/', name: 'user_edit')]
-    public function edit(Request $request, EntityManagerInterface $em): Response
+    public function edit(Request $request): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -105,10 +61,7 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var EditUserDto $dto */
             $dto = $form->getData();
-            $this->applyDtoToUser($dto, $user);
-
-            $em->persist($user);
-            $em->flush();
+            $this->userAccountService->updateProfile($user, $dto);
 
             $this->addFlash('blue darken-1', 'Les données de votre compte ont bien été modifiées');
 
@@ -121,15 +74,9 @@ final class UserController extends AbstractController
     }
 
     #[Route(path: '/api/address', name: 'api-address', methods: ['GET'])]
-    public function api(HttpClientInterface $httpClient, Request $request): Response
+    public function api(AddressLookupService $addressLookup, Request $request): JsonResponse
     {
-        $response = $httpClient->request('GET', 'https://api-adresse.data.gouv.fr/search/', [
-            'query' => [
-                'q' => $request->query->get('q'),
-            ],
-        ]);
-
-        return new Response($response->getContent());
+        return $this->json($addressLookup->search($request->query->getString('q')));
     }
 
     #[IsGranted('ROLE_USER')]

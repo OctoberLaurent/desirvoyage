@@ -31,11 +31,6 @@ class UserCrudController extends AbstractCrudController
             TelephoneField::new('phone', 'Téléphone'),
             BooleanField::new('enabled', 'Actif'),
             CountryField::new('country', 'Pays')->hideOnIndex(),
-            TextField::new('password', 'Mot de passe')
-                ->hideOnIndex()
-                ->setDisabled()
-                ->setFormTypeOption('mapped', false)
-                ->setRequired(false),
             ChoiceField::new('roles', 'Rôles')
                 ->allowMultipleChoices()
                 ->setChoices(['Client' => 'ROLE_USER', 'Admin' => 'ROLE_ADMIN'])

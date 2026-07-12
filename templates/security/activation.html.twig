@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Activation du compte{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if activationStatus is same as('Expired') %}
+            <h1>Ce lien d’activation a expiré.</h1>
+            <form method="post" action="{{ path('user_resend_activation_token', {id: user.id}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('resend-activation-' ~ user.id) }}">
+                <button class="btn" type="submit">Renvoyer le lien d’activation</button>
+            </form>
+        {% elseif activationStatus is same as('Invalid') %}
+            <h1>Ce lien d’activation n’est pas valide.</h1>
+        {% elseif activationStatus is same as('AlreadyActivated') %}
+            <h1>Ce compte est déjà activé.</h1>
+        {% else %}
+            <h1>Activer votre compte</h1>
+            <p>Confirmez l’activation de votre compte.</p>
+            <form method="post" action="{{ path('user_activate', {token: token}) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('activate-' ~ token) }}">
+                <button class="btn" type="submit">Activer mon compte</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

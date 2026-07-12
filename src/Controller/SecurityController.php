@@ -4,33 +4,30 @@ namespace App\Controller;
 
 use App\Entity\MyPassword;
 use App\Entity\User;
+use App\Enum\AccountActivationStatus;
 use App\Form\MyPasswordType;
 use App\Form\RenewPasswordType;
 use App\Repository\UserRepositoryInterface;
-use App\Service\MailerService;
-use App\Service\UserService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\AccountLifecycleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly MailerService $mailer,
-        private readonly UserService $userService,
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly AccountLifecycleService $accountLifecycle,
     ) {
     }
 
     /**
      * login.
      */
-    #[Route(path: '/login', name: 'login')]
+    #[Route(path: '/login', name: 'login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if (null !== $this->getUser()) {
@@ -63,48 +60,48 @@ class SecurityController extends AbstractController
     /**
      * Activate account.
      */
-    #[Route(path: '/user/activate/{token}', name: 'user_activate')]
-    public function activate(string $token, User $user, EntityManagerInterface $em): RedirectResponse
+    #[Route(path: '/user/activate/{token}', name: 'user_activate', methods: ['GET', 'POST'])]
+    public function activate(string $token, User $user, Request $request): Response
     {
-        if (true !== $user->getEnabled()) {
-            $tokenExpire = $user->getTokenExpire();
-            if (null !== $tokenExpire && $tokenExpire > new \DateTime()) {
-                $user->setEnabled(true);
-                $this->userService->resetToken($user);
-                $em->flush();
-                $this->addFlash(
-                    'blue',
-                    'Votre compte a été activé');
-            } else {
-                $url = $this->urlGenerator->generate('user_resend_activation_token', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-
-                $this->addFlash(
-                    'red',
-                    'Ce lien a expiré <a href="'.$url.'"> Renvoyer le mail d\'activation </a>');
-            }
+        if ($request->isMethod('GET')) {
+            return $this->render('security/activation.html.twig', [
+                'token' => $token,
+                'user' => $user,
+                'activationStatus' => null,
+            ]);
         }
 
-        // redirect to login route
-        return $this->redirectToRoute('login');
+        if (!$this->isCsrfTokenValid('activate-'.$token, (string) $request->request->get('_token'))) {
+            throw new BadRequestHttpException('Jeton CSRF invalide.');
+        }
+
+        $status = $this->accountLifecycle->activate($user, $token);
+        if (AccountActivationStatus::Activated === $status) {
+            $this->addFlash('blue', 'Votre compte a été activé');
+
+            return $this->redirectToRoute('login');
+        }
+
+        return $this->render('security/activation.html.twig', [
+            'token' => $token,
+            'user' => $user,
+            'activationStatus' => $status->name,
+        ]);
     }
 
     /**
      * Send activate token.
      */
-    #[Route(path: 'user/resendactivatetoken/{id}', name: 'user_resend_activation_token')]
-    public function resendActivationToken(User $user, EntityManagerInterface $em): RedirectResponse
+    #[Route(path: 'user/resendactivatetoken/{id}', name: 'user_resend_activation_token', methods: ['POST'])]
+    public function resendActivationToken(User $user, Request $request): RedirectResponse
     {
-        if (true !== $user->getEnabled()) {
-            // generate token and expire date
-            $this->userService->generateToken($user);
-            $em->flush();
-            // resend a activation token
-            $this->mailer->sendActivationMail($user);
-            // message if link is send.
-            $this->addFlash(
-                'blue',
-                'Un lien d\'activation vous a été envoyé');
+        $csrfTokenId = sprintf('resend-activation-%d', $user->getId() ?? 0);
+        if (!$this->isCsrfTokenValid($csrfTokenId, (string) $request->request->get('_token'))) {
+            throw new BadRequestHttpException('Jeton CSRF invalide.');
         }
+
+        $this->accountLifecycle->resendActivation($user);
+        $this->addFlash('blue', 'Un lien d\'activation vous a été envoyé');
 
         return $this->redirectToRoute('login');
     }
@@ -112,20 +109,18 @@ class SecurityController extends AbstractController
     /**
      * Allows to initiate the forgotten password method.
      */
-    #[Route(path: '/mot-de-passe-oublie', name: 'forgotten_password')]
-    public function forgetPassword(Request $request, UserRepositoryInterface $userRepository, EntityManagerInterface $entityManager): Response
+    #[Route(path: '/mot-de-passe-oublie', name: 'forgotten_password', methods: ['GET', 'POST'])]
+    public function forgetPassword(Request $request, UserRepositoryInterface $userRepository): Response
     {
         if ($request->isMethod('POST')) {
+            if (!$this->isCsrfTokenValid('forgotten_password', (string) $request->request->get('_token'))) {
+                throw new BadRequestHttpException('Jeton CSRF invalide.');
+            }
+
             $email = (string) $request->request->get('email', '');
 
             $user = $userRepository->findOneBy(['email' => $email]);
-
-            if (null !== $user) {
-                $this->userService->generateToken($user);
-                $entityManager->flush();
-
-                $this->mailer->sendResetPassword($user);
-            }
+            $this->accountLifecycle->requestPasswordReset($user instanceof User ? $user : null);
 
             $this->addFlash('blue', 'Si un compte existe avec cette adresse email, un email vous sera envoyé.');
 
@@ -138,8 +133,8 @@ class SecurityController extends AbstractController
     /**
      * Allows you to the reset password.
      */
-    #[Route(path: '/reset_password/{token}', name: 'reset_password')]
-    public function resetPassword(string $token, Request $request, UserRepositoryInterface $userRepository, EntityManagerInterface $entityManager): Response
+    #[Route(path: '/reset_password/{token}', name: 'reset_password', methods: ['GET', 'POST'])]
+    public function resetPassword(string $token, Request $request, UserRepositoryInterface $userRepository): Response
     {
         $user = $userRepository->findOneBy(['token' => $token]);
 
@@ -154,14 +149,9 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tokenExpire = $user->getTokenExpire();
-            if (null !== $tokenExpire && $tokenExpire < new \DateTime()) {
+            if (!$this->accountLifecycle->resetPassword($user, $token, $myPassword->getPassword() ?? '')) {
                 $this->addFlash('alert', 'Votre token a expiré.');
             } else {
-                $this->userService->setPassword($user, $myPassword->getPassword() ?? '');
-                $this->userService->resetToken($user);
-                $entityManager->flush();
-
                 $this->addFlash('green accent-3', 'Le mot de passe a bien été modifié.');
             }
 
@@ -177,7 +167,7 @@ class SecurityController extends AbstractController
      * Allows you to change your password.
      */
     #[Route(path: '/newpassword', name: 'new_password', methods: ['GET', 'POST'])]
-    public function newPassword(Request $request, EntityManagerInterface $em): Response
+    public function newPassword(Request $request): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -189,9 +179,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $newPassword = $form->get('password')->getData();
 
-            $this->userService->setPassword($user, is_string($newPassword) ? $newPassword : '');
-
-            $em->flush();
+            $this->accountLifecycle->changePassword($user, is_string($newPassword) ? $newPassword : '');
 
             $this->addFlash('green accent-3', 'Votre mot de passe a bien été modifié.');
 
