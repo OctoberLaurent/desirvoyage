@@ -22,19 +22,19 @@
         </div>
             </div>
         </div>
-        <div class="col pad">
-            <div class="carousel carousel-slider">
-                {% if travel.pictures is empty %}
-                    <a class="carousel-item" href="#">
-                        <img src="/data2/default.png" alt="{{ travel.name }}">
-                    </a>
-                {% else %}
+        {% if travel.pictures is empty %}
+            <div class="col pad center-align">
+                <img class="responsive-img travel-image-fallback" src="/data2/default.png" alt="{{ travel.name }}">
+            </div>
+        {% else %}
+            <div class="col pad">
+                <div class="carousel carousel-slider">
                     {% for picture in travel.pictures %}
                         <a class="carousel-item" href="#"><img src="{{ picture.picturename }}" alt="{{ picture.name }}"></a>
                     {% endfor %}
-                {% endif %}
+                </div>
             </div>
-        </div>
+        {% endif %}
 
         <div class="col pad">
             <h3 class="center-align">{% trans %} Tarifs et dates {% endtrans %} </h3>

@@ -11,7 +11,7 @@ final class TravelImageFallbackTemplateTest extends TestCase
         $template = (string) file_get_contents(dirname(__DIR__, 2).'/templates/travel/showone.html.twig');
 
         self::assertStringContainsString(
-            '<img src="/data2/default.png" alt="{{ travel.name }}">',
+            '<img class="responsive-img travel-image-fallback" src="/data2/default.png" alt="{{ travel.name }}">',
             $template,
         );
     }
