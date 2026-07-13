@@ -6,9 +6,9 @@ use App\Entity\Travel;
 use Doctrine\Persistence\ObjectRepository;
 
 /**
- * Port de persistance des {@see Travel} (skill §3 Repository rules).
- * Étend ObjectRepository pour exposer find/findAll/findBy/findOneBy utilisés
- * par les contrôleurs.
+ * Persistence port for {@see Travel} (skill §3 Repository rules).
+ * Extends ObjectRepository to expose find/findAll/findBy/findOneBy methods used
+ * by controllers.
  *
  * @extends ObjectRepository<Travel>
  */

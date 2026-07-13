@@ -5,7 +5,7 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * Adaptateur de l'API publique d'adresses, avec entrée bornée et délai réseau.
+ * Adapter for the public address API, with bounded input and a network timeout.
  */
 final readonly class AddressLookupService
 {

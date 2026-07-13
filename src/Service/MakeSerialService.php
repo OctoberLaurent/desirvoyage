@@ -3,8 +3,8 @@
 namespace App\Service;
 
 /**
- * Génère un numéro de série lisible au format `XXX-XXX-XXX` (alphanumérique).
- * Utilise random_int() (cryptographiquement sûr) plutôt que rand().
+ * Generates a readable alphanumeric serial number in the `XXX-XXX-XXX` format.
+ * Uses cryptographically secure random_int() rather than rand().
  */
 final class MakeSerialService
 {

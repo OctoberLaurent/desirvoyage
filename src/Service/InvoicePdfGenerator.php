@@ -8,8 +8,8 @@ use Dompdf\Options;
 use Twig\Environment;
 
 /**
- * Génère le PDF d'une facture (skill §3 Service — séparation de la génération
- * HTML (Twig) et du rendu PDF (Dompdf), hors du contrôleur).
+ * Generates an invoice PDF (skill §3 Service — separating HTML generation
+ * through Twig from PDF rendering through Dompdf, outside the controller).
  */
 final readonly class InvoicePdfGenerator
 {
@@ -20,14 +20,14 @@ final readonly class InvoicePdfGenerator
     }
 
     /**
-     * Renvoie le contenu binaire du PDF de la facture pour la réservation.
+     * Returns the binary invoice PDF content for the reservation.
      */
     public function generate(Reservation $reservation): string
     {
         $pdfOptions = new Options();
         $pdfOptions->setIsRemoteEnabled(true);
         $pdfOptions->set('defaultFont', 'Arial');
-        // Autorise Dompdf à charger les fichiers locaux (logo, images) sous le projet.
+        // Allows Dompdf to load local project files (logo and images).
         $pdfOptions->set('chroot', $this->projectDir);
 
         $dompdf = new Dompdf($pdfOptions);

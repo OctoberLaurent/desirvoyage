@@ -5,9 +5,9 @@ namespace App\Repository;
 use App\Entity\Reservation;
 
 /**
- * Port de persistance des {@see Reservation} (skill §3 Repository rules :
- * « Always define an interface »). Permet d'injecter l'abstraction dans les
- * services (DIP) et de mocker dans les tests.
+ * Persistence port for {@see Reservation} (skill §3 Repository rules:
+ * "Always define an interface"). It allows the abstraction to be injected into
+ * services (DIP) and mocked in tests.
  */
 interface ReservationRepositoryInterface
 {

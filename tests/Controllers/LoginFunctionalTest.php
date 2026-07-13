@@ -5,7 +5,7 @@ namespace App\Tests\Controllers;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Parcours de connexion (skill §4 — tests fonctionnels au-delà des smoke tests).
+ * Login flow (skill §4 — functional tests beyond smoke tests).
  */
 #[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class LoginFunctionalTest extends WebTestCase
@@ -15,14 +15,14 @@ final class LoginFunctionalTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
 
-        // Le jeton CSRF est un champ caché du formulaire, inclus automatiquement.
+        // The CSRF token is a hidden form field and is included automatically.
         $form = $crawler->selectButton('Connection')->form([
             'email' => 'user@user.fr',
             'password' => '123456',
         ]);
         $client->submit($form);
 
-        // user@user.fr est ROLE_USER → onAuthenticationSuccess redirige vers travel_home ('/')
+        // user@user.fr has ROLE_USER, so onAuthenticationSuccess redirects to travel_home ('/').
         self::assertResponseRedirects('/');
     }
 
@@ -36,7 +36,7 @@ final class LoginFunctionalTest extends WebTestCase
         ]);
         $client->submit($form);
 
-        // Authentification refusée → retour sur /login
+        // Authentication is rejected, so the request returns to /login.
         self::assertResponseRedirects('/login');
     }
 }

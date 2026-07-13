@@ -29,13 +29,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # Alias du port de paiement vers l'adaptateur Stripe (skill §1 DIP, §2 Adapter)
+    # Payment port alias for the Stripe adapter (skill §1 DIP, §2 Adapter)
     App\Service\Payment\PaymentGatewayInterface: '@App\Service\Payment\StripePaymentGateway'
     App\Service\Payment\StripePaymentGateway:
         arguments:
             $secretKey: '%stripe.secret_key%'
 
-    # Ports de persistance vers les implémentations Doctrine (skill §1 DIP, §3 Repository)
+    # Persistence ports backed by Doctrine implementations (skill §1 DIP, §3 Repository)
     App\Repository\ReservationRepositoryInterface: '@App\Repository\ReservationRepository'
     App\Repository\StayRepositoryInterface: '@App\Repository\StayRepository'
     App\Repository\TravelRepositoryInterface: '@App\Repository\TravelRepository'

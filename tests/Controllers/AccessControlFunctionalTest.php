@@ -5,8 +5,7 @@ namespace App\Tests\Controllers;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Contrôle d'accès : les pages réservées redirigent un utilisateur anonyme vers
- * /login (skill §4).
+ * Access control: protected pages redirect anonymous users to /login (skill §4).
  */
 #[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class AccessControlFunctionalTest extends WebTestCase
@@ -16,7 +15,7 @@ final class AccessControlFunctionalTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/reservation/list/');
 
-        // #[IsGranted('ROLE_USER')] sur ReservationController → 302 vers /login
+        // #[IsGranted('ROLE_USER')] on ReservationController → 302 to /login.
         self::assertResponseRedirects('/login');
     }
 

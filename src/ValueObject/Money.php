@@ -3,11 +3,11 @@
 namespace App\ValueObject;
 
 /**
- * Value Object immuable représentant un montant monétaire (skill §3 Value Objects).
+ * Immutable value object representing a monetary amount (skill §3 Value Objects).
  *
- * Le montant est toujours conservé en centimes afin d'éviter les erreurs
- * d'arrondi des nombres flottants. Les conversions en euros n'ont lieu qu'aux
- * frontières (formulaires, Twig et API externes).
+ * The amount is always stored in cents to prevent floating-point rounding
+ * errors. Conversions to euros happen only at boundaries (forms, Twig, and
+ * external APIs).
  *
  * @see \App\Entity\Reservation::$price
  * @see \App\Entity\Stay::$price
@@ -82,8 +82,8 @@ final readonly class Money implements \Stringable
     }
 
     /**
-     * Rendu identique au `float` natif ({@see (string)} cast) pour préserver
-     * l'affichage Twig existant (« 1200 », « 1234.56 »).
+     * Preserves native float-like rendering to keep existing Twig output
+     * unchanged ("1200", "1234.56").
      */
     #[\Override]
     public function __toString(): string

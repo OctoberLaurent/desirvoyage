@@ -6,8 +6,8 @@ use App\Entity\User;
 use Doctrine\Persistence\ObjectRepository;
 
 /**
- * Port de persistance des {@see User} (skill §3 Repository rules).
- * Expose find/findOneBy utilisés par SecurityController.
+ * Persistence port for {@see User} (skill §3 Repository rules).
+ * Exposes find/findOneBy methods used by SecurityController.
  *
  * @extends ObjectRepository<User>
  */

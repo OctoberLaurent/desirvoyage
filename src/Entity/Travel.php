@@ -178,13 +178,13 @@ class Travel implements \Stringable
         return $this;
     }
 
-    /** @deprecated Utiliser getCategory(). */
+    /** @deprecated Use getCategory(). */
     public function getCategories(): ?Category
     {
         return $this->getCategory();
     }
 
-    /** @deprecated Utiliser setCategory(). */
+    /** @deprecated Use setCategory(). */
     public function setCategories(?Category $categories): self
     {
         return $this->setCategory($categories);
@@ -198,7 +198,7 @@ class Travel implements \Stringable
         return $this->formalities;
     }
 
-    /** @deprecated Utiliser getFormalities(). */
+    /** @deprecated Use getFormalities(). */
     /** @return Collection<int, Formality> */
     public function getFormality(): Collection
     {

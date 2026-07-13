@@ -3,7 +3,7 @@
 namespace App\Service;
 
 /**
- * Levée quand le stock d'un séjour est insuffisant pour valider une réservation.
+ * Thrown when a stay has insufficient stock to validate a reservation.
  */
 final class NotEnoughStockException extends \RuntimeException
 {

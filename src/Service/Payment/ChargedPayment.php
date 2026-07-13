@@ -3,13 +3,13 @@
 namespace App\Service\Payment;
 
 /**
- * Résultat immuable d'un paiement réussi (Value Object, skill §3).
+ * Immutable result of a successful payment (Value Object, skill §3).
  */
 final readonly class ChargedPayment
 {
     /**
-     * @param string $id          identifiant renvoyé par le gateway (ex. charge_id Stripe)
-     * @param int    $amountCents montant réellement débité, en centimes
+     * @param string $id          identifier returned by the gateway (for example, a Stripe charge ID)
+     * @param int    $amountCents amount actually charged, in cents
      */
     public function __construct(
         public string $id,

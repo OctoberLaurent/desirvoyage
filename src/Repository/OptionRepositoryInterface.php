@@ -6,7 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 
 /**
- * Port de persistance des {@see \App\Entity\Option} (skill §3 Repository rules).
+ * Persistence port for {@see \App\Entity\Option} (skill §3 Repository rules).
  *
  * @extends ObjectRepository<\App\Entity\Option>
  */

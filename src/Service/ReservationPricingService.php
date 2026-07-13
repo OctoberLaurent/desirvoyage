@@ -7,15 +7,15 @@ use App\Entity\Stay;
 use App\ValueObject\Money;
 
 /**
- * Calcule le prix d'une réservation : (prix séjour + somme options) × nombre
- * de voyageurs. Logique métier extraite du contrôleur (skill §1 SRP, §3 Service).
+ * Calculates the reservation price: (stay price + option total) × travelers.
+ * Business logic is extracted from the controller (skill §1 SRP, §3 Service).
  */
 final class ReservationPricingService
 {
     /**
-     * Calcule et applique le prix total à la réservation.
+     * Calculates and applies the total price to the reservation.
      *
-     * @return array{total: float, options: float} le total et la part options (× voyageurs)
+     * @return array{total: float, options: float} total and option share (× travelers)
      */
     public function applyPrice(Reservation $reservation): array
     {

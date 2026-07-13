@@ -22,7 +22,7 @@ final class PaymentController extends AbstractController
     }
 
     /**
-     * Affiche le formulaire de paiement Stripe.
+     * Displays the Stripe payment form.
      */
     #[Route(path: '/{id}', name: '_create', methods: ['GET'])]
     #[IsGranted(ReservationVoter::VIEW, subject: 'reservation')]
@@ -36,14 +36,14 @@ final class PaymentController extends AbstractController
     }
 
     /**
-     * Valide ou refuse le paiement.
+     * Accepts or rejects the payment.
      */
     #[Route(path: '/verification/{id}', name: '_charge', methods: ['POST'])]
     #[IsGranted(ReservationVoter::PAY, subject: 'reservation')]
     public function charge(Request $request, Reservation $reservation, PaymentService $paymentService): RedirectResponse
     {
-        // Le contrôleur ne réalise pas la logique métier : il délègue au PaymentService
-        // et se contente de convertir le résultat en réponse HTTP (skill §3 Controller).
+        // The controller delegates business logic to PaymentService and only converts
+        // its result into an HTTP response (skill §3 Controller).
         $csrfTokenId = sprintf('payment-%d', $reservation->getId() ?? 0);
         if (!$this->isCsrfTokenValid($csrfTokenId, (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');

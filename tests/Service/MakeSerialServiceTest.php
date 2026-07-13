@@ -11,7 +11,7 @@ final class MakeSerialServiceTest extends TestCase
     {
         $serial = (new MakeSerialService())->makeSerial();
 
-        // Format attendu : XXX-XXX-XXX (11 caractères, 2 tirets)
+        // Expected format: XXX-XXX-XXX (11 characters, 2 hyphens).
         self::assertSame(11, strlen($serial));
         self::assertMatchesRegularExpression('/^[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}$/', $serial);
     }
@@ -24,8 +24,8 @@ final class MakeSerialServiceTest extends TestCase
             $serials[] = $service->makeSerial();
         }
 
-        // Sur 1000 tirages aléatoires on tolère quelques collisions, mais la
-        // grande majorité doit être unique (sanity check du générateur).
+        // A few collisions are acceptable across 1,000 random draws, but the vast
+        // majority must be unique as a generator sanity check.
         self::assertGreaterThan(900, count(array_unique($serials)));
     }
 }

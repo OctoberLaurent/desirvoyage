@@ -13,16 +13,15 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Rendu de la facture (skill §4 — couvre la page high-stakes non testée).
+ * Invoice rendering (skill §4 — covers an untested high-stakes page).
  *
- * Filet de sécurité pour la future introduction du VO Money : la facture
- * affiche des prix via arithmétique Twig (HT = price*100/120, lignes
- * nbtravelers*price, number_format). Ce test asserte les valeurs exactes
- * pour qu'une régression silencieuse (VO Money cassant l'arithmétique) soit
- * détectée.
+ * Safety net for the Money value object: the invoice displays prices through
+ * Twig arithmetic (pre-tax price = price*100/120, nbtravelers*price lines,
+ * number_format). This test asserts exact values to detect a silent regression
+ * caused by a value object breaking this arithmetic.
  *
- * Authentification via http_basic (config test). La réservation est créée
- * dans dock_test (stay+travel, option, 2 travelers, price=1200).
+ * Authentication uses http_basic (test configuration). The reservation is created
+ * in dock_test (stay + travel, option, 2 travelers, price = 1200).
  */
 #[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class InvoiceFunctionalTest extends WebTestCase
@@ -58,7 +57,7 @@ final class InvoiceFunctionalTest extends WebTestCase
             $reservation->addOption($option);
         }
 
-        // Deux voyageurs (nbtravelers = 2).
+        // Two travelers (nbtravelers = 2).
         for ($i = 1; $i <= 2; ++$i) {
             $traveler = new Traveler();
             $traveler->setLastname('Nom'.$i);
@@ -85,22 +84,23 @@ final class InvoiceFunctionalTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $content = (string) $this->client->getResponse()->getContent();
 
-        // Prix TTC ({{ reservation.price }}) — Twig rend le float 1200.0 → « 1200 ».
+        // Price including tax ({{ reservation.price }}) renders float 1200.0 as "1200" in Twig.
         self::assertStringContainsString('1200', $content, 'Le prix TTC doit s\'afficher.');
 
-        // Prix HT = TTC * 100 / 120 = 1000 → number_format(2) → « 1,000.00 ».
+        // Price before tax = including-tax price * 100 / 120 = 1000, formatted as "1,000.00".
         $expectedHt = number_format(self::PRICE_TTC * 100 / 120, 2, '.', ',');
         self::assertStringContainsString($expectedHt, $content, 'Le prix HT (number_format) doit s\'afficher.');
 
-        // TVA = TTC - HT = 200 → number_format(2) → « 200.00 ».
+        // VAT = including-tax price - pre-tax price = 200, formatted as "200.00".
         $expectedTva = number_format(self::PRICE_TTC - (self::PRICE_TTC * 100 / 120), 2, '.', ',');
         self::assertStringContainsString($expectedTva, $content, 'La TVA (number_format) doit s\'afficher.');
     }
 
     /**
-     * La route PDF (/invoicepdf/{id}) rend le MÊME template via InvoicePdfGenerator
-     * (Dompdf) — sans passer de vars contrôleur. Le template doit donc calculer
-     * ht/tva lui-même (VO Money via .amount()) pour ne pas lever « Variable ht does not exist ».
+     * The PDF route (/invoicepdf/{id}) renders the same template through
+     * InvoicePdfGenerator (Dompdf), without controller variables. The template
+     * must calculate pre-tax price and VAT itself through Money::amount() to avoid
+     * raising "Variable ht does not exist".
      */
     public function testInvoicePdfGeneratesPdf(): void
     {
@@ -110,7 +110,7 @@ final class InvoiceFunctionalTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertSame('application/pdf', $this->client->getResponse()->headers->get('Content-Type'));
-        // Content-Disposition inline avec un nom de fichier .pdf
+        // Content-Disposition is inline and uses a .pdf filename.
         self::assertStringContainsString('inline; filename=', (string) $this->client->getResponse()->headers->get('Content-Disposition'));
         self::assertStringContainsString('.pdf', (string) $this->client->getResponse()->headers->get('Content-Disposition'));
     }

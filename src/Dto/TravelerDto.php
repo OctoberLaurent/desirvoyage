@@ -5,10 +5,10 @@ namespace App\Dto;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * DTO pour un voyageur (skill §8 Forms : « use DTOs, not entities directly »).
- * Mutable à propriétés publiques (Symfony Form CollectionType). Validé via
- * attributs (NotBlank + Length/Email/LessThan, miroir des contraintes de
- * {@see \App\Entity\Traveler}) avant conversion en entité.
+ * DTO for a traveler (skill §8 Forms: "use DTOs, not entities directly").
+ * Its mutable public properties work with Symfony Form CollectionType. Attributes
+ * validate it with the same constraints as {@see \App\Entity\Traveler} before
+ * conversion to the entity.
  */
 final class TravelerDto
 {

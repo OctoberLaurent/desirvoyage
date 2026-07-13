@@ -5,9 +5,9 @@ namespace App\Repository;
 use Doctrine\Persistence\ObjectRepository;
 
 /**
- * Port de persistance des {@see \App\Entity\Category} (skill §3 Repository rules).
- * Marqueur (aucune méthode custom) — expose les méthodes standard d'ObjectRepository
- * (find/findAll/findBy/findOneBy) utilisées par les contrôleurs.
+ * Persistence port for {@see \App\Entity\Category} (skill §3 Repository rules).
+ * Marker interface (no custom methods) exposing standard ObjectRepository methods
+ * (find/findAll/findBy/findOneBy) used by controllers.
  *
  * @extends ObjectRepository<\App\Entity\Category>
  */

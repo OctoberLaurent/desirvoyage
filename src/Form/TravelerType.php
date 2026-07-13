@@ -13,8 +13,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @phpstan-extends \Symfony\Component\Form\AbstractType<TravelerDto>
  *
- * Bind le DTO {@see TravelerDto} (skill §8) : la validation (NotBlank/Length/
- * Email/LessThan) vit sur le DTO, plus sur le champ de formulaire ni sur l'entité.
+ * Binds {@see TravelerDto} (skill §8): validation (NotBlank/Length/Email/LessThan)
+ * lives on the DTO rather than on form fields or the entity.
  */
 final class TravelerType extends AbstractType
 {

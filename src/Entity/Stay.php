@@ -84,13 +84,13 @@ final class Stay implements \Stringable
         return $this;
     }
 
-    /** @deprecated Utiliser getStartDate(). */
+    /** @deprecated Use getStartDate(). */
     public function getStarDate(): \DateTimeInterface
     {
         return $this->getStartDate();
     }
 
-    /** @deprecated Utiliser setStartDate(). */
+    /** @deprecated Use setStartDate(). */
     public function setStarDate(\DateTimeInterface $starDate): self
     {
         return $this->setStartDate($starDate);
@@ -120,13 +120,13 @@ final class Stay implements \Stringable
         return $this;
     }
 
-    /** @deprecated Utiliser getDeparture(). */
+    /** @deprecated Use getDeparture(). */
     public function getDepature(): string
     {
         return $this->getDeparture();
     }
 
-    /** @deprecated Utiliser setDeparture(). */
+    /** @deprecated Use setDeparture(). */
     public function setDepature(string $depature): self
     {
         return $this->setDeparture($depature);

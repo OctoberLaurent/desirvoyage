@@ -26,7 +26,7 @@ final class ContactServiceTest extends TestCase
         });
         $em->expects(self::once())->method('flush');
 
-        // MailerService est final : vraie instance avec MailerInterface mocké.
+        // MailerService is final, so use a real instance with a mocked MailerInterface.
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send')->with(self::isInstanceOf(Email::class));
         $mailerService = new MailerService(self::createStub(UrlGeneratorInterface::class), $mailer);

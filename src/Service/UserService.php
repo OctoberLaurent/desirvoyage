@@ -6,8 +6,8 @@ use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Gère les jetons d'activation/réinitialisation et le hashage du mot de passe
- * d'un {@see User} (skill §3 Service — logique extraite du contrôleur de sécurité).
+ * Manages activation and reset tokens as well as password hashing for a
+ * {@see User} (skill §3 Service — logic extracted from the security controller).
  */
 final readonly class UserService
 {
@@ -31,7 +31,7 @@ final readonly class UserService
     }
 
     /**
-     * Hash et applique le nouveau mot de passe à l'utilisateur.
+     * Hashes and applies the user's new password.
      */
     public function setPassword(User $user, string $plainPassword): void
     {

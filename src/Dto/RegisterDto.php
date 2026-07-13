@@ -3,12 +3,13 @@
 namespace App\Dto;
 
 /**
- * DTO pour le formulaire d'inscription (skill §8 Forms : « use DTOs, not
- * entities directly »). Mutable à propriétés publiques car Symfony Form doit
- * pouvoir écrire dans les propriétés (le pattern readonly nécessite une factory
- * empty_data verbeuse ; la séparation du concept de l'entité est l'objectif).
+ * DTO for the registration form (skill §8 Forms: "use DTOs, not entities
+ * directly"). It has mutable public properties because Symfony Form must write
+ * to them. A readonly pattern would require a verbose `empty_data` factory;
+ * separating the DTO from the entity is the goal.
  *
- * NB: `agreeTerms` est un champ `mapped => false` (validation seule), absent du DTO.
+ * Note: `agreeTerms` is a `mapped => false` validation-only field and is absent
+ * from this DTO.
  */
 class RegisterDto
 {

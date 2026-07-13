@@ -3,10 +3,10 @@
 namespace App\Dto;
 
 /**
- * DTO pour le formulaire de contact (skill §8 Forms : « use DTOs, not entities
- * directly »). L'entité {@see \App\Entity\Contact} est remplie par le service
- * applicatif, jamais bindée au formulaire. Mutable à propriétés publiques pour
- * permettre l'écriture par Symfony Form.
+ * DTO for the contact form (skill §8 Forms: "use DTOs, not entities directly").
+ * The {@see \App\Entity\Contact} entity is populated by the application service,
+ * never bound directly to the form. Its public mutable properties allow Symfony
+ * Form to write values to it.
  */
 class ContactDto
 {

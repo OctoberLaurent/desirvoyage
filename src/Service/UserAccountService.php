@@ -9,7 +9,7 @@ use App\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Cas d'usage d'inscription et de mise à jour du profil utilisateur.
+ * Registration and user profile update use cases.
  */
 final readonly class UserAccountService
 {

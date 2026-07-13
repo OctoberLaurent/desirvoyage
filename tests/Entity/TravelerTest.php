@@ -16,7 +16,7 @@ final class TravelerTest extends TestCase
         $traveler = new Traveler();
         $traveler->setEmail(new Email('voyageur@example.com'));
 
-        // setEmail accepte le VO ; getEmail() renvoie un nouveau VO (skill §3).
+        // setEmail accepts the value object; getEmail() returns a new value object (skill §3).
         self::assertSame('voyageur@example.com', $traveler->getEmail()->value());
     }
 }

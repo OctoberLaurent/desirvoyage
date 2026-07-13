@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Édition du profil (skill §4 — couvre la refacto EditUserType sur DTO, sinon
- * non testée). Authentification via http_basic (config test).
+ * Profile editing (skill §4 — covers the EditUserType DTO refactor, otherwise
+ * untested). Authentication uses http_basic (test configuration).
  */
 #[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class EditUserFunctionalTest extends WebTestCase
@@ -37,8 +37,8 @@ final class EditUserFunctionalTest extends WebTestCase
     public function testProfilEditSubmitRedirectsToDashboard(): void
     {
         $crawler = $this->client->request('GET', '/profil/edit/');
-        // Re-soumet le formulaire pré-rempli avec les valeurs actuelles du user
-        // (email inchangé = user@user.fr → pas de conflit UniqueEntity).
+        // Resubmits the pre-filled form with the user's current values.
+        // The unchanged email (user@user.fr) does not cause a UniqueEntity conflict.
         $form = $crawler->selectButton('Valider')->form();
         $this->client->submit($form);
 

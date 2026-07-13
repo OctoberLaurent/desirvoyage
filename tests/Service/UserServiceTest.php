@@ -53,7 +53,7 @@ final class UserServiceTest extends TestCase
     private function buildUser(): User
     {
         $user = new User();
-        // Champs obligatoires pour pouvoir hasher/toString sans fatal
+        // Required fields to hash and stringify without a fatal error.
         $user->setEmail(new Email('user@example.com'));
         $user->setPassword('current');
 

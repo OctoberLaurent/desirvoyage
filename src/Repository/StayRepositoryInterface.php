@@ -6,20 +6,20 @@ use App\Entity\Stay;
 use Doctrine\Persistence\ObjectRepository;
 
 /**
- * Port de persistance des {@see Stay} (skill §3 Repository rules).
+ * Persistence port for {@see Stay} (skill §3 Repository rules).
  *
- * Étend ObjectRepository pour exposer find/findAll/findBy/findOneBy utilisés
- * par les contrôleurs (en plus de findStockById utilisé par les services).
+ * Extends ObjectRepository to expose find/findAll/findBy/findOneBy methods used
+ * by controllers, in addition to findStockById used by services.
  *
  * @extends ObjectRepository<Stay>
  */
 interface StayRepositoryInterface extends ObjectRepository
 {
     /**
-     * @return int stock réel (disponible) du séjour identifié
+     * @return int actual available stock for the identified stay
      */
     public function findStockById(int $idStay): int;
 
-    /** Charge le séjour sous verrou d'écriture dans une transaction active. */
+    /** Loads the stay with a write lock in an active transaction. */
     public function findForUpdate(int $idStay): ?Stay;
 }

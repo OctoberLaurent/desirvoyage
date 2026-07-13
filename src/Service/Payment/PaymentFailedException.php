@@ -3,8 +3,8 @@
 namespace App\Service\Payment;
 
 /**
- * Levée quand un paiement est refusé ou échoue techniquement.
- * Domaine : exception spécifique (skill §3 « Domain-specific exceptions », §7 « Null return → Exception »).
+ * Thrown when a payment is rejected or fails technically.
+ * Domain-specific exception (skill §3 "Domain-specific exceptions", §7 "Null return → Exception").
  */
 final class PaymentFailedException extends \RuntimeException
 {

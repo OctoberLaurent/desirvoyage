@@ -3,10 +3,10 @@
 namespace App\ValueObject;
 
 /**
- * Value Object immuable représentant une adresse e-mail validée (skill §3 Value Objects).
+ * Immutable value object representing a validated email address (skill §3 Value Objects).
  *
- * L'invariant (format RFC) est garanti à la construction : toute instance
- * existante contient une adresse e-mail valide et non vide.
+ * The RFC-format invariant is enforced at construction: every instance contains
+ * a non-empty valid email address.
  *
  * @see \App\Entity\User::$email
  * @see \App\Entity\Contact::$email

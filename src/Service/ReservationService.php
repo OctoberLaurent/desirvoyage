@@ -6,11 +6,11 @@ use App\Entity\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Valide une réservation : génère le numéro de série, décrémente le stock,
- * fusionne l'entité (session → managed) et persiste. La transaction (flush)
- * est dans le service, pas dans le contrôleur (skill §3, §8 Doctrine).
+ * Validates a reservation: generates the serial number, reserves stock, merges
+ * the entity (session → managed), and persists it. The transaction (flush)
+ * belongs in the service, not the controller (skill §3, §8 Doctrine).
  *
- * Lève {@see NotEnoughStockException} si le stock est insuffisant.
+ * Throws {@see NotEnoughStockException} when stock is insufficient.
  */
 final readonly class ReservationService
 {
@@ -23,9 +23,9 @@ final readonly class ReservationService
     }
 
     /**
-     * Persiste la réservation et renvoie l'entité managed (avec son id).
+     * Persists the reservation and returns the managed entity with its ID.
      *
-     * @throws NotEnoughStockException si plus assez de places
+     * @throws NotEnoughStockException when not enough seats are available
      */
     public function validate(Reservation $reservation): Reservation
     {

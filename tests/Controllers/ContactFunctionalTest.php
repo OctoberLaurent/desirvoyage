@@ -5,7 +5,7 @@ namespace App\Tests\Controllers;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Page de contact (skill §4 — smoke test du rendu du formulaire sur DTO).
+ * Contact page (skill §4 — DTO form rendering smoke test).
  */
 #[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class ContactFunctionalTest extends WebTestCase

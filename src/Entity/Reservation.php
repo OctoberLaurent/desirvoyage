@@ -274,10 +274,9 @@ class Reservation
     }
 
     /**
-     * Marque la réservation comme payée en lui rattachant le paiement. Invariant
-     * métier (skill §3 Entity rules, §2 State) : une réservation déjà payée ne
-     * peut pas être payée à nouveau. Préférer cette méthode à setPayment() depuis
-     * l'extérieur.
+     * Marks the reservation as paid by attaching its payment. The business
+     * invariant (skill §3 Entity rules, §2 State) prevents a paid reservation
+     * from being paid again. Prefer this method over externally calling setPayment().
      */
     public function markAsPaid(Payment $payment): void
     {

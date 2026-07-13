@@ -7,15 +7,15 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Parcours de configuration d'une réservation (skill §4 — couvre le flux
- * multi-étapes session-based non testé : index → configure options →
+ * Reservation configuration flow (skill §4 — covers the untested session-based
+ * multi-step flow: index → configure options →
  * configureTravelers → summary).
  *
- * Authentification via http_basic (config test). DB de test (dock_test) avec
- * fixtures (user@user.fr + TravelFixtures : stays avec stock).
+ * Authentication uses http_basic (test configuration). The dock_test database
+ * has fixtures (user@user.fr + TravelFixtures: stays with stock).
  *
- * Ce filet de test protège la future refonte TravelerDto (skill §8) et valide
- * le VO Email sur Traveler (getEmail(): Email + setEmail(Email|string)) bout-en-bout.
+ * This safety net protects the TravelerDto refactor (skill §8) and validates the
+ * Email value object on Traveler (getEmail(): Email + setEmail(Email|string)) end to end.
  */
 #[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 final class ReservationFunctionalTest extends WebTestCase
@@ -43,9 +43,9 @@ final class ReservationFunctionalTest extends WebTestCase
     }
 
     /**
-     * Soumet le formulaire d'options via POST brut (le template configureOption a
-     * un <div> ouvert avant <form> qui désolidarise les champs du <form> au parsing
-     * libxml du DomCrawler ; en navigateur réel le HTML5 parser tolère).
+     * Submits the options form through a raw POST. The configureOption template
+     * opens a <div> before <form>, which detaches fields from the form when
+     * DomCrawler uses libxml parsing; a real browser's HTML5 parser tolerates it.
      */
     private function submitOptionsForm(int $id): void
     {
@@ -61,7 +61,7 @@ final class ReservationFunctionalTest extends WebTestCase
     }
 
     /**
-     * Étape 1 : /reservation?stayid= démarre une réservation (rendu 200).
+     * Step 1: /reservation?stayid= starts a reservation (200 response).
      */
     public function testIndexStartsReservation(): void
     {
@@ -72,7 +72,7 @@ final class ReservationFunctionalTest extends WebTestCase
     }
 
     /**
-     * Étapes 1→2 : démarrage puis rendu du formulaire d'options.
+     * Steps 1→2: starts a reservation, then renders the options form.
      */
     public function testConfigureOptionsFormRenders(): void
     {
@@ -86,8 +86,8 @@ final class ReservationFunctionalTest extends WebTestCase
     }
 
     /**
-     * Étape 2 : soumission du formulaire d'options (aucune option = valide)
-     * → avance vers les voyageurs.
+     * Step 2: submits the options form (no option is valid) and advances to
+     * travelers.
      */
     public function testConfigureOptionsSubmitAdvancesToTravelers(): void
     {
@@ -99,7 +99,7 @@ final class ReservationFunctionalTest extends WebTestCase
     }
 
     /**
-     * Étape 4 (garde-fou) : summary sans voyageur → redirection vers les voyageurs.
+     * Step 4 safety net: a summary without travelers redirects to travelers.
      */
     public function testSummaryWithoutTravelersRedirectsToTraveler(): void
     {
@@ -113,13 +113,13 @@ final class ReservationFunctionalTest extends WebTestCase
     }
 
     /**
-     * Étapes 3→4 : soumission des voyageurs (CollectionType + allow_add) puis
-     * rendu du récapitulatif. Valide le VO Email sur Traveler bout-en-bout :
-     *  - le formulaire écrit une string via setEmail(Email|string) (union) ;
-     *  - le template summary affiche traveler.email via getEmail(): Email → __toString.
+     * Steps 3→4: submits travelers (CollectionType + allow_add) and renders the
+     * summary. Validates the Email value object on Traveler end to end:
+     *  - the form writes a string through setEmail(Email|string) (union);
+     *  - the summary template displays traveler.email through getEmail(): Email → __toString.
      *
-     * Note : summary recharge les stays en entités managées (refreshStays) afin
-     * que le proxy Travel puisse lazy-loader après désérialisation session.
+     * Note: summary reloads stays as managed entities through refreshStays so the
+     * Travel proxy can lazy-load after session deserialization.
      */
     public function testConfigureTravelersSubmitReachesSummaryAndDisplaysEmail(): void
     {
@@ -127,7 +127,7 @@ final class ReservationFunctionalTest extends WebTestCase
         $this->client->request('GET', '/reservation?stayid='.$id);
         $this->submitOptionsForm($id);
 
-        // Rendu du formulaire voyageurs pour récupérer le jeton CSRF.
+        // Render the traveler form to retrieve the CSRF token.
         $crawler = $this->client->request('GET', '/reservation/configure/configureTravelers/'.$id);
         self::assertResponseIsSuccessful();
 
@@ -142,8 +142,8 @@ final class ReservationFunctionalTest extends WebTestCase
         self::assertSame('user@user.fr', $addBuyerButton->attr('data-buyer-email'));
         self::assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}$/', (string) $addBuyerButton->attr('data-buyer-birthday'));
 
-        // Soumission d'un voyageur via POST brut (CollectionType allow_add : les
-        // entrées ne sont pas rendues dans le DOM, seul le prototype l'est).
+        // Submit a traveler through a raw POST: CollectionType allow_add entries
+        // are not rendered in the DOM; only the prototype is rendered.
         $this->client->request('POST', '/reservation/configure/configureTravelers/'.$id, [
             'travelers' => [
                 'travelers' => [
@@ -162,7 +162,7 @@ final class ReservationFunctionalTest extends WebTestCase
 
         $this->client->request('GET', '/reservation/summary');
         self::assertResponseIsSuccessful();
-        // L'e-mail du voyageur est affiché (table voyageurs) via Email::__toString.
+        // The traveler email is displayed in the travelers table through Email::__toString().
         self::assertStringContainsString('jane.doe@example.com', (string) $this->client->getResponse()->getContent());
         self::assertCount(1, $this->client->getCrawler()->filter('.reservation-summary-actions'));
         self::assertCount(3, $this->client->getCrawler()->filter('.reservation-summary-actions > *'));

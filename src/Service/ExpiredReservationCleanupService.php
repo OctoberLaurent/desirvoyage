@@ -8,14 +8,14 @@ use App\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Annule les réservations non payées depuis plus de 15 minutes et libère
- * les sièges correspondants (cas d'utilisation métier, skill §3 Service).
+ * Cancels unpaid reservations older than 15 minutes and releases the related
+ * seats (business use case, skill §3 Service).
  *
- * La durée d'expiration est configurable (défaut 15 minutes).
+ * The expiration duration is configurable (15 minutes by default).
  */
 final readonly class ExpiredReservationCleanupService
 {
-    /** Durée d'expiration en minutes. */
+    /** Expiration duration in minutes. */
     public const int DEFAULT_EXPIRATION_MINUTES = 15;
 
     public function __construct(
@@ -57,9 +57,9 @@ final readonly class ExpiredReservationCleanupService
     }
 
     /**
-     * Remonte le stock du séjour du nombre de voyageurs de la réservation.
+     * Restores stay stock by the number of travelers in the reservation.
      *
-     * @return int nombre de sièges libérés
+     * @return int number of released seats
      */
     private function releaseSeats(Stay $stay, Reservation $reservation): int
     {

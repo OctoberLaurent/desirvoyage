@@ -13,9 +13,9 @@ use App\ValueObject\Money;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Orchestre le cas d'utilisation « confirmer un paiement » :
- * débite via le gateway, crée l'entité Payment, lie la réservation, persiste
- * et notifie l'utilisateur (skill §3 Service, §8 Doctrine « transaction dans le service »).
+ * Orchestrates the "confirm payment" use case: charges through the gateway,
+ * creates the Payment entity, attaches the reservation, persists it, and
+ * notifies the user (skill §3 Service, §8 Doctrine "transaction in service").
  */
 final readonly class PaymentService
 {
@@ -27,7 +27,7 @@ final readonly class PaymentService
     }
 
     /**
-     * @param string $stripeToken token renvoyé par Stripe côté client
+     * @param string $stripeToken token returned by Stripe on the client side
      *
      * @throws PaymentFailedException
      */
@@ -51,9 +51,9 @@ final readonly class PaymentService
             return;
         }
 
-        // L'appel réseau ne se produit pas sous verrou DB : Stripe est idempotent
-        // grâce au serial de réservation passé comme clé. La seconde transaction
-        // réconcilie l'état si une requête concurrente a déjà finalisé le paiement.
+        // The network call does not occur under a database lock: Stripe is idempotent
+        // through the reservation serial used as a key. The second transaction
+        // reconciles state if a concurrent request already finalized the payment.
         $charged = $this->gateway->charge(
             $reservation->getPrice()->cents(),
             'eur',

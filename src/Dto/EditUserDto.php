@@ -5,10 +5,9 @@ namespace App\Dto;
 use App\Entity\User;
 
 /**
- * DTO pour le formulaire d'édition du profil (skill §8 Forms : « use DTOs, not
- * entities directly »). Mutable à propriétés publiques (Symfony Form). Pré-rempli
- * depuis l'entité {@see User} via {@see self::fromUser()}, puis re-mappé sur
- * l'entité lors de la soumission.
+ * DTO for the profile editing form (skill §8 Forms: "use DTOs, not entities
+ * directly"). It has mutable public properties for Symfony Form. It is populated
+ * from {@see User} through {@see self::fromUser()} and mapped back on submission.
  */
 class EditUserDto
 {

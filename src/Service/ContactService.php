@@ -8,9 +8,9 @@ use App\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Traite une demande de contact : crée l'entité {@see Contact} à partir du DTO,
- * la persiste, puis notifie l'utilisateur par mail (skill §3 Service — le
- * contrôleur ne fait que l'orchestration HTTP).
+ * Handles a contact request: creates the {@see Contact} entity from the DTO,
+ * persists it, then emails the user (skill §3 Service — the controller only
+ * orchestrates HTTP).
  */
 final readonly class ContactService
 {

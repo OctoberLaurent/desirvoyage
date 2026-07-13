@@ -49,8 +49,8 @@ final class PaymentServiceTest extends TestCase
                 }
             });
 
-        // MailerService est final : on utilise une vraie instance avec un
-        // MailerInterface mocké et on vérifie que send() est appelée.
+        // MailerService is final, so use a real instance with a mocked
+        // MailerInterface and verify that send() is called.
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())->method('send')->with(self::isInstanceOf(Email::class));
         $mailerService = new MailerService(self::createStub(UrlGeneratorInterface::class), $mailer);

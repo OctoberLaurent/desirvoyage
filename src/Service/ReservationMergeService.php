@@ -17,12 +17,12 @@ final readonly class ReservationMergeService
     }
 
     /**
-     * Reconstruit une réservation avec des entités managées (au lieu des entités
-     * détachées issues de la session) pour éviter les erreurs d'association null.
+     * Rebuilds a reservation with managed entities instead of detached session
+     * entities to avoid null association errors.
      */
     public function reservationMerge(Reservation $reservation): Reservation
     {
-        // Si la réservation a un id, on la recharge depuis la DB pour qu'elle soit managée
+        // If the reservation has an ID, reload it from the database so it is managed.
         if (null !== $reservation->getId()) {
             $merged = $this->entityManager->find(Reservation::class, $reservation->getId()) ?? $reservation;
         } else {
@@ -44,7 +44,7 @@ final readonly class ReservationMergeService
     }
 
     /**
-     * Reconstruit uniquement les options managées d'une réservation (session).
+     * Rebuilds only the managed options of a session reservation.
      */
     public function reservationOptionsMerge(Reservation $reservation): void
     {

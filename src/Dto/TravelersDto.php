@@ -8,12 +8,12 @@ use App\ValueObject\Email;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * DTO enveloppe la collection de voyageurs pour {@see \App\Form\TravelersType}
- * (skill §8 : le formulaire bind un DTO, pas l'entité {@see Reservation}).
+ * DTO wrapping the traveler collection for {@see \App\Form\TravelersType}
+ * (skill §8: the form binds a DTO, not the {@see Reservation} entity).
  *
- * - {@see self::fromReservation()} pré-remplit le DTO depuis l'entité (affichage).
- * - {@see self::toTravelers()} reconvertit les DTO validés en entités {@see Traveler}
- *   à la soumission (le contrôleur attache ensuite la collection à la réservation).
+ * - {@see self::fromReservation()} populates the DTO from the entity for display.
+ * - {@see self::toTravelers()} converts validated DTOs back to {@see Traveler}
+ *   entities on submission, then the controller attaches the collection to the reservation.
  */
 final class TravelersDto
 {
@@ -46,7 +46,7 @@ final class TravelersDto
             $traveler = new Traveler();
             $traveler->setLastname($t->lastname ?? '');
             $traveler->setFirstname($t->firstname ?? '');
-            // E-mail déjà validé par Assert\Email sur le DTO → construction sûre du VO.
+            // The DTO has already passed Assert\Email validation, so creating the value object is safe.
             $traveler->setEmail(new Email($t->email ?? ''));
             if (null !== $t->birthday) {
                 $traveler->setBirthday($t->birthday);

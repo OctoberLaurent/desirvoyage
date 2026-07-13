@@ -7,9 +7,9 @@ use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 
 /**
- * Adaptateur Stripe de {@see PaymentGatewayInterface}.
- * La clé secrète est injectée (jamais exposée côté client), la clé publique reste
- * gérée par le contrôleur pour le rendu du formulaire.
+ * Stripe adapter for {@see PaymentGatewayInterface}.
+ * The secret key is injected and never exposed to the client. The public key
+ * remains managed by the controller for form rendering.
  */
 final readonly class StripePaymentGateway implements PaymentGatewayInterface
 {

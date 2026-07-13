@@ -122,7 +122,7 @@ final class ReservationController extends AbstractController
         if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
-        // Le formulaire bind un DTO (skill §8), pas l'entité Reservation.
+        // The form binds a DTO (skill §8), not the Reservation entity.
         $dto = TravelersDto::fromReservation($reservation);
         $form = $this->createForm(TravelersType::class, $dto);
         $form->handleRequest($request);
@@ -150,9 +150,9 @@ final class ReservationController extends AbstractController
         if (null === $reservation) {
             return $this->redirectToRoute('reservation_list');
         }
-        // Re-attache des stays managés : la réservation en session porte des entités
-        // détachées dont le proxy Travel ne peut lazy-loader après désérialisation
-        // (sinon {{ stay.travel.name }} lève « must not be accessed before init »).
+        // Reattach managed stays: the session reservation contains detached entities
+        // whose Travel proxy cannot lazy-load after deserialization
+        // (otherwise {{ stay.travel.name }} raises "must not be accessed before init").
         $this->refreshStays($reservation, $stayRepository);
         $nbtravelers = count($reservation->getTravelers());
         if ($nbtravelers < 1) {
@@ -247,9 +247,9 @@ final class ReservationController extends AbstractController
     }
 
     /**
-     * Remplace les stays de la réservation en session par leurs versions managées
-     * (chargées fraîchement depuis la DB), afin que les proxies Travel puissent
-     * lazy-loader lors du rendu (la session sérialise des entités détachées).
+     * Replaces session reservation stays with freshly loaded managed versions so
+     * Travel proxies can lazy-load during rendering (the session serializes
+     * detached entities).
      */
     private function refreshStays(Reservation $reservation, StayRepositoryInterface $stayRepository): void
     {

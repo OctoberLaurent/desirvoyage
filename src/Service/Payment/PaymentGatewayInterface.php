@@ -3,18 +3,18 @@
 namespace App\Service\Payment;
 
 /**
- * Port de paiement (Adapter pattern). Permet de permuter Stripe / PayPal / etc.
- * sans modifier le code appelant (skill §2 Adapter, §1 DIP).
+ * Payment port (Adapter pattern). Allows Stripe, PayPal, or another provider to
+ * be swapped without changing calling code (skill §2 Adapter, §1 DIP).
  */
 interface PaymentGatewayInterface
 {
     /**
-     * @param int    $amountCents montant en centimes
-     * @param string $currency    code devise ISO 4217 (ex. "eur")
-     * @param string $description libellé transmis au gateway
-     * @param string $source      token de paiement renvoyé par le gateway côté client
+     * @param int    $amountCents amount in cents
+     * @param string $currency    ISO 4217 currency code (for example, "eur")
+     * @param string $description label sent to the gateway
+     * @param string $source      payment token returned by the gateway to the client
      *
-     * @throws PaymentFailedException si le paiement est refusé ou technique
+     * @throws PaymentFailedException when payment is rejected or fails technically
      */
     public function charge(int $amountCents, string $currency, string $description, string $source, string $idempotencyKey): ChargedPayment;
 }

@@ -435,7 +435,7 @@
                 <div class="no-break">
                     <table class="grand-total">
                         <tbody>
-                        {# Prix HT + TVA = Prix TTC (HT calculé depuis le VO Money via amount()). #}
+                        {# Price before tax + VAT = price including tax (pre-tax amount comes from Money::amount()). #}
                         {% set ht = reservation.price.amount() * 100 / 120 %}
                         <tr>
                             <td class="desc"></td>

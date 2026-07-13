@@ -7,8 +7,8 @@ use App\Enum\AccountActivationStatus;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Cas d'usage liés au cycle de vie du compte : activation, émission de liens
- * et changement de mot de passe. Le contrôleur conserve uniquement l'orchestration HTTP.
+ * Account lifecycle use cases: activation, link issuance, and password changes.
+ * The controller retains HTTP orchestration only.
  */
 final readonly class AccountLifecycleService
 {
