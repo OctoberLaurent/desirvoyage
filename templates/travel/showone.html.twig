@@ -24,9 +24,15 @@
         </div>
         <div class="col pad">
             <div class="carousel carousel-slider">
-                {% for picture in travel.pictures %}
-                    <a class="carousel-item" href="#"><img src="{{ picture.picturename }}" alt="{{ picture.name }}"></a>
-                {% endfor %}
+                {% if travel.pictures is empty %}
+                    <a class="carousel-item" href="#">
+                        <img src="/data2/default.png" alt="{{ travel.name }}">
+                    </a>
+                {% else %}
+                    {% for picture in travel.pictures %}
+                        <a class="carousel-item" href="#"><img src="{{ picture.picturename }}" alt="{{ picture.name }}"></a>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
 
