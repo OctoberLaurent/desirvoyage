@@ -22,9 +22,14 @@
         </div>
             </div>
         </div>
-        {% if travel.pictures is empty %}
+        {% if travel.pictures|length < 2 %}
             <div class="col pad center-align">
-                <img class="responsive-img travel-image-fallback" src="/data2/default.png" alt="{{ travel.name }}">
+                {% if travel.pictures is empty %}
+                    <img class="responsive-img travel-image-fallback" src="/data2/default.png" alt="{{ travel.name }}">
+                {% else %}
+                    {% set picture = travel.pictures|first %}
+                    <img class="responsive-img travel-image-fallback" src="{{ picture.picturename }}" alt="{{ picture.name }}" onerror="this.onerror=null; this.src='/data2/default.png';">
+                {% endif %}
             </div>
         {% else %}
             <div class="col pad">
