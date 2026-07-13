@@ -28,14 +28,14 @@
                     <img class="responsive-img travel-image-fallback" src="/data2/default.png" alt="{{ travel.name }}">
                 {% else %}
                     {% set picture = travel.pictures|first %}
-                    <img class="responsive-img travel-image-fallback" src="{{ picture.picturename }}" alt="{{ picture.name }}" onerror="this.onerror=null; this.src='/data2/default.png';">
+                    <img class="responsive-img travel-image-fallback" src="{{ image_url(picture.url) }}" alt="{{ picture.name }}">
                 {% endif %}
             </div>
         {% else %}
             <div class="col pad">
                 <div class="carousel carousel-slider">
                     {% for picture in travel.pictures %}
-                        <a class="carousel-item" href="#"><img src="{{ picture.picturename }}" alt="{{ picture.name }}"></a>
+                        <a class="carousel-item" href="#"><img src="{{ image_url(picture.url) }}" alt="{{ picture.name }}"></a>
                     {% endfor %}
                 </div>
             </div>

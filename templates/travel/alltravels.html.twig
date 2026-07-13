@@ -25,7 +25,7 @@
                             <div class="col s12 l6 divheight left-align">
                                 <a href="{{ path('travel_show', { 'slug': travel.slug }) }}">
                                     {% if travel.pictures is not empty %}
-                                        <img src="{{ travel.pictures.get(0).picturename }}"
+                                        <img src="{{ image_url(travel.pictures.get(0).url) }}"
                                             alt="{{ travel.pictures.get(0).name }}" class="picturelist center-align">
                                     {% else %}
                                         <img src="/data2/default.png" class="picturelist ">

@@ -15,11 +15,7 @@
             <a href="{{ path('travel_list', { 'category': category.id }) }}">
                 <div class="card 1">
                     <div class="card_image">
-                        {% if category.url %}
-                            <img src="{{ category.picturename }}" alt="{{ category.title }}"/>
-                        {% else %}
-                            <img src="/data2/default.png"/>
-                        {% endif %}
+                        <img src="{{ image_url(category.url) }}" alt="{{ category.title }}"/>
                     </div>
                     <div class="card_title title-white">
                     </div>

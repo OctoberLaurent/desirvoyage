@@ -50,11 +50,7 @@
                 <a href="{{ path('travel_list', { 'category': category.id }) }}">
                     <div class="card 1">
                         <div class="card_image">
-                            {% if category.url %}
-                                <img src="{{ category.picturename }}" alt="{{ category.title }}"/>
-                            {% else %}
-                                <img src="/data2/default.png"/>
-                            {% endif %}
+                            <img src="{{ image_url(category.url) }}" alt="{{ category.title }}"/>
                         </div>
                         <div class="card_title title-white">
                         </div>
@@ -80,9 +76,9 @@
                     <div class="flip">
                         {% if travel.pictures is not empty %}
                         <div class="front" alt="{{ travel.pictures.get(0).name }}"
-                             style="background-image: url({{ travel.pictures.get(0).picturename }})">
+                             style="background-image: url('{{ image_url(travel.pictures.get(0).url) }}')">
                             {% else %}
-                            <div class="front" style="background-image: url(/data2/default.png)">
+                            <div class="front" style="background-image: url('{{ image_url(null) }}')">
                                 {% endif %}
                                 <h1 class="center-align">{{ travel.name }}</h1>
                             </div>
