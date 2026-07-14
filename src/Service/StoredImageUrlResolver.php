@@ -4,7 +4,9 @@ namespace App\Service;
 
 final readonly class StoredImageUrlResolver
 {
-    private const DEFAULT_IMAGE_URL = '/data2/default.png';
+    private const IMAGE_DIRECTORY = 'data';
+    private const LEGACY_IMAGE_DIRECTORY = 'data2';
+    private const DEFAULT_IMAGE_NAME = 'default.png';
 
     public function __construct(
         private string $projectDir,
@@ -16,12 +18,30 @@ final readonly class StoredImageUrlResolver
         $filename = basename((string) $storedPath);
 
         if ('' === $filename) {
-            return self::DEFAULT_IMAGE_URL;
+            return $this->defaultImageUrl();
         }
 
-        $relativePath = 'data2/'.$filename;
-        $absolutePath = $this->projectDir.'/public/'.$relativePath;
+        foreach ([self::IMAGE_DIRECTORY, self::LEGACY_IMAGE_DIRECTORY] as $directory) {
+            $imageUrl = '/'.$directory.'/'.$filename;
 
-        return is_file($absolutePath) ? '/'.$relativePath : self::DEFAULT_IMAGE_URL;
+            if (is_file($this->projectDir.'/public'.$imageUrl)) {
+                return $imageUrl;
+            }
+        }
+
+        return $this->defaultImageUrl();
+    }
+
+    private function defaultImageUrl(): string
+    {
+        foreach ([self::IMAGE_DIRECTORY, self::LEGACY_IMAGE_DIRECTORY] as $directory) {
+            $imageUrl = '/'.$directory.'/'.self::DEFAULT_IMAGE_NAME;
+
+            if (is_file($this->projectDir.'/public'.$imageUrl)) {
+                return $imageUrl;
+            }
+        }
+
+        return '/'.self::IMAGE_DIRECTORY.'/'.self::DEFAULT_IMAGE_NAME;
     }
 }

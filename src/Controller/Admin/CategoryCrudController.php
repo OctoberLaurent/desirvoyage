@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Form\Type\PublicImageUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -23,9 +24,9 @@ class CategoryCrudController extends AbstractCrudController
         return [
             TextField::new('title', 'Titre'),
             ImageField::new('url', 'Image')
-                ->setUploadDir('public/data2/')
-                ->setUploadedFileNamePattern('[uuid].[extension]')
-                ->setBasePath('data2/'),
+                ->setFormType(PublicImageUploadType::class)
+                ->setUploadDir('public/')
+                ->setUploadedFileNamePattern('data/[uuid].[extension]'),
             AssociationField::new('travel', 'Voyages'),
         ];
     }

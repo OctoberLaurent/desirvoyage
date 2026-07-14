@@ -16,7 +16,7 @@ final class TravelImageFallbackTemplateTest extends TestCase
         );
 
         self::assertStringContainsString(
-            '<img class="responsive-img travel-image-fallback" src="/data2/default.png" alt="{{ travel.name }}">',
+            '<img class="responsive-img travel-image-fallback" src="{{ image_url(null) }}" alt="{{ travel.name }}">',
             $template,
         );
 

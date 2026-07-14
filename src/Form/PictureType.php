@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Picture;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
+use App\Form\Type\PublicImageUploadType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,9 +19,9 @@ class PictureType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'center'],
                 'label' => 'Image name'])
-            ->add('url', FileUploadType::class, [
-                'upload_dir' => 'public/data2/',
-                'upload_filename' => '[uuid].[extension]',
+            ->add('url', PublicImageUploadType::class, [
+                'upload_dir' => 'public/',
+                'upload_filename' => 'data/[uuid].[extension]',
             ])
         ;
     }

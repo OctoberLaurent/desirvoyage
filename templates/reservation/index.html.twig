@@ -13,7 +13,7 @@
 				{% if stay.travel.pictures is not empty and stay.travel.pictures.get(0) is not null %}
 					<img class="img-100 mt-1" src="{{ image_url(stay.travel.pictures.get(0).url) }}" alt="{{ stay.travel.pictures.get(0).name }}">
 				{% else %}
-					<img class="img-100 mt-1" src="/data2/default.png" alt="image par défaut">
+                    <img class="img-100 mt-1" src="{{ image_url(null) }}" alt="image par défaut">
 				{% endif %}
 				<h3 class="mt-1">
 					{{ stay.departure }}

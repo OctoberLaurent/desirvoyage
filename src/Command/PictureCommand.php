@@ -10,16 +10,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Path;
 
-#[AsCommand(name: 'app:picture', description: 'Rename route of pictures')]
+#[AsCommand(name: 'app:picture', description: 'Normalize stored image paths')]
 final class PictureCommand extends Command
 {
     public function __construct(
         private readonly PictureRepository $picturesRepository,
         private readonly CategoryRepository $categoriesRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly string $projectDir,
     ) {
         parent::__construct();
     }
@@ -60,9 +58,7 @@ final class PictureCommand extends Command
         if (null === $name) {
             return null;
         }
-        $parts = explode('/', $name);
-        $secondToLast = max(0, array_key_last($parts) - 1);
 
-        return Path::join($this->projectDir, 'public', $parts[$secondToLast] ?? '', $parts[array_key_last($parts)]);
+        return '/data/'.basename($name);
     }
 }

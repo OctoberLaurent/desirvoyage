@@ -44,12 +44,9 @@ final class Picture implements \Stringable
         return $this->url;
     }
 
-    /*
-     * returns the web path to the file
-     */
     public function getPicturename(): string
     {
-        return '/data2/'.basename($this->url);
+        return '/data/'.basename($this->url);
     }
 
     public function setUrl(string $url): self

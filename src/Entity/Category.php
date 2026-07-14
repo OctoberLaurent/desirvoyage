@@ -75,10 +75,6 @@ final class Category implements \Stringable
         return $this;
     }
 
-    /*
-    * returns the path to the file
-    */
-
     /**
      * @return Collection<int, Travel>
      */
@@ -114,7 +110,7 @@ final class Category implements \Stringable
             return null;
         }
 
-        return '/data2/'.basename($this->url);
+        return '/data/'.basename($this->url);
     }
 
     public function setUrl(?string $url): self
