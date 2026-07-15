@@ -10,9 +10,12 @@
             <div class="col pad l3 z-depth-1 mt-1">
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
-                <button type="submit" class="btn waves-effect waves-light">{% trans %} search {% endtrans %}</button>
-                <button id="reset" type="reset"
-                        class="btn waves-effect waves-light indigo darken-4">{% trans %} Reset {% endtrans %}</button>
+                <div class="travel-search-actions">
+                    <button type="submit" class="btn waves-effect waves-light travel-search-submit" aria-label="{{ 'search' | trans }}">
+                        <i class="material-icons" aria-hidden="true">search</i>
+                    </button>
+                    <button id="reset" type="reset" class="btn waves-effect waves-light indigo darken-4 travel-search-reset">{% trans %} Reset {% endtrans %}</button>
+                </div>
                 {{ form_end(form) }}
             </div>
             {# travels list #}
